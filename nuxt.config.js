@@ -66,5 +66,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+  },
+  serverMiddleware: process.env.NODE_ENV === 'production' ? [] : ['~/api/hello.js']
 }
