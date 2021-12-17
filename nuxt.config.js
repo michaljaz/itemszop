@@ -36,7 +36,9 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module',
+    ['@nuxtjs/eslint-module', {
+      fix: true
+    }],
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify'
   ],
@@ -67,5 +69,8 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },
-  serverMiddleware: process.env.NODE_ENV === 'production' ? [] : ['~/api/hello.js']
+  serverMiddleware: process.env.NODE_ENV === 'production' ? [] : ['~/api/hello.js'],
+	server: {
+    port: 8080
+	}
 }
