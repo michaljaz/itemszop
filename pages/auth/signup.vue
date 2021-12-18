@@ -1,12 +1,12 @@
 <template>
   <div>
-    Signin
+    Signup
   </div>
 </template>
 
 <script>
 export default {
-  name: 'SignIn',
+  name: 'SignUp',
   layout: 'AuthLayout'
 }
 </script>

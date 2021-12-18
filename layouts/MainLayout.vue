@@ -9,6 +9,19 @@
           <v-toolbar-title style="cursor: pointer" @click="$router.push('/')">
             ItemSzop
           </v-toolbar-title>
+          <v-spacer />
+          <v-btn
+            class="green darken-4"
+            to="/auth/signin"
+          >
+            Zaloguj się
+          </v-btn>
+          <v-btn
+            class="ml-2 green"
+            to="/auth/signup"
+          >
+            Zarejestruj się
+          </v-btn>
         </v-container>
       </v-app-bar>
       <v-container>
@@ -23,6 +36,6 @@
 
 <script>
 export default {
-  name: 'DefaultLayout'
+  name: 'MainLayout'
 }
 </script>
