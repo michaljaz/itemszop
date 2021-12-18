@@ -12,11 +12,13 @@
           <v-spacer />
           <v-btn
             class="green darken-4"
+            to="/auth/signin"
           >
             Zaloguj się
           </v-btn>
           <v-btn
             class="ml-2 green"
+            to="/auth/signup"
           >
             Zarejestruj się
           </v-btn>
@@ -34,10 +36,6 @@
 
 <script>
 export default {
-  name: 'DefaultLayout',
-  data () {
-    return {
-    }
-  }
+  name: 'DefaultLayout'
 }
 </script>
