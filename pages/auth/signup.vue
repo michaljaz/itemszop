@@ -10,7 +10,7 @@
           v-model="valid"
         >
           <v-text-field v-model="email" :rules="emailRules" label="Email" />
-          <v-text-field v-model="nick" label="Pseudonim (opjonalnie)" />
+          <v-text-field v-model="displayName" label="Pseudonim (opjonalnie)" />
           <v-text-field
             v-model="password"
             label="Hasło"
@@ -51,7 +51,7 @@ export default {
   data () {
     return {
       valid: false,
-      nick: '',
+      displayName: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -78,7 +78,28 @@ export default {
     submit () {
       this.$refs.form.validate()
       if (this.valid) {
-        console.log('Rejestrowanie...')
+        this.register()
+      }
+    },
+    register () {
+      const { displayName } = this
+      try {
+        this.$fire.auth.createUserWithEmailAndPassword(this.email, this.password)
+          .then((response) => {
+            const { user } = response
+            user.updateProfile({ displayName })
+              .then(() => {
+                user.sendEmailVerification()
+                  .then(() => {
+                    console.log('email sent')
+                  })
+                  .catch((e) => {
+                    console.log(e)
+                  })
+              })
+          })
+      } catch (e) {
+        console.log(e)
       }
     }
   }
