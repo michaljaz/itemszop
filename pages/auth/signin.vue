@@ -32,7 +32,7 @@
           color="info"
           to="/auth/signup"
         >
-          Nie mam jeszcze konta
+          Zarejestruj się
         </v-btn>
       </v-card-actions>
     </v-card>

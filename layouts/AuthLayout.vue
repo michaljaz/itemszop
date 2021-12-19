@@ -4,7 +4,8 @@
       <v-container>
         <v-row justify="center" align="center">
           <v-col cols="12" sm="8" md="6">
-            <v-btn class="mb-2" to="/">
+            <v-btn class="mb-2 pl-2" to="/">
+              <v-icon>mdi-arrow-left-thin</v-icon>
               Powrót do strony głównej
             </v-btn>
             <Nuxt />

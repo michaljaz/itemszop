@@ -37,7 +37,7 @@
           color="info"
           to="/auth/signin"
         >
-          Mam już konto
+          Zaloguj się
         </v-btn>
       </v-card-actions>
     </v-card>
