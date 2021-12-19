@@ -14,6 +14,15 @@
           <v-toolbar-items class="hidden-sm-and-down">
             <v-btn
               text
+              to="/github"
+            >
+              <v-icon>
+                mdi-github
+              </v-icon>
+            </v-btn>
+
+            <v-btn
+              text
               to="/auth/signin"
             >
               Zaloguj się
@@ -25,6 +34,9 @@
               Zarejestruj się
             </v-btn>
           </v-toolbar-items>
+          <v-app-bar-nav-icon class="hidden-md-and-up" to="/github">
+            <v-icon>mdi-github</v-icon>
+          </v-app-bar-nav-icon>
         </v-container>
       </v-app-bar>
       <v-container>
