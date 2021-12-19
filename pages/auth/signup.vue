@@ -5,25 +5,31 @@
         Zarejestruj się
       </v-card-title>
       <v-card-text>
-        <v-text-field v-model="email" :rules="emailRules" label="Email" />
-        <v-text-field v-model="nick" label="Pseudonim" />
-        <v-text-field
-          v-model="password"
-          label="Hasło"
-          type="password"
-          :rules="passwordRules"
-        />
-        <v-text-field
-          v-model="confirmPassword"
-          label="Powtórz Hasło"
-          type="password"
-          :rules="confirmPasswordRules"
-        />
+        <v-form
+          ref="form"
+          v-model="valid"
+        >
+          <v-text-field v-model="email" :rules="emailRules" label="Email" />
+          <v-text-field v-model="nick" label="Pseudonim (opjonalnie)" />
+          <v-text-field
+            v-model="password"
+            label="Hasło"
+            type="password"
+            :rules="passwordRules"
+          />
+          <v-text-field
+            v-model="confirmPassword"
+            label="Powtórz Hasło"
+            type="password"
+            :rules="confirmPasswordRules"
+          />
+        </v-form>
       </v-card-text>
       <v-card-actions>
         <v-spacer />
         <v-btn
           color="primary"
+          @click="submit"
         >
           Dalej
         </v-btn>
@@ -44,6 +50,7 @@ export default {
   layout: 'AuthLayout',
   data () {
     return {
+      valid: false,
       nick: '',
       email: '',
       password: '',
@@ -65,6 +72,14 @@ export default {
   head () {
     return {
       title: 'Rejestracja'
+    }
+  },
+  methods: {
+    submit () {
+      this.$refs.form.validate()
+      if (this.valid) {
+        console.log('Rejestrowanie...')
+      }
     }
   }
 }

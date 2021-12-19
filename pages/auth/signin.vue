@@ -8,12 +8,10 @@
         <v-form
           ref="form"
           v-model="valid"
-          lazy-validation
         >
           <v-text-field v-model="email" :rules="rulesEmail" label="Email" />
           <v-text-field
             v-model="password"
-            name="input-10-2"
             :rules="rulesPassword"
             label="Hasło"
             :type="showPassword ? 'text' : 'password'"
@@ -26,6 +24,7 @@
         <v-spacer />
         <v-btn
           color="primary"
+          @click="submit"
         >
           Dalej
         </v-btn>
@@ -46,7 +45,7 @@ export default {
   layout: 'AuthLayout',
   data () {
     return {
-      valid: true,
+      valid: false,
       email: '',
       password: '',
       showPassword: false,
@@ -64,8 +63,13 @@ export default {
       title: 'Logowanie'
     }
   },
-  mounted () {
-    // console.log(this.$fire.auth)
+  methods: {
+    submit () {
+      this.$refs.form.validate()
+      if (this.valid) {
+        console.log('Logowanie...')
+      }
+    }
   }
 }
 </script>
