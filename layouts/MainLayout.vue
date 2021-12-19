@@ -5,23 +5,26 @@
         height="70"
         elevation="4"
       >
-        <v-container class="pa-0 fill-height">
+        <v-container class="pa-0 fill-height justify-space-between">
+          <v-app-bar-nav-icon class="hidden-md-and-up" />
           <v-toolbar-title style="cursor: pointer" @click="$router.push('/')">
             ItemSzop
           </v-toolbar-title>
-          <v-spacer />
-          <v-btn
-            class="green darken-4"
-            to="/auth/signin"
-          >
-            Zaloguj się
-          </v-btn>
-          <v-btn
-            class="ml-2 green"
-            to="/auth/signup"
-          >
-            Zarejestruj się
-          </v-btn>
+
+          <v-toolbar-items class="hidden-sm-and-down">
+            <v-btn
+              text
+              to="/auth/signin"
+            >
+              Zaloguj się
+            </v-btn>
+            <v-btn
+              text
+              to="/auth/signup"
+            >
+              Zarejestruj się
+            </v-btn>
+          </v-toolbar-items>
         </v-container>
       </v-app-bar>
       <v-container>

@@ -6,8 +6,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - itemszop',
-    title: 'itemszop',
+    titleTemplate: 'ItemSzop - %s',
+    title: 'Darmowy sklep twojego serwera minecraftowego',
     htmlAttrs: {
       lang: 'en'
     },

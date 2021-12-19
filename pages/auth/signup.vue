@@ -7,6 +7,11 @@
 <script>
 export default {
   name: 'SignUp',
-  layout: 'AuthLayout'
+  layout: 'AuthLayout',
+  head () {
+    return {
+      title: 'Rejestracja'
+    }
+  }
 }
 </script>

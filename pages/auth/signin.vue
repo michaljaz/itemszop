@@ -7,6 +7,11 @@
 <script>
 export default {
   name: 'SignIn',
-  layout: 'AuthLayout'
+  layout: 'AuthLayout',
+  head () {
+    return {
+      title: 'Logowanie'
+    }
+  }
 }
 </script>
