@@ -1,19 +1,13 @@
 <template>
   <div>
-    <v-btn color="red" @click="signOut">
-      Wyloguj się
-    </v-btn>
+    <br><br><br>
+    Panel
   </div>
 </template>
 
 <script>
 export default {
   name: 'PanelPage',
-  methods: {
-    signOut () {
-      this.$fire.auth.signOut()
-      this.$router.push('/')
-    }
-  }
+  layout: 'PanelLayout'
 }
 </script>
