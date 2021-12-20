@@ -67,7 +67,13 @@ export default {
     submit () {
       this.$refs.form.validate()
       if (this.valid) {
-        console.log('Logowanie...')
+        this.$fire.auth.signInWithEmailAndPassword(this.email, this.password)
+          .then(() => {
+            console.log('Zalogowano')
+          })
+          .catch((e) => {
+            console.log(e)
+          })
       }
     }
   }

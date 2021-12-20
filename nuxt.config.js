@@ -66,7 +66,11 @@ export default {
         },
         services: {
           database: true,
-          auth: true // Just as example. Can be any other service.
+          auth:{
+            initialize: {
+              onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION'
+            },
+          },
         }
       }
     ]
