@@ -40,9 +40,23 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'SignIn',
   layout: 'AuthLayout',
+  computed: {
+    ...mapGetters([
+      'loggedIn'
+    ])
+  },
+  watch: {
+    loggedIn (newVal, oldVal) {
+      if (newVal) {
+        this.$router.push('/panel')
+      }
+    }
+  },
   data () {
     return {
       valid: false,
@@ -68,8 +82,8 @@ export default {
       this.$refs.form.validate()
       if (this.valid) {
         this.$fire.auth.signInWithEmailAndPassword(this.email, this.password)
-          .then(() => {
-            this.$router.push('/panel')
+          .then((user) => {
+            // nothing
           })
           .catch((e) => {
             console.log(e)
