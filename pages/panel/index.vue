@@ -9,9 +9,6 @@
 <script>
 export default {
   name: 'PanelPage',
-  mounted () {
-    console.log(this.$fire.auth)
-  },
   methods: {
     signOut () {
       this.$fire.auth.signOut()
