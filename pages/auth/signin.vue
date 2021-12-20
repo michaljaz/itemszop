@@ -69,7 +69,7 @@ export default {
       if (this.valid) {
         this.$fire.auth.signInWithEmailAndPassword(this.email, this.password)
           .then(() => {
-            console.log('Zalogowano')
+            this.$router.push('/panel')
           })
           .catch((e) => {
             console.log(e)
