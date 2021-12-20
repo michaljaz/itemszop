@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-card>
-      <v-card-title class="headline">
+    <v-card class="pt-1 pb-4">
+      <v-card-title class="headline justify-center">
         Zaloguj się
       </v-card-title>
       <v-card-text>
@@ -44,19 +44,26 @@
         </v-dialog>
       </v-card-text>
       <v-card-actions>
-        <v-spacer />
-        <v-btn
-          color="primary"
-          @click="submit"
-        >
-          Dalej
-        </v-btn>
-        <v-btn
-          color="info"
-          to="/auth/signup"
-        >
-          Zarejestruj się
-        </v-btn>
+        <v-row>
+          <v-col>
+            <v-btn
+              width="100%"
+              color="primary"
+              @click="submit"
+            >
+              Dalej
+            </v-btn>
+          </v-col>
+          <v-col>
+            <v-btn
+              width="100%"
+              color="info"
+              to="/auth/signup"
+            >
+              Zarejestruj się
+            </v-btn>
+          </v-col>
+        </v-row>
       </v-card-actions>
     </v-card>
   </div>
