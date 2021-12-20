@@ -20,19 +20,29 @@
                 mdi-github
               </v-icon>
             </v-btn>
-
-            <v-btn
-              text
-              to="/auth/signin"
-            >
-              Zaloguj się
-            </v-btn>
-            <v-btn
-              text
-              to="/auth/signup"
-            >
-              Zarejestruj się
-            </v-btn>
+            <client-only>
+              <v-btn
+                v-if="!loggedIn"
+                text
+                to="/auth/signin"
+              >
+                Zaloguj się
+              </v-btn>
+              <v-btn
+                v-if="!loggedIn"
+                text
+                to="/auth/signup"
+              >
+                Zarejestruj się
+              </v-btn>
+              <v-btn
+                v-if="loggedIn"
+                text
+                to="/panel"
+              >
+                Przejdź do panelu
+              </v-btn>
+            </client-only>
           </v-toolbar-items>
           <v-app-bar-nav-icon class="hidden-md-and-up" to="/github">
             <v-icon>mdi-github</v-icon>
@@ -57,12 +67,17 @@
           </v-list-item-content>
         </v-list-item>
         <v-divider />
-        <v-list-item link to="/auth/signin">
-          Zaloguj się
-        </v-list-item>
-        <v-list-item link to="/auth/signup">
-          Zarejestruj się
-        </v-list-item>
+        <client-only>
+          <v-list-item v-if="loggedIn" link to="/panel">
+            Panel
+          </v-list-item>
+          <v-list-item v-if="!loggedIn" link to="/auth/signin">
+            Zaloguj się
+          </v-list-item>
+          <v-list-item v-if="!loggedIn" link to="/auth/signup">
+            Zarejestruj się
+          </v-list-item>
+        </client-only>
       </v-navigation-drawer>
     </v-main>
     <v-footer>
@@ -72,8 +87,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'MainLayout',
+  computed: {
+    ...mapGetters([
+      'loggedIn'
+    ])
+  },
   data () {
     return {
       drawer: false
