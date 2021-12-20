@@ -19,6 +19,29 @@
             @click:append="showPassword = !showPassword"
           />
         </v-form>
+        <v-dialog
+          v-model="dialog"
+          max-width="400"
+        >
+          <v-card>
+            <v-card-title class="text-h5">
+              Błąd
+            </v-card-title>
+            <v-card-text>
+              {{ dialogContent }}
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                color="green darken-1"
+                text
+                @click="dialog=false"
+              >
+                Anuluj
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-card-text>
       <v-card-actions>
         <v-spacer />
@@ -45,20 +68,10 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'SignIn',
   layout: 'AuthLayout',
-  computed: {
-    ...mapGetters([
-      'loggedIn'
-    ])
-  },
-  watch: {
-    loggedIn (newVal, oldVal) {
-      if (newVal) {
-        this.$router.push('/panel')
-      }
-    }
-  },
   data () {
     return {
+      dialogContent: '',
+      dialog: false,
       valid: false,
       email: '',
       password: '',
@@ -77,7 +90,24 @@ export default {
       title: 'Logowanie'
     }
   },
+  computed: {
+    ...mapGetters([
+      'loggedIn',
+      'errorCodes'
+    ])
+  },
+  watch: {
+    loggedIn (newVal, oldVal) {
+      if (newVal) {
+        this.$router.push('/panel')
+      }
+    }
+  },
   methods: {
+    errorDialog (e) {
+      this.dialogContent = this.errorCodes[e.code] || e.message
+      this.dialog = true
+    },
     submit () {
       this.$refs.form.validate()
       if (this.valid) {
@@ -86,7 +116,7 @@ export default {
             // nothing
           })
           .catch((e) => {
-            console.log(e)
+            this.errorDialog(e)
           })
       }
     }

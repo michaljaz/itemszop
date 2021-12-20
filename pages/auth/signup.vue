@@ -26,7 +26,6 @@
         </v-form>
         <v-dialog
           v-model="dialog"
-          persistent
           max-width="400"
         >
           <v-card>
@@ -82,11 +81,6 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'SignUp',
   layout: 'AuthLayout',
-  computed: {
-    ...mapGetters([
-      'errorCodes'
-    ])
-  },
   data () {
     return {
       nextButton: false,
@@ -116,6 +110,11 @@ export default {
     return {
       title: 'Rejestracja'
     }
+  },
+  computed: {
+    ...mapGetters([
+      'errorCodes'
+    ])
   },
   methods: {
     errorDialog (e) {
@@ -148,7 +147,7 @@ export default {
                   this.successDialog()
                 })
                 .catch((e) => {
-                  console.log(e)
+                  // EMAIL FAILED
                 })
             })
         })
