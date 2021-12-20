@@ -7,7 +7,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: 'ItemSzop - %s',
-    title: 'Darmowy sklep twojego serwera minecraftowego',
+    title: 'Darmowy sklep serwera minecraftowego',
     htmlAttrs: {
       lang: 'en'
     },
@@ -29,8 +29,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    '~/assets/global.css'
+  css: [  
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins

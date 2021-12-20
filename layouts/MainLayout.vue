@@ -4,6 +4,7 @@
       <v-app-bar
         height="70"
         elevation="4"
+        fixed
       >
         <v-container class="pa-0 fill-height justify-space-between">
           <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer" />
@@ -49,9 +50,7 @@
           </v-app-bar-nav-icon>
         </v-container>
       </v-app-bar>
-      <v-container>
-        <Nuxt />
-      </v-container>
+      <Nuxt />
       <v-navigation-drawer
         v-model="drawer"
         absolute
@@ -91,15 +90,15 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'MainLayout',
-  computed: {
-    ...mapGetters([
-      'loggedIn'
-    ])
-  },
   data () {
     return {
       drawer: false
     }
+  },
+  computed: {
+    ...mapGetters([
+      'loggedIn'
+    ])
   }
 }
 </script>
