@@ -4,6 +4,10 @@
       <v-btn
         v-for="item in shops"
         :key="item"
+        block
+        large
+        text
+        class="mb-2"
       >
         {{ item }}
       </v-btn>
