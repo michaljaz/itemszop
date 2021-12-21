@@ -8,6 +8,7 @@
         large
         text
         class="mb-2"
+        :to="`/panel/shop/${item}`"
       >
         {{ item }}
       </v-btn>

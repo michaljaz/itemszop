@@ -37,6 +37,7 @@
                 v-for="item in shops"
                 :key="item"
                 link
+                :to="`/panel/shop/${item}`"
               >
                 <v-list-item-title>{{ item }}</v-list-item-title>
               </v-list-item>
