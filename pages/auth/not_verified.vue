@@ -23,6 +23,11 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'NotVerified',
   layout: 'AuthLayout',
+  head () {
+    return {
+      title: 'Nie zweryfikowano maila'
+    }
+  },
   computed: {
     ...mapGetters([
       'emailVerified',
