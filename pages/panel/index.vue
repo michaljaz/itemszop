@@ -21,7 +21,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'PanelPage',
-  layout: 'PanelLayout',
   head () {
     return {
       title: 'Panel'

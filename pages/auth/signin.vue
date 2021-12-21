@@ -127,7 +127,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'SignIn',
-  layout: 'AuthLayout',
   data () {
     return {
       snackbar: false,

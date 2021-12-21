@@ -83,7 +83,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'SignUp',
-  layout: 'AuthLayout',
   data () {
     return {
       nextButton: false,

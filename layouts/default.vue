@@ -1,19 +1,7 @@
 <template>
   <v-app dark>
     <v-main>
-      <v-app-bar
-        height="70"
-        elevation="4"
-      >
-        <v-container class="pa-0 fill-height">
-          <v-toolbar-title style="cursor: pointer" @click="$router.push('/')">
-            ItemSzop
-          </v-toolbar-title>
-        </v-container>
-      </v-app-bar>
-      <v-container>
-        <Nuxt />
-      </v-container>
+      <Nuxt />
     </v-main>
     <v-footer>
       <span>&copy; {{ new Date().getFullYear() }} ItemSzop</span>
