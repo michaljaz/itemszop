@@ -57,26 +57,22 @@
         </v-dialog>
       </v-card-text>
       <v-card-actions>
-        <v-row>
-          <v-col>
-            <v-btn
-              width="100%"
-              color="primary"
-              @click="submit"
-            >
-              Dalej
-            </v-btn>
-          </v-col>
-          <v-col>
-            <v-btn
-              width="100%"
-              color="info"
-              to="/auth/signin"
-            >
-              Zaloguj się
-            </v-btn>
-          </v-col>
-        </v-row>
+        <v-spacer />
+        <v-btn
+          class="indigo darken-4"
+          large
+          @click="submit"
+        >
+          Dalej
+        </v-btn>
+        <v-btn
+          text
+          color="info"
+          to="/auth/signin"
+          large
+        >
+          Zaloguj się
+        </v-btn>
       </v-card-actions>
     </v-card>
   </div>
