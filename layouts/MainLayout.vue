@@ -21,6 +21,14 @@
                 mdi-github
               </v-icon>
             </v-btn>
+            <v-btn
+              text
+              to="/discord"
+            >
+              <v-icon>
+                mdi-discord
+              </v-icon>
+            </v-btn>
             <client-only>
               <v-btn
                 v-if="!loggedIn"
@@ -45,9 +53,14 @@
               </v-btn>
             </client-only>
           </v-toolbar-items>
-          <v-app-bar-nav-icon class="hidden-md-and-up" to="/github">
-            <v-icon>mdi-github</v-icon>
-          </v-app-bar-nav-icon>
+          <div class="hidden-md-and-up">
+            <v-app-bar-nav-icon to="/github">
+              <v-icon>mdi-github</v-icon>
+            </v-app-bar-nav-icon>
+            <v-app-bar-nav-icon to="/discord">
+              <v-icon>mdi-discord</v-icon>
+            </v-app-bar-nav-icon>
+          </div>
         </v-container>
       </v-app-bar>
       <Nuxt />
