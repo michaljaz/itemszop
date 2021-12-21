@@ -10,7 +10,8 @@ export const state = () => ({
     'auth/email-already-in-use': 'Email jest już w użyciu.',
     'auth/weak-password': 'Zbyt słabe hasło (powinno mieć co najmniej 6 znaków).',
     'auth/missing-email': 'Nie wpisałeś adresu email.'
-  }
+  },
+  shops: []
 })
 
 export const getters = {
@@ -26,6 +27,9 @@ export const getters = {
     } else {
       return state.user.emailVerified
     }
+  },
+  shops: (state) => {
+    return state.shops
   }
 }
 
@@ -40,5 +44,8 @@ export const mutations = {
     } else {
       state.user = null
     }
+  },
+  updateShops: (state, newShops) => {
+    state.shops = newShops
   }
 }

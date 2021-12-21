@@ -33,8 +33,12 @@
             </template>
 
             <v-list>
-              <v-list-item link>
-                <v-list-item-title>Sklep Pierwszy</v-list-item-title>
+              <v-list-item
+                v-for="item in shops"
+                :key="item"
+                link
+              >
+                <v-list-item-title>{{ item }}</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
@@ -81,9 +85,29 @@
 </template>
 
 <script>
+import { mapMutations, mapGetters } from 'vuex'
+
 export default {
   name: 'PanelLayout',
+  computed: {
+    ...mapGetters([
+      'shops'
+    ])
+  },
+  mounted () {
+    const { uid } = this.$fire.auth.currentUser
+    const ref = this.$fire.database.ref(`users/${uid}`)
+    ref.get().then((s) => {
+      const shops = s.val()
+      if (shops) {
+        this.updateShops(Object.keys(shops))
+      }
+    })
+  },
   methods: {
+    ...mapMutations([
+      'updateShops'
+    ]),
     signOut () {
       this.$fire.auth.signOut()
       this.$router.push('/')

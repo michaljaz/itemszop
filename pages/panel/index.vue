@@ -12,24 +12,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'PanelPage',
   layout: 'PanelLayout',
-  data () {
-    return {
-      shops: []
-    }
-  },
-  mounted () {
-    const { uid } = this.$fire.auth.currentUser
-    const ref = this.$fire.database.ref(`users/${uid}`)
-    ref.get().then((s) => {
-      const shops = s.val()
-      console.log(shops)
-      if (shops) {
-        this.shops = Object.keys(shops)
-      }
-    })
+  computed: {
+    ...mapGetters([
+      'shops'
+    ])
   }
 }
 </script>
