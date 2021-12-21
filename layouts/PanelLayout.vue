@@ -7,34 +7,41 @@
         fixed
         app
       >
-        <v-container class="pa-0 fill-height">
-          <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer" />
-          <v-toolbar-title style="cursor: pointer" @click="$router.push('/')">
+        <v-container class="pa-0 fill-height justify-space-between">
+          <v-toolbar-title style="cursor: pointer" class="hidden-sm-and-down mr-3" @click="$router.push('/')">
             ItemSzop
           </v-toolbar-title>
+
           <v-menu
             offset-y
             right
           >
             <template #activator="{ on, attrs }">
-              <v-toolbar-items class="ml-3">
+              <v-toolbar-items>
                 <v-btn
                   text
                   v-bind="attrs"
                   v-on="on"
                 >
-                  Sklepy <v-icon>mdi-menu-down</v-icon>
+                  <v-icon class="hidden-md-and-up">
+                    mdi-cart
+                  </v-icon>
+                  <span class="hidden-sm-and-down">Sklepy</span>
+                  <v-icon>mdi-menu-down</v-icon>
                 </v-btn>
               </v-toolbar-items>
             </template>
 
             <v-list>
-              <v-list-item>
+              <v-list-item link>
                 <v-list-item-title>Sklep Pierwszy</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
-          <v-spacer />
+          <v-toolbar-title style="cursor: pointer" class="hidden-md-and-up" @click="$router.push('/')">
+            ItemSzop
+          </v-toolbar-title>
+          <v-spacer class="hidden-sm-and-down" />
           <v-menu
             offset-y
             left
@@ -46,7 +53,11 @@
                   v-bind="attrs"
                   v-on="on"
                 >
-                  Konto <v-icon>mdi-menu-down</v-icon>
+                  <v-icon class="hidden-md-and-up">
+                    mdi-account
+                  </v-icon>
+                  <span class="hidden-sm-and-down">Konto</span>
+                  <v-icon>mdi-menu-down</v-icon>
                 </v-btn>
               </v-toolbar-items>
             </template>
@@ -59,9 +70,6 @@
               </v-list-item>
             </v-list>
           </v-menu>
-          <v-app-bar-nav-icon class="hidden-md-and-up" to="/github">
-            <v-icon>mdi-github</v-icon>
-          </v-app-bar-nav-icon>
         </v-container>
       </v-app-bar>
       <Nuxt />
