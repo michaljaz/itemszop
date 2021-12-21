@@ -5,7 +5,6 @@
         height="70"
         elevation="4"
         fixed
-        app
       >
         <v-container class="pa-0 fill-height justify-space-between">
           <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer" />

@@ -7,13 +7,37 @@
         fixed
         app
       >
-        <v-container class="pa-0 fill-height justify-space-between">
+        <v-container class="pa-0 fill-height">
           <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer" />
           <v-toolbar-title style="cursor: pointer" @click="$router.push('/')">
             ItemSzop
           </v-toolbar-title>
           <v-menu
             offset-y
+            right
+          >
+            <template #activator="{ on, attrs }">
+              <v-toolbar-items class="ml-3">
+                <v-btn
+                  text
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  Sklepy <v-icon>mdi-menu-down</v-icon>
+                </v-btn>
+              </v-toolbar-items>
+            </template>
+
+            <v-list>
+              <v-list-item>
+                <v-list-item-title>Sklep Pierwszy</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+          <v-spacer />
+          <v-menu
+            offset-y
+            left
           >
             <template #activator="{ on, attrs }">
               <v-toolbar-items>
@@ -22,7 +46,7 @@
                   v-bind="attrs"
                   v-on="on"
                 >
-                  Konto
+                  Konto <v-icon>mdi-menu-down</v-icon>
                 </v-btn>
               </v-toolbar-items>
             </template>
