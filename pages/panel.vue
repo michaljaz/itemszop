@@ -75,7 +75,7 @@
           </v-list>
         </v-menu>
       </v-container>
-      <template #extension>
+      <template v-if="tabs" #extension>
         <v-container>
           <v-tabs
             show-arrows
@@ -101,10 +101,25 @@ import { mapMutations, mapGetters } from 'vuex'
 
 export default {
   name: 'BasePanel',
+  data () {
+    return {
+      tabs: false
+    }
+  },
   computed: {
     ...mapGetters([
       'shops'
     ])
+  },
+  watch: {
+    $route (to, from) {
+      // console.log('xd')
+      if (to.params.shopid) {
+        this.tabs = true
+      } else {
+        this.tabs = false
+      }
+    }
   },
   mounted () {
     const { uid } = this.$fire.auth.currentUser
