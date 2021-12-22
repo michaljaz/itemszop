@@ -1,6 +1,6 @@
 export default function ({ store, redirect, route }) {
   const loginPages = ['auth-signin', 'auth-signup']
-  const panelPages = ['panel']
+  const panelPages = ['panel', 'panel-new_shop', 'settings']
   if (panelPages.includes(route.name)) {
     if (!store.getters.loggedIn) {
       return redirect('/auth/signin')
