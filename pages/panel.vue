@@ -25,7 +25,14 @@
                 <v-icon class="hidden-md-and-up">
                   mdi-cart
                 </v-icon>
-                <span class="hidden-sm-and-down">Sklepy</span>
+                <span class="hidden-sm-and-down">
+                  <span v-if="!$route.params.shopid">
+                    Sklepy
+                  </span>
+                  <span v-else>
+                    {{ $route.params.shopid }}
+                  </span>
+                </span>
                 <v-icon>mdi-menu-down</v-icon>
               </v-btn>
             </v-toolbar-items>
