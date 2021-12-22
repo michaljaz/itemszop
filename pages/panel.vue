@@ -49,6 +49,11 @@
             </v-list-item>
           </v-list>
         </v-menu>
+        <v-toolbar-items>
+          <v-btn text to="/panel/new_shop" color="green">
+            Nowy sklep
+          </v-btn>
+        </v-toolbar-items>
         <v-toolbar-title style="cursor: pointer" class="hidden-md-and-up" @click="$router.push('/')">
           ItemSzop
         </v-toolbar-title>
