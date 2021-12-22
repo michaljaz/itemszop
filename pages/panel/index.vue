@@ -19,7 +19,14 @@
 <script>
 export default {
   name: 'PanelPage',
-  props: ['shops'],
+  props: {
+    shops: {
+      type: Array,
+      default: () => {
+        return []
+      }
+    }
+  },
   head () {
     return {
       title: 'Panel'
