@@ -171,7 +171,7 @@ export default {
         }
       } else {
         const shops = Object.keys(s.val())
-        if (!shops.includes(this.$route.params.shopid)) {
+        if (this.$route.params.shopid && !shops.includes(this.$route.params.shopid)) {
           this.$router.push('/panel')
         }
         this.shops = shops
