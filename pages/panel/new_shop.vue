@@ -48,6 +48,11 @@ export default {
       ]
     }
   },
+  head () {
+    return {
+      title: 'Nowy sklep'
+    }
+  },
   watch: {
     shopid () {
       this.url = `${document.location.origin}/shop/${this.shopid}`

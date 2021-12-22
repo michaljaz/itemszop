@@ -17,19 +17,13 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   name: 'PanelPage',
+  props: ['shops'],
   head () {
     return {
       title: 'Panel'
     }
-  },
-  computed: {
-    ...mapGetters([
-      'shops'
-    ])
   }
 }
 </script>

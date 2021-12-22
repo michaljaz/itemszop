@@ -131,23 +131,17 @@
         </v-container>
       </template>
     </v-app-bar>
-    <nuxt-child />
+    <nuxt-child :shops="shops" />
   </div>
 </template>
 <script>
-import { mapMutations, mapGetters } from 'vuex'
-
 export default {
   name: 'BasePanel',
   data () {
     return {
-      tabs: false
+      tabs: false,
+      shops: []
     }
-  },
-  computed: {
-    ...mapGetters([
-      'shops'
-    ])
   },
   watch: {
     $route (to, from) {
@@ -172,17 +166,14 @@ export default {
         this.$router.push('/panel')
       }
       if (shops) {
-        this.updateShops(shops)
+        this.shops = shops
       }
     })
   },
   methods: {
-    ...mapMutations([
-      'updateShops'
-    ]),
     signOut () {
       this.$fire.auth.signOut()
-      this.updateShops([])
+      this.shops = []
       this.$router.push('/')
     }
   }

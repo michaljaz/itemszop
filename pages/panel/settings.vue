@@ -3,6 +3,11 @@
 </template>
 <script>
 export default {
-  name: 'PanelSettings'
+  name: 'PanelSettings',
+  head () {
+    return {
+      title: 'Ustawienia'
+    }
+  }
 }
 </script>
