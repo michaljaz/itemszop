@@ -79,6 +79,9 @@
           </template>
 
           <v-list>
+            <v-list-item to="/panel/settings">
+              <v-list-item-title>Ustawienia</v-list-item-title>
+            </v-list-item>
             <v-list-item
               @click="signOut"
             >
