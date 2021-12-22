@@ -12,7 +12,20 @@
   </v-container>
 </template>
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-  name: 'BaseAuth'
+  name: 'BaseAuth',
+  computed: {
+    ...mapGetters([
+      'loggedIn'
+    ])
+  },
+  mounted () {
+    const authPages = ['auth-signin', 'auth-signup']
+    if (authPages.includes(this.$route.name) && this.loggedIn) {
+      this.$router.push('/panel')
+    }
+  }
 }
 </script>
