@@ -58,7 +58,7 @@ export default {
             this.$router.push(`/panel/shop/${shopid}`)
           })
           .catch((e) => {
-            console.log(e)
+            // console.log(e)
           })
       }
     }

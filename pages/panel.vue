@@ -166,7 +166,7 @@ export default {
     }
     const { uid } = this.$fire.auth.currentUser
     const ref = this.$fire.database.ref(`users/${uid}`)
-    ref.get().then((s) => {
+    ref.on('value', (s) => {
       const shops = s.val()
       if (shops) {
         this.updateShops(Object.keys(shops))

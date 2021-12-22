@@ -36,16 +36,16 @@ export const getters = {
 export const mutations = {
   ON_AUTH_STATE_CHANGED_MUTATION: (state, { authUser, claims }) => {
     if (authUser) {
-      state.user = {
+      state.user = Object.assign({}, {
         uid: authUser.uid,
         displayName: authUser.displayName,
         emailVerified: authUser.emailVerified
-      }
+      })
     } else {
-      state.user = null
+      state.user = Object.assign({}, null)
     }
   },
   updateShops: (state, newShops) => {
-    state.shops = newShops
+    state.shops = Object.assign({}, newShops)
   }
 }
