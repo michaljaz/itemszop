@@ -50,7 +50,7 @@
           </v-list>
         </v-menu>
         <v-toolbar-items>
-          <v-btn text to="/panel/new_shop" color="green">
+          <v-btn text to="/panel/new_shop" color="blue">
             Nowy sklep
           </v-btn>
         </v-toolbar-items>
@@ -73,7 +73,12 @@
                   mdi-account
                 </v-icon>
                 <span class="hidden-sm-and-down">
-                  {{ $store.state.user.displayName }}
+                  <span v-if="$store.state.user">
+                    {{ $store.state.user.displayName }}
+                  </span>
+                  <span v-else>
+                    Konto
+                  </span>
                 </span>
                 <v-icon>mdi-menu-down</v-icon>
               </v-btn>
