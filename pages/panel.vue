@@ -167,9 +167,12 @@ export default {
     const { uid } = this.$fire.auth.currentUser
     const ref = this.$fire.database.ref(`users/${uid}`)
     ref.on('value', (s) => {
-      const shops = s.val()
+      const shops = Object.keys(s.val())
+      if (!shops.includes(this.$route.params.shopid)) {
+        this.$router.push('/panel')
+      }
       if (shops) {
-        this.updateShops(Object.keys(shops))
+        this.updateShops(shops)
       }
     })
   },

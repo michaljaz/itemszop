@@ -24,8 +24,7 @@ export default {
 
   router:{
     middleware: [
-      'auth',
-      'shop_not_exist'
+      'auth'
     ]
   },
 
