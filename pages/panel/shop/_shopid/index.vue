@@ -1,13 +1,5 @@
 <template>
-  <div>
-    <v-card
-      height="400"
-      width="256"
-      class="mx-auto"
-    >
-      TROLLO
-    </v-card>
-  </div>
+  <div />
 </template>
 <script>
 export default {

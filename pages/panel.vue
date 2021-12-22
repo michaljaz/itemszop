@@ -75,6 +75,23 @@
           </v-list>
         </v-menu>
       </v-container>
+      <template #extension>
+        <v-container>
+          <v-tabs
+            show-arrows
+            background-color="rgb(0, 0, 0, 0)"
+          >
+            <v-tab>Kokpit</v-tab>
+            <v-tab>Serwery</v-tab>
+            <v-tab>Usługi</v-tab>
+            <v-tab>Płatności</v-tab>
+            <v-tab>Vouchery</v-tab>
+            <v-tab>Strony</v-tab>
+            <v-tab>RCON</v-tab>
+            <v-tab>Ustawienia</v-tab>
+          </v-tabs>
+        </v-container>
+      </template>
     </v-app-bar>
     <nuxt-child />
   </div>
