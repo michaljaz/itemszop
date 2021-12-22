@@ -14,6 +14,7 @@
               <v-card-text>
                 <v-text-field v-model="name" :rules="name_rules" label="Nazwa sklepu" />
                 <v-text-field v-model="shopid" :rules="shopid_rules" label="Id sklepu" />
+                <v-text-field v-model="url" label="Tak będzie wygladał link" disabled />
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
@@ -33,6 +34,7 @@ export default {
   name: 'NewShop',
   data () {
     return {
+      url: `${document.location.origin}/shop/`,
       name: '',
       shopid: '',
       valid: false,
@@ -44,6 +46,11 @@ export default {
         value => (value && value.length >= 4) || 'Minimalnie 4 znaki',
         v => /^[A-Za-z0-9_]{4,}$/.test(v) || 'Id sklepu może zawierać tylko litery lub cyfry'
       ]
+    }
+  },
+  watch: {
+    shopid () {
+      this.url = `${document.location.origin}/shop/${this.shopid}`
     }
   },
   methods: {
