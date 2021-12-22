@@ -54,7 +54,7 @@
             Nowy sklep
           </v-btn>
         </v-toolbar-items>
-        <v-toolbar-title style="cursor: pointer" class="hidden-md-and-up" @click="$router.push('/')">
+        <v-toolbar-title style="cursor: pointer" class="hidden-md-and-up" @click="$router.push('/panel')">
           ItemSzop
         </v-toolbar-title>
         <v-spacer class="hidden-sm-and-down" />
@@ -72,7 +72,9 @@
                 <v-icon class="hidden-md-and-up">
                   mdi-account
                 </v-icon>
-                <span class="hidden-sm-and-down">Konto</span>
+                <span class="hidden-sm-and-down">
+                  {{ $store.state.user.displayName }}
+                </span>
                 <v-icon>mdi-menu-down</v-icon>
               </v-btn>
             </v-toolbar-items>

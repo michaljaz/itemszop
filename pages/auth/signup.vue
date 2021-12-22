@@ -10,7 +10,7 @@
           v-model="valid"
         >
           <v-text-field v-model="email" :rules="emailRules" label="Email" />
-          <v-text-field v-model="displayName" label="Pseudonim (opjonalnie)" />
+          <v-text-field v-model="displayName" :rules="nameRules" label="Pseudonim" />
           <v-text-field
             v-model="password"
             label="Hasło"
@@ -96,6 +96,9 @@ export default {
       confirmPassword: '',
       emailRules: [
         v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Nieprawidłowy format'
+      ],
+      nameRules: [
+        value => !!value || 'Wpisz pseudonim'
       ],
       passwordRules: [
         value => !!value || 'Wpisz hasło',
