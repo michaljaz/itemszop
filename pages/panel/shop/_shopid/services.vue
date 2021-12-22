@@ -3,6 +3,6 @@
 </template>
 <script>
 export default {
-  name: 'ShopIndex'
+  name: 'ShopServices'
 }
 </script>

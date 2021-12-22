@@ -81,14 +81,30 @@
             show-arrows
             background-color="rgb(0, 0, 0, 0)"
           >
-            <v-tab>Kokpit</v-tab>
-            <v-tab>Serwery</v-tab>
-            <v-tab>Usługi</v-tab>
-            <v-tab>Płatności</v-tab>
-            <v-tab>Vouchery</v-tab>
-            <v-tab>Strony</v-tab>
-            <v-tab>RCON</v-tab>
-            <v-tab>Ustawienia</v-tab>
+            <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/`">
+              Kokpit
+            </v-tab>
+            <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/servers`">
+              Serwery
+            </v-tab>
+            <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/services`">
+              Usługi
+            </v-tab>
+            <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/payments`">
+              Płatności
+            </v-tab>
+            <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/vouchers`">
+              Vouchery
+            </v-tab>
+            <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/pages`">
+              Strony
+            </v-tab>
+            <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/rcon`">
+              RCON
+            </v-tab>
+            <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/settings`">
+              Ustawienia
+            </v-tab>
           </v-tabs>
         </v-container>
       </template>
@@ -113,7 +129,6 @@ export default {
   },
   watch: {
     $route (to, from) {
-      // console.log('xd')
       if (to.params.shopid) {
         this.tabs = true
       } else {
@@ -122,6 +137,11 @@ export default {
     }
   },
   mounted () {
+    if (this.$route.params.shopid) {
+      this.tabs = true
+    } else {
+      this.tabs = false
+    }
     const { uid } = this.$fire.auth.currentUser
     const ref = this.$fire.database.ref(`users/${uid}`)
     ref.get().then((s) => {
