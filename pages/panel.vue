@@ -179,6 +179,7 @@ export default {
     ]),
     signOut () {
       this.$fire.auth.signOut()
+      this.updateShops([])
       this.$router.push('/')
     }
   }
