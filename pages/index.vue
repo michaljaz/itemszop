@@ -51,7 +51,7 @@
         </v-col>
       </v-row>
     </v-parallax>
-    XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>XD<br>
+    CONTENT
     <v-navigation-drawer v-model="drawer" absolute temporary>
       <v-list-item>
         <v-list-item-avatar>

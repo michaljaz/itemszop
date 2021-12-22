@@ -131,7 +131,9 @@
         </v-container>
       </template>
     </v-app-bar>
-    <nuxt-child :shops="shops" />
+    <v-container>
+      <nuxt-child :shops="shops" />
+    </v-container>
   </div>
 </template>
 <script>
@@ -161,11 +163,17 @@ export default {
     const { uid } = this.$fire.auth.currentUser
     const ref = this.$fire.database.ref(`users/${uid}`)
     ref.on('value', (s) => {
-      const shops = Object.keys(s.val())
-      if (!shops.includes(this.$route.params.shopid)) {
-        this.$router.push('/panel')
-      }
-      if (shops) {
+      const val = s.val()
+      if (val == null) {
+        this.shops = []
+        if (this.$route.params.shopid) {
+          this.$router.push('/panel')
+        }
+      } else {
+        const shops = Object.keys(s.val())
+        if (!shops.includes(this.$route.params.shopid)) {
+          this.$router.push('/panel')
+        }
         this.shops = shops
       }
     })
