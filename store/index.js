@@ -35,7 +35,8 @@ export const mutations = {
       state.user = {
         uid: authUser.uid,
         displayName: authUser.displayName,
-        emailVerified: authUser.emailVerified
+        emailVerified: authUser.emailVerified,
+        email: authUser.email
       }
     } else {
       state.user = null

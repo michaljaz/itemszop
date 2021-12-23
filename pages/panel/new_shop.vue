@@ -122,7 +122,7 @@ export default {
             })
         })
         .catch(() => {
-          console.log('nie masz uprawnień')
+          // console.log('nie masz uprawnień')
         })
     }
   }

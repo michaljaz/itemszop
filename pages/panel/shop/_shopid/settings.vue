@@ -11,7 +11,7 @@ export default {
   methods: {
     remove () {
       const { uid } = this.$fire.auth.currentUser
-      console.log(this.$route.params.shopid)
+      // console.log(this.$route.params.shopid)
       this.$fire.database.ref().child(`shops/${this.$route.params.shopid}`).remove().then(() => {
         this.$fire.database.ref().child(`users/${uid}/${this.$route.params.shopid}`).remove()
       })

@@ -10,7 +10,7 @@
             {{ otherError }}
           </span>
         </div>
-        <v-btn to="/" color="primary" class="mt-10">
+        <v-btn to="/" color="blue" class="mt-10" text>
           Przejdź do strony głównej
         </v-btn>
       </center>
