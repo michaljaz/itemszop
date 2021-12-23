@@ -9,20 +9,21 @@
           ref="form"
           v-model="valid"
         >
-          <v-text-field v-model="email" :rules="emailRules" label="Email" />
-          <v-text-field v-model="displayName" :rules="nameRules" label="Pseudonim" />
+          <v-text-field v-model="email" :rules="emailRules" label="Email*" />
+          <v-text-field v-model="displayName" :rules="nameRules" label="Pseudonim*" />
           <v-text-field
             v-model="password"
-            label="Hasło"
+            label="Hasło*"
             type="password"
             :rules="passwordRules"
           />
           <v-text-field
             v-model="confirmPassword"
-            label="Powtórz Hasło"
+            label="Powtórz Hasło*"
             type="password"
             :rules="confirmPasswordRules"
           />
+          <small>*wskazuje pole wymagane</small>
         </v-form>
         <v-dialog
           v-model="dialog"
