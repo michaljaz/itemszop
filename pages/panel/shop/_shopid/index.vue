@@ -1,8 +1,18 @@
 <template>
-  <div />
+  <div>
+    {{ shop.name }}
+  </div>
 </template>
 <script>
 export default {
-  name: 'ShopIndex'
+  name: 'ShopIndex',
+  props: {
+    shop: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  }
 }
 </script>
