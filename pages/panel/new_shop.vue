@@ -60,17 +60,70 @@ export default {
     submit () {
       this.$refs.form.validate()
       if (this.valid) {
-        const { shopid } = this
-        const { uid } = this.$fire.auth.currentUser
-        this.$fire.database.ref().child(`users/${uid}`)
-          .update({ [shopid]: true })
-          .then(() => {
-            this.$router.push(`/panel/shop/${shopid}`)
-          })
-          .catch((e) => {
-            // console.log(e)
-          })
+        this.createNewShop()
       }
+    },
+    createNewShop () {
+      const { shopid, name } = this
+      const { uid } = this.$fire.auth.currentUser
+      this.$fire.database.ref().child(`shops/${shopid}`)
+        .set({
+          icon: '',
+          owner: uid,
+          cel: 100,
+          name,
+          pages: {
+            page1: {
+              title: 'Regulamin',
+              content: '<h1>Treść</h1>'
+            }
+          },
+          history: {},
+          payments: {
+            userid: '',
+            hash: '',
+            shopid: ''
+          },
+          servers: {
+            '1_17': {
+              ip: 'localhost',
+              name: 'Server 1.17',
+              port: '25565',
+              rcon: {
+                port: '25575',
+                password: 'password'
+              }
+            }
+          },
+          services: {
+            vip: {
+              commands: 'say [nick] kupił VIP',
+              description: 'OPIS',
+              icon: '/img/vip.png',
+              payments: {
+                SMS: { active: false },
+                przelew: { active: false },
+                PSC: { active: false }
+              },
+              server: '1_17',
+              title: 'VIP'
+            }
+          },
+          zebrane: 0
+        })
+        .then(() => {
+          this.$fire.database.ref().child(`users/${uid}`)
+            .update({ [shopid]: true })
+            .then(() => {
+              this.$router.push(`/panel/shop/${shopid}`)
+            })
+            .catch((e) => {
+              // console.log(e)
+            })
+        })
+        .catch(() => {
+          console.log('nie masz uprawnień')
+        })
     }
   }
 }
