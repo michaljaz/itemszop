@@ -47,9 +47,16 @@
             >
               <v-list-item-title>{{ item }}</v-list-item-title>
             </v-list-item>
+            <v-divider />
+            <v-list-item
+              link
+              to="/panel/new_shop"
+            >
+              <v-list-item-title>Nowy sklep</v-list-item-title>
+            </v-list-item>
           </v-list>
         </v-menu>
-        <v-toolbar-items>
+        <v-toolbar-items class="hidden-sm-and-down">
           <v-btn text to="/panel/new_shop" color="blue">
             Nowy sklep
           </v-btn>
