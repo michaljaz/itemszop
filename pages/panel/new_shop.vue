@@ -86,13 +86,9 @@ export default {
           },
           servers: {
             '1_17': {
-              ip: 'localhost',
+              ip: 'localhost:25575',
               name: 'Server 1.17',
-              port: '25565',
-              rcon: {
-                port: '25575',
-                password: 'password'
-              }
+              password: 'password'
             }
           },
           services: {
