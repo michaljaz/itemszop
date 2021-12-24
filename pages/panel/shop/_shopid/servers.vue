@@ -9,10 +9,10 @@
           <span class="text-h5">Konfiguracja serwera</span>
         </v-card-title>
         <v-card-text>
-          <v-text-field v-model="server_name" label="Nazwa serwera" />
-          <v-text-field v-model="server_id" label="Id serwera" />
-          <v-text-field v-model="server_ip" label="IP serwera" />
-          <v-text-field v-model="server_password" label="Hasło RCON" />
+          <v-text-field v-model="serverName" label="Nazwa serwera" />
+          <v-text-field v-model="serverId" label="Id serwera" />
+          <v-text-field v-model="serverIp" label="IP serwera" />
+          <v-text-field v-model="serverPassword" label="Hasło RCON" />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -26,7 +26,7 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="dialog = false"
+            @click="saveServer"
           >
             Save
           </v-btn>
@@ -42,13 +42,13 @@
       class="mb-2"
       @click="serverDialog(item)"
     >
-      {{ shop.servers[item].name }}
+      {{ shop.servers[item].serverName }}
     </v-btn>
   </div>
 </template>
 <script>
 export default {
-  name: 'ShopIndex',
+  name: 'ShopServers',
   props: {
     shop: {
       type: Object,
@@ -59,10 +59,11 @@ export default {
   },
   data () {
     return {
-      server_name: '',
-      server_id: '',
-      server_ip: '',
-      server_password: '',
+      serverName: '',
+      serverId: '',
+      serverIdOld: '',
+      serverIp: '',
+      serverPassword: '',
       showPassword: false,
       dialog: false,
       servers: this.serversList()
@@ -78,11 +79,25 @@ export default {
     },
     serverDialog (serverId) {
       const server = this.shop.servers[serverId]
-      this.server_id = serverId
-      this.server_name = server.name
-      this.server_ip = server.ip
-      this.server_password = server.password
+      this.serverId = serverId
+      this.serverIdOld = serverId
+      this.serverName = server.serverName
+      this.serverIp = server.serverIp
+      this.serverPassword = server.serverPassword
       this.dialog = true
+    },
+    saveServer () {
+      const { shopid } = this.$route.params
+      const { serverId, serverIdOld, serverName, serverIp, serverPassword } = this
+      const serversRef = this.$fire.database.ref().child(`/shops/${shopid}/servers/`)
+      serversRef.child(serverId).set({
+        serverName,
+        serverIp,
+        serverPassword
+      })
+      if (serverId !== serverIdOld) {
+        serversRef.child(serverIdOld).remove()
+      }
     }
   }
 }

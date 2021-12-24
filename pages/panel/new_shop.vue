@@ -86,9 +86,9 @@ export default {
           },
           servers: {
             '1_17': {
-              ip: 'localhost:25575',
-              name: 'Server 1.17',
-              password: 'password'
+              serverIp: 'localhost:25575',
+              serverName: 'Server 1.17',
+              serverPassword: 'password'
             }
           },
           services: {
