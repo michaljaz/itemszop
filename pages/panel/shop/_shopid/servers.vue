@@ -21,14 +21,21 @@
             text
             @click="dialog = false"
           >
-            Close
+            Anuluj
           </v-btn>
           <v-btn
-            color="blue darken-1"
+            color="green darken-1"
             text
             @click="saveServer"
           >
-            Save
+            Zapisz
+          </v-btn>
+          <v-btn
+            color="red darken-1"
+            text
+            @click="removeServer"
+          >
+            Usuń
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -42,7 +49,7 @@
       class="mb-2"
       @click="serverDialog(item)"
     >
-      {{ shop.servers[item].serverName }}
+      {{ item }}
     </v-btn>
   </div>
 </template>
@@ -67,6 +74,11 @@ export default {
       showPassword: false,
       dialog: false,
       servers: this.serversList()
+    }
+  },
+  watch: {
+    shop () {
+      this.servers = this.serversList()
     }
   },
   methods: {
@@ -98,6 +110,13 @@ export default {
       if (serverId !== serverIdOld) {
         serversRef.child(serverIdOld).remove()
       }
+      this.dialog = false
+    },
+    removeServer () {
+      const { shopid } = this.$route.params
+      const { serverIdOld } = this
+      this.$fire.database.ref().child(`/shops/${shopid}/servers/${serverIdOld}`).remove()
+      this.dialog = false
     }
   }
 }
