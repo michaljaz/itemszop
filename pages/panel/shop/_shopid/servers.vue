@@ -16,7 +16,14 @@
             <v-text-field v-model="serverName" label="Nazwa serwera" :rules="rulesName" />
             <v-text-field v-model="serverId" label="Id serwera" :rules="rulesId" />
             <v-text-field v-model="serverIp" label="IP serwera" :rules="rulesIp" />
-            <v-text-field v-model="serverPassword" label="Hasło RCON" :rules="rulesPassword" />
+            <v-text-field
+              v-model="serverPassword"
+              label="Hasło RCON"
+              :rules="rulesPassword"
+              :type="showPassword ? 'text' : 'password'"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="showPassword = !showPassword"
+            />
           </v-form>
         </v-card-text>
         <v-card-actions>
@@ -158,6 +165,10 @@ export default {
     },
     newServer () {
       this.isNew = true
+      this.serverName = 'A Minecraft Server'
+      this.serverIp = 'localhost:25575'
+      this.serverPassword = 'password'
+      this.serverId = `id_${(Math.random() + 1).toString(36).substring(7)}`
       this.dialog = true
     }
   }
