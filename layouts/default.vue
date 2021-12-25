@@ -3,7 +3,7 @@
     <v-main>
       <Nuxt />
     </v-main>
-    <v-footer>
+    <v-footer class="justify-center">
       <span>&copy; {{ new Date().getFullYear() }} ItemSzop</span>
     </v-footer>
   </v-app>
