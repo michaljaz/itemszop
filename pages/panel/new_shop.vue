@@ -42,7 +42,7 @@ export default {
       shopid_rules: [
         value => !!value || 'Wpisz id sklepu',
         value => (value && value.length >= 4) || 'Minimalnie 4 znaki',
-        v => /^[A-Za-z0-9_]{4,}$/.test(v) || 'Id sklepu może zawierać tylko litery lub cyfry'
+        v => /^[A-Za-z0-9_]{4,}$/.test(v) || 'Id sklepu może zawierać tylko litery, cyfry lub "_"'
       ]
     }
   },

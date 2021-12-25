@@ -9,10 +9,15 @@
           <span class="text-h5">Konfiguracja serwera</span>
         </v-card-title>
         <v-card-text>
-          <v-text-field v-model="serverName" label="Nazwa serwera" />
-          <v-text-field v-model="serverId" label="Id serwera" />
-          <v-text-field v-model="serverIp" label="IP serwera" />
-          <v-text-field v-model="serverPassword" label="Hasło RCON" />
+          <v-form
+            ref="form"
+            v-model="valid"
+          >
+            <v-text-field v-model="serverName" label="Nazwa serwera" :rules="rulesName" />
+            <v-text-field v-model="serverId" label="Id serwera" :rules="rulesId" />
+            <v-text-field v-model="serverIp" label="IP serwera" :rules="rulesIp" />
+            <v-text-field v-model="serverPassword" label="Hasło RCON" :rules="rulesPassword" />
+          </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -49,7 +54,7 @@
       class="mb-2"
       @click="serverDialog(item)"
     >
-      {{ item }}
+      {{ shop.servers[item].serverName }}
     </v-btn>
     <v-btn
       large
@@ -76,6 +81,7 @@ export default {
   },
   data () {
     return {
+      valid: false,
       isNew: false,
       serverName: '',
       serverId: '',
@@ -84,7 +90,23 @@ export default {
       serverPassword: '',
       showPassword: false,
       dialog: false,
-      servers: this.serversList()
+      servers: this.serversList(),
+      rulesName: [
+        value => !!value || 'Wpisz nazwę'
+      ],
+      rulesId: [
+        value => !!value || 'Wpisz id serwera',
+        value => (value && value.length >= 4) || 'Minimalnie 4 znaki',
+        v => /^[A-Za-z0-9_]{4,}$/.test(v) || 'Id serwera może zawierać tylko litery, cyfry lub "_"'
+      ],
+      rulesIp: [
+        value => !!value || 'Wpisz ip',
+        v => /^(([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])(:[0-9]+)?$/.test(v) || 'Nieprawidłowy format ip'
+      ],
+      rulesPassword: [
+        value => !!value || 'Wpisz hasło',
+        value => (value && value.length >= 4) || 'Minimalnie 6 znaków'
+      ]
     }
   },
   watch: {
@@ -111,19 +133,22 @@ export default {
       this.dialog = true
     },
     saveServer () {
-      const { shopid } = this.$route.params
-      const { serverId, serverIdOld, serverName, serverIp, serverPassword } = this
-      const serversRef = this.$fire.database.ref().child(`/shops/${shopid}/servers/`)
-      serversRef.child(serverId).set({
-        serverName,
-        serverIp,
-        serverPassword
-      })
-      if (serverId !== serverIdOld && !this.isNew) {
-        serversRef.child(serverIdOld).remove()
+      this.$refs.form.validate()
+      if (this.valid) {
+        const { shopid } = this.$route.params
+        const { serverId, serverIdOld, serverName, serverIp, serverPassword } = this
+        const serversRef = this.$fire.database.ref().child(`/shops/${shopid}/servers/`)
+        serversRef.child(serverId).set({
+          serverName,
+          serverIp,
+          serverPassword
+        })
+        if (serverId !== serverIdOld && !this.isNew) {
+          serversRef.child(serverIdOld).remove()
+        }
+        this.isNew = false
+        this.dialog = false
       }
-      this.isNew = false
-      this.dialog = false
     },
     removeServer () {
       const { shopid } = this.$route.params
