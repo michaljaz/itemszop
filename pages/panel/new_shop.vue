@@ -80,9 +80,11 @@ export default {
           },
           history: {},
           payments: {
-            userid: '',
-            hash: '',
-            shopid: ''
+            paymentsUserId: '',
+            paymentsPrzelewId: '',
+            paymentsHash: '',
+            paymentsShopId: '',
+            paymentsSMS: ''
           },
           servers: {
             '1_17': {
