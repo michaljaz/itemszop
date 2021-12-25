@@ -8,15 +8,33 @@ export default {
   name: 'ShopPage',
   data () {
     return {
-      shop: {}
+      shop: {},
+      listener: false
+    }
+  },
+  watch: {
+    $route (newRoute, oldRoute) {
+      if (newRoute.params.shopid !== oldRoute.params.shopid) {
+        this.removeListener(oldRoute.params.shopid)
+        this.createListener(newRoute.params.shopid)
+      }
     }
   },
   mounted () {
-    const { shopid } = this.$route.params
-    this.$fire.database.ref().child(`shops/${shopid}`)
-      .on('value', (s) => {
-        this.shop = s.val()
-      })
+    this.createListener(this.$route.params.shopid)
+  },
+  methods: {
+    removeListener (oldShopId) {
+      if (this.listener !== false) {
+        this.$fire.database.ref().child(`shops/${oldShopId}`).off('value', this.listener)
+      }
+    },
+    createListener (newShopId) {
+      this.listener = this.$fire.database.ref().child(`shops/${newShopId}`)
+        .on('value', (s) => {
+          this.shop = s.val()
+        })
+    }
   }
 }
 </script>
