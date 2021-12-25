@@ -13,11 +13,12 @@
             ref="form"
             v-model="valid"
           >
-            <v-text-field v-model="serverName" label="Nazwa serwera" :rules="rulesName" />
-            <v-text-field v-model="serverId" label="Id serwera" :rules="rulesId" />
-            <v-text-field v-model="serverIp" label="IP serwera" :rules="rulesIp" />
+            <v-text-field v-model="serverName" label="Nazwa serwera" :rules="rulesName" autocomplete="new-password" />
+            <v-text-field v-model="serverId" label="Id serwera" :rules="rulesId" autocomplete="new-password" />
+            <v-text-field v-model="serverIp" label="IP serwera" :rules="rulesIp" autocomplete="new-password" />
             <v-text-field
               v-model="serverPassword"
+              autocomplete="new-password"
               label="Hasło RCON"
               :rules="rulesPassword"
               :type="showPassword ? 'text' : 'password'"
