@@ -51,6 +51,16 @@
     >
       {{ item }}
     </v-btn>
+    <v-btn
+      large
+      block
+      text
+      color="green"
+      class="mb-2"
+      @click="newServer"
+    >
+      Nowy serwer
+    </v-btn>
   </div>
 </template>
 <script>
@@ -66,6 +76,7 @@ export default {
   },
   data () {
     return {
+      isNew: false,
       serverName: '',
       serverId: '',
       serverIdOld: '',
@@ -90,6 +101,7 @@ export default {
       }
     },
     serverDialog (serverId) {
+      this.isNew = false
       const server = this.shop.servers[serverId]
       this.serverId = serverId
       this.serverIdOld = serverId
@@ -107,9 +119,10 @@ export default {
         serverIp,
         serverPassword
       })
-      if (serverId !== serverIdOld) {
+      if (serverId !== serverIdOld && !this.isNew) {
         serversRef.child(serverIdOld).remove()
       }
+      this.isNew = false
       this.dialog = false
     },
     removeServer () {
@@ -117,6 +130,10 @@ export default {
       const { serverIdOld } = this
       this.$fire.database.ref().child(`/shops/${shopid}/servers/${serverIdOld}`).remove()
       this.dialog = false
+    },
+    newServer () {
+      this.isNew = true
+      this.dialog = true
     }
   }
 }
