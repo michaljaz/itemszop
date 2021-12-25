@@ -2,8 +2,8 @@
 	"version":2,
 	"routes": [
     {
-      "src": "/api/hello",
-      "dest": "/api/hello.js"
+      "src": "/api/rcon",
+      "dest": "/api/rcon.js"
     }
   ],
   "builds": [

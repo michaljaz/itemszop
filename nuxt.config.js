@@ -22,7 +22,7 @@ export default {
     ]
   },
 
-  router:{
+  router: {
     middleware: [
       'auth'
     ]
@@ -61,15 +61,15 @@ export default {
           projectId: 'sklepmc-c7516',
           storageBucket: 'sklepmc-c7516.appspot.com',
           messagingSenderId: '889784816765',
-          appId: '1:889784816765:web:7c84a7bce9b480ce7d4d14',
+          appId: '1:889784816765:web:7c84a7bce9b480ce7d4d14'
         },
         services: {
           database: true,
-          auth:{
+          auth: {
             initialize: {
               onAuthStateChangedMutation: 'ON_AUTH_STATE_CHANGED_MUTATION'
-            },
-          },
+            }
+          }
         }
       }
     ]
@@ -97,8 +97,8 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },
-  serverMiddleware: process.env.NODE_ENV === 'production' ? [] : ['~/api/hello.js'],
-	server: {
+  serverMiddleware: process.env.NODE_ENV === 'production' ? [] : ['~/api/rcon.js'],
+  server: {
     port: 8080
-	}
+  }
 }
