@@ -6,51 +6,67 @@
     >
       <v-card>
         <v-card-title>
-          <span class="text-h5">Konfiguracja serwera</span>
+          <span class="text-h5">Zarządzanie serwerem</span>
+          <v-tabs
+            v-model="tab"
+          >
+            <v-tab>
+              Konfiguracja
+            </v-tab>
+            <v-tab>
+              RCON
+            </v-tab>
+          </v-tabs>
         </v-card-title>
         <v-card-text>
-          <v-form
-            ref="form"
-            v-model="valid"
-          >
-            <v-text-field v-model="serverName" label="Nazwa serwera" :rules="rulesName" autocomplete="new-password" />
-            <v-text-field v-model="serverId" label="Id serwera" :rules="rulesId" autocomplete="new-password" />
-            <v-text-field v-model="serverIp" label="IP serwera" :rules="rulesIp" autocomplete="new-password" />
-            <v-text-field
-              v-model="serverPassword"
-              autocomplete="new-password"
-              label="Hasło RCON"
-              :rules="rulesPassword"
-              :type="showPassword ? 'text' : 'password'"
-              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-              @click:append="showPassword = !showPassword"
-            />
-          </v-form>
+          <v-tabs-items v-model="tab">
+            <v-tab-item>
+              <v-form
+                ref="form"
+                v-model="valid"
+              >
+                <v-text-field v-model="serverName" label="Nazwa serwera" :rules="rulesName" autocomplete="new-password" />
+                <v-text-field v-model="serverId" label="Id serwera" :rules="rulesId" autocomplete="new-password" />
+                <v-text-field v-model="serverIp" label="IP serwera" :rules="rulesIp" autocomplete="new-password" />
+                <v-text-field
+                  v-model="serverPassword"
+                  autocomplete="new-password"
+                  label="Hasło RCON"
+                  :rules="rulesPassword"
+                  :type="showPassword ? 'text' : 'password'"
+                  :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                  @click:append="showPassword = !showPassword"
+                />
+                <v-spacer />
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="dialog = false"
+                >
+                  Anuluj
+                </v-btn>
+                <v-btn
+                  color="green darken-1"
+                  text
+                  @click="saveServer"
+                >
+                  Zapisz
+                </v-btn>
+                <v-btn
+                  color="red darken-1"
+                  text
+                  @click="removeServer"
+                >
+                  Usuń
+                </v-btn>
+              </v-form>
+            </v-tab-item>
+            <v-tab-item>
+              <v-text-field v-model="rconCommand" label="Komenda" autocomplete="new-password" />
+            </v-tab-item>
+          </v-tabs-items>
         </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="dialog = false"
-          >
-            Anuluj
-          </v-btn>
-          <v-btn
-            color="green darken-1"
-            text
-            @click="saveServer"
-          >
-            Zapisz
-          </v-btn>
-          <v-btn
-            color="red darken-1"
-            text
-            @click="removeServer"
-          >
-            Usuń
-          </v-btn>
-        </v-card-actions>
+        <v-card-actions />
       </v-card>
     </v-dialog>
     <v-btn
@@ -89,6 +105,7 @@ export default {
   },
   data () {
     return {
+      tab: null,
       valid: false,
       isNew: false,
       serverName: '',

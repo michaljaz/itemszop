@@ -128,9 +128,6 @@
             <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/pages`">
               Strony
             </v-tab>
-            <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/rcon`">
-              RCON
-            </v-tab>
             <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/settings`">
               Ustawienia
             </v-tab>
