@@ -119,8 +119,6 @@
   </div>
 </template>
 <script>
-import MinecraftText from 'minecraft-text-js'
-
 export default {
   name: 'ShopServers',
   props: {
@@ -237,7 +235,7 @@ export default {
         if (data.error === 'auth') {
           this.rconResponse = 'Nie udało się połączyć'
         } else {
-          this.rconResponse = MinecraftText.toHTML(data.response).replaceAll('\n', '<br>')
+          this.rconResponse = require('minecraft-text-js').toHTML(data.response).replaceAll('\n', '<br>')
         }
       })
     }

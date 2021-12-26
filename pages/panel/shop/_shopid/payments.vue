@@ -81,7 +81,15 @@ export default {
     shop: {
       type: Object,
       default: () => {
-        return {}
+        return {
+          payments: {
+            paymentsUserId: '',
+            paymentsPrzelewId: '',
+            paymentsHash: '',
+            paymentsShopId: '',
+            paymentsSMS: ''
+          }
+        }
       }
     }
   },
