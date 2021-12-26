@@ -25,9 +25,31 @@
                 ref="form"
                 v-model="valid"
               >
-                <v-text-field v-model="serverName" label="Nazwa serwera" :rules="rulesName" autocomplete="new-password" />
-                <v-text-field v-model="serverId" label="Id serwera" :rules="rulesId" autocomplete="new-password" />
-                <v-text-field v-model="serverIp" label="IP serwera" :rules="rulesIp" autocomplete="new-password" />
+                <v-text-field
+                  v-model="serverName"
+                  label="Nazwa serwera"
+                  :rules="rulesName"
+                  autocomplete="new-password"
+                />
+                <v-text-field
+                  v-model="serverId"
+                  label="Id serwera"
+                  :rules="rulesId"
+                  autocomplete="new-password"
+                />
+                <v-text-field
+                  v-model="serverIp"
+                  label="IP serwera"
+                  :rules="rulesIp"
+                  autocomplete="new-password"
+                />
+                <v-text-field
+                  v-model="serverPort"
+                  label="Port RCON"
+                  :rules="rulesPort"
+                  autocomplete="new-password"
+                  type="number"
+                />
                 <v-text-field
                   v-model="serverPassword"
                   autocomplete="new-password"
@@ -109,6 +131,7 @@ export default {
       tab: null,
       valid: false,
       isNew: false,
+      serverPort: '',
       serverName: '',
       serverId: '',
       serverIdOld: '',
@@ -117,6 +140,9 @@ export default {
       showPassword: false,
       dialog: false,
       servers: this.serversList(),
+      rulesPort: [
+        value => !!value || 'Wpisz port'
+      ],
       rulesName: [
         value => !!value || 'Wpisz nazwę'
       ],
@@ -127,7 +153,7 @@ export default {
       ],
       rulesIp: [
         value => !!value || 'Wpisz ip',
-        v => /^(([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])(:[0-9]+)?$/.test(v) || 'Nieprawidłowy format ip'
+        v => /^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]))*$/.test(v) || 'Nieprawidłowy format ip'
       ],
       rulesPassword: [
         value => !!value || 'Wpisz hasło',
@@ -141,7 +167,9 @@ export default {
     }
   },
   mounted () {
-    this.$axios.$get('/rcon')
+    this.sendRcon('localhost', 25575, 'password', 'help').then((response) => {
+      console.log(response)
+    })
   },
   methods: {
     serversList () {
@@ -156,6 +184,7 @@ export default {
       const server = this.shop.servers[serverId]
       this.serverId = serverId
       this.serverIdOld = serverId
+      this.serverPort = server.serverPort
       this.serverName = server.serverName
       this.serverIp = server.serverIp
       this.serverPassword = server.serverPassword
@@ -165,12 +194,13 @@ export default {
       this.$refs.form.validate()
       if (this.valid) {
         const { shopid } = this.$route.params
-        const { serverId, serverIdOld, serverName, serverIp, serverPassword } = this
+        const { serverId, serverIdOld, serverName, serverIp, serverPassword, serverPort } = this
         const serversRef = this.$fire.database.ref().child(`/shops/${shopid}/servers/`)
         serversRef.child(serverId).set({
           serverName,
           serverIp,
-          serverPassword
+          serverPassword,
+          serverPort
         })
         if (serverId !== serverIdOld && !this.isNew) {
           serversRef.child(serverIdOld).remove()
@@ -188,10 +218,16 @@ export default {
     newServer () {
       this.isNew = true
       this.serverName = 'A Minecraft Server'
-      this.serverIp = 'localhost:25575'
+      this.serverIp = 'localhost'
       this.serverPassword = 'password'
+      this.serverPort = '25575'
       this.serverId = `id_${(Math.random() + 1).toString(36).substring(7)}`
       this.dialog = true
+    },
+    sendRcon (host, port, password, command) {
+      return this.$axios.get('/rcon', {
+        params: { host, port, password, command }
+      })
     }
   }
 }
