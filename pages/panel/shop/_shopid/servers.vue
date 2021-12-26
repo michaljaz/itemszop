@@ -88,7 +88,7 @@
               <v-btn color="blue" @click="runRcon">
                 Wyślij do serwera
               </v-btn>
-              {{ rconResponse }}
+              <div v-html="rconResponse" />
             </v-tab-item>
           </v-tabs-items>
         </v-card-text>
@@ -119,6 +119,8 @@
   </div>
 </template>
 <script>
+import MinecraftText from 'minecraft-text-js'
+
 export default {
   name: 'ShopServers',
   props: {
@@ -235,7 +237,7 @@ export default {
         if (data.error === 'auth') {
           this.rconResponse = 'Nie udało się połączyć'
         } else {
-          this.rconResponse = data.response
+          this.rconResponse = MinecraftText.toHTML(data.response).replaceAll('\n', '<br>')
         }
       })
     }
