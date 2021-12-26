@@ -51,6 +51,7 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
     [
       '@nuxtjs/firebase',
       {
@@ -74,6 +75,12 @@ export default {
       }
     ]
   ],
+
+  axios: {
+    // extra config e.g
+    // BaseURL: 'https://link-to-API'
+    prefix: '/api',
+  },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {

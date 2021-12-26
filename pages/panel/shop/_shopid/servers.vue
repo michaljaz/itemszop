@@ -105,6 +105,7 @@ export default {
   },
   data () {
     return {
+      rconCommand: '',
       tab: null,
       valid: false,
       isNew: false,
@@ -138,6 +139,9 @@ export default {
     shop () {
       this.servers = this.serversList()
     }
+  },
+  mounted () {
+    this.$axios.$get('/rcon')
   },
   methods: {
     serversList () {
