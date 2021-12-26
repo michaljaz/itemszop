@@ -1,57 +1,77 @@
 <template>
   <div>
-    <v-form
-      ref="form"
-      v-model="valid"
-    >
-      <v-select
-        v-model="select"
-        :items="items"
-        label="Dostawca płatności"
-      />
-      <v-text-field
-        v-model="paymentsUserId"
-        label="ID użytkownika"
-        autocomplete="new-password"
-        :rules="rulesUserId"
-        type="number"
-      />
-      <h1 class="display-1">
-        Przelew
-      </h1>
-      <v-text-field
-        v-model="paymentsPrzelewId"
-        type="number"
-        label="Numer ID"
-        autocomplete="new-password"
-        :rules="rulesPrzelewId"
-      />
-      <v-text-field
-        v-model="paymentsHash"
-        label="Hash"
-        autocomplete="new-password"
-        :rules="rulesHash"
-      />
-      <h1 class="display-1">
-        SMS
-      </h1>
-      <v-text-field
-        v-model="paymentsShopId"
-        label="Numer ID"
-        autocomplete="new-password"
-        :rules="rulesShopId"
-        type="number"
-      />
-      <v-text-field
-        v-model="paymentsSMS"
-        label="Treść SMS"
-        autocomplete="new-password"
-        :rules="rulesSMS"
-      />
-      <v-btn color="green" @click="save">
-        Zapisz
-      </v-btn>
-    </v-form>
+    <v-row justify="center" align="center">
+      <v-col cols="12" sm="10" md="8">
+        <v-card class="pt-1 pb-4" elevation="10">
+          <v-card-title class="headline">
+            Konfiguracja płatności
+          </v-card-title>
+          <v-card-text>
+            <v-form
+              ref="form"
+              v-model="valid"
+            >
+              <v-select
+                v-model="select"
+                :items="items"
+                label="Dostawca płatności"
+              />
+              <v-text-field
+                v-model="paymentsUserId"
+                label="ID użytkownika"
+                autocomplete="new-password"
+                :rules="rulesUserId"
+                type="number"
+              />
+              <v-row>
+                <v-col>
+                  <h1 class="display-1">
+                    Przelew
+                  </h1>
+                  <v-text-field
+                    v-model="paymentsPrzelewId"
+                    type="number"
+                    label="Numer ID"
+                    autocomplete="new-password"
+                    :rules="rulesPrzelewId"
+                  />
+                  <v-text-field
+                    v-model="paymentsHash"
+                    label="Hash"
+                    autocomplete="new-password"
+                    :rules="rulesHash"
+                  />
+                </v-col>
+                <v-col>
+                  <h1 class="display-1">
+                    SMS
+                  </h1>
+                  <v-text-field
+                    v-model="paymentsShopId"
+                    label="Numer ID"
+                    autocomplete="new-password"
+                    :rules="rulesShopId"
+                    type="number"
+                  />
+                  <v-text-field
+                    v-model="paymentsSMS"
+                    label="Treść SMS"
+                    autocomplete="new-password"
+                    :rules="rulesSMS"
+                  />
+                </v-col>
+              </v-row>
+            </v-form>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn color="green" @click="save">
+              Zapisz
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 <script>
