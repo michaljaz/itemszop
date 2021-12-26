@@ -85,6 +85,10 @@
             </v-tab-item>
             <v-tab-item>
               <v-text-field v-model="rconCommand" label="Komenda" autocomplete="new-password" />
+              <v-btn color="blue" @click="runRcon">
+                Wyślij do serwera
+              </v-btn>
+              {{ rconResponse }}
             </v-tab-item>
           </v-tabs-items>
         </v-card-text>
@@ -127,6 +131,7 @@ export default {
   },
   data () {
     return {
+      rconResponse: '',
       rconCommand: '',
       tab: null,
       valid: false,
@@ -165,11 +170,6 @@ export default {
     shop () {
       this.servers = this.serversList()
     }
-  },
-  mounted () {
-    this.sendRcon('localhost', 25575, 'password', 'help').then((response) => {
-      console.log(response)
-    })
   },
   methods: {
     serversList () {
@@ -227,6 +227,16 @@ export default {
     sendRcon (host, port, password, command) {
       return this.$axios.get('/rcon', {
         params: { host, port, password, command }
+      })
+    },
+    runRcon () {
+      this.sendRcon(this.serverIp, this.serverPort, this.serverPassword, this.rconCommand).then((response) => {
+        const { data } = response
+        if (data.error === 'auth') {
+          this.rconResponse = 'Nie udało się połączyć'
+        } else {
+          this.rconResponse = data.response
+        }
       })
     }
   }
