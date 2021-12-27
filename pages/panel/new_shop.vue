@@ -86,14 +86,6 @@ export default {
             paymentsShopId: '',
             paymentsSMS: ''
           },
-          servers: {
-            '1_17': {
-              serverIp: 'localhost',
-              serverName: 'Server 1.17',
-              serverPassword: 'password',
-              serverPort: '25575'
-            }
-          },
           services: {
             vip: {
               commands: 'say [nick] kupił VIP',

@@ -32,12 +32,6 @@
                   autocomplete="new-password"
                 />
                 <v-text-field
-                  v-model="serverId"
-                  label="Id serwera"
-                  :rules="rulesId"
-                  autocomplete="new-password"
-                />
-                <v-text-field
                   v-model="serverIp"
                   label="IP serwera"
                   :rules="rulesIp"
@@ -96,7 +90,7 @@
       </v-card>
     </v-dialog>
     <v-btn
-      v-for="item in servers"
+      v-for="item in serversList"
       :key="item"
       large
       block
@@ -104,7 +98,9 @@
       class="mb-2"
       @click="serverDialog(item)"
     >
-      {{ shop.servers[item].serverName }}
+      <span v-if="servers[item]">
+        {{ servers[item].serverName }}
+      </span>
     </v-btn>
     <v-btn
       large
@@ -135,26 +131,20 @@ export default {
       rconCommand: '',
       tab: null,
       valid: false,
-      isNew: false,
       serverPort: '',
       serverName: '',
       serverId: '',
-      serverIdOld: '',
       serverIp: '',
       serverPassword: '',
       showPassword: false,
       dialog: false,
-      servers: this.serversList(),
+      servers: {},
+      serversList: [],
       rulesPort: [
         value => !!value || 'Wpisz port'
       ],
       rulesName: [
         value => !!value || 'Wpisz nazwę'
-      ],
-      rulesId: [
-        value => !!value || 'Wpisz id serwera',
-        value => (value && value.length >= 4) || 'Minimalnie 4 znaki',
-        v => /^[A-Za-z0-9_]{4,}$/.test(v) || 'Id serwera może zawierać tylko litery, cyfry lub "_"'
       ],
       rulesIp: [
         value => !!value || 'Wpisz ip',
@@ -167,23 +157,39 @@ export default {
     }
   },
   watch: {
-    shop () {
-      this.servers = this.serversList()
+    shop (newShop, oldShop) {
+      if (JSON.stringify(newShop.servers) !== JSON.stringify(oldShop.servers)) {
+        for (const server in this.shop.servers) {
+          if (!this.servers[server]) {
+            this.addServerListener(server)
+          }
+        }
+      }
+    }
+  },
+  mounted () {
+    for (const server in this.shop.servers) {
+      this.addServerListener(server)
     }
   },
   methods: {
-    serversList () {
-      if (this.shop.servers) {
-        return Object.keys(this.shop.servers)
+    addServerListener (serverId) {
+      this.$fire.database.ref().child(`servers/${serverId}`)
+        .on('value', (s) => {
+          this.servers[serverId] = s.val()
+          this.serversList = this.getServersList()
+        })
+    },
+    getServersList () {
+      if (this.servers) {
+        return Object.keys(this.servers)
       } else {
         return []
       }
     },
     serverDialog (serverId) {
-      this.isNew = false
-      const server = this.shop.servers[serverId]
+      const server = this.servers[serverId]
       this.serverId = serverId
-      this.serverIdOld = serverId
       this.serverPort = server.serverPort
       this.serverName = server.serverName
       this.serverIp = server.serverIp
@@ -194,34 +200,34 @@ export default {
       this.$refs.form.validate()
       if (this.valid) {
         const { shopid } = this.$route.params
-        const { serverId, serverIdOld, serverName, serverIp, serverPassword, serverPort } = this
-        const serversRef = this.$fire.database.ref().child(`/shops/${shopid}/servers/`)
-        serversRef.child(serverId).set({
+        const { serverId, serverName, serverIp, serverPassword, serverPort } = this
+        this.$fire.database.ref().child(`/servers/${serverId}`).set({
+          owner: this.$fire.auth.currentUser.uid,
           serverName,
           serverIp,
           serverPassword,
           serverPort
         })
-        if (serverId !== serverIdOld && !this.isNew) {
-          serversRef.child(serverIdOld).remove()
-        }
-        this.isNew = false
+        this.$fire.database.ref().child(`/shops/${shopid}/servers/`).update({ [serverId]: true })
         this.dialog = false
       }
     },
     removeServer () {
       const { shopid } = this.$route.params
-      const { serverIdOld } = this
-      this.$fire.database.ref().child(`/shops/${shopid}/servers/${serverIdOld}`).remove()
+      const { serverId } = this
+      delete this.servers[serverId]
+      this.serversList = this.getServersList()
+      this.$fire.database.ref().child(`shops/${shopid}/servers/${serverId}`).remove()
+      this.$fire.database.ref().child(`servers/${serverId}`).off('value')
+      this.$fire.database.ref().child(`servers/${serverId}`).remove()
       this.dialog = false
     },
     newServer () {
-      this.isNew = true
       this.serverName = 'A Minecraft Server'
       this.serverIp = 'localhost'
       this.serverPassword = 'password'
       this.serverPort = '25575'
-      this.serverId = `id_${(Math.random() + 1).toString(36).substring(7)}`
+      this.serverId = `server_${(Math.random() + 1).toString(36).substring(7)}`
       this.dialog = true
     },
     sendRcon (host, port, password, command) {
