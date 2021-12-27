@@ -112,6 +112,11 @@ export default {
       ]
     }
   },
+  head () {
+    return {
+      title: 'Płatności'
+    }
+  },
   methods: {
     save () {
       this.$refs.form.validate()

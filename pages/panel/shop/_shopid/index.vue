@@ -12,5 +12,10 @@ export default {
       default: () => ({})
     }
   },
+  head () {
+    return {
+      title: 'Kokpit'
+    }
+  }
 }
 </script>

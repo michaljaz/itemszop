@@ -10,5 +10,10 @@ export default {
       default: () => ({})
     }
   },
+  head () {
+    return {
+      title: 'Vouchery'
+    }
+  }
 }
 </script>

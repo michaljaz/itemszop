@@ -43,6 +43,11 @@ export default {
       type: Object,
       default: () => ({})
     }
+  },
+  head () {
+    return {
+      title: 'Usługi'
+    }
   }
 }
 </script>

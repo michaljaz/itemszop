@@ -19,6 +19,11 @@ export default {
       }
     }
   },
+  head () {
+    return {
+      titleTemplate: `${this.$route.params.shopid}: %s`
+    }
+  },
   watch: {
     $route (newRoute, oldRoute) {
       if (newRoute.params.shopid !== oldRoute.params.shopid) {

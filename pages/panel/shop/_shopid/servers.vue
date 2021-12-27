@@ -154,6 +154,11 @@ export default {
       ]
     }
   },
+  head () {
+    return {
+      title: 'Serwery'
+    }
+  },
   watch: {
     shop (newShop, oldShop) {
       if (JSON.stringify(newShop.servers) !== JSON.stringify(oldShop.servers)) {

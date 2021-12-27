@@ -27,6 +27,11 @@ export default {
       name: this.shop.name
     }
   },
+  head () {
+    return {
+      title: 'Ustawienia'
+    }
+  },
   methods: {
     remove () {
       const { uid } = this.$fire.auth.currentUser
