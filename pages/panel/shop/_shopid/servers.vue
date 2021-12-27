@@ -6,7 +6,7 @@
     >
       <v-card elevation="10">
         <v-card-title>
-          <span class="text-h5">Zarządzanie serwerem</span>
+          <span class="text-h5">Konfiguracja serwera</span>
         </v-card-title>
         <v-card-text>
           <v-form
@@ -41,24 +41,25 @@
               :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="showPassword = !showPassword"
             />
-            <v-spacer />
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="dialog = false"
-            >
-              Anuluj
-            </v-btn>
-            <v-btn
-              color="green darken-1"
-              text
-              @click="saveServer"
-            >
-              Zapisz
-            </v-btn>
           </v-form>
         </v-card-text>
-        <v-card-actions />
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="dialog = false"
+          >
+            Anuluj
+          </v-btn>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="saveServer"
+          >
+            Zapisz
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
     <v-dialog
