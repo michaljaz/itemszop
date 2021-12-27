@@ -8,7 +8,15 @@ export default {
   name: 'ShopPage',
   data () {
     return {
-      shop: {},
+      shop: {
+        payments: {
+          paymentsUserId: '',
+          paymentsPrzelewId: '',
+          paymentsHash: '',
+          paymentsShopId: '',
+          paymentsSMS: ''
+        }
+      },
       listener: false
     }
   },

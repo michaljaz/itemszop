@@ -80,17 +80,7 @@ export default {
   props: {
     shop: {
       type: Object,
-      default: () => {
-        return {
-          payments: {
-            paymentsUserId: '',
-            paymentsPrzelewId: '',
-            paymentsHash: '',
-            paymentsShopId: '',
-            paymentsSMS: ''
-          }
-        }
-      }
+      default: () => ({})
     }
   },
   data () {
@@ -98,11 +88,11 @@ export default {
       valid: false,
       select: 'MicroSMS',
       items: ['MicroSMS'],
-      paymentsUserId: this.shop.payments.paymentsUserId,
-      paymentsPrzelewId: this.shop.payments.paymentsPrzelewId,
-      paymentsHash: this.shop.payments.paymentsHash,
-      paymentsShopId: this.shop.payments.paymentsShopId,
-      paymentsSMS: this.shop.payments.paymentsSMS,
+      paymentsUserId: '',
+      paymentsPrzelewId: '',
+      paymentsHash: '',
+      paymentsShopId: '',
+      paymentsSMS: '',
       rulesUserId: [
         value => !!value || 'Wpisz ID użytkownika'
       ],
@@ -122,7 +112,22 @@ export default {
       ]
     }
   },
+  watch: {
+    shop () {
+      this.updateFields()
+    }
+  },
+  mounted () {
+    this.updateFields()
+  },
   methods: {
+    updateFields () {
+      this.paymentsUserId = this.shop.payments.paymentsUserId
+      this.paymentsPrzelewId = this.shop.payments.paymentsPrzelewId
+      this.paymentsHash = this.shop.payments.paymentsHash
+      this.paymentsShopId = this.shop.payments.paymentsShopId
+      this.paymentsSMS = this.shop.payments.paymentsSMS
+    },
     save () {
       this.$refs.form.validate()
       if (this.valid) {
