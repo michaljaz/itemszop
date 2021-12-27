@@ -3,6 +3,12 @@
 </template>
 <script>
 export default {
-  name: 'ShopVouchers'
+  name: 'ShopVouchers',
+  props: {
+    shop: {
+      type: Object,
+      default: () => ({})
+    }
+  },
 }
 </script>
