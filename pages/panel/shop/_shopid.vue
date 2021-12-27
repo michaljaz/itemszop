@@ -1,6 +1,12 @@
 <template>
   <div>
-    <nuxt-child :shop="shop" />
+    <nuxt-child v-if="shop.loaded" :shop="shop" />
+    <div v-else class="d-flex mt-5 justify-center">
+      <v-progress-circular
+        indeterminate
+        color="primary"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -9,15 +15,8 @@ export default {
   data () {
     return {
       shop: {
-        payments: {
-          paymentsUserId: '',
-          paymentsPrzelewId: '',
-          paymentsHash: '',
-          paymentsShopId: '',
-          paymentsSMS: ''
-        }
-      },
-      listener: false
+        loaded: false
+      }
     }
   },
   watch: {
@@ -33,14 +32,13 @@ export default {
   },
   methods: {
     removeListener (oldShopId) {
-      if (this.listener !== false) {
-        this.$fire.database.ref().child(`shops/${oldShopId}`).off('value', this.listener)
-      }
+      this.$fire.database.ref().child(`shops/${oldShopId}`).off('value')
     },
     createListener (newShopId) {
-      this.listener = this.$fire.database.ref().child(`shops/${newShopId}`)
+      this.$fire.database.ref().child(`shops/${newShopId}`)
         .on('value', (s) => {
           this.shop = s.val()
+          this.shop.loaded = true
         })
     }
   }

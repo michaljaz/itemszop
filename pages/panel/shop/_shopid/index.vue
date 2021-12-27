@@ -9,9 +9,7 @@ export default {
   props: {
     shop: {
       type: Object,
-      default: () => {
-        return {}
-      }
+      default: () => {}
     }
   }
 }

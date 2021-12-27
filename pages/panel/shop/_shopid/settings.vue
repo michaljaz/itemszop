@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-text-field label="Nazwa sklepu" />
+    <v-text-field v-model="name" label="Nazwa sklepu" />
     Cel miesięczny {{ goal }} zł
     <v-slider
       v-model="goal"
@@ -25,7 +25,8 @@ export default {
   },
   data () {
     return {
-      goal: 0
+      goal: 0,
+      name: this.shop.name
     }
   },
   methods: {
