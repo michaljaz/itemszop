@@ -1,15 +1,32 @@
 <template>
   <div>
-    <v-text-field v-model="name" label="Nazwa sklepu" />
-    Cel miesięczny {{ goal }} zł
-    <v-slider
-      v-model="goal"
-      min="1"
-      max="500"
-    />
-    <v-btn color="red" @click="remove">
-      Usuń sklep
-    </v-btn>
+    <v-row justify="center" align="center">
+      <v-col cols="12" sm="10" md="8">
+        <v-card class="pt-1 pb-4" elevation="10">
+          <v-card-title class="headline">
+            Ustawienia
+          </v-card-title>
+          <v-card-text>
+            <v-text-field v-model="name" label="Nazwa sklepu" />
+            Cel miesięczny {{ goal }} zł
+            <v-slider
+              v-model="goal"
+              min="1"
+              max="500"
+            />
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn color="green">
+              Zapisz
+            </v-btn>
+            <v-btn color="red" @click="remove">
+              Usuń sklep
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 <script>

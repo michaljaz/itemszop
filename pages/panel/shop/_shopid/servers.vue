@@ -128,7 +128,7 @@
       block
       text
       color="green"
-      class="mb-2"
+      class="mt-5"
       @click="newServer"
     >
       Nowy serwer
@@ -183,7 +183,7 @@ export default {
   watch: {
     shop (newShop, oldShop) {
       if (JSON.stringify(newShop.servers) !== JSON.stringify(oldShop.servers)) {
-        for (const server in this.shop.servers) {
+        for (const server in newShop.servers) {
           if (!this.servers[server]) {
             this.addServerListener(server)
           }
@@ -201,14 +201,14 @@ export default {
       this.$fire.database.ref().child(`servers/${serverId}`)
         .on('value', (s) => {
           this.servers[serverId] = s.val()
-          this.serversList = this.getServersList()
+          this.updateServersList()
         })
     },
-    getServersList () {
+    updateServersList () {
       if (this.servers) {
-        return Object.keys(this.servers)
+        this.serversList = Object.keys(this.servers)
       } else {
-        return []
+        this.serversList = []
       }
     },
     applyServer (serverId) {
@@ -246,7 +246,7 @@ export default {
     removeServer (serverId) {
       const { shopid } = this.$route.params
       delete this.servers[serverId]
-      this.serversList = this.getServersList()
+      this.updateServersList()
       this.$fire.database.ref().child(`shops/${shopid}/servers/${serverId}`).remove()
       this.$fire.database.ref().child(`servers/${serverId}`).off('value')
       this.$fire.database.ref().child(`servers/${serverId}`).remove()
