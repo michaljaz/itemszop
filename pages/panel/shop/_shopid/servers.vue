@@ -74,7 +74,9 @@
           <v-btn color="blue" @click="runRcon">
             Wyślij do serwera
           </v-btn>
+          <!-- eslint-disable vue/no-v-html -->
           <div v-html="rconResponse" />
+          <!--eslint-enable-->
         </v-card-text>
         <v-card-actions />
       </v-card>
