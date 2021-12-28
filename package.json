@@ -21,6 +21,7 @@
     "minecraft-text-js": "^1.1.3",
     "nuxt": "^2.15.8",
     "rcon-client": "^4.2.3",
+    "tiptap-vuetify": "^2.24.0",
     "vue": "^2.6.14",
     "vue-server-renderer": "^2.6.14",
     "vue-template-compiler": "^2.6.14",
