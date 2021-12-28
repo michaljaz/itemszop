@@ -78,8 +78,7 @@ export default {
   ],
 
   axios: {
-    // extra config e.g
-    // BaseURL: 'https://link-to-API'
+    baseURL:'https://itemszop.vercel.app',
     prefix: '/api',
   },
 
