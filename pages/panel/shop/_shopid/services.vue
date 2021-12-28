@@ -4,7 +4,7 @@
       v-model="dialog"
       max-width="600px"
     >
-      <v-card elevation="10">
+      <v-card elevation="10" outlined>
         <v-card-title>
           <span class="text-h5">Konfiguracja usługi</span>
         </v-card-title>
@@ -12,6 +12,10 @@
           <v-text-field
             label="Nazwa usługi"
             autocomplete="new-password"
+          />
+          <v-select
+            :items="servers"
+            label="Wybierz serwer"
           />
           <Editor />
         </v-card-text>
@@ -71,7 +75,7 @@
       large
       block
       text
-      color="green"
+      color="blue"
       class="mt-5"
       @click="newService"
     >
@@ -95,7 +99,14 @@ export default {
   },
   data () {
     return {
-      dialog: false
+      dialog: false,
+      servers: (() => {
+        if (this.shop.servers) {
+          return Object.keys(this.shop.servers)
+        } else {
+          return []
+        }
+      })()
     }
   },
   head () {

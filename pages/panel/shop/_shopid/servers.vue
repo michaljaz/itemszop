@@ -4,7 +4,7 @@
       v-model="dialog"
       max-width="600px"
     >
-      <v-card elevation="10">
+      <v-card elevation="10" outlined>
         <v-card-title>
           <span class="text-h5">Konfiguracja serwera</span>
         </v-card-title>
@@ -66,7 +66,7 @@
       v-model="rconDialog"
       max-width="600px"
     >
-      <v-card elevation="10">
+      <v-card elevation="10" outlined>
         <v-card-title>
           <span class="text-h5">Konsola RCON</span>
         </v-card-title>
@@ -113,13 +113,13 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn text color="green" @click="consoleDialog(item)">
-              Konsola
+            <v-btn text rounded color="indigo" @click="consoleDialog(item)">
+              RCON
             </v-btn>
-            <v-btn text color="blue" @click="editDialog(item)">
+            <v-btn text rounded color="blue" @click="editDialog(item)">
               Edytuj
             </v-btn>
-            <v-btn text color="red" @click="removeServer(item)">
+            <v-btn text rounded color="red" @click="removeServer(item)">
               Usuń
             </v-btn>
           </v-card-actions>
@@ -130,7 +130,7 @@
       large
       block
       text
-      color="green"
+      color="blue"
       class="mt-5"
       @click="newServer"
     >
