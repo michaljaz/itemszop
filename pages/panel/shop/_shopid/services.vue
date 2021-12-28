@@ -13,7 +13,7 @@
             label="Nazwa usługi"
             autocomplete="new-password"
           />
-          <Editor />
+          <!-- <Editor /> -->
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -80,13 +80,9 @@
   </div>
 </template>
 <script>
-import Editor from '~/components/TiptapEditor'
 
 export default {
   name: 'ShopServices',
-  components: {
-    Editor
-  },
   props: {
     shop: {
       type: Object,
