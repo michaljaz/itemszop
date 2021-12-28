@@ -68,7 +68,7 @@ export default {
   computed: {
     toolbarAttrs () {
       return this.$vuetify.theme.isDark
-        ? { color: 'black', dark: false }
+        ? { color: 'black', dark: true }
         : { color: 'yellow' }
     }
   }

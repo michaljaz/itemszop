@@ -1,8 +1,6 @@
 import { Rcon } from 'rcon-client'
-const bodyParser = require('body-parser')
 const app = require('express')()
 
-app.use(bodyParser.json())
 app.get('/api/rcon', async (req, res) => {
   const { host, port, password, command } = req.query
   Rcon.connect({
