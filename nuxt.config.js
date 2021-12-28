@@ -78,8 +78,7 @@ export default {
   ],
 
   axios: {
-    baseURL:'https://itemszop.vercel.app',
-    prefix: '/api',
+    baseURL:'https://itemszop.vercel.app/api'
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
