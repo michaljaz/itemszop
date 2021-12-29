@@ -145,6 +145,10 @@ export default {
     shop: {
       type: Object,
       default: () => ({})
+    },
+    servers: {
+      type: Object,
+      default: () => ({})
     }
   },
   data () {
@@ -160,7 +164,6 @@ export default {
       serverPassword: '',
       showPassword: false,
       dialog: false,
-      servers: {},
       serversList: [],
       rulesPort: [
         value => !!value || 'Wpisz port'
@@ -184,29 +187,14 @@ export default {
     }
   },
   watch: {
-    shop (newShop, oldShop) {
-      if (JSON.stringify(newShop.servers) !== JSON.stringify(oldShop.servers)) {
-        for (const server in newShop.servers) {
-          if (!this.servers[server]) {
-            this.addServerListener(server)
-          }
-        }
-      }
+    servers () {
+      this.updateServersList()
     }
   },
   mounted () {
-    for (const server in this.shop.servers) {
-      this.addServerListener(server)
-    }
+    this.updateServersList()
   },
   methods: {
-    addServerListener (serverId) {
-      this.$fire.database.ref().child(`servers/${serverId}`)
-        .on('value', (s) => {
-          this.servers[serverId] = s.val()
-          this.updateServersList()
-        })
-    },
     updateServersList () {
       if (this.servers) {
         this.serversList = Object.keys(this.servers)
@@ -248,8 +236,6 @@ export default {
     },
     removeServer (serverId) {
       const { shopid } = this.$route.params
-      delete this.servers[serverId]
-      this.updateServersList()
       this.$fire.database.ref().child(`shops/${shopid}/servers/${serverId}`).remove()
       this.$fire.database.ref().child(`servers/${serverId}`).off('value')
       this.$fire.database.ref().child(`servers/${serverId}`).remove()
