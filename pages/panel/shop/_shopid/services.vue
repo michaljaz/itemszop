@@ -19,6 +19,29 @@
             :items="servers"
             label="Wybierz serwer"
           />
+          <v-switch
+            v-model="sms"
+            label="Płatność SMS'em"
+          />
+          <v-select
+            v-if="sms"
+            :items="smsTypes"
+            label="Wybierz sms"
+          />
+          <v-switch
+            v-model="przelew"
+            label="Płatność przelewem"
+          />
+          <v-text-field
+            v-if="przelew"
+            type="number"
+            label="Koszt (w zł)"
+            autocomplete="new-password"
+          />
+          <v-textarea
+            label="Komendy do wywołania na serwerze"
+            value="say [nick] kupil cos tam"
+          />
           <Editor />
         </v-card-text>
         <v-card-actions>
@@ -105,7 +128,23 @@ export default {
   },
   data () {
     return {
-      dialog: false
+      dialog: false,
+      sms: false,
+      przelew: false,
+      smsTypes: [
+        '71480 - 1zł (1.23 z VAT)',
+        '72480 - 2zł (2.46 z VAT)',
+        '73480 - 3zł (3.69 z VAT)',
+        '74480 - 4zł (4.92 z VAT)',
+        '75480 - 5zł (6.15 z VAT)',
+        '76480 - 6zł (7.38 z VAT)',
+        '79480 - 9zł (11.07 z VAT)',
+        '91400 - 14zł (17.22 z VAT)',
+        '91900 - 19zł (23.37 z VAT)',
+        '92022 - 20zł (24.60 z VAT)',
+        '92521 - 25zł (30.75 z VAT)',
+        '92550 - 25zł (30.75 z VAT)'
+      ]
     }
   },
   head () {
