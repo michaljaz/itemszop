@@ -12,6 +12,9 @@
         <v-btn color="green" @click="reload">
           Odśwież stronę
         </v-btn>
+        <v-btn color="blue" @click="signOut">
+          Wyloguj się
+        </v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -52,6 +55,10 @@ export default {
   methods: {
     reload () {
       document.location.reload()
+    },
+    signOut () {
+      this.$fire.auth.signOut()
+      this.$router.push('/')
     }
   }
 }
