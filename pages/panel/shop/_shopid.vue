@@ -18,7 +18,8 @@ export default {
         loaded: false
       },
       servers: {},
-      listeningServers: {}
+      listeningServers: {},
+      shopid: null
     }
   },
   head () {
@@ -29,27 +30,45 @@ export default {
   watch: {
     $route (newRoute, oldRoute) {
       if (newRoute.params.shopid !== oldRoute.params.shopid) {
-        this.changeShopListener(newRoute.params.shopid, oldRoute.params.shopid)
+        this.shopid = newRoute.params.shopid
+        this.destroyListeners(oldRoute.params.shopid)
+        this.createShopListener(newRoute.params.shopid)
       }
     }
   },
   mounted () {
+    this.shopid = this.$route.params.shopid
     this.createShopListener(this.$route.params.shopid)
   },
+  beforeDestroy () {
+    this.destroyListeners(this.shopid)
+  },
   methods: {
-    updateServerListeners (servers) {
-      // Add new servers
-      Object.keys(servers).forEach((serverId) => {
-        if (!this.listeningServers[serverId]) {
-          this.createServerListener(serverId)
-        }
-      })
-      // Remove old server listeners
-      Object.keys(this.listeningServers).forEach((serverId) => {
-        if (!servers[serverId]) {
+    destroyListeners (shopId) {
+      if (this.listeningServers) {
+        Object.keys(this.listeningServers).forEach((serverId) => {
           this.removeServerListener(serverId)
-        }
-      })
+        })
+      }
+      this.removeShopListener(shopId)
+    },
+    updateServerListeners (servers) {
+      // Remove old server listeners
+      if (this.listeningServers) {
+        Object.keys(this.listeningServers).forEach((serverId) => {
+          if (!servers[serverId]) {
+            this.removeServerListener(serverId)
+          }
+        })
+      }
+      // Add new server listeners
+      if (servers) {
+        Object.keys(servers).forEach((serverId) => {
+          if (!this.listeningServers[serverId]) {
+            this.createServerListener(serverId)
+          }
+        })
+      }
     },
     createServerListener (serverId) {
       this.listeningServers[serverId] = true
@@ -67,15 +86,11 @@ export default {
       this.servers = newServers
       this.$fire.database.ref().child(`servers/${serverId}`).off('value')
     },
-    changeShopListener (oldShopId, newShopId) {
-      this.removeShopListener(oldShopId)
-      this.createShopListener(newShopId)
+    removeShopListener (shopId) {
+      this.$fire.database.ref().child(`shops/${shopId}`).off('value')
     },
-    removeShopListener (oldShopId) {
-      this.$fire.database.ref().child(`shops/${oldShopId}`).off('value')
-    },
-    createShopListener (newShopId) {
-      this.$fire.database.ref().child(`shops/${newShopId}`)
+    createShopListener (shopId) {
+      this.$fire.database.ref().child(`shops/${shopId}`)
         .on('value', (s) => {
           this.shop = s.val()
           this.shop.loaded = true
