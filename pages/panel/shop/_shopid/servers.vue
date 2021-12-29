@@ -84,8 +84,8 @@
     </v-dialog>
     <v-row>
       <v-col
-        v-for="item in serversList"
-        :key="item"
+        v-for="server in servers"
+        :key="server.serverId"
         cols="12"
         lg="4"
         md="6"
@@ -98,14 +98,14 @@
           <v-list-item three-line>
             <v-list-item-content>
               <v-list-item-title class="text-h5 mb-1">
-                {{ servers[item].serverName }}
+                {{ server.serverName }}
               </v-list-item-title>
               <v-list-item-subtitle>
                 <div>
-                  IP serwera: {{ servers[item].serverIp }}
+                  IP serwera: {{ server.serverIp }}
                 </div>
                 <div class="mt-2">
-                  Port RCON: {{ servers[item].serverPort }}
+                  Port RCON: {{ server.serverPort }}
                 </div>
               </v-list-item-subtitle>
             </v-list-item-content>
@@ -113,13 +113,13 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn text rounded color="indigo" @click="consoleDialog(item)">
+            <v-btn text rounded color="indigo" @click="consoleDialog(server)">
               RCON
             </v-btn>
-            <v-btn text rounded color="blue" @click="editDialog(item)">
+            <v-btn text rounded color="blue" @click="editDialog(server)">
               Edytuj
             </v-btn>
-            <v-btn text rounded color="red" @click="removeServer(item)">
+            <v-btn text rounded color="red" @click="removeServer(server)">
               Usuń
             </v-btn>
           </v-card-actions>
@@ -147,8 +147,8 @@ export default {
       default: () => ({})
     },
     servers: {
-      type: Object,
-      default: () => ({})
+      type: Array,
+      default: () => ([])
     }
   },
   data () {
@@ -164,7 +164,6 @@ export default {
       serverPassword: '',
       showPassword: false,
       dialog: false,
-      serversList: [],
       rulesPort: [
         value => !!value || 'Wpisz port'
       ],
@@ -186,36 +185,20 @@ export default {
       title: 'Serwery'
     }
   },
-  watch: {
-    servers () {
-      this.updateServersList()
-    }
-  },
-  mounted () {
-    this.updateServersList()
-  },
   methods: {
-    updateServersList () {
-      if (this.servers) {
-        this.serversList = Object.keys(this.servers)
-      } else {
-        this.serversList = []
-      }
-    },
-    applyServer (serverId) {
-      const server = this.servers[serverId]
-      this.serverId = serverId
+    applyServer (server) {
+      this.serverId = server.serverId
       this.serverPort = server.serverPort
       this.serverName = server.serverName
       this.serverIp = server.serverIp
       this.serverPassword = server.serverPassword
     },
-    consoleDialog (serverId) {
-      this.applyServer(serverId)
+    consoleDialog (server) {
+      this.applyServer(server)
       this.rconDialog = true
     },
-    editDialog (serverId) {
-      this.applyServer(serverId)
+    editDialog (server) {
+      this.applyServer(server)
       this.dialog = true
     },
     saveServer () {
@@ -234,10 +217,10 @@ export default {
         this.dialog = false
       }
     },
-    removeServer (serverId) {
+    removeServer (server) {
       const { shopid } = this.$route.params
+      const { serverId } = server
       this.$fire.database.ref().child(`shops/${shopid}/servers/${serverId}`).remove()
-      this.$fire.database.ref().child(`servers/${serverId}`).off('value')
       this.$fire.database.ref().child(`servers/${serverId}`).remove()
       this.dialog = false
     },

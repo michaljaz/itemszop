@@ -165,8 +165,7 @@ export default {
       this.tabs = false
     }
     const { uid } = this.$fire.auth.currentUser
-    const ref = this.$fire.database.ref(`users/${uid}`)
-    ref.on('value', (s) => {
+    this.$fire.database.ref(`users/${uid}`).on('value', (s) => {
       const val = s.val()
       if (val == null) {
         this.shops = []

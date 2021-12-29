@@ -1,6 +1,10 @@
 <template>
   <div>
-    <nuxt-child v-if="shop.loaded" :shop="shop" :servers="servers" />
+    <nuxt-child
+      v-if="shop.loaded"
+      :shop="shop"
+      :servers="serversList"
+    />
     <div v-else class="d-flex mt-5 justify-center">
       <v-progress-circular
         indeterminate
@@ -17,6 +21,7 @@ export default {
       shop: {
         loaded: false
       },
+      serversList: [],
       servers: {},
       listeningServers: {},
       shopid: null
@@ -44,6 +49,17 @@ export default {
     this.destroyListeners(this.shopid)
   },
   methods: {
+    updateServersList () {
+      const result = []
+      Object.keys(this.servers).forEach((serverId) => {
+        if (this.servers[serverId]) {
+          const server = Object.assign({}, this.servers[serverId])
+          server.serverId = serverId
+          result.push(server)
+        }
+      })
+      this.serversList = result
+    },
     destroyListeners (shopId) {
       if (this.listeningServers) {
         Object.keys(this.listeningServers).forEach((serverId) => {
@@ -54,7 +70,7 @@ export default {
     },
     updateServerListeners (servers) {
       // Remove old server listeners
-      if (this.listeningServers) {
+      if (this.listeningServers && servers !== undefined) {
         Object.keys(this.listeningServers).forEach((serverId) => {
           if (!servers[serverId]) {
             this.removeServerListener(serverId)
@@ -77,6 +93,7 @@ export default {
           const newServers = Object.assign({}, this.servers)
           newServers[serverId] = s.val()
           this.servers = newServers
+          this.updateServersList()
         })
     },
     removeServerListener (serverId) {
@@ -84,6 +101,7 @@ export default {
       const newServers = Object.assign({}, this.servers)
       delete newServers[serverId]
       this.servers = newServers
+      this.updateServersList()
       this.$fire.database.ref().child(`servers/${serverId}`).off('value')
     },
     removeShopListener (shopId) {

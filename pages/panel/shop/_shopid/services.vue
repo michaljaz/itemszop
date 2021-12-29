@@ -14,6 +14,8 @@
             autocomplete="new-password"
           />
           <v-select
+            item-text="serverName"
+            item-value="serverId"
             :items="servers"
             label="Wybierz serwer"
           />
@@ -95,18 +97,15 @@ export default {
     shop: {
       type: Object,
       default: () => ({})
+    },
+    servers: {
+      type: Array,
+      default: () => ([])
     }
   },
   data () {
     return {
-      dialog: false,
-      servers: (() => {
-        if (this.shop.servers) {
-          return Object.keys(this.shop.servers)
-        } else {
-          return []
-        }
-      })()
+      dialog: false
     }
   },
   head () {
