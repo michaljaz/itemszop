@@ -9,10 +9,10 @@
           ref="form"
           v-model="valid"
         >
-          <v-text-field v-model="email" :rules="rulesEmail" label="Email" />
+          <v-text-field v-model="email" :rules="rules.email" label="Email" />
           <v-text-field
             v-model="password"
-            :rules="rulesPassword"
+            :rules="rules.password"
             label="Hasło"
             :type="showPassword ? 'text' : 'password'"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -55,7 +55,7 @@
                 ref="form_reset"
                 v-model="reset_valid"
               >
-                <v-text-field v-model="reset_email" :rules="rulesEmail" label="Email" />
+                <v-text-field v-model="reset_email" :rules="rules.email" label="Email" />
               </v-form>
             </v-card-text>
             <v-card-actions>
@@ -139,13 +139,15 @@ export default {
       email: '',
       password: '',
       showPassword: false,
-      rulesEmail: [
-        v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Nieprawidłowy format'
-      ],
-      rulesPassword: [
-        value => !!value || 'Wpisz hasło',
-        value => (value && value.length >= 6) || 'Minimalnie 6 znaków'
-      ]
+      rules: {
+        email: [
+          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Nieprawidłowy format'
+        ],
+        password: [
+          value => !!value || 'Wpisz hasło',
+          value => (value && value.length >= 6) || 'Minimalnie 6 znaków'
+        ]
+      }
     }
   },
   head () {

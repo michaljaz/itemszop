@@ -9,19 +9,19 @@
           ref="form"
           v-model="valid"
         >
-          <v-text-field v-model="email" :rules="emailRules" label="Email*" />
-          <v-text-field v-model="displayName" :rules="nameRules" label="Pseudonim*" />
+          <v-text-field v-model="email" :rules="rules.email" label="Email*" />
+          <v-text-field v-model="displayName" :rules="rules.displayName" label="Pseudonim*" />
           <v-text-field
             v-model="password"
             label="Hasło*"
             type="password"
-            :rules="passwordRules"
+            :rules="rules.password"
           />
           <v-text-field
             v-model="confirmPassword"
             label="Powtórz Hasło*"
             type="password"
-            :rules="confirmPasswordRules"
+            :rules="rules.confirmPassword"
           />
           <small>*wskazuje pole wymagane</small>
         </v-form>
@@ -95,21 +95,23 @@ export default {
       email: '',
       password: '',
       confirmPassword: '',
-      emailRules: [
-        v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Nieprawidłowy format'
-      ],
-      nameRules: [
-        value => !!value || 'Wpisz pseudonim'
-      ],
-      passwordRules: [
-        value => !!value || 'Wpisz hasło',
-        value => (value && value.length >= 6) || 'Minimum 6 znaków'
-      ],
-      confirmPasswordRules: [
-        value => !!value || 'Wpisz hasło',
-        value =>
-          value === this.password || 'Hasła do siebie nie pasują.'
-      ]
+      rules: {
+        email: [
+          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Nieprawidłowy format'
+        ],
+        displayName: [
+          value => !!value || 'Wpisz pseudonim'
+        ],
+        password: [
+          value => !!value || 'Wpisz hasło',
+          value => (value && value.length >= 6) || 'Minimum 6 znaków'
+        ],
+        confirmPassword: [
+          value => !!value || 'Wpisz hasło',
+          value =>
+            value === this.password || 'Hasła do siebie nie pasują.'
+        ]
+      }
     }
   },
   head () {

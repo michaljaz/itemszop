@@ -16,19 +16,19 @@
             <v-text-field
               v-model="serverName"
               label="Nazwa serwera"
-              :rules="rulesName"
+              :rules="rules.name"
               autocomplete="new-password"
             />
             <v-text-field
               v-model="serverIp"
               label="IP serwera"
-              :rules="rulesIp"
+              :rules="rules.ip"
               autocomplete="new-password"
             />
             <v-text-field
               v-model="serverPort"
               label="Port RCON"
-              :rules="rulesPort"
+              :rules="rules.port"
               autocomplete="new-password"
               type="number"
             />
@@ -36,7 +36,7 @@
               v-model="serverPassword"
               autocomplete="new-password"
               label="Hasło RCON"
-              :rules="rulesPassword"
+              :rules="rules.password"
               :type="showPassword ? 'text' : 'password'"
               :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="showPassword = !showPassword"
@@ -166,20 +166,22 @@ export default {
       serverPassword: '',
       showPassword: false,
       dialog: false,
-      rulesPort: [
-        value => !!value || 'Wpisz port'
-      ],
-      rulesName: [
-        value => !!value || 'Wpisz nazwę'
-      ],
-      rulesIp: [
-        value => !!value || 'Wpisz ip',
-        v => /^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]))*$/.test(v) || 'Nieprawidłowy format ip'
-      ],
-      rulesPassword: [
-        value => !!value || 'Wpisz hasło',
-        value => (value && value.length >= 4) || 'Minimalnie 6 znaków'
-      ]
+      rules: {
+        port: [
+          value => !!value || 'Wpisz port'
+        ],
+        name: [
+          value => !!value || 'Wpisz nazwę'
+        ],
+        ip: [
+          value => !!value || 'Wpisz ip',
+          v => /^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]))*$/.test(v) || 'Nieprawidłowy format ip'
+        ],
+        password: [
+          value => !!value || 'Wpisz hasło',
+          value => (value && value.length >= 4) || 'Minimalnie 6 znaków'
+        ]
+      }
     }
   },
   head () {
