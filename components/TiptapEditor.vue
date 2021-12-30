@@ -71,6 +71,11 @@ export default {
         ? { color: 'black', dark: true }
         : { color: 'yellow' }
     }
+  },
+  watch: {
+    content () {
+      this.$emit('content', this.content)
+    }
   }
 }
 </script>

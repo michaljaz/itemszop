@@ -10,29 +10,33 @@
         </v-card-title>
         <v-card-text>
           <v-text-field
+            v-model="fields.name"
             label="Nazwa usługi"
             autocomplete="new-password"
           />
           <v-switch
-            v-model="sms"
+            v-model="fields.sms"
             label="Płatność SMS'em"
           />
           <v-select
-            v-if="sms"
+            v-if="fields.sms"
+            v-model="fields.smsType"
             :items="smsTypes"
             label="Wybierz sms"
           />
           <v-switch
-            v-model="przelew"
+            v-model="fields.przelew"
             label="Płatność przelewem"
           />
           <v-text-field
-            v-if="przelew"
+            v-if="fields.przelew"
+            v-model="fields.przelewCost"
             type="number"
             label="Koszt (w zł)"
             autocomplete="new-password"
           />
           <v-select
+            v-model="fields.server"
             item-text="serverName"
             item-value="serverId"
             :items="servers"
@@ -42,7 +46,7 @@
             label="Komendy do wywołania na serwerze"
             value="say [nick] kupil cos tam"
           />
-          <Editor />
+          <Editor @content="fields.description=$event" />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -141,6 +145,16 @@ export default {
   },
   data () {
     return {
+      fields: {
+        name: '',
+        sms: false,
+        smsType: 0,
+        przelew: false,
+        przelewCost: 0,
+        server: '',
+        commands: '',
+        description: ''
+      },
       dialog: false,
       sms: false,
       przelew: false,
@@ -166,11 +180,15 @@ export default {
     }
   },
   methods: {
+    getContent (e) {
+      console.log(e)
+    },
     newService () {
       this.dialog = true
     },
     saveService () {
-      this.dialog = false
+      console.log(this.fields)
+      // this.dialog = false
     }
   }
 }
