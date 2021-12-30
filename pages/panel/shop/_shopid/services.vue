@@ -21,6 +21,8 @@
           <v-select
             v-if="fields.sms"
             v-model="fields.smsType"
+            item-text="name"
+            item-value="value"
             :items="smsTypes"
             label="Wybierz sms"
           />
@@ -160,18 +162,17 @@ export default {
       sms: false,
       przelew: false,
       smsTypes: [
-        '71480 - 1zł (1.23 z VAT)',
-        '72480 - 2zł (2.46 z VAT)',
-        '73480 - 3zł (3.69 z VAT)',
-        '74480 - 4zł (4.92 z VAT)',
-        '75480 - 5zł (6.15 z VAT)',
-        '76480 - 6zł (7.38 z VAT)',
-        '79480 - 9zł (11.07 z VAT)',
-        '91400 - 14zł (17.22 z VAT)',
-        '91900 - 19zł (23.37 z VAT)',
-        '92022 - 20zł (24.60 z VAT)',
-        '92521 - 25zł (30.75 z VAT)',
-        '92550 - 25zł (30.75 z VAT)'
+        { name: '71480 - 1zł (1.23 z VAT)', value: 0 },
+        { name: '72480 - 2zł (2.46 z VAT)', value: 1 },
+        { name: '73480 - 3zł (3.69 z VAT)', value: 2 },
+        { name: '74480 - 4zł (4.92 z VAT)', value: 3 },
+        { name: '75480 - 5zł (6.15 z VAT)', value: 4 },
+        { name: '76480 - 6zł (7.38 z VAT)', value: 5 },
+        { name: '79480 - 9zł (11.07 z VAT)', value: 6 },
+        { name: '91400 - 14zł (17.22 z VAT)', value: 7 },
+        { name: '91900 - 19zł (23.37 z VAT)', value: 8 },
+        { name: '92022 - 20zł (24.60 z VAT)', value: 9 },
+        { name: '92550 - 25zł (30.75 z VAT)', value: 10 }
       ]
     }
   },
