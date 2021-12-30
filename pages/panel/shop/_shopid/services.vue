@@ -81,12 +81,12 @@
           <v-list-item three-line>
             <v-list-item-content>
               <v-list-item-title class="text-h5 mb-1">
-                {{ service.title }}
+                {{ service.name }}
               </v-list-item-title>
               <v-list-item-subtitle>
-                SMS: 10zł
+                SMS:
                 <br>
-                Przelew: 10zł
+                Przelew:
               </v-list-item-subtitle>
             </v-list-item-content>
 
@@ -99,10 +99,10 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn text color="blue" rounded>
+            <v-btn text color="blue" rounded @click="editService(service)">
               Edytuj
             </v-btn>
-            <v-btn text color="red" rounded>
+            <v-btn text color="red" rounded @click="removeService(service)">
               Usuń
             </v-btn>
           </v-card-actions>
@@ -145,6 +145,7 @@ export default {
   },
   data () {
     return {
+      serviceId: '',
       fields: {
         name: '',
         sms: false,
@@ -179,16 +180,39 @@ export default {
       title: 'Usługi'
     }
   },
+  mounted () {
+    console.log(this.services)
+  },
   methods: {
-    getContent (e) {
-      console.log(e)
+    editService (service) {
+      this.serviceId = service.serviceId
+      const newService = Object.assign({}, service)
+      delete newService.serviceId
+      this.fields = newService
+      this.dialog = true
+    },
+    removeService (service) {
+      const { shopid } = this.$route.params
+      this.$fire.database.ref().child(`/shops/${shopid}/services/${service.serviceId}`).remove()
     },
     newService () {
+      this.serviceId = `service_${(Math.random() + 1).toString(36).substring(7)}`
+      this.fields = {
+        name: '',
+        sms: false,
+        smsType: 0,
+        przelew: false,
+        przelewCost: 0,
+        server: '',
+        commands: '',
+        description: ''
+      }
       this.dialog = true
     },
     saveService () {
-      console.log(this.fields)
-      // this.dialog = false
+      const { shopid } = this.$route.params
+      this.$fire.database.ref().child(`/shops/${shopid}/services/${this.serviceId}`).set(this.fields)
+      this.dialog = false
     }
   }
 }

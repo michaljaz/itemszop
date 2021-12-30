@@ -53,11 +53,13 @@ export default {
   methods: {
     updateServicesList () {
       const result = []
-      Object.keys(this.shop.services).forEach((serviceId) => {
-        const service = Object.assign({}, this.shop.services[serviceId])
-        service.serviceId = serviceId
-        result.push(service)
-      })
+      if (this.shop.services) {
+        Object.keys(this.shop.services).forEach((serviceId) => {
+          const service = Object.assign({}, this.shop.services[serviceId])
+          service.serviceId = serviceId
+          result.push(service)
+        })
+      }
       this.servicesList = result
     },
     updateServersList () {

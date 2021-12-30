@@ -88,16 +88,14 @@ export default {
           },
           services: {
             vip: {
-              commands: 'say [nick] kupił VIP',
-              description: 'OPIS',
-              icon: '/img/vip.png',
-              payments: {
-                SMS: { active: false },
-                przelew: { active: false },
-                PSC: { active: false }
-              },
+              name: 'VIP',
+              sms: false,
+              smsType: 0,
+              przelew: false,
+              przelewCost: 0,
               server: '1_17',
-              title: 'VIP'
+              commands: 'say [nick] kupił VIP',
+              description: 'OPIS'
             }
           },
           zebrane: 0
