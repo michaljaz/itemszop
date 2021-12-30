@@ -32,39 +32,44 @@ import {
 export default {
   // specify TiptapVuetify component in "components"
   components: { TiptapVuetify },
-  data: () => ({
+  props: {
+    editorcontent: {
+      type: String,
+      required: true
+    }
+  },
+  data () {
+    return {
     // declare extensions you want to use
-    extensions: [
-      History,
-      Blockquote,
-      Link,
-      Underline,
-      Strike,
-      Italic,
-      ListItem,
-      BulletList,
-      OrderedList,
-      [
-        Heading,
-        {
-          options: {
-            levels: [1, 2, 3]
+      extensions: [
+        History,
+        Blockquote,
+        Link,
+        Underline,
+        Strike,
+        Italic,
+        ListItem,
+        BulletList,
+        OrderedList,
+        [
+          Heading,
+          {
+            options: {
+              levels: [1, 2, 3]
+            }
           }
-        }
+        ],
+        Bold,
+        Link,
+        Code,
+        HorizontalRule,
+        Paragraph,
+        HardBreak
       ],
-      Bold,
-      Link,
-      Code,
-      HorizontalRule,
-      Paragraph,
-      HardBreak
-    ],
-    // starting editor's content
-    content: `
-      <h1>Yay Headlines!</h1>
-      <p>All these <strong>cool tags</strong> are working now.</p>
-    `
-  }),
+      // starting editor's content
+      content: this.editorcontent
+    }
+  },
   computed: {
     toolbarAttrs () {
       return this.$vuetify.theme.isDark
@@ -73,6 +78,9 @@ export default {
     }
   },
   watch: {
+    editorcontent () {
+      this.content = this.editorcontent
+    },
     content () {
       this.$emit('content', this.content)
     }

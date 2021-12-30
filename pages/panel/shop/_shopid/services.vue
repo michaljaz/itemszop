@@ -58,7 +58,7 @@
               value="say [nick] kupil cos tam"
             />
           </v-form>
-          <Editor @content="fields.description=$event" />
+          <Editor :editorcontent="editorcontent" @content="fields.description=$event" />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -158,25 +158,26 @@ export default {
   props: {
     shop: {
       type: Object,
-      default: () => ({})
+      required: true
     },
     servers: {
       type: Array,
-      default: () => ([])
+      required: true
     },
     serversmap: {
       type: Object,
-      default: () => ({})
+      required: true
     },
     services: {
       type: Array,
-      default: () => ([])
+      required: true
     }
   },
   data () {
     return {
       serviceId: '',
       valid: false,
+      editorcontent: '',
       fields: {
         name: '',
         sms: false,
@@ -226,6 +227,7 @@ export default {
   },
   methods: {
     editService (service) {
+      this.editorcontent = service.description
       this.serviceId = service.serviceId
       const newService = Object.assign({}, service)
       delete newService.serviceId

@@ -9,7 +9,7 @@ export default {
   props: {
     shop: {
       type: Object,
-      default: () => ({})
+      required: true
     }
   },
   head () {

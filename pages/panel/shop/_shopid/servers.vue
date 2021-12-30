@@ -146,11 +146,11 @@ export default {
   props: {
     shop: {
       type: Object,
-      default: () => ({})
+      required: true
     },
     servers: {
       type: Array,
-      default: () => ([])
+      required: true
     }
   },
   data () {
