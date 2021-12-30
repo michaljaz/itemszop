@@ -51,9 +51,25 @@ export default {
   },
   methods: {
     remove () {
+      if (this.shop.servers) {
+        let deleted = 0
+        Object.keys(this.shop.servers).forEach((serverId) => {
+          this.$fire.database.ref().child(`servers/${serverId}`).remove().then(() => {
+            deleted++
+            if (deleted === Object.keys(this.shop.servers).length) {
+              this.removeShop()
+            }
+          })
+        })
+      } else {
+        this.removeShop()
+      }
+    },
+    removeShop () {
+      const { shopid } = this.$route.params
       const { uid } = this.$fire.auth.currentUser
-      this.$fire.database.ref().child(`shops/${this.$route.params.shopid}`).remove().then(() => {
-        this.$fire.database.ref().child(`users/${uid}/${this.$route.params.shopid}`).remove()
+      this.$fire.database.ref().child(`shops/${shopid}`).remove().then(() => {
+        this.$fire.database.ref().child(`users/${uid}/${shopid}`).remove()
       })
     }
   }

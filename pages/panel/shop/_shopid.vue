@@ -123,8 +123,12 @@ export default {
     createShopListener (shopId) {
       this.$fire.database.ref().child(`shops/${shopId}`)
         .on('value', (s) => {
-          this.shop = s.val()
-          this.shop.loaded = true
+          let snapshot = s.val()
+          if (snapshot == null) {
+            snapshot = {}
+          }
+          snapshot.loaded = true
+          this.shop = snapshot
           this.updateServerListeners(this.shop.servers)
           this.updateServicesList()
         })

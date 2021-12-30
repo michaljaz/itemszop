@@ -180,9 +180,6 @@ export default {
       title: 'Usługi'
     }
   },
-  mounted () {
-    console.log(this.services)
-  },
   methods: {
     editService (service) {
       this.serviceId = service.serviceId
