@@ -17,10 +17,10 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn color="green">
+            <v-btn color="green" rounded text>
               Zapisz
             </v-btn>
-            <v-btn color="red" @click="remove">
+            <v-btn color="red" rounded text @click="remove">
               Usuń sklep
             </v-btn>
           </v-card-actions>

@@ -65,7 +65,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn color="green" @click="save">
+            <v-btn color="green" rounded text @click="save">
               Zapisz
             </v-btn>
           </v-card-actions>

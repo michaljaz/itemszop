@@ -48,6 +48,7 @@
           <v-btn
             color="blue darken-1"
             text
+            rounded
             @click="dialog = false"
           >
             Anuluj
@@ -55,6 +56,7 @@
           <v-btn
             color="green darken-1"
             text
+            rounded
             @click="saveServer"
           >
             Zapisz

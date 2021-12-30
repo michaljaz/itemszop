@@ -49,6 +49,7 @@
           <v-btn
             color="blue darken-1"
             text
+            rounded
             @click="dialog = false"
           >
             Anuluj
@@ -56,6 +57,7 @@
           <v-btn
             color="green darken-1"
             text
+            rounded
             @click="saveService"
           >
             Zapisz
@@ -71,10 +73,7 @@
         lg="4"
         md="6"
       >
-        <v-card
-          max-width="344"
-          elevation="10"
-        >
+        <v-card max-width="344" elevation="10">
           <v-list-item three-line>
             <v-list-item-content>
               <v-list-item-title class="text-h5 mb-1">
@@ -96,10 +95,10 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn text color="blue">
+            <v-btn text color="blue" rounded>
               Edytuj
             </v-btn>
-            <v-btn text color="red">
+            <v-btn text color="red" rounded>
               Usuń
             </v-btn>
           </v-card-actions>
