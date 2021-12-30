@@ -72,44 +72,58 @@
       </v-card>
     </v-dialog>
     <v-row>
-      <v-col
-        v-for="service in services"
-        :key="service.title"
-        cols="12"
-        lg="4"
-        md="6"
+      <template
+        v-for="serverServices in services"
       >
-        <v-card max-width="344" elevation="10">
-          <v-list-item three-line>
-            <v-list-item-content>
-              <v-list-item-title class="text-h5 mb-1">
-                {{ service.name }}
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                SMS:
-                <br>
-                Przelew:
-              </v-list-item-subtitle>
-            </v-list-item-content>
+        <v-col
+          :key="serverServices.name"
+          class="mt-2"
+          cols="12"
+        >
+          <strong v-if="serversmap[serverServices.name]">{{ serversmap[serverServices.name].serverName }} </strong>
+          <strong v-else>
+            Bez serwera
+          </strong>
+        </v-col>
+        <v-col
+          v-for="service in serverServices.services"
+          :key="service.serviceId"
+          cols="12"
+          lg="4"
+          md="6"
+        >
+          <v-card elevation="10">
+            <v-list-item three-line>
+              <v-list-item-content>
+                <v-list-item-title class="text-h5 mb-1">
+                  {{ service.name }}
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  SMS:
+                  <br>
+                  Przelew:
+                </v-list-item-subtitle>
+              </v-list-item-content>
 
-            <v-list-item-avatar
-              tile
-              size="80"
-              color="grey"
-            />
-          </v-list-item>
+              <v-list-item-avatar
+                tile
+                size="80"
+                color="grey"
+              />
+            </v-list-item>
 
-          <v-card-actions>
-            <v-spacer />
-            <v-btn text color="blue" rounded @click="editService(service)">
-              Edytuj
-            </v-btn>
-            <v-btn text color="red" rounded @click="removeService(service)">
-              Usuń
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn text color="blue" rounded @click="editService(service)">
+                Edytuj
+              </v-btn>
+              <v-btn text color="red" rounded @click="removeService(service)">
+                Usuń
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </template>
     </v-row>
     <v-btn
       large
@@ -139,6 +153,10 @@ export default {
     servers: {
       type: Array,
       default: () => ([])
+    },
+    serversmap: {
+      type: Object,
+      default: () => ({})
     },
     services: {
       type: Array,

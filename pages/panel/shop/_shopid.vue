@@ -5,6 +5,7 @@
       :shop="shop"
       :servers="serversList"
       :services="servicesList"
+      :serversmap="servers"
     />
     <div v-else class="d-flex mt-5 justify-center">
       <v-progress-circular
@@ -54,13 +55,24 @@ export default {
     updateServicesList () {
       const result = []
       if (this.shop.services) {
+        const servicesByServer = {}
         Object.keys(this.shop.services).forEach((serviceId) => {
           const service = Object.assign({}, this.shop.services[serviceId])
           service.serviceId = serviceId
-          result.push(service)
+          if (servicesByServer[service.server]) {
+            servicesByServer[service.server].push(service)
+          } else {
+            servicesByServer[service.server] = [service]
+          }
+        })
+        Object.keys(servicesByServer).forEach((serverId) => {
+          result.push({
+            name: serverId,
+            services: servicesByServer[serverId]
+          })
         })
       }
-      this.servicesList = result
+      this.servicesList = result.slice().reverse()
     },
     updateServersList () {
       const result = []
