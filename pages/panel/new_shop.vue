@@ -17,7 +17,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer />
-              <v-btn color="blue" @click="submit">
+              <v-btn color="blue" rounded text @click="submit">
                 Dalej
               </v-btn>
             </v-card-actions>

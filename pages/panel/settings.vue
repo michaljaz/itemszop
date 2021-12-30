@@ -12,7 +12,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn color="primary">
+            <v-btn color="primary" rounded text @click="update">
               Aktualizuj
             </v-btn>
           </v-card-actions>
@@ -33,6 +33,14 @@ export default {
   head () {
     return {
       title: 'Ustawienia'
+    }
+  },
+  methods: {
+    update () {
+      const { displayName } = this
+      this.$fire.auth.currentUser.updateProfile({ displayName }).then(() => {
+        document.location.reload()
+      })
     }
   }
 }
