@@ -4,6 +4,7 @@
       v-if="shop.loaded"
       :shop="shop"
       :servers="serversList"
+      :services="servicesList"
     />
     <div v-else class="d-flex mt-5 justify-center">
       <v-progress-circular
@@ -21,6 +22,7 @@ export default {
       shop: {
         loaded: false
       },
+      servicesList: [],
       serversList: [],
       servers: {},
       listeningServers: {},
@@ -49,6 +51,15 @@ export default {
     this.destroyListeners(this.shopid)
   },
   methods: {
+    updateServicesList () {
+      const result = []
+      Object.keys(this.shop.services).forEach((serviceId) => {
+        const service = Object.assign({}, this.shop.services[serviceId])
+        service.serviceId = serviceId
+        result.push(service)
+      })
+      this.servicesList = result
+    },
     updateServersList () {
       const result = []
       Object.keys(this.servers).forEach((serverId) => {
@@ -113,6 +124,7 @@ export default {
           this.shop = s.val()
           this.shop.loaded = true
           this.updateServerListeners(this.shop.servers)
+          this.updateServicesList()
         })
     }
   }

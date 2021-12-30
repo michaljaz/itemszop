@@ -13,12 +13,6 @@
             label="Nazwa usługi"
             autocomplete="new-password"
           />
-          <v-select
-            item-text="serverName"
-            item-value="serverId"
-            :items="servers"
-            label="Wybierz serwer"
-          />
           <v-switch
             v-model="sms"
             label="Płatność SMS'em"
@@ -37,6 +31,12 @@
             type="number"
             label="Koszt (w zł)"
             autocomplete="new-password"
+          />
+          <v-select
+            item-text="serverName"
+            item-value="serverId"
+            :items="servers"
+            label="Wybierz serwer"
           />
           <v-textarea
             label="Komendy do wywołania na serwerze"
@@ -63,39 +63,49 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-card
-      max-width="344"
-      elevation="10"
-    >
-      <v-list-item three-line>
-        <v-list-item-content>
-          <v-list-item-title class="text-h5 mb-1">
-            Pakiet VIP
-          </v-list-item-title>
-          <v-list-item-subtitle>
-            SMS: 10zł
-            <br>
-            Przelew: 10zł
-          </v-list-item-subtitle>
-        </v-list-item-content>
+    <v-row>
+      <v-col
+        v-for="service in services"
+        :key="service.title"
+        cols="12"
+        lg="4"
+        md="6"
+      >
+        <v-card
+          max-width="344"
+          elevation="10"
+        >
+          <v-list-item three-line>
+            <v-list-item-content>
+              <v-list-item-title class="text-h5 mb-1">
+                {{ service.title }}
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                SMS: 10zł
+                <br>
+                Przelew: 10zł
+              </v-list-item-subtitle>
+            </v-list-item-content>
 
-        <v-list-item-avatar
-          tile
-          size="80"
-          color="grey"
-        />
-      </v-list-item>
+            <v-list-item-avatar
+              tile
+              size="80"
+              color="grey"
+            />
+          </v-list-item>
 
-      <v-card-actions>
-        <v-spacer />
-        <v-btn text color="blue">
-          Edytuj
-        </v-btn>
-        <v-btn text color="red">
-          Usuń
-        </v-btn>
-      </v-card-actions>
-    </v-card>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn text color="blue">
+              Edytuj
+            </v-btn>
+            <v-btn text color="red">
+              Usuń
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
     <v-btn
       large
       block
@@ -122,6 +132,10 @@ export default {
       default: () => ({})
     },
     servers: {
+      type: Array,
+      default: () => ([])
+    },
+    services: {
       type: Array,
       default: () => ([])
     }
