@@ -9,45 +9,55 @@
           <span class="text-h5">Konfiguracja usługi</span>
         </v-card-title>
         <v-card-text>
-          <v-text-field
-            v-model="fields.name"
-            label="Nazwa usługi"
-            autocomplete="new-password"
-          />
-          <v-switch
-            v-model="fields.sms"
-            label="Płatność SMS'em"
-          />
-          <v-select
-            v-if="fields.sms"
-            v-model="fields.smsType"
-            item-text="name"
-            item-value="value"
-            :items="smsTypes"
-            label="Wybierz sms"
-          />
-          <v-switch
-            v-model="fields.przelew"
-            label="Płatność przelewem"
-          />
-          <v-text-field
-            v-if="fields.przelew"
-            v-model="fields.przelewCost"
-            type="number"
-            label="Koszt (w zł)"
-            autocomplete="new-password"
-          />
-          <v-select
-            v-model="fields.server"
-            item-text="serverName"
-            item-value="serverId"
-            :items="servers"
-            label="Wybierz serwer"
-          />
-          <v-textarea
-            label="Komendy do wywołania na serwerze"
-            value="say [nick] kupil cos tam"
-          />
+          <v-form
+            ref="form"
+            v-model="valid"
+          >
+            <v-text-field
+              v-model="fields.name"
+              label="Nazwa usługi"
+              autocomplete="new-password"
+              :rules="rules.name"
+            />
+            <v-switch
+              v-model="fields.sms"
+              label="Płatność SMS'em"
+            />
+            <v-select
+              v-if="fields.sms"
+              v-model="fields.smsType"
+              item-text="name"
+              item-value="value"
+              :items="smsTypes"
+              label="Wybierz sms"
+              :rules="rules.smsType"
+            />
+            <v-switch
+              v-model="fields.przelew"
+              label="Płatność przelewem"
+            />
+            <v-text-field
+              v-if="fields.przelew"
+              v-model="fields.przelewCost"
+              type="number"
+              label="Koszt (w zł)"
+              autocomplete="new-password"
+              :rules="rules.przelewCost"
+            />
+            <v-select
+              v-model="fields.server"
+              item-text="serverName"
+              item-value="serverId"
+              :items="servers"
+              label="Wybierz serwer"
+              :rules="rules.server"
+            />
+            <v-textarea
+              v-model="fields.commands"
+              label="Komendy do wywołania na serwerze"
+              value="say [nick] kupil cos tam"
+            />
+          </v-form>
           <Editor @content="fields.description=$event" />
         </v-card-text>
         <v-card-actions>
@@ -166,6 +176,7 @@ export default {
   data () {
     return {
       serviceId: '',
+      valid: false,
       fields: {
         name: '',
         sms: false,
@@ -180,18 +191,32 @@ export default {
       sms: false,
       przelew: false,
       smsTypes: [
-        { name: '71480 - 1zł (1.23 z VAT)', value: 0 },
-        { name: '72480 - 2zł (2.46 z VAT)', value: 1 },
-        { name: '73480 - 3zł (3.69 z VAT)', value: 2 },
-        { name: '74480 - 4zł (4.92 z VAT)', value: 3 },
-        { name: '75480 - 5zł (6.15 z VAT)', value: 4 },
-        { name: '76480 - 6zł (7.38 z VAT)', value: 5 },
-        { name: '79480 - 9zł (11.07 z VAT)', value: 6 },
-        { name: '91400 - 14zł (17.22 z VAT)', value: 7 },
-        { name: '91900 - 19zł (23.37 z VAT)', value: 8 },
-        { name: '92022 - 20zł (24.60 z VAT)', value: 9 },
-        { name: '92550 - 25zł (30.75 z VAT)', value: 10 }
-      ]
+        { name: '71480 - 1zł (1.23 z VAT)', value: 1 },
+        { name: '72480 - 2zł (2.46 z VAT)', value: 2 },
+        { name: '73480 - 3zł (3.69 z VAT)', value: 3 },
+        { name: '74480 - 4zł (4.92 z VAT)', value: 4 },
+        { name: '75480 - 5zł (6.15 z VAT)', value: 5 },
+        { name: '76480 - 6zł (7.38 z VAT)', value: 6 },
+        { name: '79480 - 9zł (11.07 z VAT)', value: 7 },
+        { name: '91400 - 14zł (17.22 z VAT)', value: 8 },
+        { name: '91900 - 19zł (23.37 z VAT)', value: 9 },
+        { name: '92022 - 20zł (24.60 z VAT)', value: 10 },
+        { name: '92550 - 25zł (30.75 z VAT)', value: 11 }
+      ],
+      rules: {
+        name: [
+          value => !!value || 'Wpisz nazwę usługi'
+        ],
+        smsType: [
+          value => !!value || 'Wpisz typ sms\'a'
+        ],
+        przelewCost: [
+          value => !!value || 'Wpisz cenę usługi'
+        ],
+        server: [
+          value => !!value || 'Wybierz serwer'
+        ]
+      }
     }
   },
   head () {
@@ -226,9 +251,12 @@ export default {
       this.dialog = true
     },
     saveService () {
-      const { shopid } = this.$route.params
-      this.$fire.database.ref().child(`/shops/${shopid}/services/${this.serviceId}`).set(this.fields)
-      this.dialog = false
+      this.$refs.form.validate()
+      if (this.valid) {
+        const { shopid } = this.$route.params
+        this.$fire.database.ref().child(`/shops/${shopid}/services/${this.serviceId}`).set(this.fields)
+        this.dialog = false
+      }
     }
   }
 }
