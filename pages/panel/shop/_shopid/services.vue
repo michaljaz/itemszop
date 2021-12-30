@@ -58,7 +58,7 @@
               value="say [nick] kupil cos tam"
             />
           </v-form>
-          <Editor :editorcontent="editorcontent" @content="fields.description=$event" />
+          <Editor :editorcontent="fields.description" @content="fields.description=$event" />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -177,7 +177,6 @@ export default {
     return {
       serviceId: '',
       valid: false,
-      editorcontent: '',
       fields: {
         name: '',
         sms: false,
@@ -227,7 +226,6 @@ export default {
   },
   methods: {
     editService (service) {
-      this.editorcontent = service.description
       this.serviceId = service.serviceId
       const newService = Object.assign({}, service)
       delete newService.serviceId
@@ -248,7 +246,7 @@ export default {
         przelewCost: 0,
         server: '',
         commands: '',
-        description: ''
+        description: '<h1>Opis super usługi!</h1><p>Tutaj możesz zamieścić opis usługi używając super tagów!</p>'
       }
       this.dialog = true
     },
