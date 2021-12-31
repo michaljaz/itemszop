@@ -105,13 +105,21 @@
           <v-card elevation="10">
             <v-list-item three-line>
               <v-list-item-content>
-                <v-list-item-title class="text-h5 mb-1">
+                <v-list-item-title class="text-h4 mb-3">
                   {{ service.name }}
                 </v-list-item-title>
-                <v-list-item-subtitle>
-                  SMS:
-                  <br>
-                  Przelew:
+                <v-list-item-subtitle style="height:55px;">
+                  <div v-if="service.sms || service.przelew">
+                    <v-chip v-if="service.sms" small class="mb-1">
+                      SMS: {{ smsCost[service.smsType] }}
+                    </v-chip><br>
+                    <v-chip v-if="service.przelew" small>
+                      Przelew: {{ service.przelewCost }}zł
+                    </v-chip>
+                  </div>
+                  <div v-else>
+                    Nie włączono żadnej płatności!
+                  </div>
                 </v-list-item-subtitle>
               </v-list-item-content>
 
@@ -203,6 +211,19 @@ export default {
         { name: '92022 - 20zł (24.60 z VAT)', value: 10 },
         { name: '92550 - 25zł (30.75 z VAT)', value: 11 }
       ],
+      smsCost: {
+        1: '1zł (1.23 z VAT)',
+        2: '2zł (2.46 z VAT)',
+        3: '3zł (3.69 z VAT)',
+        4: '4zł (4.92 z VAT)',
+        5: '5zł (6.15 z VAT)',
+        6: '6zł (7.38 z VAT)',
+        7: '9zł (11.07 z VAT)',
+        8: '14zł (17.22 z VAT)',
+        9: '19zł (23.37 z VAT)',
+        10: '20zł (24.60 z VAT)',
+        11: '25zł (30.75 z VAT)'
+      },
       rules: {
         name: [
           value => !!value || 'Wpisz nazwę usługi'

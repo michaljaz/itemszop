@@ -103,7 +103,11 @@
                 {{ server.serverName }}
               </v-list-item-title>
               <v-list-item-subtitle>
-                <v-chip>{{ server.serverIp }}:{{ server.serverPort }}</v-chip>
+                <v-chip>
+                  <v-icon small>
+                    mdi-server
+                  </v-icon>{{ server.serverIp }}:{{ server.serverPort }}
+                </v-chip>
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
