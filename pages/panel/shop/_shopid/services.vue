@@ -20,6 +20,18 @@
               :rules="rules.name"
             />
             <v-switch
+              v-model="fields.icon"
+              label="Ikona usługi"
+            />
+            <v-text-field
+              v-if="fields.icon"
+              v-model="fields.iconUrl"
+              type="text"
+              label="Adres url do ikony"
+              autocomplete="new-password"
+              :rules="rules.iconUrl"
+            />
+            <v-switch
               v-model="fields.sms"
               label="Płatność SMS'em"
             />
@@ -124,10 +136,12 @@
               </v-list-item-content>
 
               <v-list-item-avatar
+                v-if="service.icon"
                 tile
                 size="80"
-                color="grey"
-              />
+              >
+                <v-img :src="service.iconUrl" />
+              </v-list-item-avatar>
             </v-list-item>
 
             <v-card-actions>
@@ -187,6 +201,8 @@ export default {
       valid: false,
       fields: {
         name: '',
+        icon: false,
+        iconUrl: '',
         sms: false,
         smsType: 0,
         przelew: false,
@@ -228,6 +244,10 @@ export default {
         name: [
           value => !!value || 'Wpisz nazwę usługi'
         ],
+        iconUrl: [
+          value => !!value || 'Wpisz adres URL',
+          value => this.isURL(value) || 'Adres URL nie jest prawidłowy'
+        ],
         smsType: [
           value => !!value || 'Wpisz typ sms\'a'
         ],
@@ -246,6 +266,15 @@ export default {
     }
   },
   methods: {
+    isURL (str) {
+      let url
+      try {
+        url = new URL(str)
+      } catch (_) {
+        return false
+      }
+      return url.protocol === 'http:' || url.protocol === 'https:'
+    },
     editService (service) {
       this.serviceId = service.serviceId
       const newService = Object.assign({}, service)
@@ -261,6 +290,8 @@ export default {
       this.serviceId = `service_${(Math.random() + 1).toString(36).substring(7)}`
       this.fields = {
         name: '',
+        icon: false,
+        iconUrl: '',
         sms: false,
         smsType: 0,
         przelew: false,
