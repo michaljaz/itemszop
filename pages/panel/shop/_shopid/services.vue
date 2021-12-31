@@ -99,7 +99,6 @@
       >
         <v-col
           :key="serverServices.name"
-          class="mt-2"
           cols="12"
         >
           <strong v-if="serversmap[serverServices.name]">{{ serversmap[serverServices.name].serverName }} </strong>

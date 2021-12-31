@@ -1,5 +1,9 @@
 <template>
-  <div />
+  <div>
+    <v-btn color="blue" text block large>
+      Nowy voucher
+    </v-btn>
+  </div>
 </template>
 <script>
 export default {

@@ -84,7 +84,10 @@
         <v-card-actions />
       </v-card>
     </v-dialog>
-    <v-row>
+    <strong>
+      Serwery
+    </strong>
+    <v-row class="mt-3">
       <v-col
         v-for="server in servers"
         :key="server.serverId"
@@ -99,7 +102,7 @@
         >
           <v-list-item three-line>
             <v-list-item-content>
-              <v-list-item-title class="text-h5 mb-1">
+              <v-list-item-title class="text-h5 mb-3">
                 {{ server.serverName }}
               </v-list-item-title>
               <v-list-item-subtitle>
