@@ -103,12 +103,7 @@
                 {{ server.serverName }}
               </v-list-item-title>
               <v-list-item-subtitle>
-                <div>
-                  IP serwera: {{ server.serverIp }}
-                </div>
-                <div class="mt-2">
-                  Port RCON: {{ server.serverPort }}
-                </div>
+                <v-chip>{{ server.serverIp }}:{{ server.serverPort }}</v-chip>
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
