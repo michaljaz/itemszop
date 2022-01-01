@@ -212,14 +212,14 @@ export default {
       if (this.valid) {
         const { shopid } = this.$route.params
         const { serverId, serverName, serverIp, serverPassword, serverPort } = this
-        this.$fire.database.ref().child(`/servers/${serverId}`).set({
+        this.$fire.database.ref().child(`servers/${serverId}`).set({
           owner: this.$fire.auth.currentUser.uid,
           serverName,
           serverIp,
           serverPassword,
           serverPort
         })
-        this.$fire.database.ref().child(`/shops/${shopid}/servers/`).update({ [serverId]: true })
+        this.$fire.database.ref().child(`shops/${shopid}/servers`).update({ [serverId]: true })
         this.dialog = false
       }
     },

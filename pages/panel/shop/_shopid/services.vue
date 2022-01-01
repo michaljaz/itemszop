@@ -283,7 +283,7 @@ export default {
     },
     removeService (service) {
       const { shopid } = this.$route.params
-      this.$fire.database.ref().child(`/shops/${shopid}/services/${service.serviceId}`).remove()
+      this.$fire.database.ref().child(`shops/${shopid}/services/${service.serviceId}`).remove()
     },
     newService () {
       this.serviceId = `service_${(Math.random() + 1).toString(36).substring(7)}`
