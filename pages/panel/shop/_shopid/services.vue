@@ -70,7 +70,7 @@
               value="say [nick] kupil cos tam"
             />
           </v-form>
-          <Editor :editorcontent="fields.description" @content="fields.description=$event" />
+          <TiptapEditor :editorcontent="fields.description" @content="fields.description=$event" />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -169,13 +169,8 @@
   </div>
 </template>
 <script>
-import Editor from '~/components/TiptapEditor'
-
 export default {
   name: 'ShopServices',
-  components: {
-    Editor
-  },
   props: {
     shop: {
       type: Object,
