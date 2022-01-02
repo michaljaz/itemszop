@@ -1,11 +1,17 @@
 <template>
   <div>
-    Hello
+    {{ shop.name }}
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ShopPage'
+  name: 'ShopPage',
+  props: {
+    shop: {
+      type: Object,
+      required: true
+    }
+  }
 }
 </script>
