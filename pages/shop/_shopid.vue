@@ -20,14 +20,14 @@
       </v-app-bar>
       <div class="mt-3">
         <v-row>
-          <v-col>
+          <v-col md="8" sm="12" xs="12" cols="12">
             <v-card>
               <v-card-text>
                 <nuxt-child />
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col>
+          <v-col md="4" sm="12" xs="12" cols="12">
             <v-card>
               <v-card-title class="headline justify-center">
                 Utrzymanie serwera
