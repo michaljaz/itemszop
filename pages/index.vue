@@ -51,7 +51,39 @@
         </v-col>
       </v-row>
     </v-parallax>
-    CONTENT
+    <v-container>
+      <v-row class="ma-2">
+        <v-col>
+          <v-img
+            src="/vercel.png"
+            width="200"
+            height="200"
+          />
+        </v-col>
+        <v-col>
+          <v-img
+            src="/nuxt.png"
+            width="200"
+            height="200"
+          />
+        </v-col>
+        <v-col>
+          <v-img
+            src="/vuetify.png"
+            width="200"
+            height="200"
+          />
+        </v-col>
+        <v-col>
+          <v-img
+            src="/firebase.png"
+            width="200"
+            height="200"
+          />
+        </v-col>
+      </v-row>
+    </v-container>
+
     <v-navigation-drawer v-model="drawer" absolute temporary>
       <v-list-item>
         <v-list-item-avatar>
