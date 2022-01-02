@@ -52,33 +52,52 @@
       </v-row>
     </v-parallax>
     <v-container>
+      <h1 class="display-1 mt-4 mb-7">
+        Dlaczego Itemszop jest najlepszy?
+      </h1>
+      <div>
+        <ul>
+          <li>
+            Jest kompletnie za darmo (nie ma żadnych planów cenowych)
+          </li>
+          <li>
+            Kod źródłowy jest otwarty dla każdeo (przez co sklep szybciej się rozwija)
+          </li>
+          <li>
+            Nie ma żadnych limitów. Możliwość tworzenia nieograniczonej liczby usług, sklepów, serwerów i voucherów
+          </li>
+          <li>
+            Działa dzięki wykorzystaniu najnowocześniejszych technologii tworzenia stron internetowych
+          </li>
+        </ul>
+      </div>
       <v-row class="ma-2">
         <v-col>
           <v-img
             src="/vercel.png"
-            width="200"
-            height="200"
+            width="100"
+            height="100"
           />
         </v-col>
         <v-col>
           <v-img
             src="/nuxt.png"
-            width="200"
-            height="200"
+            width="100"
+            height="100"
           />
         </v-col>
         <v-col>
           <v-img
             src="/vuetify.png"
-            width="200"
-            height="200"
+            width="100"
+            height="100"
           />
         </v-col>
         <v-col>
           <v-img
             src="/firebase.png"
-            width="200"
-            height="200"
+            width="100"
+            height="100"
           />
         </v-col>
       </v-row>
