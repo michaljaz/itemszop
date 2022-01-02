@@ -1,6 +1,8 @@
 <template>
   <div>
-    {{ shop.name }}
+    <li v-for="server in shop.servers" :key="server">
+      {{ server }}
+    </li>
   </div>
 </template>
 
