@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ShopListener @servers="servers=$event" @shop="shop=$event" />
+    <ShopListener public @servers="servers=$event" @shop="shop=$event" />
     <v-container v-if="shop.loaded">
       <h1 class="display-1 mb-5 mt-4">
         {{ shop.name }}
@@ -24,7 +24,7 @@
           <v-col md="8" sm="12" xs="12" cols="12">
             <v-card>
               <v-card-text>
-                <nuxt-child :shop="shop" />
+                <nuxt-child :shop="shop" :servers="servers" />
               </v-card-text>
             </v-card>
           </v-col>

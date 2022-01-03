@@ -4,6 +4,12 @@
 <script>
 export default {
   name: 'ShopListener',
+  props: {
+    public: {
+      type: Boolean,
+      default: () => (false)
+    }
+  },
   data () {
     return {
       shop: {},
@@ -60,7 +66,8 @@ export default {
     },
     createServerListener (serverId) {
       this.listeningServers[serverId] = true
-      this.$fire.database.ref().child(`servers/${serverId}`)
+      const serverPath = this.public ? `servers/${serverId}/serverName` : `servers/${serverId}`
+      this.$fire.database.ref().child(serverPath)
         .on('value', (s) => {
           const newServers = Object.assign({}, this.servers)
           newServers[serverId] = s.val()
