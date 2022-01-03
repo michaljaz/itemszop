@@ -55,22 +55,44 @@
       <h1 class="display-1 mt-4 mb-7">
         Dlaczego Itemszop jest najlepszy?
       </h1>
-      <div>
-        <ul>
-          <li>
-            Jest kompletnie za darmo (nie ma żadnych planów cenowych)
-          </li>
-          <li>
-            Kod źródłowy jest otwarty dla każdeo (przez co sklep szybciej się rozwija)
-          </li>
-          <li>
-            Nie ma żadnych limitów. Możliwość tworzenia nieograniczonej liczby usług, sklepów, serwerów i voucherów
-          </li>
-          <li>
-            Działa dzięki wykorzystaniu najnowocześniejszych technologii tworzenia stron internetowych
-          </li>
-        </ul>
-      </div>
+      <v-row>
+        <v-col cols="12" md="4">
+          <v-card>
+            <v-card-title>
+              Bezpłatny
+            </v-card-title>
+            <v-card-text>
+              Nie ma tutaj żadnych planów cenowych.
+              Nie ma także żadnych limitów na liczbę usług, liczbę sklepów, czy liczbę serwerów.
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-card>
+            <v-card-title>
+              Otwarty kod źródłowy
+            </v-card-title>
+            <v-card-text>
+              Każdy może zobaczyć jak działa sklep od początku do końca.
+              Dzięki temu sklep może szybciej się rozwijać i jest otwarty na nowe propozycje.
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-card>
+            <v-card-title>
+              Technologia
+            </v-card-title>
+            <v-card-text>
+              Serwis jest zbudowany przy użyciu najnowszych technologii
+              takich jak serverless'owe funkcje, lub baza danych Firebase.
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+      <h1 class="display-1 mt-4 mb-7">
+        Zasada działania
+      </h1>
       <v-row class="ma-2">
         <v-col>
           <v-img
