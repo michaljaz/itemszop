@@ -57,7 +57,7 @@
       </h1>
       <v-row>
         <v-col cols="12" md="4">
-          <v-card>
+          <v-card height="100%">
             <v-card-title>
               Bezpłatny
             </v-card-title>
@@ -68,59 +68,72 @@
           </v-card>
         </v-col>
         <v-col cols="12" md="4">
-          <v-card>
+          <v-card height="100%">
             <v-card-title>
               Otwarty kod źródłowy
             </v-card-title>
             <v-card-text>
-              Każdy może zobaczyć jak działa sklep od początku do końca.
-              Dzięki temu sklep może szybciej się rozwijać i jest otwarty na nowe propozycje.
+              Kod źródłowy jest publicznie dostępny na githubie.
+              Każdy może zostać współtwórcą tego projektu.
+              Dzięki temu ItemSzop może szybciej się rozwijać.
             </v-card-text>
           </v-card>
         </v-col>
         <v-col cols="12" md="4">
-          <v-card>
+          <v-card height="100%">
             <v-card-title>
               Technologia
             </v-card-title>
             <v-card-text>
-              Serwis jest zbudowany przy użyciu najnowszych technologii
-              takich jak serverless'owe funkcje, lub baza danych Firebase.
+              ItemSzop jest zbudowany przy użyciu najnowszych technologii
+              takich jak statyczna strona, serverless'owe funkcje lub baza danych w chmurze.
             </v-card-text>
           </v-card>
         </v-col>
       </v-row>
-      <h1 class="display-1 mt-4 mb-7">
-        Zasada działania
+      <h1 class="display-1 mt-10 mb-7">
+        Użyte serwisy i frameworki:
       </h1>
       <v-row class="ma-2">
         <v-col>
-          <v-img
-            src="/vercel.png"
-            width="100"
-            height="100"
-          />
+          <center>
+            <v-img
+              src="/vercel.png"
+              width="100"
+              height="100"
+            />
+            Vercel
+          </center>
         </v-col>
         <v-col>
-          <v-img
-            src="/nuxt.png"
-            width="100"
-            height="100"
-          />
+          <center>
+            <v-img
+              src="/nuxt.png"
+              width="100"
+              height="100"
+            />
+            Nuxt
+          </center>
         </v-col>
         <v-col>
-          <v-img
-            src="/vuetify.png"
-            width="100"
-            height="100"
-          />
+          <center>
+            <v-img
+              src="/vuetify.png"
+              width="100"
+              height="100"
+            />
+            Vuetify
+          </center>
         </v-col>
         <v-col>
-          <v-img
-            src="/firebase.png"
-            width="100"
-            height="100"
-          />
+          <center>
+            <v-img
+              src="/firebase.png"
+              width="100"
+              height="100"
+            />
+            Firebase
+          </center>
         </v-col>
       </v-row>
     </v-container>
