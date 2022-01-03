@@ -258,6 +258,15 @@ export default {
       this.updateServices()
     },
     servers () {
+      this.updateServers()
+    }
+  },
+  mounted () {
+    this.updateServices()
+    this.updateServers()
+  },
+  methods: {
+    updateServers () {
       const result = []
       for (const serverId in this.servers) {
         if (this.servers[serverId]) {
@@ -267,12 +276,7 @@ export default {
         }
       }
       this.serversList = result
-    }
-  },
-  mounted () {
-    this.updateServices()
-  },
-  methods: {
+    },
     updateServices () {
       const result = []
 

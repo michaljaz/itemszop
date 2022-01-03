@@ -42,11 +42,14 @@ export default {
   },
   methods: {
     updateServerListeners (servers) {
-      for (const serverId in this.listeningServers) {
-        if (!servers[serverId]) {
-          this.destroyServerListener(serverId)
+      if (servers !== undefined) {
+        for (const serverId in this.listeningServers) {
+          if (!servers[serverId]) {
+            this.destroyServerListener(serverId)
+          }
         }
       }
+
       for (const serverId in servers) {
         if (!this.listeningServers[serverId]) {
           this.createServerListener(serverId)
