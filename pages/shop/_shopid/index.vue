@@ -1,8 +1,14 @@
 <template>
   <div>
-    <li v-for="server in servers" :key="server">
-      {{ server }}
-    </li>
+    <v-row>
+      <v-col v-for="server in servers" :key="server">
+        <v-card :to="`/shop/${$route.params.shopid}/server/123`" class="pa-3" elevation="5">
+          <v-card-text class="d-flex justify-center headline">
+            {{ server }}
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 

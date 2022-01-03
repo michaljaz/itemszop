@@ -5,19 +5,23 @@
       <h1 class="display-1 mb-5 mt-4">
         {{ shop.name }}
       </h1>
-      <v-app-bar height="70" elevation="4" rounded>
-        <v-container class="pa-0 fill-height justify-space-between">
-          <v-toolbar-items>
-            <v-btn text>
-              Sklep
-            </v-btn>
-          </v-toolbar-items>
-          <v-toolbar-items>
-            <v-btn text>
-              Zrealizuj voucher
-            </v-btn>
-          </v-toolbar-items>
-        </v-container>
+      <v-app-bar
+        class="blue darken-4"
+        elevation="4"
+        rounded
+        filled
+      >
+        <v-toolbar-items>
+          <v-btn text :to="`/shop/${$route.params.shopid}`" active-class="no-active">
+            Sklep
+          </v-btn>
+        </v-toolbar-items>
+        <v-spacer />
+        <v-toolbar-items>
+          <v-btn text>
+            Zrealizuj voucher
+          </v-btn>
+        </v-toolbar-items>
       </v-app-bar>
       <div class="mt-3">
         <v-row>
@@ -60,3 +64,9 @@ export default {
   }
 }
 </script>
+<style>
+.v-btn--active.no-active:not(:focus):not(:hover)::before
+{
+  opacity: 0 !important;
+}
+</style>
