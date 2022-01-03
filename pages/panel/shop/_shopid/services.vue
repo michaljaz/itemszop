@@ -60,7 +60,7 @@
               v-model="fields.server"
               item-text="serverName"
               item-value="serverId"
-              :items="servers"
+              :items="serversList"
               label="Wybierz serwer"
               :rules="rules.server"
             />
@@ -95,13 +95,13 @@
     </v-dialog>
     <v-row>
       <template
-        v-for="serverServices in services"
+        v-for="serverServices in servicesList"
       >
         <v-col
           :key="serverServices.name"
           cols="12"
         >
-          <strong v-if="serversmap[serverServices.name]">{{ serversmap[serverServices.name].serverName }} </strong>
+          <strong v-if="servers[serverServices.name]">{{ servers[serverServices.name].serverName }} </strong>
           <strong v-else>
             Bez serwera
           </strong>
@@ -177,20 +177,14 @@ export default {
       required: true
     },
     servers: {
-      type: Array,
-      required: true
-    },
-    serversmap: {
       type: Object,
-      required: true
-    },
-    services: {
-      type: Array,
       required: true
     }
   },
   data () {
     return {
+      serversList: [],
+      servicesList: [],
       serviceId: '',
       valid: false,
       fields: {
@@ -259,7 +253,48 @@ export default {
       title: 'Usługi'
     }
   },
+  watch: {
+    shop () {
+      this.updateServices()
+    },
+    servers () {
+      const result = []
+      Object.keys(this.servers).forEach((serverId) => {
+        if (this.servers[serverId]) {
+          const server = Object.assign({}, this.servers[serverId])
+          server.serverId = serverId
+          result.push(server)
+        }
+      })
+      this.serversList = result
+    }
+  },
+  mounted () {
+    this.updateServices()
+  },
   methods: {
+    updateServices () {
+      const result = []
+      if (this.shop.services) {
+        const servicesByServer = {}
+        Object.keys(this.shop.services).forEach((serviceId) => {
+          const service = Object.assign({}, this.shop.services[serviceId])
+          service.serviceId = serviceId
+          if (servicesByServer[service.server]) {
+            servicesByServer[service.server].push(service)
+          } else {
+            servicesByServer[service.server] = [service]
+          }
+        })
+        Object.keys(servicesByServer).forEach((serverId) => {
+          result.push({
+            name: serverId,
+            services: servicesByServer[serverId]
+          })
+        })
+      }
+      this.servicesList = result.slice().reverse()
+    },
     isURL (str) {
       let url
       try {

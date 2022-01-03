@@ -146,12 +146,8 @@
 export default {
   name: 'ShopServers',
   props: {
-    shop: {
-      type: Object,
-      required: true
-    },
     servers: {
-      type: Array,
+      type: Object,
       required: true
     }
   },
@@ -189,6 +185,19 @@ export default {
   head () {
     return {
       title: 'Serwery'
+    }
+  },
+  watch: {
+    servers () {
+      const result = []
+      Object.keys(this.servers).forEach((serverId) => {
+        if (this.servers[serverId]) {
+          const server = Object.assign({}, this.servers[serverId])
+          server.serverId = serverId
+          result.push(server)
+        }
+      })
+      this.serversList = result
     }
   },
   methods: {
