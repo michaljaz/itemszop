@@ -1,5 +1,6 @@
 <template>
   <div>
+    <ShopListener @servers="servers=$event" @shop="shop=$event" />
     <v-container v-if="shop.loaded">
       <h1 class="display-1 mb-5 mt-4">
         {{ shop.name }}
@@ -53,35 +54,8 @@ export default {
   name: 'ShopidRoute',
   data () {
     return {
-      shop: {
-        loaded: false
-      },
-      shopid: null
-    }
-  },
-  mounted () {
-    this.shopid = this.$route.params.shopid
-    this.createShopListener()
-  },
-  beforeDestroy () {
-    this.removeShopListener()
-  },
-  methods: {
-    createShopListener () {
-      const { shopid } = this.$route.params
-      this.$fire.database.ref().child(`shops/${shopid}`)
-        .on('value', (snapshot) => {
-          if (snapshot.exists()) {
-            const shop = snapshot.val()
-            shop.loaded = true
-            this.shop = shop
-          } else {
-            this.$router.push('/')
-          }
-        })
-    },
-    removeShopListener () {
-      this.$fire.database.ref().child(`shops/${this.shopid}`).off('value')
+      shop: {},
+      servers: {}
     }
   }
 }
