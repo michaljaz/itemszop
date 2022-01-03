@@ -1,10 +1,10 @@
 <template>
   <div>
     <v-row>
-      <v-col v-for="server in servers" :key="server">
-        <v-card :to="`/shop/${$route.params.shopid}/server/123`" class="pa-3" elevation="5">
+      <v-col v-for="server in serversList" :key="server.serverId">
+        <v-card :to="`/shop/${$route.params.shopid}/server/${server.serverId}`" class="pa-3" elevation="5">
           <v-card-text class="d-flex justify-center headline">
-            {{ server }}
+            {{ server.serverName }}
           </v-card-text>
         </v-card>
       </v-col>
@@ -23,6 +23,31 @@ export default {
     servers: {
       type: Object,
       required: true
+    }
+  },
+  data () {
+    return {
+      serversList: []
+    }
+  },
+  watch: {
+    servers () {
+      this.updateServersList()
+    }
+  },
+  mounted () {
+    this.updateServersList()
+  },
+  methods: {
+    updateServersList () {
+      const result = []
+      Object.keys(this.servers).forEach((serverId) => {
+        result.push({
+          serverId,
+          serverName: this.servers[serverId]
+        })
+      })
+      this.serversList = result
     }
   }
 }
