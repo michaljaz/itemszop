@@ -89,7 +89,7 @@
     </strong>
     <v-row class="mt-3">
       <v-col
-        v-for="server in servers"
+        v-for="server in serversList"
         :key="server.serverId"
         cols="12"
         lg="4"
@@ -164,6 +164,7 @@ export default {
       serverPassword: '',
       showPassword: false,
       dialog: false,
+      serversList: [],
       rules: {
         port: [
           value => !!value || 'Wpisz port'
@@ -189,18 +190,24 @@ export default {
   },
   watch: {
     servers () {
+      this.updateServersList()
+    }
+  },
+  mounted () {
+    this.updateServersList()
+  },
+  methods: {
+    updateServersList () {
       const result = []
-      Object.keys(this.servers).forEach((serverId) => {
+      for (const serverId in this.servers) {
         if (this.servers[serverId]) {
           const server = Object.assign({}, this.servers[serverId])
           server.serverId = serverId
           result.push(server)
         }
-      })
+      }
       this.serversList = result
-    }
-  },
-  methods: {
+    },
     applyServer (server) {
       this.serverId = server.serverId
       this.serverPort = server.serverPort

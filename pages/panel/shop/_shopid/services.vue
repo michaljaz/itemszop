@@ -259,13 +259,13 @@ export default {
     },
     servers () {
       const result = []
-      Object.keys(this.servers).forEach((serverId) => {
+      for (const serverId in this.servers) {
         if (this.servers[serverId]) {
           const server = Object.assign({}, this.servers[serverId])
           server.serverId = serverId
           result.push(server)
         }
-      })
+      }
       this.serversList = result
     }
   },
@@ -275,9 +275,10 @@ export default {
   methods: {
     updateServices () {
       const result = []
+
       if (this.shop.services) {
         const servicesByServer = {}
-        Object.keys(this.shop.services).forEach((serviceId) => {
+        for (const serviceId in this.shop.services) {
           const service = Object.assign({}, this.shop.services[serviceId])
           service.serviceId = serviceId
           if (servicesByServer[service.server]) {
@@ -285,13 +286,13 @@ export default {
           } else {
             servicesByServer[service.server] = [service]
           }
-        })
-        Object.keys(servicesByServer).forEach((serverId) => {
+        }
+        for (const serverId in servicesByServer) {
           result.push({
             name: serverId,
             services: servicesByServer[serverId]
           })
-        })
+        }
       }
       this.servicesList = result.slice().reverse()
     },

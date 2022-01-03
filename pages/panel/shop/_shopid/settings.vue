@@ -53,14 +53,14 @@ export default {
     remove () {
       if (this.shop.servers) {
         let deleted = 0
-        Object.keys(this.shop.servers).forEach((serverId) => {
+        for (const serverId in this.shop.servers) {
           this.$fire.database.ref().child(`servers/${serverId}`).remove().then(() => {
             deleted++
             if (deleted === Object.keys(this.shop.servers).length) {
               this.removeShop()
             }
           })
-        })
+        }
       } else {
         this.removeShop()
       }

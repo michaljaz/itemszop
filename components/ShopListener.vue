@@ -42,19 +42,15 @@ export default {
   },
   methods: {
     updateServerListeners (servers) {
-      if (this.listeningServers && servers !== undefined) {
-        Object.keys(this.listeningServers).forEach((serverId) => {
-          if (!servers[serverId]) {
-            this.destroyServerListener(serverId)
-          }
-        })
+      for (const serverId in this.listeningServers) {
+        if (!servers[serverId]) {
+          this.destroyServerListener(serverId)
+        }
       }
-      if (servers) {
-        Object.keys(servers).forEach((serverId) => {
-          if (!this.listeningServers[serverId]) {
-            this.createServerListener(serverId)
-          }
-        })
+      for (const serverId in servers) {
+        if (!this.listeningServers[serverId]) {
+          this.createServerListener(serverId)
+        }
       }
     },
     destroyServerListener (serverId) {
@@ -87,10 +83,8 @@ export default {
         })
     },
     destroyListeners (shopId) {
-      if (this.listeningServers) {
-        Object.keys(this.listeningServers).forEach((serverId) => {
-          this.destroyServerListener(serverId)
-        })
+      for (const serverId in this.listeningServers) {
+        this.destroyServerListener(serverId)
       }
       this.$fire.database.ref().child(`shops/${shopId}`).off('value')
     }

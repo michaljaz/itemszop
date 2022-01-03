@@ -27,12 +27,11 @@ export default {
     updateServices () {
       const result = []
       const { serverid } = this.$route.params
-      Object.keys(this.shop.services).forEach((serviceId) => {
+      for (const serviceId in this.shop.services) {
         if (this.shop.services[serviceId].server === serverid) {
           result.push(this.shop.services[serviceId])
         }
-      })
-      console.log(result)
+      }
       this.services = result
     }
   }

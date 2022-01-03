@@ -41,12 +41,12 @@ export default {
   methods: {
     updateServersList () {
       const result = []
-      Object.keys(this.servers).forEach((serverId) => {
+      for (const serverId in this.servers) {
         result.push({
           serverId,
           serverName: this.servers[serverId]
         })
-      })
+      }
       this.serversList = result
     }
   }
