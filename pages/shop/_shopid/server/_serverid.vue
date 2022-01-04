@@ -5,10 +5,10 @@
         <v-card elevation="5" height="100%" :to="`/shop/${$route.params.shopid}/service/${service.serviceId}`">
           <center>
             <template v-if="service.icon">
-              <v-img :src="service.iconUrl" height="120" width="120" />
+              <v-img :src="service.iconUrl" max-height="120" contain />
             </template>
             <template v-else>
-              <v-img height="120" width="120" />
+              <v-img max-height="120" contain />
             </template>
           </center>
           <v-card-text>
