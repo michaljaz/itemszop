@@ -38,7 +38,7 @@
                 Utrzymanie serwera
               </v-card-title>
               <v-card-text>
-                Utrzymanie serwera
+                <v-progress-linear value="15" />
               </v-card-text>
             </v-card>
           </v-col>
