@@ -321,7 +321,7 @@ export default {
       this.$fire.database.ref().child(`shops/${shopid}/services/${service.serviceId}`).remove()
     },
     newService () {
-      this.serviceId = `service_${(Math.random() + 1).toString(36).substring(7)}`
+      this.serviceId = `${Math.random().toString(36).replace('0.', '')}`
       this.fields = {
         name: '',
         icon: false,

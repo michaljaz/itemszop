@@ -2,9 +2,11 @@
   <div>
     <v-row>
       <v-col v-for="server in serversList" :key="server.serverId">
-        <v-card :to="`/shop/${$route.params.shopid}/server/${server.serverId}`" class="pa-3" elevation="5">
-          <v-card-text class="d-flex justify-center headline">
-            {{ server.serverName }}
+        <v-card :to="`/shop/${$route.params.shopid}/server/${server.serverId}`" class="pa-3" elevation="5" height="100%">
+          <v-card-text class=" headline">
+            <center>
+              {{ server.serverName }}
+            </center>
           </v-card-text>
         </v-card>
       </v-col>

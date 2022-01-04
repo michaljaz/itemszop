@@ -251,7 +251,7 @@ export default {
       this.serverIp = 'localhost'
       this.serverPassword = 'password'
       this.serverPort = '25575'
-      this.serverId = `server_${(Math.random() + 1).toString(36).substring(7)}`
+      this.serverId = `${Math.random().toString(36).replace('0.', '')}`
       this.dialog = true
     },
     sendRconCommand (host, port, password, command) {

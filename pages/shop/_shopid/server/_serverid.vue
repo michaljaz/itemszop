@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <v-col v-for="service in services" :key="service.serviceId" cols="12" md="4">
-        <v-card elevation="5" height="100%">
+        <v-card elevation="5" height="100%" :to="`/shop/${$route.params.shopid}/service/${service.serviceId}`">
           <center>
             <template v-if="service.icon">
               <v-img :src="service.iconUrl" height="120" width="120" />
