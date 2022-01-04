@@ -18,7 +18,7 @@
         </v-toolbar-items>
         <v-spacer />
         <v-toolbar-items>
-          <v-btn text>
+          <v-btn text :to="`/shop/${$route.params.shopid}/voucher`">
             Zrealizuj voucher
           </v-btn>
         </v-toolbar-items>
