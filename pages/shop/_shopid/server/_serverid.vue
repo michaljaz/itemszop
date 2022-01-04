@@ -8,7 +8,7 @@
               <v-img :src="service.iconUrl" max-height="120" contain />
             </template>
             <template v-else>
-              <v-img max-height="120" contain />
+              <v-img src="/item.png" max-height="120" contain />
             </template>
           </center>
           <v-card-text>
