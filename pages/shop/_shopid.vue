@@ -35,10 +35,34 @@
           <v-col md="4" sm="12" xs="12" cols="12">
             <v-card>
               <v-card-title class="headline justify-center">
-                Utrzymanie serwera
+                Cel miesięczny
               </v-card-title>
               <v-card-text>
                 <v-progress-linear value="15" />
+                <h1 class="mt-4 d-flex headline justify-center">
+                  „Utrzymanie serwera”
+                </h1>
+              </v-card-text>
+            </v-card>
+            <v-card class="mt-5">
+              <v-card-title class="headline justify-center">
+                Ostatnie zakupy
+              </v-card-title>
+              <v-card-text>
+                <v-list flat>
+                  <v-list-item v-for="k in 5" :key="k" two-line>
+                    <v-list-item-avatar
+                      tile
+                      size="40"
+                    >
+                      <v-img src="https://www.topkamc.pl/content/player/steve/avatar?dimensions=32" />
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                      <v-list-item-title>Steve{{ k }}</v-list-item-title>
+                      <v-list-item-subtitle>VIP</v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
               </v-card-text>
             </v-card>
           </v-col>
