@@ -18,7 +18,7 @@
               </v-col>
               <v-col cols="12" xs="6" md="6" class="text-right pb-0">
                 <template v-if="service.sms">
-                  0
+                  {{ smsCost[service.smsType] }} zł
                 </template>
                 <template v-else>
                   X
@@ -29,7 +29,7 @@
               </v-col>
               <v-col cols="12" xs="6" md="6" class="text-right pt-1">
                 <template v-if="service.przelew">
-                  {{ service.przelewCost }}
+                  {{ service.przelewCost }} zł
                 </template>
                 <template v-else>
                   X
@@ -57,7 +57,20 @@ export default {
   },
   data () {
     return {
-      services: []
+      services: [],
+      smsCost: {
+        1: '1.23',
+        2: '2.46',
+        3: '3.69',
+        4: '4.92',
+        5: '6.15',
+        6: '7.38',
+        7: '11.07',
+        8: '17.22',
+        9: '23.37',
+        10: '24.60',
+        11: '30.75'
+      }
     }
   },
   watch: {
