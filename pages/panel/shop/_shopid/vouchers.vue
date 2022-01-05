@@ -32,9 +32,10 @@
                 </v-col>
                 <v-col cols="12" md="6">
                   <v-menu
-                    v-model="menu2"
+                    ref="menu"
+                    v-model="menu"
                     :close-on-content-click="false"
-                    :nudge-right="40"
+                    :return-value.sync="date"
                     transition="scale-transition"
                     offset-y
                     min-width="auto"
@@ -51,9 +52,28 @@
                     </template>
                     <v-date-picker
                       v-model="date"
+                      light
+                      color="blue"
                       range
-                      @input="menu2 = false"
-                    />
+                      no-title
+                      scrollable
+                    >
+                      <v-spacer />
+                      <v-btn
+                        text
+                        color="primary"
+                        @click="menu = false"
+                      >
+                        Anuluj
+                      </v-btn>
+                      <v-btn
+                        text
+                        color="primary"
+                        @click="$refs.menu.save(date)"
+                      >
+                        Zapisz
+                      </v-btn>
+                    </v-date-picker>
                   </v-menu>
                 </v-col>
               </v-row>
@@ -101,7 +121,7 @@ export default {
       valid: false,
       services: [],
       date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-      menu2: false
+      menu: false
     }
   },
   head () {
