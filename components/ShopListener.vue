@@ -81,7 +81,7 @@ export default {
             shop.loaded = true
             this.shop = shop
           } else {
-            this.$router.push('/')
+            this.$router.push('/panel')
           }
         })
     },
