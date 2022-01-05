@@ -31,13 +31,30 @@
                   />
                 </v-col>
                 <v-col cols="12" md="6">
-                  <v-select
-                    item-text="name"
-                    item-value="value"
-                    label="Ważność kodów"
-                    hint="Liczba dni, po których voucher wygasa, jeśli nie zostanie użyty"
-                    persistent-hint
-                  />
+                  <v-menu
+                    v-model="menu2"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                  >
+                    <template #activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="date"
+                        label="Termin działania voucherów"
+                        prepend-icon="mdi-calendar"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                      />
+                    </template>
+                    <v-date-picker
+                      v-model="date"
+                      range
+                      @input="menu2 = false"
+                    />
+                  </v-menu>
                 </v-col>
               </v-row>
             </v-form>
@@ -82,7 +99,9 @@ export default {
   data () {
     return {
       valid: false,
-      services: []
+      services: [],
+      date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      menu2: false
     }
   },
   head () {
