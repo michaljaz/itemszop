@@ -12,8 +12,12 @@
             </v-card-title>
             <v-card-text>
               <v-text-field v-model="name" :rules="rules.name" label="Nazwa sklepu" />
-              <v-text-field v-model="shopid" :rules="rules.shopid" label="Id sklepu" />
-              <v-text-field v-model="url" label="Tak będzie wygladał link" disabled />
+              <v-text-field
+                v-model="shopid"
+                :rules="rules.shopid"
+                label="Id sklepu"
+                :prefix="url"
+              />
             </v-card-text>
             <v-card-actions>
               <v-spacer />
@@ -51,11 +55,6 @@ export default {
   head () {
     return {
       title: 'Nowy sklep'
-    }
-  },
-  watch: {
-    shopid () {
-      this.url = `${document.location.origin}/shop/${this.shopid}`
     }
   },
   methods: {
