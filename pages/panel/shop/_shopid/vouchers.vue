@@ -19,6 +19,7 @@
                     label="Wybierz usługę"
                     hint="Wybierz jaką usługę będzie można aktywować voucherem."
                     persistent-hint
+                    :items="services"
                   />
                 </v-col>
                 <v-col cols="12" md="6">
@@ -72,6 +73,16 @@ export default {
     shop: {
       type: Object,
       required: true
+    },
+    servers: {
+      type: Object,
+      required: true
+    }
+  },
+  data () {
+    return {
+      valid: false,
+      services: []
     }
   },
   head () {
@@ -79,7 +90,30 @@ export default {
       title: 'Vouchery'
     }
   },
+  watch: {
+    shop () {
+      this.updateServices()
+    },
+    servers () {
+      this.updateServices()
+    }
+  },
+  mounted () {
+    this.updateServices()
+  },
   methods: {
+    updateServices () {
+      const result = []
+      for (const serviceId in this.shop.services) {
+        const service = this.shop.services[serviceId]
+        const server = this.servers[service.server] ? this.servers[service.server].serverName : ''
+        result.push({
+          name: `${service.name} (${server})`,
+          value: serviceId
+        })
+      }
+      this.services = result
+    },
     create () {
 
     }
