@@ -17,7 +17,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn color="green" rounded text>
+            <v-btn color="green" rounded text @click="save">
               Zapisz
             </v-btn>
             <v-btn color="red" rounded text @click="remove">
@@ -40,7 +40,7 @@ export default {
   },
   data () {
     return {
-      goal: 0,
+      goal: this.shop.goal,
       name: this.shop.name
     }
   },
@@ -50,6 +50,13 @@ export default {
     }
   },
   methods: {
+    save () {
+      const { shopid } = this.$route.params
+      this.$fire.database.ref().child(`shops/${shopid}`).update({
+        name: this.name,
+        goal: this.goal
+      })
+    },
     remove () {
       if (this.shop.servers) {
         let deleted = 0

@@ -71,7 +71,7 @@ export default {
         .set({
           icon: '',
           owner: uid,
-          cel: 100,
+          goal: 100,
           name,
           pages: {
             page1: {
