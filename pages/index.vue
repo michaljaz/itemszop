@@ -138,7 +138,7 @@
       </v-row>
     </v-container>
 
-    <v-navigation-drawer v-model="drawer" absolute temporary>
+    <v-navigation-drawer v-model="drawer" fixed temporary app>
       <v-list-item>
         <v-list-item-avatar>
           <v-img src="/favicon.ico" />
