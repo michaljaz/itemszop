@@ -38,6 +38,11 @@
     <v-card-title class="justify-center">
       {{ service.name }}
     </v-card-title>
+    <v-card-actions v-if="!link">
+      <v-btn color="green" large outlined block>
+        Kupuję
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 <script>
