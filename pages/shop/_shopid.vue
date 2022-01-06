@@ -28,7 +28,19 @@
           <v-col md="8" sm="12" xs="12" cols="12">
             <v-card>
               <v-card-text>
-                <nuxt-child :shop="shop" :servers="servers" />
+                <v-breadcrumbs :items="breadCrumbs" class="pt-2 pl-2">
+                  <template #item="{ item }">
+                    <v-breadcrumbs-item
+                      :to="item.href"
+                      class="text-subtitle-1 crumb-item"
+                      :disabled="item.disabled"
+                      exact
+                    >
+                      {{ item.text }}
+                    </v-breadcrumbs-item>
+                  </template>
+                </v-breadcrumbs>
+                <nuxt-child :shop="shop" :servers="servers" @breadcrumb="breadCrumbs=$event" />
               </v-card-text>
             </v-card>
           </v-col>
@@ -83,7 +95,8 @@ export default {
   data () {
     return {
       shop: {},
-      servers: {}
+      servers: {},
+      breadCrumbs: []
     }
   }
 }

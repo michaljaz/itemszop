@@ -39,6 +39,15 @@ export default {
   },
   mounted () {
     this.updateServersList()
+    this.$emit('breadcrumb', [{
+      text: 'Sklep',
+      disabled: false,
+      href: this.$route.path
+    },
+    {
+      text: 'Serwery',
+      disabled: true
+    }])
   },
   methods: {
     updateServersList () {

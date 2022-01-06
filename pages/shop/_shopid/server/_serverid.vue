@@ -28,6 +28,20 @@ export default {
   },
   mounted () {
     this.updateServices()
+    this.$emit('breadcrumb', [{
+      text: 'Sklep',
+      disabled: false,
+      href: `/shop/${this.$route.params.shopid}`
+    },
+    {
+      text: 'Nazwa serwera',
+      disabled: false,
+      href: this.$route.path
+    },
+    {
+      text: 'Usługi',
+      disabled: true
+    }])
   },
   methods: {
     updateServices () {
