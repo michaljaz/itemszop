@@ -164,7 +164,6 @@ export default {
       serverPassword: '',
       showPassword: false,
       dialog: false,
-      serversList: [],
       rules: {
         port: [
           value => !!value || 'Wpisz port'
@@ -188,16 +187,8 @@ export default {
       title: 'Serwery'
     }
   },
-  watch: {
-    servers () {
-      this.updateServersList()
-    }
-  },
-  mounted () {
-    this.updateServersList()
-  },
-  methods: {
-    updateServersList () {
+  computed: {
+    serversList () {
       const result = []
       for (const serverId in this.servers) {
         if (this.servers[serverId]) {
@@ -206,8 +197,10 @@ export default {
           result.push(server)
         }
       }
-      this.serversList = result
-    },
+      return result
+    }
+  },
+  methods: {
     applyServer (server) {
       this.serverId = server.serverId
       this.serverPort = server.serverPort

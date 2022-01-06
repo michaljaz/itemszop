@@ -27,18 +27,19 @@ export default {
       required: true
     }
   },
-  data () {
-    return {
-      serversList: []
-    }
-  },
-  watch: {
-    servers () {
-      this.updateServersList()
+  computed: {
+    serversList () {
+      const result = []
+      for (const serverId in this.servers) {
+        result.push({
+          serverId,
+          serverName: this.servers[serverId]
+        })
+      }
+      return result
     }
   },
   mounted () {
-    this.updateServersList()
     this.$emit('breadcrumb', [{
       text: 'Sklep',
       disabled: false,
@@ -48,18 +49,6 @@ export default {
       text: 'Serwery',
       disabled: true
     }])
-  },
-  methods: {
-    updateServersList () {
-      const result = []
-      for (const serverId in this.servers) {
-        result.push({
-          serverId,
-          serverName: this.servers[serverId]
-        })
-      }
-      this.serversList = result
-    }
   }
 }
 </script>

@@ -183,8 +183,6 @@ export default {
   },
   data () {
     return {
-      serversList: [],
-      servicesList: [],
       serviceId: '',
       valid: false,
       fields: {
@@ -253,20 +251,8 @@ export default {
       title: 'Usługi'
     }
   },
-  watch: {
-    shop () {
-      this.updateServices()
-    },
-    servers () {
-      this.updateServers()
-    }
-  },
-  mounted () {
-    this.updateServices()
-    this.updateServers()
-  },
-  methods: {
-    updateServers () {
+  computed: {
+    serversList () {
       const result = []
       for (const serverId in this.servers) {
         if (this.servers[serverId]) {
@@ -275,9 +261,9 @@ export default {
           result.push(server)
         }
       }
-      this.serversList = result
+      return result
     },
-    updateServices () {
+    servicesList () {
       const result = []
 
       if (this.shop.services) {
@@ -298,8 +284,10 @@ export default {
           })
         }
       }
-      this.servicesList = result.slice().reverse()
-    },
+      return result.slice().reverse()
+    }
+  },
+  methods: {
     isURL (str) {
       let url
       try {

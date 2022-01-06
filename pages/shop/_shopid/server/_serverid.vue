@@ -20,21 +20,26 @@ export default {
       required: true
     }
   },
-  data () {
-    return {
-      services: []
+  computed: {
+    services () {
+      const result = []
+      const { serverid } = this.$route.params
+      for (const serviceId in this.shop.services) {
+        if (this.shop.services[serviceId].server === serverid) {
+          const service = Object.assign({}, this.shop.services[serviceId])
+          service.serviceId = serviceId
+          result.push(service)
+        }
+      }
+      return result
     }
   },
   watch: {
-    shop () {
-      this.updateServices()
-    },
     servers () {
       this.updateBreadCrumb()
     }
   },
   mounted () {
-    this.updateServices()
     this.updateBreadCrumb()
   },
   methods: {
@@ -53,18 +58,6 @@ export default {
         text: 'Usługi',
         disabled: true
       }])
-    },
-    updateServices () {
-      const result = []
-      const { serverid } = this.$route.params
-      for (const serviceId in this.shop.services) {
-        if (this.shop.services[serviceId].server === serverid) {
-          const service = Object.assign({}, this.shop.services[serviceId])
-          service.serviceId = serviceId
-          result.push(service)
-        }
-      }
-      this.services = result
     }
   }
 }

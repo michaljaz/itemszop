@@ -21,25 +21,12 @@ export default {
       required: true
     }
   },
-  data () {
-    return {
-      service: {}
-    }
-  },
-  watch: {
-    shop () {
-      this.updateService()
-    }
-  },
-  mounted () {
-    this.updateService()
-  },
-  methods: {
-    updateService () {
+  computed: {
+    service () {
       const { serviceid } = this.$route.params
       const service = Object.assign({}, this.shop.services[serviceid])
       service.serviceId = serviceid
-      this.service = service
+      return service
     }
   }
 }
