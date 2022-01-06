@@ -14,6 +14,10 @@ export default {
     shop: {
       type: Object,
       required: true
+    },
+    servers: {
+      type: Object,
+      required: true
     }
   },
   data () {
@@ -24,26 +28,32 @@ export default {
   watch: {
     shop () {
       this.updateServices()
+    },
+    servers () {
+      this.updateBreadCrumb()
     }
   },
   mounted () {
     this.updateServices()
-    this.$emit('breadcrumb', [{
-      text: 'Sklep',
-      disabled: false,
-      href: `/shop/${this.$route.params.shopid}`
-    },
-    {
-      text: 'Nazwa serwera',
-      disabled: false,
-      href: this.$route.path
-    },
-    {
-      text: 'Usługi',
-      disabled: true
-    }])
+    this.updateBreadCrumb()
   },
   methods: {
+    updateBreadCrumb () {
+      this.$emit('breadcrumb', [{
+        text: 'Sklep',
+        disabled: false,
+        href: `/shop/${this.$route.params.shopid}`
+      },
+      {
+        text: this.servers[this.$route.params.serverid],
+        disabled: false,
+        href: this.$route.path
+      },
+      {
+        text: 'Usługi',
+        disabled: true
+      }])
+    },
     updateServices () {
       const result = []
       const { serverid } = this.$route.params
