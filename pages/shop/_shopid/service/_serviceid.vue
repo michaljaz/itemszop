@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ service.name }}
+    <ServiceCard :service="service" />
   </div>
 </template>
 <script>
@@ -19,16 +19,18 @@ export default {
   },
   watch: {
     shop () {
-      this.updateServices()
+      this.updateService()
     }
   },
   mounted () {
-    this.updateServices()
+    this.updateService()
   },
   methods: {
-    updateServices () {
+    updateService () {
       const { serviceid } = this.$route.params
-      this.service = this.shop.services[serviceid]
+      const service = Object.assign({}, this.shop.services[serviceid])
+      service.serviceId = serviceid
+      this.service = service
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="5" height="100%" :to="`/shop/${shopid}/service/${service.serviceId}`">
+  <v-card elevation="5" height="100%" :to="link">
     <center>
       <template v-if="service.icon">
         <v-img :src="service.iconUrl" max-height="120" contain />
@@ -48,9 +48,9 @@ export default {
       type: Object,
       required: true
     },
-    shopid: {
+    link: {
       type: String,
-      required: true
+      default: () => ('')
     }
   },
   data () {
