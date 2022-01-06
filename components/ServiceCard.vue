@@ -10,10 +10,10 @@
     </center>
     <v-card-text>
       <v-row>
-        <v-col cols="12" xs="6" md="6" class="pb-0">
+        <v-col cols="12" xs="6" sm="6" md="6" class="pb-0">
           SMS
         </v-col>
-        <v-col cols="12" xs="6" md="6" class="text-right pb-0">
+        <v-col cols="12" xs="6" sm="6" md="6" class="text-right pb-0">
           <template v-if="service.sms">
             {{ smsCost[service.smsType] }} zł
           </template>
@@ -21,10 +21,10 @@
             X
           </template>
         </v-col>
-        <v-col cols="12" xs="6" md="6" class="pt-1">
+        <v-col cols="12" xs="6" sm="6" md="6" class="pt-1">
           Przelew
         </v-col>
-        <v-col cols="12" xs="6" md="6" class="text-right pt-1">
+        <v-col cols="12" xs="6" sm="6" md="6" class="text-right pt-1">
           <template v-if="service.przelew">
             {{ service.przelewCost }} zł
           </template>
