@@ -19,6 +19,10 @@ export default {
     shop: {
       type: Object,
       required: true
+    },
+    servers: {
+      type: Object,
+      required: true
     }
   },
   computed: {
@@ -27,6 +31,35 @@ export default {
       const service = Object.assign({}, this.shop.services[serviceid])
       service.serviceId = serviceid
       return service
+    },
+    serverName () {
+      return this.servers[this.service.server]
+    }
+  },
+  watch: {
+    servers () {
+      this.updateBreadCrumb()
+    }
+  },
+  mounted () {
+    this.updateBreadCrumb()
+  },
+  methods: {
+    updateBreadCrumb () {
+      this.$emit('breadcrumb', [{
+        text: 'Sklep',
+        disabled: false,
+        href: `/shop/${this.$route.params.shopid}`
+      },
+      {
+        text: this.serverName,
+        disabled: false,
+        href: `/shop/${this.$route.params.shopid}/server/${this.service.server}`
+      },
+      {
+        text: this.service.name,
+        disabled: true
+      }])
     }
   }
 }

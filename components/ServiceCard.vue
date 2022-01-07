@@ -39,9 +39,60 @@
       {{ service.name }}
     </v-card-title>
     <v-card-actions v-if="!link">
-      <v-btn color="green" large outlined block>
-        Kupuję
-      </v-btn>
+      <v-dialog
+        v-model="dialog"
+        width="500"
+      >
+        <template #activator="{ on, attrs }">
+          <v-btn
+            color="green"
+            large
+            outlined
+            block
+            v-bind="attrs"
+            v-on="on"
+          >
+            Kupuję
+          </v-btn>
+        </template>
+
+        <v-card elevation="5" outlined>
+          <v-card-title class="headline">
+            {{ service.name }}
+          </v-card-title>
+
+          <v-card-text>
+            <v-btn-toggle
+              v-model="text"
+              tile
+              color="blue"
+              group
+            >
+              <v-btn v-if="service.przelew" value="przelew">
+                Przelew
+              </v-btn>
+
+              <v-btn v-if="service.sms" value="sms">
+                SMS
+              </v-btn>
+            </v-btn-toggle>
+            <v-text-field label="Wprowadź swój nick" />
+          </v-card-text>
+
+          <v-divider />
+
+          <v-card-actions>
+            <v-spacer />
+            <v-btn
+              color="primary"
+              text
+              @click="dialog = false"
+            >
+              I accept
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-card-actions>
   </v-card>
 </template>
@@ -60,6 +111,8 @@ export default {
   },
   data () {
     return {
+      text: '',
+      dialog: false,
       smsCost: {
         1: '1.23',
         2: '2.46',
