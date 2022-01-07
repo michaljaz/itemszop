@@ -1,5 +1,17 @@
 <template>
-  <div />
+  <div>
+    <v-row justify="center" align="center">
+      <v-col cols="12" sm="8" md="6">
+        <center class="mt-5">
+          <h1>Sprawdź voucher</h1>
+          <v-text-field class="mt-5" label="Kod" prepend-icon="mdi-ticket-percent" />
+          <v-btn class="blue darken-4" large>
+            Sprawdź
+          </v-btn>
+        </center>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 <script>
 export default {
@@ -9,6 +21,17 @@ export default {
       type: Object,
       required: true
     }
+  },
+  mounted () {
+    this.$emit('breadcrumb', [{
+      text: 'Sklep',
+      disabled: false,
+      href: `/shop/${this.$route.params.shopid}`
+    },
+    {
+      text: 'Sprawdź voucher',
+      disabled: true
+    }])
   }
 }
 </script>
