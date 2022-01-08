@@ -4,6 +4,10 @@
     {
       "src": "/api/rcon",
       "dest": "/api/rcon.js"
+    },
+		{
+      "src": "/api/voucher",
+      "dest": "/api/voucher.js"
     }
   ],
   "builds": [

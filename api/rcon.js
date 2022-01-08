@@ -17,7 +17,6 @@ app.get('/api/rcon', async (req, res) => {
   }).catch((e)=>{
     res.json({ error:"auth" })
   })
-
 })
 
 module.exports = app
