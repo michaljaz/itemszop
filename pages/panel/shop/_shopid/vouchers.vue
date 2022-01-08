@@ -14,6 +14,7 @@
               <v-row>
                 <v-col cols="12" md="6">
                   <v-select
+                    v-model="service"
                     item-text="name"
                     item-value="value"
                     label="Wybierz usługę"
@@ -24,6 +25,7 @@
                 </v-col>
                 <v-col cols="12" md="6">
                   <v-text-field
+                    v-model="amount"
                     label="Liczba kodów"
                     hint="Liczba kodów, które mają zostać wygenerowane. Ustawiając np. 20 stworzysz dwadzieścia różnych kodów na tę samą usługę."
                     persistent-hint
@@ -120,8 +122,10 @@ export default {
     return {
       valid: false,
       services: [],
-      date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-      menu: false
+      date: [],
+      menu: false,
+      service: '',
+      amount: 0
     }
   },
   head () {
@@ -154,7 +158,8 @@ export default {
       this.services = result
     },
     create () {
-
+      const { date, service, amount } = this
+      console.log(date[0], date[1], service, amount)
     }
   }
 }
