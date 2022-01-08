@@ -21,6 +21,7 @@
                     hint="Wybierz jaką usługę będzie można aktywować voucherem."
                     persistent-hint
                     :items="services"
+                    :rules="rules.service"
                   />
                 </v-col>
                 <v-col cols="12" md="6">
@@ -30,6 +31,7 @@
                     hint="Liczba kodów, które mają zostać wygenerowane. Ustawiając np. 20 stworzysz dwadzieścia różnych kodów na tę samą usługę."
                     persistent-hint
                     type="number"
+                    :rules="rules.amount"
                   />
                 </v-col>
                 <v-col cols="12" md="6">
@@ -59,6 +61,7 @@
                       range
                       no-title
                       scrollable
+                      :rules="rules.date"
                     >
                       <v-spacer />
                       <v-btn
@@ -122,10 +125,22 @@ export default {
     return {
       valid: false,
       services: [],
-      date: [],
+      date: [(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)],
       menu: false,
       service: '',
-      amount: 0
+      amount: 0,
+      rules: {
+        service: [
+          value => !!value || 'Wybierz usługę'
+        ],
+        amount: [
+          value => !!value || 'Wpisz liczbę kodów',
+          value => this.isNaturalNumber(value) || 'Niepoprawna liczba kodów'
+        ],
+        date: [
+          value => !!value || 'Wybierz termin działania'
+        ]
+      }
     }
   },
   head () {
@@ -145,6 +160,12 @@ export default {
     this.updateServices()
   },
   methods: {
+    isNaturalNumber (n) {
+      n = n.toString() // force the value incase it is not
+      const n1 = Math.abs(n)
+      const n2 = parseInt(n, 10)
+      return !isNaN(n1) && n2 === n1 && n1.toString() === n
+    },
     updateServices () {
       const result = []
       for (const serviceId in this.shop.services) {
@@ -158,8 +179,11 @@ export default {
       this.services = result
     },
     create () {
-      const { date, service, amount } = this
-      console.log(date[0], date[1], service, amount)
+      this.$refs.form.validate()
+      if (this.valid) {
+        const { date, service, amount } = this
+        console.log(date[0], date[1], service, amount)
+      }
     }
   }
 }
