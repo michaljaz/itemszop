@@ -18,6 +18,7 @@ if(process.env.FIREBASE_SERVICE_ACCOUNT_KEY===undefined){
 
 app.use(cors())
 app.get('/api/voucher', async (req, res) => {
+  const { shopid,nick,code } = req.query
   try{
     admin.database().ref().child('transactions')
     .once('value',(snapshot)=>{

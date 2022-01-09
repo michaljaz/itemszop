@@ -5,6 +5,7 @@
         <center class="mt-5">
           <h1>Sprawdź voucher</h1>
           <v-text-field class="mt-5" label="Kod" prepend-icon="mdi-ticket-percent" />
+          <v-text-field class="mt-5" label="Nick" prepend-icon="mdi-account" />
           <v-btn class="blue darken-4" large>
             Sprawdź
           </v-btn>
