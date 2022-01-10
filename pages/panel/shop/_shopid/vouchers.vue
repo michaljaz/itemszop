@@ -32,6 +32,8 @@
                     persistent-hint
                     type="number"
                     :rules="rules.amount"
+                    max="100"
+                    min="0"
                   />
                 </v-col>
                 <v-col cols="12" md="6">
@@ -150,7 +152,8 @@ export default {
         ],
         amount: [
           value => !!value || 'Wpisz liczbę kodów',
-          value => this.isNaturalNumber(value) || 'Niepoprawna liczba kodów'
+          value => this.isNaturalNumber(value) || 'Niepoprawna liczba kodów',
+          value => value <= 100 || 'Nie możesz wygenerować więcej niż 100 voucherów na raz'
         ],
         date: [
           value => !!value || 'Wybierz termin działania'
