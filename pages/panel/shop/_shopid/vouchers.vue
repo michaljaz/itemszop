@@ -4,7 +4,7 @@
       <v-col cols="12" sm="10" md="8">
         <v-card elevation="10" class="pt-1">
           <v-card-title class="headline">
-            <span class="text-h5">Dodawanie vouchera</span>
+            <span class="text-h5">Dodawanie voucherów</span>
           </v-card-title>
           <v-card-text>
             <v-form
@@ -104,6 +104,22 @@
             </v-btn>
           </v-card-actions>
         </v-card>
+        <v-card elevation="10" class="pt-1 mt-5">
+          <v-card-title class="headline">
+            <span class="text-h5">Usuwanie voucherów</span>
+          </v-card-title>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn
+              color="red"
+              text
+              rounded
+              @click="del"
+            >
+              Usuń wszystkie vouchery
+            </v-btn>
+          </v-card-actions>
+        </v-card>
       </v-col>
     </v-row>
   </div>
@@ -175,6 +191,9 @@ export default {
       a.href = url
       a.download = filename
       a.click()
+    },
+    del () {
+      this.$fire.database.ref().child(`vouchers/${this.$route.params.shopid}`).remove()
     },
     create () {
       this.$refs.form.validate()
