@@ -182,7 +182,17 @@ export default {
       this.$refs.form.validate()
       if (this.valid) {
         const { date, service, amount } = this
-        console.log(date[0], date[1], service, amount)
+        const voucher = {
+          service,
+          start: date[0]
+        }
+        if (date[1]) {
+          voucher.end = date[1]
+        }
+        for (let i = 0; i < amount; i++) {
+          const code = Math.random().toString(36).replace('0.', '')
+          this.$fire.database.ref().child(`vouchers/${this.$route.params.shopid}/${code}`).set(voucher)
+        }
       }
     }
   }
