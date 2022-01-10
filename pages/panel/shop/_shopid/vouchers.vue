@@ -100,7 +100,7 @@
               rounded
               @click="create"
             >
-              Stwórz
+              Stwórz i pobierz plik
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -124,7 +124,6 @@ export default {
   data () {
     return {
       valid: false,
-      services: [],
       date: [(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)],
       menu: false,
       service: '',
@@ -148,25 +147,8 @@ export default {
       title: 'Vouchery'
     }
   },
-  watch: {
-    shop () {
-      this.updateServices()
-    },
-    servers () {
-      this.updateServices()
-    }
-  },
-  mounted () {
-    this.updateServices()
-  },
-  methods: {
-    isNaturalNumber (n) {
-      n = n.toString() // force the value incase it is not
-      const n1 = Math.abs(n)
-      const n2 = parseInt(n, 10)
-      return !isNaN(n1) && n2 === n1 && n1.toString() === n
-    },
-    updateServices () {
+  computed: {
+    services () {
       const result = []
       for (const serviceId in this.shop.services) {
         const service = this.shop.services[serviceId]
@@ -176,12 +158,29 @@ export default {
           value: serviceId
         })
       }
-      this.services = result
+      return result
+    }
+  },
+  methods: {
+    isNaturalNumber (n) {
+      n = n.toString() // force the value incase it is not
+      const n1 = Math.abs(n)
+      const n2 = parseInt(n, 10)
+      return !isNaN(n1) && n2 === n1 && n1.toString() === n
+    },
+    download (text, filename) {
+      const blob = new Blob([text], { type: 'text/plain' })
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = filename
+      a.click()
     },
     create () {
       this.$refs.form.validate()
       if (this.valid) {
         const { date, service, amount } = this
+        const codes = []
         const voucher = {
           service,
           start: date[0]
@@ -191,8 +190,11 @@ export default {
         }
         for (let i = 0; i < amount; i++) {
           const code = Math.random().toString(36).replace('0.', '')
+          codes.push(code)
           this.$fire.database.ref().child(`vouchers/${this.$route.params.shopid}/${code}`).set(voucher)
         }
+        const result = codes.join('\n')
+        this.download(result, `vouchers-${service}.txt`)
       }
     }
   }
