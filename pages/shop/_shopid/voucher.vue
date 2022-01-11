@@ -48,7 +48,7 @@ export default {
       rules: {
         code: [
           value => !!value || 'Wpisz kod',
-          v => /^[a-b0-9]{11}$/.test(v) || 'Nieprawidłowy format'
+          v => /^[a-z0-9]{6,}$/.test(v) || 'Nieprawidłowy format'
         ],
         nick: [
           value => !!value || 'Wpisz nick'

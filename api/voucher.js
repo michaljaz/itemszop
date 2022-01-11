@@ -19,15 +19,19 @@ if(process.env.FIREBASE_SERVICE_ACCOUNT_KEY===undefined){
 app.use(cors())
 app.get('/api/voucher', async (req, res) => {
   const { shopid,nick,code } = req.query
-  admin.database().ref().child(`vouchers/${shopid}/${code}`)
-  .once('value',(snapshot)=>{
-    if(snapshot.exists()){
-      admin.database().ref().child(`vouchers/${shopid}/${code}`).remove()
-      res.json({voucher:snapshot.val()})
-    }else{
-      res.json({voucher:false})
-    }
-  })
+  if(/^[a-z0-9]{6,}$/.test(code)){
+    admin.database().ref().child(`vouchers/${shopid}/${code}`)
+    .once('value',(snapshot)=>{
+      if(snapshot.exists()){
+        admin.database().ref().child(`vouchers/${shopid}/${code}`).remove()
+        res.json({voucher:snapshot.val()})
+      }else{
+        res.json({voucher:false})
+      }
+    })
+  }else{
+    res.json({voucher:false})
+  }
 })
 
 module.exports = app
