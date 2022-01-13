@@ -33,16 +33,26 @@ app.get('/api/voucher', async (req, res) => {
       if (snapshot.exists()) {
         admin.database().ref().child(`vouchers/${shopid}/${code}`).remove()
         const voucher = snapshot.val()
-        if (voucher.start <= getDate()) {
-          if (voucher.end) {
-            if (voucher.end >= getDate()) {
-              res.json({voucher: true})
-              return
+        if(voucher.start <= getDate() && ((voucher.end && voucher.end >= getDate()) || !voucher.end)){
+          admin.database().ref().child(`shops/${shopid}/services/${voucher.service}`)
+          .once('value',(snapshot2)=>{
+            if(snapshot2.exists()){
+              const serverId=snapshot2.val().server
+              admin.database().ref().child(`servers/${serverId}`)
+              .once('value',(snapshot3)=>{
+                if(snapshot3.exists()){
+                  const server=snapshot3.val()
+                  console.log(server)
+                  res.json({voucher: true})
+                }else{
+                  res.json({voucher: false, error: 'server not exist'})
+                }
+              })
+            }else{
+              res.json({voucher: false, error: 'service not exist'})
             }
-          } else {
-            res.json({voucher: true})
-            return
-          }
+          })
+          return
         }
         res.json({voucher: false, error: 'expired'})
       } else {
