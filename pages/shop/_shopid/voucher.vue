@@ -51,7 +51,8 @@ export default {
           v => /^[a-z0-9]{6,}$/.test(v) || 'Nieprawidłowy format'
         ],
         nick: [
-          value => !!value || 'Wpisz nick'
+          value => !!value || 'Wpisz nick',
+          v => /^[a-zA-Z0-9_]{2,16}$/.test(v) || 'Nieprawidłowy format'
         ]
       }
     }

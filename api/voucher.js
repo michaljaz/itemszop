@@ -1,6 +1,7 @@
 const app = require('express')()
 const cors = require('cors')
 import * as admin from 'firebase-admin'
+import { Rcon } from 'rcon-client'
 
 if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY === undefined) {
   console.log('FIREBASE_SERVICE_ACCOUNT_KEY is not set')
@@ -27,24 +28,45 @@ function getDate () {
 app.use(cors())
 app.get('/api/voucher', async (req, res) => {
   const { shopid, nick, code } = req.query
-  if (/^[a-z0-9]{6,}$/.test(code)) {
+  if (/^[a-z0-9]{6,}$/.test(code) && /^[a-zA-Z0-9_]{2,16}$/.test(nick)) {
     admin.database().ref().child(`vouchers/${shopid}/${code}`)
     .once('value', (snapshot) => {
       if (snapshot.exists()) {
         admin.database().ref().child(`vouchers/${shopid}/${code}`).remove()
         const voucher = snapshot.val()
-        console.log(voucher.start, getDate(), voucher.end)
         if (((voucher.end && voucher.start <= getDate()) || (!voucher.end && voucher.start === getDate())) && ((voucher.end && voucher.end >= getDate()) || !voucher.end)) {
           admin.database().ref().child(`shops/${shopid}/services/${voucher.service}`)
           .once('value', (snapshot2) => {
             if (snapshot2.exists()) {
-              const serverId = snapshot2.val().server
-              admin.database().ref().child(`servers/${serverId}`)
+              const service = snapshot2.val()
+              const commands = service.commands.split('\n')
+              admin.database().ref().child(`servers/${service.server}`)
               .once('value', (snapshot3) => {
                 if (snapshot3.exists()) {
                   const server = snapshot3.val()
-                  console.log(server)
-                  res.json({voucher: true})
+                  let count = 0
+                  for (let command of commands) {
+                    command = command.replace(/\[nick\]/g, nick)
+                    const config = {
+                      host: server.serverIp,
+                      port: server.serverPort,
+                      password: server.serverPassword
+                    }
+                    Rcon.connect(config).then((rcon) => {
+                      rcon.send(command)
+                        .then((response) => {
+                          count++
+                          if (count === commands.length) {
+                            res.json({voucher: true})
+                          }
+                        })
+                        .catch((e) => {
+                          res.json({voucher: false, error: 'command error'})
+                        })
+                    }).catch((e) => {
+                      res.json({voucher: false, error: 'auth error'})
+                    })
+                  }
                 } else {
                   res.json({voucher: false, error: 'server not exist'})
                 }

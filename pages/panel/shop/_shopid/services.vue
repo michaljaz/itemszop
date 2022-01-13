@@ -66,8 +66,9 @@
             />
             <v-textarea
               v-model="fields.commands"
-              label="Komendy do wywołania na serwerze"
+              label="Komendy do wywołania na serwerze ([nick] - nick kupującego)"
               value="say [nick] kupil cos tam"
+              class="mb-2"
             />
           </v-form>
           <TiptapEditor :editorcontent="fields.description" @content="fields.description=$event" />
