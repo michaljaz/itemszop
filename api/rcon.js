@@ -1,7 +1,6 @@
 import { Rcon } from 'rcon-client'
-const app = require('express')()
-const cors = require('cors')
-app.use(cors())
+import app from './lib/app.js'
+
 app.get('/api/rcon', async (req, res) => {
   const { host, port, password, command } = req.query
   Rcon.connect({
