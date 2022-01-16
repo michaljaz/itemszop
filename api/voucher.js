@@ -2,73 +2,108 @@ import app from './lib/app.js'
 import admin from './lib/admin.js'
 import { Rcon } from 'rcon-client'
 
-function getDate () {
-  let d = new Date()
-  let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d)
-  let mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(d)
-  let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d)
-  return `${ye}-${mo}-${da}`
-}
-
-app.get('/api/voucher', async (req, res) => {
-  const { shopid, nick, code } = req.query
-  if (/^[a-z0-9]{6,}$/.test(code) && /^[a-zA-Z0-9_]{2,16}$/.test(nick)) {
-    admin.database().ref().child(`vouchers/${shopid}/${code}`)
+class VoucherVerification {
+  constructor () {
+    this.db = admin.database().ref()
+    this.rcon = Rcon
+  }
+  check (req, res) {
+    this.res = res
+    this.shopid = req.query.shopid
+    this.nick = req.query.nick
+    this.code = req.query.code
+    this.checkRegex()
+  }
+  checkRegex () {
+    if (/^[a-z0-9]{6,}$/.test(this.code) && /^[a-zA-Z0-9_]{2,16}$/.test(this.nick)) {
+      this.checkVoucher()
+    } else {
+      this.error('wrong-format')
+    }
+  }
+  checkVoucher () {
+    this.db.child(`vouchers/${this.shopid}/${this.code}`)
     .once('value', (snapshot) => {
       if (snapshot.exists()) {
-        admin.database().ref().child(`vouchers/${shopid}/${code}`).remove()
-        const voucher = snapshot.val()
-        if (((voucher.end && voucher.start <= getDate()) || (!voucher.end && voucher.start === getDate())) && ((voucher.end && voucher.end >= getDate()) || !voucher.end)) {
-          admin.database().ref().child(`shops/${shopid}/services/${voucher.service}`)
-          .once('value', (snapshot2) => {
-            if (snapshot2.exists()) {
-              const service = snapshot2.val()
-              const commands = service.commands.split('\n')
-              admin.database().ref().child(`servers/${service.server}`)
-              .once('value', (snapshot3) => {
-                if (snapshot3.exists()) {
-                  const server = snapshot3.val()
-                  let count = 0
-                  for (let command of commands) {
-                    command = command.replace(/\[nick\]/g, nick)
-                    const config = {
-                      host: server.serverIp,
-                      port: server.serverPort,
-                      password: server.serverPassword
-                    }
-                    Rcon.connect(config).then((rcon) => {
-                      rcon.send(command)
-                        .then((response) => {
-                          count++
-                          if (count === commands.length) {
-                            res.json({voucher: true})
-                          }
-                        })
-                        .catch((e) => {
-                          res.json({voucher: false, error: 'command error'})
-                        })
-                    }).catch((e) => {
-                      res.json({voucher: false, error: 'auth error'})
-                    })
-                  }
-                } else {
-                  res.json({voucher: false, error: 'server not exist'})
-                }
-              })
-            } else {
-              res.json({voucher: false, error: 'service not exist'})
-            }
-          })
-          return
+        this.db.child(`vouchers/${this.shopid}/${this.code}`).remove()
+        this.voucher = snapshot.val()
+        if (((this.voucher.end && this.voucher.start <= this.getDate()) || (!this.voucher.end && this.voucher.start === this.getDate())) && ((this.voucher.end && this.voucher.end >= this.getDate()) || !this.voucher.end)) {
+          this.checkService()
+        } else {
+          this.error('expired')
         }
-        res.json({voucher: false, error: 'expired'})
       } else {
-        res.json({voucher: false, error: 'not exist'})
+        this.error('voucher-not-exist')
       }
     })
-  } else {
-    res.json({voucher: false, error: 'wrong format'})
   }
+  checkService () {
+    this.db.child(`shops/${this.shopid}/services/${this.voucher.service}`)
+    .once('value', (snapshot) => {
+      if (snapshot.exists()) {
+        this.service = snapshot.val()
+        this.checkServer()
+      } else {
+        this.error('service-not-exist')
+      }
+    })
+  }
+  checkServer () {
+    this.commands = this.service.commands.split('\n')
+    this.db.child(`servers/${this.service.server}`)
+    .once('value', (snapshot) => {
+      if (snapshot.exists()) {
+        this.server = snapshot.val()
+        this.checkRcon()
+      } else {
+        this.error('server-not-exist')
+      }
+    })
+  }
+  checkRcon () {
+    let count = 0
+    for (let command of this.commands) {
+      command = command.replace(/\[nick\]/g, this.nick)
+      const config = {
+        host: this.server.serverIp,
+        port: this.server.serverPort,
+        password: this.server.serverPassword
+      }
+      this.rcon.connect(config).then((rcon) => {
+        rcon.send(command)
+          .then((response) => {
+            count++
+            if (count === commands.length) {
+              this.success()
+            }
+          })
+          .catch((e) => {
+            this.error('command-error')
+          })
+      }).catch((e) => {
+        this.error('auth-error')
+      })
+    }
+  }
+  getDate () {
+    let d = new Date()
+    let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d)
+    let mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(d)
+    let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d)
+    return `${ye}-${mo}-${da}`
+  }
+  error (message) {
+    this.res.json({success: false, error: message})
+  }
+  success () {
+    this.res.json({success: true})
+  }
+}
+
+const verify = new VoucherVerification()
+
+app.get('/api/voucher', (req, res) => {
+  verify.check(req, res)
 })
 
 module.exports = app
