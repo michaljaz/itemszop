@@ -44,7 +44,7 @@
           v-model="dialog"
           width="500"
         >
-          <template #activator="{ on, attrs }">
+          <template v-if="service.sms || service.przelew" #activator="{ on, attrs }">
             <v-btn
               color="green"
               large
@@ -63,21 +63,24 @@
             </v-card-title>
 
             <v-card-text>
-              <v-btn-toggle
-                v-model="type"
-                tile
-                color="blue"
-                group
+              <v-form
+                ref="form"
+                v-model="valid"
               >
-                <v-btn v-if="service.przelew" value="przelew">
-                  Przelew
-                </v-btn>
-
-                <v-btn v-if="service.sms" value="sms">
-                  SMS
-                </v-btn>
-              </v-btn-toggle>
-              <v-text-field v-model="nick" label="Wprowadź swój nick" />
+                <v-radio-group v-model="type" :rules="rules.type">
+                  <v-radio
+                    v-if="service.przelew"
+                    label="Przelew"
+                    value="przelew"
+                  />
+                  <v-radio
+                    v-if="service.sms"
+                    label="SMS"
+                    value="sms"
+                  />
+                </v-radio-group>
+                <v-text-field v-model="nick" label="Wprowadź swój nick" :rules="rules.nick" />
+              </v-form>
             </v-card-text>
 
             <v-divider />
@@ -117,6 +120,7 @@ export default {
   },
   data () {
     return {
+      valid: false,
       nick: '',
       type: '',
       dialog: false,
@@ -132,25 +136,34 @@ export default {
         9: '23.37',
         10: '24.60',
         11: '30.75'
+      },
+      rules: {
+        type: [
+          value => !!value || 'Wybierz rodzaj płatności'
+        ],
+        nick: [
+          value => !!value || 'Wpisz nick',
+          v => /^[a-zA-Z0-9_]{2,16}$/.test(v) || 'Nieprawidłowy format'
+        ]
       }
     }
   },
   methods: {
     next () {
-      if (this.type === 'przelew') {
-        this.buyPrzelew()
-      } else {
-        this.buySMS()
+      this.$refs.form.validate()
+      if (this.valid) {
+        if (this.type === 'przelew') {
+          this.buyPrzelew()
+        } else {
+          this.buySMS()
+        }
       }
-    },
-    md5 (msg) {
-      return require('md5')(msg)
     },
     buyPrzelew () {
       const data = {
         shopid: this.payments.paymentsPrzelewId,
         amount: this.service.przelewCost,
-        signature: this.md5(`${this.payments.paymentsPrzelewId}${this.payments.paymentsHash}${this.service.przelewCost}`),
+        signature: require('md5')(`${this.payments.paymentsPrzelewId}${this.payments.paymentsHash}${this.service.przelewCost}`),
         description: `${this.service.name} dla ${this.nick}`,
         control: `${this.nick}|${this.service.serviceId}`,
         returl_url: 'https://itemszop.vercel.app',
