@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <v-col cols="12" md="5" sm="6">
-        <ServiceCard :service="service" :payments="shop.payments" />
+        <ServiceCard :service="service" :payments="shop.payments" :shopid="$route.params.shopid" />
       </v-col>
       <v-col cols="12" md="7" sm="6">
         <!-- eslint-disable vue/no-v-html -->

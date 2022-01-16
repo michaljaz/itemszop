@@ -8,6 +8,10 @@
 		{
       "src": "/api/voucher",
       "dest": "/api/voucher.js"
+    },
+		{
+      "src": "/api/przelew",
+      "dest": "/api/przelew.js"
     }
   ],
   "builds": [
