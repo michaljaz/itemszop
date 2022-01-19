@@ -6,6 +6,9 @@ class VoucherVerification {
   constructor () {
     this.db = admin.database().ref()
     this.rcon = Rcon
+    return (req, res) => {
+      this.check(req, res)
+    }
   }
   check (req, res) {
     this.res = res
@@ -100,10 +103,6 @@ class VoucherVerification {
   }
 }
 
-const verify = new VoucherVerification()
-
-app.get('/api/voucher', (req, res) => {
-  verify.check(req, res)
-})
+app.get('/api/voucher', new VoucherVerification())
 
 module.exports = app
