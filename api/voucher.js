@@ -5,7 +5,6 @@ import { Rcon } from 'rcon-client'
 class VoucherVerification {
   constructor () {
     this.db = admin.database().ref()
-    this.rcon = Rcon
     return (req, res) => {
       this.check(req, res)
     }
@@ -52,7 +51,6 @@ class VoucherVerification {
     })
   }
   checkServer () {
-    this.commands = this.service.commands.split('\n')
     this.db.child(`servers/${this.service.server}`)
     .once('value', (snapshot) => {
       if (snapshot.exists()) {
@@ -65,14 +63,15 @@ class VoucherVerification {
   }
   checkRcon () {
     let count = 0
-    for (let command of this.commands) {
+    const commands = this.service.commands.split('\n')
+    for (let command of commands) {
       command = command.replace(/\[nick\]/g, this.nick)
       const config = {
         host: this.server.serverIp,
         port: this.server.serverPort,
         password: this.server.serverPassword
       }
-      this.rcon.connect(config).then((rcon) => {
+      Rcon.connect(config).then((rcon) => {
         rcon.send(command)
           .then((response) => {
             count++
