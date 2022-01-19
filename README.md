@@ -26,3 +26,8 @@ $ npm run generate
 ```
 
 Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację](https://nuxtjs.org).
+
+## Linki do dokumentacji płatności
+
+- https://microsms.pl/documents/przelewy_online.pdf
+- https://microsms.pl/kernel/Mails/files/dokumentacja_techniczna_mirosms.pdf
