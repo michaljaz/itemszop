@@ -27,6 +27,42 @@ $ npm run generate
 
 Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację](https://nuxtjs.org).
 
+## Zasady obowiązujące w bazie danych
+
+```json
+{
+	"rules": {
+		"users":{
+			"$user_id":{
+				".read": "auth.uid == $user_id",
+				".write":"auth.uid == $user_id"
+			}
+		},
+		"shops":{
+			".read": true,
+			"$shop_id":{
+				".write":"(data.child('owner').val() == auth.uid || !data.exists()) && newData.child('owner').val() == auth.uid",
+			}
+		},
+		"servers":{
+			"$server_id":{
+				"serverName":{
+					".read":true
+				},
+				".read":"data.child('owner').val() == auth.uid",
+				".write":"(data.child('owner').val() == auth.uid || !data.exists()) && newData.child('owner').val() == auth.uid",
+			}
+		},
+		"vouchers":{
+			"$shop_id":{
+				".read":"root.child('shops').child($shop_id).child('owner').val() == auth.uid",
+				".write":"root.child('shops').child($shop_id).child('owner').val() == auth.uid"
+			}
+		}
+	}
+}
+```
+
 ## Linki do dokumentacji płatności
 
 - https://microsms.pl/documents/przelewy_online.pdf
