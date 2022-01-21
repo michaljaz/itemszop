@@ -40,26 +40,35 @@ class PrzelewVerification {
     })
   }
   checkService () {
-    this.db.child(`shops/${this.shopid}/services/${this.serviceId}`).once('value', (snapshot)=>{
-      if(snapshot.exists()){
-        this.service=snapshot.val()
+    this.db.child(`shops/${this.shopid}/services/${this.serviceId}`).once('value', (snapshot) => {
+      if (snapshot.exists()) {
+        this.service = snapshot.val()
         this.checkServer()
-      }else{
+      } else {
         this.error()
       }
     })
   }
-  checkServer(){
-    this.db.child(`servers/${this.service.server}`).once('value', (snapshot)=>{
-      if(snapshot.exists()){
-        this.server=snapshot.val()
+  checkServer () {
+    this.db.child(`servers/${this.service.server}`).once('value', (snapshot) => {
+      if (snapshot.exists()) {
+        this.server = snapshot.val()
+        this.checkOwner()
+      } else {
+        this.error()
+      }
+    })
+  }
+  checkOwner () {
+    this.db.child(`shop/${this.shopid}/owner`).once('value', (snapshot) => {
+      if (snapshot.exists() && this.server.owner === snapshot.val()) {
         this.checkRcon()
-      }else{
+      } else {
         this.error()
       }
     })
   }
-  checkRcon(){
+  checkRcon () {
     let count = 0
     const commands = this.service.commands.split('\n')
     for (let command of commands) {
