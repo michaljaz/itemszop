@@ -1,5 +1,8 @@
 import colors from 'vuetify/es5/util/colors'
 
+const productionUrl = 'https://itemszop.vercel.app'
+const baseUrl = process.env.NODE_ENV === 'production' ? productionUrl : 'http://localhost:8080'
+
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -26,6 +29,10 @@ export default {
     middleware: [
       'auth'
     ]
+  },
+
+  env: {
+    baseUrl
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -79,7 +86,7 @@ export default {
   ],
 
   axios: {
-    baseURL:'https://itemszop.vercel.app/api'
+    baseURL:`${baseUrl}/api`
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

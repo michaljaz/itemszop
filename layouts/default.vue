@@ -6,7 +6,7 @@
     <v-footer class="justify-center">
       <span>
         &copy; {{ new Date().getFullYear() }}
-        <a href="https://itemszop.vercel.app">ItemSzop</a>
+        <a :href="baseUrl">ItemSzop</a>
       </span>
     </v-footer>
   </v-app>
@@ -14,6 +14,11 @@
 
 <script>
 export default {
-  name: 'DefaultLayout'
+  name: 'DefaultLayout',
+  data () {
+    return {
+      baseUrl: process.env.baseUrl
+    }
+  }
 }
 </script>
