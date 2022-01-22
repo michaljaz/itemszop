@@ -17,7 +17,14 @@ class PrzelewVerification {
     this.shopid = shopid
     this.serviceId = serviceId
     this.nick = nick
-    this.checkIp()
+    this.checkRegex()
+  }
+  checkRegex () {
+    if (/^[A-Za-z0-9_]{4,}$/.test(this.shopid) && /^[A-Za-z0-9_]{4,}$/.test(this.serviceId) && /^[a-zA-Z0-9_]{2,16}$/.test(this.nick)) {
+      this.checkIp()
+    } else {
+      this.error()
+    }
   }
   checkIp () {
     // check if ip is correct
@@ -64,7 +71,7 @@ class PrzelewVerification {
     })
   }
   checkOwner () {
-    //check server owner == shop owner
+    // check server owner == shop owner
     this.db.child(`shop/${this.shopid}/owner`).once('value', (snapshot) => {
       if (snapshot.exists() && this.server.owner === snapshot.val()) {
         this.checkRcon()
@@ -74,7 +81,7 @@ class PrzelewVerification {
     })
   }
   checkRcon () {
-    //send rcon commands to server
+    // send rcon commands to server
     let count = 0
     const commands = this.service.commands.split('\n')
     for (let command of commands) {
@@ -89,7 +96,7 @@ class PrzelewVerification {
           .then((response) => {
             count++
             if (count === commands.length) {
-              this.success()
+              this.addPaymentHistory()
             }
           })
           .catch((e) => {
@@ -99,6 +106,18 @@ class PrzelewVerification {
         this.error()
       })
     }
+  }
+  addPaymentHistory () {
+    // update payments history
+    this.db.child(`shops/${this.shopid}/history`).push().set({
+      nick: this.nick,
+      service: this.service.name,
+      date: Date.now()
+    }).then(() => {
+      this.success()
+    }).catch(() => {
+      this.error()
+    })
   }
   error () {
     this.res.send('ERR')
