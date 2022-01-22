@@ -165,16 +165,15 @@ export default {
       }
     },
     buyPrzelew () {
-      const data = {
+      const params = new URLSearchParams({
         shopid: this.payments.paymentsPrzelewId,
         amount: this.service.przelewCost,
         signature: require('md5')(`${this.payments.paymentsPrzelewId}${this.payments.paymentsHash}${this.service.przelewCost}`),
         description: `${this.service.name} dla ${this.nick}`,
-        control: `${this.nick}|${this.shopid}|${this.service.serviceId}`,
-        returl_url: this.baseUrl,
+        control: `${this.shopid}|${this.service.serviceId}|${this.nick}`,
+        returl_url: `${this.baseUrl}/shop/${this.shopid}/payment_success`,
         returl_urlc: `${this.baseUrl}/api/przelew`
-      }
-      const params = new URLSearchParams(data)
+      })
       const url = `https://microsms.pl/api/bankTransfer/?${params}`
       document.location.href = url
     },
