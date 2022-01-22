@@ -145,7 +145,7 @@
             Anuluj
           </v-btn>
           <v-btn
-            color="primary"
+            color="green"
             text
             @click="checkSMS"
           >
@@ -188,6 +188,7 @@ export default {
       type: '',
       dialog: false,
       smsCost: {
+        0: ['', '', ''],
         1: ['1', '1.23', '71480'],
         2: ['2', '2.46', '72480'],
         3: ['3', '3.69', '73480'],
