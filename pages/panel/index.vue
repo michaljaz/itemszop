@@ -13,7 +13,7 @@
       >
         <v-card
           text
-          class="mb-2"
+          class="mb-2 pt-5 pb-5"
           elevation="10"
           :to="`/panel/shop/${shop}`"
         >
