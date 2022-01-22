@@ -16,7 +16,7 @@
           </v-col>
           <v-col cols="12" xs="6" sm="6" md="6" class="text-right pb-0">
             <template v-if="service.sms">
-              {{ smsCost[service.smsType] }} zł
+              {{ smsCost[service.smsType][1] }} zł
             </template>
             <template v-else>
               X
@@ -90,6 +90,13 @@
               <v-btn
                 color="primary"
                 text
+                @click="dialog=false"
+              >
+                Anuluj
+              </v-btn>
+              <v-btn
+                color="green"
+                text
                 @click="next"
               >
                 Dalej
@@ -99,6 +106,54 @@
         </v-dialog>
       </v-card-actions>
     </v-card>
+    <v-dialog
+      v-model="dialogSMS"
+      width="500"
+    >
+      <v-card elevation="5" outlined>
+        <v-card-title class="headline">
+          {{ service.name }}
+        </v-card-title>
+
+        <v-card-text>
+          <center>
+            Ta usługa kosztuje <b>{{ smsCost[service.smsType][0] }}zł netto ({{ smsCost[service.smsType][1] }}zł z vat)</b>.
+            <br>
+            Aby zakupić tą usługę wyślij SMS o treści <b>{{ payments.paymentsSMS }}</b> pod numer <b>1234</b>.
+            <br>W odpowiedzi otrzymasz SMS z kodem, który wpisz poniżej.
+          </center>
+          <v-form
+            ref="form"
+            v-model="valid2"
+          >
+            <v-text-field v-model="kod" label="Wpisz kod z sms'a" :rules="rules.kod" />
+          </v-form>
+          <center>
+            Płatności zapewnia firma <a href="http://microsms.pl/">MicroSMS</a>. <br>
+            Korzystanie z serwisu jest jednozanczne z akceptacją <a href="http://microsms.pl/partner/documents/">regulaminów</a>.<br>
+            Jeśli nie dostałeś kodu zwrotnego w ciągu 30 minut skorzystaj z <a href="http://microsms.pl/customer/complaint/">formularza reklamacyjnego</a><br><br>
+          </center>
+        </v-card-text>
+        <v-divider />
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            color="primary"
+            text
+            @click="dialogSMS=false"
+          >
+            Anuluj
+          </v-btn>
+          <v-btn
+            color="primary"
+            text
+            @click="checkSMS"
+          >
+            Dalej
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -124,23 +179,26 @@ export default {
   },
   data () {
     return {
+      kod: '',
+      dialogSMS: false,
+      valid2: false,
       baseUrl: process.env.baseUrl,
       valid: false,
       nick: '',
       type: '',
       dialog: false,
       smsCost: {
-        1: '1.23',
-        2: '2.46',
-        3: '3.69',
-        4: '4.92',
-        5: '6.15',
-        6: '7.38',
-        7: '11.07',
-        8: '17.22',
-        9: '23.37',
-        10: '24.60',
-        11: '30.75'
+        1: ['1', '1.23'],
+        2: ['2', '2.46'],
+        3: ['3', '3.69'],
+        4: ['4', '4.92'],
+        5: ['5', '6.15'],
+        6: ['6', '7.38'],
+        7: ['9', '11.07'],
+        8: ['14', '17.22'],
+        9: ['19', '23.37'],
+        10: ['20', '24.60'],
+        11: ['25', '30.75']
       },
       rules: {
         type: [
@@ -178,7 +236,12 @@ export default {
       document.location.href = url
     },
     buySMS () {
-
+      this.dialog = false
+      this.dialogSMS = true
+    },
+    checkSMS () {
+      const { kod, nick } = this
+      console.log('ready to check SMS', kod, nick)
     }
   }
 }
