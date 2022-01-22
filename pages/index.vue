@@ -52,7 +52,7 @@
       </v-row>
     </v-parallax>
     <v-container>
-      <h1 class="display-1 mt-4 mb-7">
+      <h1 class="display-1 mt-10 mb-7">
         Dlaczego Itemszop jest najlepszy?
       </h1>
       <v-row>
@@ -77,6 +77,12 @@
               Każdy może zostać współtwórcą tego projektu.
               Dzięki temu ItemSzop może szybciej się rozwijać.
             </v-card-text>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn color="blue" text to="/github">
+                Zobacz kod źródłowy
+              </v-btn>
+            </v-card-actions>
           </v-card>
         </v-col>
         <v-col cols="12" md="4">
@@ -91,49 +97,73 @@
           </v-card>
         </v-col>
       </v-row>
-      <h1 class="display-1 mt-10 mb-7">
-        Użyte serwisy i frameworki:
+      <v-btn to="/discord" block class="mt-7 indigo lighten-1" large>
+        Dołącz do serwera discordowego
+      </v-btn>
+    </v-container>
+    <v-parallax src="/bg.png" jumbotron height="450" class="mt-7">
+      <v-row align="center" justify="center">
+        <v-col class="text-center" cols="12">
+          <h1 class="text-h4 font-weight-thick mb-4">
+            Użyte serwisy i frameworki
+          </h1>
+          <v-container>
+            <v-row class="ma-2">
+              <v-col>
+                <center>
+                  <v-img
+                    src="/vercel.png"
+                    width="100"
+                    height="100"
+                  />
+                  Vercel
+                </center>
+              </v-col>
+              <v-col>
+                <center>
+                  <v-img
+                    src="/nuxt.png"
+                    width="100"
+                    height="100"
+                  />
+                  Nuxt
+                </center>
+              </v-col>
+              <v-col>
+                <center>
+                  <v-img
+                    src="/vuetify.png"
+                    width="100"
+                    height="100"
+                  />
+                  Vuetify
+                </center>
+              </v-col>
+              <v-col>
+                <center>
+                  <v-img
+                    src="/firebase.png"
+                    width="100"
+                    height="100"
+                  />
+                  Firebase
+                </center>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-col>
+      </v-row>
+    </v-parallax>
+    <v-container>
+      <h1 class="display-1 mt-15 mb-7">
+        Wspierane bramki płatności
       </h1>
       <v-row class="ma-2">
         <v-col>
-          <center>
-            <v-img
-              src="/vercel.png"
-              width="100"
-              height="100"
-            />
-            Vercel
-          </center>
-        </v-col>
-        <v-col>
-          <center>
-            <v-img
-              src="/nuxt.png"
-              width="100"
-              height="100"
-            />
-            Nuxt
-          </center>
-        </v-col>
-        <v-col>
-          <center>
-            <v-img
-              src="/vuetify.png"
-              width="100"
-              height="100"
-            />
-            Vuetify
-          </center>
-        </v-col>
-        <v-col>
-          <center>
-            <v-img
-              src="/firebase.png"
-              width="100"
-              height="100"
-            />
-            Firebase
-          </center>
+          <v-img
+            src="/microsms.png"
+            width="300"
+          />
         </v-col>
       </v-row>
     </v-container>
