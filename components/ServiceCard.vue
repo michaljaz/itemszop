@@ -119,7 +119,7 @@
           <center>
             Ta usługa kosztuje <b>{{ smsCost[service.smsType][0] }}zł netto ({{ smsCost[service.smsType][1] }}zł z vat)</b>.
             <br>
-            Aby zakupić tą usługę wyślij SMS o treści <b>{{ payments.paymentsSMS }}</b> pod numer <b>1234</b>.
+            Aby zakupić tą usługę wyślij SMS o treści <b>{{ payments.paymentsSMS }}</b> pod numer <b>{{ smsCost[service.smsType][2] }}</b>.
             <br>W odpowiedzi otrzymasz SMS z kodem, który wpisz poniżej.
           </center>
           <v-form
@@ -188,17 +188,17 @@ export default {
       type: '',
       dialog: false,
       smsCost: {
-        1: ['1', '1.23'],
-        2: ['2', '2.46'],
-        3: ['3', '3.69'],
-        4: ['4', '4.92'],
-        5: ['5', '6.15'],
-        6: ['6', '7.38'],
-        7: ['9', '11.07'],
-        8: ['14', '17.22'],
-        9: ['19', '23.37'],
-        10: ['20', '24.60'],
-        11: ['25', '30.75']
+        1: ['1', '1.23', '71480'],
+        2: ['2', '2.46', '72480'],
+        3: ['3', '3.69', '73480'],
+        4: ['4', '4.92', '74480'],
+        5: ['5', '6.15', '75480'],
+        6: ['6', '7.38', '76480'],
+        7: ['9', '11.07', '79480'],
+        8: ['14', '17.22', '91400'],
+        9: ['19', '23.37', '91900'],
+        10: ['20', '24.60', '92022'],
+        11: ['25', '30.75', '92550']
       },
       rules: {
         type: [
