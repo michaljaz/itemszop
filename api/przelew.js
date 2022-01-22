@@ -20,6 +20,7 @@ class PrzelewVerification {
     this.checkIp()
   }
   checkIp () {
+    // check if ip is correct
     const ip = this.req.headers['x-forwarded-for'] || this.req.socket.remoteAddress
     axios.get('https://microsms.pl/psc/ips/').then((response) => {
       if (response.data.split(',').includes(ip) && status) {
@@ -30,6 +31,7 @@ class PrzelewVerification {
     })
   }
   checkUserId () {
+    // compare shop userid with payment userid
     const {userid} = this.req.query
     this.db.child(`shops/${this.shopid}/payments/paymentsUserId`).once('value', (snapshot) => {
       if (snapshot.exists() && snapshot.val() === userid) {
@@ -40,8 +42,9 @@ class PrzelewVerification {
     })
   }
   checkService () {
+    // check if service exists and check cost
     this.db.child(`shops/${this.shopid}/services/${this.serviceId}`).once('value', (snapshot) => {
-      if (snapshot.exists()) {
+      if (snapshot.exists() && this.req.amountUni === this.service.przelewCost) {
         this.service = snapshot.val()
         this.checkServer()
       } else {
@@ -50,6 +53,7 @@ class PrzelewVerification {
     })
   }
   checkServer () {
+    // check if server exists
     this.db.child(`servers/${this.service.server}`).once('value', (snapshot) => {
       if (snapshot.exists()) {
         this.server = snapshot.val()
@@ -60,6 +64,7 @@ class PrzelewVerification {
     })
   }
   checkOwner () {
+    //check server owner == shop owner
     this.db.child(`shop/${this.shopid}/owner`).once('value', (snapshot) => {
       if (snapshot.exists() && this.server.owner === snapshot.val()) {
         this.checkRcon()
@@ -69,6 +74,7 @@ class PrzelewVerification {
     })
   }
   checkRcon () {
+    //send rcon commands to server
     let count = 0
     const commands = this.service.commands.split('\n')
     for (let command of commands) {
