@@ -42,6 +42,7 @@
       <v-card-actions v-if="!link">
         <v-dialog
           v-model="dialog"
+          persistent
           width="500"
         >
           <template v-if="service.sms || service.przelew" #activator="{ on, attrs }">
@@ -108,6 +109,7 @@
     </v-card>
     <v-dialog
       v-model="dialogSMS"
+      persistent
       width="500"
     >
       <v-card elevation="5" outlined>
@@ -123,7 +125,7 @@
             <br>W odpowiedzi otrzymasz SMS z kodem, który wpisz poniżej.
           </center>
           <v-form
-            ref="form"
+            ref="form2"
             v-model="valid2"
           >
             <v-text-field v-model="kod" label="Wpisz kod z sms'a" :rules="rules.kod" />
@@ -208,6 +210,10 @@ export default {
         nick: [
           value => !!value || 'Wpisz nick',
           v => /^[a-zA-Z0-9_]{2,16}$/.test(v) || 'Nieprawidłowy format'
+        ],
+        kod: [
+          value => !!value || 'Wpisz kod',
+          v => /^[A-Za-z0-9]{8}$/.test(v) || 'Nieprawidłowy format'
         ]
       }
     }
@@ -241,8 +247,11 @@ export default {
       this.dialogSMS = true
     },
     checkSMS () {
-      const { kod, nick } = this
-      console.log('ready to check SMS', kod, nick)
+      this.$refs.form2.validate()
+      if (this.valid2) {
+        const { kod, nick } = this
+        console.log('ready to check SMS', kod, nick)
+      }
     }
   }
 }
