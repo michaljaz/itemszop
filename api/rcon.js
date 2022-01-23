@@ -1,7 +1,7 @@
 import { Rcon } from 'rcon-client'
 import app from './lib/app.js'
 
-app.get('/api/rcon', async (req, res) => {
+app.get('/api/rcon', (req, res) => {
   const { host, port, password, command } = req.query
   Rcon.connect({
     host, port, password

@@ -112,7 +112,7 @@ export default {
   build: {
     transpile: ['vuetify/lib', 'tiptap-vuetify']
   },
-  serverMiddleware: process.env.NODE_ENV === 'production' ? [] : ['~/api/rcon.js','~/api/voucher.js','~/api/przelew.js'],
+  serverMiddleware: process.env.NODE_ENV === 'production' ? [] : ['~/api/rcon.js','~/api/voucher.js','~/api/przelew.js','~/api/sms.js'],
   server: {
     port: 8080
   }

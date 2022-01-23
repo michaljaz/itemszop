@@ -12,6 +12,10 @@
 		{
       "src": "/api/przelew",
       "dest": "/api/przelew.js"
+    },
+		{
+      "src": "/api/sms",
+      "dest": "/api/sms.js"
     }
   ],
   "builds": [

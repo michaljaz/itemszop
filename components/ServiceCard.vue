@@ -128,7 +128,7 @@
             ref="form2"
             v-model="valid2"
           >
-            <v-text-field v-model="kod" label="Wpisz kod z sms'a" :rules="rules.kod" />
+            <v-text-field v-model="code" label="Wpisz kod z sms'a" :rules="rules.code" />
           </v-form>
           <center>
             Płatności zapewnia firma <a href="http://microsms.pl/">MicroSMS</a>. <br>
@@ -181,7 +181,7 @@ export default {
   },
   data () {
     return {
-      kod: '',
+      code: '',
       dialogSMS: false,
       valid2: false,
       baseUrl: process.env.baseUrl,
@@ -211,7 +211,7 @@ export default {
           value => !!value || 'Wpisz nick',
           v => /^[a-zA-Z0-9_]{2,16}$/.test(v) || 'Nieprawidłowy format'
         ],
-        kod: [
+        code: [
           value => !!value || 'Wpisz kod',
           v => /^[A-Za-z0-9]{8}$/.test(v) || 'Nieprawidłowy format'
         ]
@@ -249,8 +249,14 @@ export default {
     checkSMS () {
       this.$refs.form2.validate()
       if (this.valid2) {
-        const { kod, nick } = this
-        console.log('ready to check SMS', kod, nick)
+        const { code, nick } = this
+        const { shopid, serviceid } = this.$route.params
+        console.log('ready to check SMS', code, nick)
+        this.$axios.get('/sms', {
+          params: { code, nick, shopid, serviceid }
+        }).then(({ data }) => {
+          console.log(data)
+        })
       }
     }
   }
