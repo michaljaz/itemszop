@@ -156,7 +156,7 @@
     </v-parallax>
     <v-container>
       <h1 class="display-1 mt-15 mb-7">
-        Wspierane bramki płatności
+        Wspierani operatorzy płatności
       </h1>
       <v-row class="ma-2">
         <v-col>
