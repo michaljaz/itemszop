@@ -1,11 +1,8 @@
-import app from './lib/app.js'
-import admin from './lib/admin.js'
-import axios from 'axios'
-import { Rcon } from 'rcon-client'
+import {Handler, Router} from './lib/Request.js'
 
-class PrzelewVerification {
+class PrzelewHandler extends Handler {
   constructor () {
-    this.db = admin.database().ref()
+    super()
     return (req, res) => {
       this.check(req, res)
     }
@@ -29,7 +26,7 @@ class PrzelewVerification {
   checkIp () {
     // check if ip is correct
     const ip = this.req.headers['x-forwarded-for'] || this.req.socket.remoteAddress
-    axios.get('https://microsms.pl/psc/ips/').then((response) => {
+    this.axios.get('https://microsms.pl/psc/ips/').then((response) => {
       if (response.data.split(',').includes(ip) && status) {
         this.checkUserId()
       } else {
@@ -91,7 +88,7 @@ class PrzelewVerification {
         port: this.server.serverPort,
         password: this.server.serverPassword
       }
-      Rcon.connect(config).then((rcon) => {
+      this.rcon.connect(config).then((rcon) => {
         rcon.send(command)
           .then((response) => {
             count++
@@ -127,6 +124,4 @@ class PrzelewVerification {
   }
 }
 
-app.get('/api/przelew', new PrzelewVerification())
-
-module.exports = app
+module.exports = Router('/api/przelew', new PrzelewHandler())

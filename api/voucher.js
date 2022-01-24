@@ -1,10 +1,8 @@
-import app from './lib/app.js'
-import admin from './lib/admin.js'
-import { Rcon } from 'rcon-client'
+import {Handler, Router} from './lib/Request.js'
 
-class VoucherVerification {
+class VoucherHandler extends Handler {
   constructor () {
-    this.db = admin.database().ref()
+    super()
     return (req, res) => {
       this.check(req, res)
     }
@@ -17,7 +15,7 @@ class VoucherVerification {
     this.checkRegex()
   }
   checkRegex () {
-    if (/^[a-z0-9]{6,}$/.test(this.code) && /^[a-zA-Z0-9_]{2,16}$/.test(this.nick) &&  /^[A-Za-z0-9_]{4,}$/.test(this.shopid)) {
+    if (/^[a-z0-9]{6,}$/.test(this.code) && /^[a-zA-Z0-9_]{2,16}$/.test(this.nick) && /^[A-Za-z0-9_]{4,}$/.test(this.shopid)) {
       this.checkVoucher()
     } else {
       this.error('wrong-format')
@@ -102,6 +100,4 @@ class VoucherVerification {
   }
 }
 
-app.get('/api/voucher', new VoucherVerification())
-
-module.exports = app
+module.exports = Router('/api/voucher', new VoucherHandler())
