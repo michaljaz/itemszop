@@ -40,37 +40,55 @@
       </v-container>
     </v-app-bar>
     <v-parallax src="/bg.jpg" jumbotron height="550">
-      <v-row align="center" justify="center">
-        <v-col class="text-center" cols="12">
-          <h1 class="text-h4 font-weight-thick mb-4">
-            ItemSzop
-          </h1>
-          <h4 class="subheading">
-            Darmowy sklep serwera minecraftowego
-          </h4>
-        </v-col>
-      </v-row>
+      <v-container>
+        <v-row>
+          <v-col md="1" />
+          <v-col md="6">
+            <h1 class="display-2 font-weight-thick mb-4">
+              Darmowy sklep serwera minecraftowego
+            </h1>
+            <h4 class="headline">
+              Zacznij zarabiać na swoim serwerze już teraz!
+              <client-only>
+                <div class="mt-3">
+                  <v-btn v-if="!loggedIn" to="/auth/signin" large color="indigo">
+                    Zaloguj się
+                  </v-btn>
+                  <v-btn v-if="!loggedIn" to="/auth/signup" large color="info">
+                    Zarejestruj się
+                  </v-btn>
+                  <v-btn v-if="loggedIn" to="/panel" large color="indigo">
+                    Przejdź do panelu
+                  </v-btn>
+                </div>
+              </client-only>
+            </h4>
+          </v-col>
+          <v-col md="5" />
+        </v-row>
+      </v-container>
     </v-parallax>
     <v-container>
       <h1 class="display-1 mt-10 mb-7">
         Dlaczego Itemszop jest najlepszy?
       </h1>
       <v-row>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="4" sm="6">
           <v-card height="100%">
             <v-card-title>
-              Bezpłatny
+              Cena
             </v-card-title>
             <v-card-text>
               Nie ma tutaj żadnych planów cenowych.
               Nie ma także żadnych limitów na liczbę usług, liczbę sklepów, czy liczbę serwerów.
+              ItemSzop jest kompletnie za darmo, przez co tworzy sporą konkurencję dla innych sklepów serwerów.
             </v-card-text>
           </v-card>
         </v-col>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="4" sm="6">
           <v-card height="100%">
             <v-card-title>
-              Otwarty kod źródłowy
+              Open-source
             </v-card-title>
             <v-card-text>
               Kod źródłowy jest publicznie dostępny na githubie.
@@ -85,7 +103,7 @@
             </v-card-actions>
           </v-card>
         </v-col>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="4" sm="6">
           <v-card height="100%">
             <v-card-title>
               Technologia
@@ -96,10 +114,48 @@
             </v-card-text>
           </v-card>
         </v-col>
+        <v-col cols="12" md="4" sm="6">
+          <v-card height="100%">
+            <v-card-title>
+              Społeczność
+            </v-card-title>
+            <v-card-text>
+              Utworzyliśmy serwer discordowy, na którym można zadawać pytania odnośnie ItemSzopu.
+              Można również składać propozycje lub zgłaszać problemy techniczne.
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn to="/discord" color="indigo" text>
+                Dołącz do serwera dc
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="4" sm="6">
+          <v-card height="100%">
+            <v-card-title>
+              Bezpieczeństwo
+            </v-card-title>
+            <v-card-text>
+              Wszystkie dane dotyczące sklepu znajdują się w bazie danych w chmurze.
+              Żadna osoba niepowołana nie posiada dostępu do całej bazy.
+              Otrzymuje dostęp jedynie do skrawku, w którym nie może nic zniszczyć.
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="4" sm="6">
+          <v-card height="100%">
+            <v-card-title>
+              Architektura SaaS
+            </v-card-title>
+            <v-card-text>
+              Cały sklep jest hostowany u nas.
+              Nie musisz się martwić o stronę techniczną.
+              Jest również możliwość "postawienia" swojego sklepu, lecz zalecamy używanie domyślnego.
+            </v-card-text>
+          </v-card>
+        </v-col>
       </v-row>
-      <v-btn to="/discord" block class="mt-7 indigo lighten-1" large>
-        Dołącz do serwera discordowego
-      </v-btn>
     </v-container>
     <v-parallax src="/bg.png" jumbotron height="450" class="mt-7">
       <v-row align="center" justify="center">
