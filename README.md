@@ -6,7 +6,7 @@
 
 ## Wersja produkcyjna
 
-Tu znajduje się link do wersji produkcyjnej : https://itemszop.vercel.app
+Tu znajduje się link do wersji produkcyjnej : https://itemszop.tk
 
 ## Konfiguracja budowania
 

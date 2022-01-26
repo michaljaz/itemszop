@@ -1,6 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
 
-const productionUrl = 'https://itemszop.vercel.app'
+const productionUrl = 'https://itemszop.tk'
 const baseUrl = process.env.NODE_ENV === 'production' ? productionUrl : 'http://localhost:8080'
 
 export default {
