@@ -16,7 +16,7 @@
         <v-textarea
           label="Kod HTML, kóry wyświetla ramkę ze sklepem"
           filled
-          value="<iframe style=&quot;z-index:99999999;border:0px;position:fixed;width:100%;height:100%;top:0px;left:0px;&quot; src=&quot;https://itemszop.vercel.app/shop/gitcraft&quot; />"
+          value="<iframe style=&quot;z-index:99999999;border:0px;position:fixed;width:100%;height:100%;top:0px;left:0px;&quot; src=&quot;https://itemszop.vercel.app/#/shop/gitcraft&quot; />"
         />
       </v-col>
     </v-row>
@@ -33,7 +33,7 @@ export default {
   },
   data () {
     return {
-      url: `${document.location.origin}/shop/${this.$route.params.shopid}`
+      url: `${document.location.origin}/#/shop/${this.$route.params.shopid}`
     }
   },
   head () {
