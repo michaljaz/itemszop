@@ -33,7 +33,7 @@ export default {
   },
   data () {
     return {
-      url: `${document.location.origin}/#/shop/${this.$route.params.shopid}`
+      url: `${document.location.origin}/shop/${this.$route.params.shopid}`
     }
   },
   head () {

@@ -5,7 +5,6 @@ const baseUrl = process.env.NODE_ENV === 'production' ? productionUrl : 'http://
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
-  ssr: false,
   target: 'static',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -29,8 +28,7 @@ export default {
   router: {
     middleware: [
       'auth'
-    ],
-    mode:'hash'
+    ]
   },
 
   env: {
@@ -57,7 +55,12 @@ export default {
       fix: true
     }],
     // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify'
+    '@nuxtjs/vuetify',
+    ['@nuxtjs/router', {
+      path: 'router',
+      fileName: 'index.js',
+      keepDefaultRouter: true
+    }]
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
