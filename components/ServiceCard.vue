@@ -240,7 +240,7 @@ export default {
         returl_urlc: `${this.baseUrl}/api/przelew`
       })
       const url = `https://microsms.pl/api/bankTransfer/?${params}`
-      document.location.href = url
+      window.top.location.href = url
     },
     buySMS () {
       this.dialog = false

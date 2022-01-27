@@ -2,6 +2,8 @@
   <div />
 </template>
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'ShopListener',
   props: {
@@ -17,6 +19,11 @@ export default {
       servers: {},
       shopid: this.$route.params.shopid
     }
+  },
+  computed: {
+    ...mapGetters([
+      'loggedIn'
+    ])
   },
   watch: {
     $route (newRoute, oldRoute) {
@@ -80,8 +87,10 @@ export default {
             const shop = snapshot.val() === null ? {} : snapshot.val()
             shop.loaded = true
             this.shop = shop
-          } else {
+          } else if (this.loggedIn) {
             this.$router.push('/panel')
+          } else {
+            window.top.location.href = process.env.baseUrl
           }
         })
     },
