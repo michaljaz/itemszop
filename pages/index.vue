@@ -158,7 +158,7 @@
           </v-col>
         </v-row>
       </v-container>
-      <v-parallax src="/bg.png" jumbotron height="450" class="mt-7">
+      <v-parallax src="/footerbg.jpg" jumbotron height="450" class="mt-7">
         <v-row align="center" justify="center">
           <v-col class="text-center" cols="12">
             <h1 class="text-h4 font-weight-thick mb-4">
