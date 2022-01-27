@@ -55,12 +55,7 @@ export default {
       fix: true
     }],
     // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify',
-    ['@nuxtjs/router', {
-      path: 'router',
-      fileName: 'index.js',
-      keepDefaultRouter: true
-    }]
+    '@nuxtjs/vuetify'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
