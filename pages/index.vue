@@ -249,7 +249,7 @@
         </client-only>
       </v-navigation-drawer>
     </div>
-    <div v-else class="hov">
+    <div v-else>
       <iframe style="position:fixed;top:0px;left:0px;width:100%;height:100%;border:0px" :src="src" />
     </div>
   </div>
@@ -260,16 +260,12 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'IndexPage',
-  asyncData ({ req, res }) {
-    const hostname = process.server ? req.headers.host.split(':')[0] : window.location.hostname
-    const issub = /^[a-zA-Z0-9][a-zA-Z0-9-]+\.itemszop\.ga$/.test(hostname)
-    const sub = hostname.split('.')[0]
-    const src = `/shop/${sub}`
-    return { issub, sub, src }
-  },
   data () {
     return {
-      drawer: false
+      drawer: false,
+      issub: true,
+      sub: '',
+      src: ''
     }
   },
   computed: {
@@ -278,7 +274,13 @@ export default {
     ])
   },
   mounted () {
-    document.querySelector('html').style.overflow = 'hidden'
+    const hostname = window.location.hostname
+    this.issub = /^[a-zA-Z0-9][a-zA-Z0-9-]+\.pgrok\.me$/.test(hostname)
+    this.sub = hostname.split('.')[0]
+    this.src = `/shop/${this.sub}`
+    if (this.issub) {
+      document.querySelector('html').style.overflow = 'hidden'
+    }
   }
 }
 </script>
