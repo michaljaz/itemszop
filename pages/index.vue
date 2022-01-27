@@ -40,7 +40,7 @@
           </div>
         </v-container>
       </v-app-bar>
-      <v-parallax src="/bg.jpg" jumbotron height="550">
+      <v-parallax src="/bg.webp" jumbotron height="550">
         <v-container>
           <v-row>
             <v-col md="1" />
@@ -158,7 +158,7 @@
           </v-col>
         </v-row>
       </v-container>
-      <v-parallax src="/footerbg.jpg" jumbotron height="450" class="mt-7">
+      <v-parallax src="/footerbg.webp" jumbotron height="450" class="mt-7">
         <v-row align="center" justify="center">
           <v-col class="text-center" cols="12">
             <h1 class="text-h4 font-weight-thick mb-4">
@@ -218,7 +218,7 @@
         <v-row class="ma-2">
           <v-col>
             <v-img
-              src="/microsms.png"
+              src="/microsms.webp"
               width="300"
             />
           </v-col>
