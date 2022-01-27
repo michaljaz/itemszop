@@ -9,7 +9,7 @@
 		"shops":{
 			".read": true,
 			"$shop_id":{
-				".write":"(data.child('owner').val() == auth.uid || !data.exists()) && newData.child('owner').val() == auth.uid",
+				".write":"(data.child('owner').val() == auth.uid || !data.exists()) && (newData.child('owner').val() == auth.uid || !newData.exists())",
 			}
 		},
 		"servers":{
@@ -18,7 +18,7 @@
 					".read":true
 				},
 				".read":"data.child('owner').val() == auth.uid",
-				".write":"(data.child('owner').val() == auth.uid || !data.exists()) && newData.child('owner').val() == auth.uid",
+				".write":"(data.child('owner').val() == auth.uid || !data.exists()) && (newData.child('owner').val() == auth.uid || !newData.exists())",
 			}
 		},
 		"vouchers":{
