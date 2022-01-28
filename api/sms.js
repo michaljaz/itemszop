@@ -89,7 +89,7 @@ class SmsHandler extends Handler {
           .then((response) => {
             count++
             if (count === commands.length) {
-              this.success()
+              this.addPaymentHistory()
             }
           })
           .catch((e) => {
@@ -99,6 +99,18 @@ class SmsHandler extends Handler {
         this.error()
       })
     }
+  }
+  addPaymentHistory () {
+    // update payments history
+    this.db.child(`shops/${this.shopid}/history`).push().set({
+      nick: this.nick,
+      service: this.service.name,
+      date: Date.now()
+    }).then(() => {
+      this.success()
+    }).catch(() => {
+      this.error()
+    })
   }
   success () {
     this.res.send('OK')

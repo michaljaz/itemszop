@@ -62,16 +62,16 @@
               </v-card-title>
               <v-card-text>
                 <v-list flat>
-                  <v-list-item v-for="k in 5" :key="k" two-line>
+                  <v-list-item v-for="k in shop.history" :key="k.date" two-line>
                     <v-list-item-avatar
                       tile
                       size="40"
                     >
-                      <v-img src="https://www.topkamc.pl/content/player/steve/avatar?dimensions=32" />
+                      <v-img :src="`https://www.topkamc.pl/content/player/${k.nick}/avatar?dimensions=32`" />
                     </v-list-item-avatar>
                     <v-list-item-content>
-                      <v-list-item-title>Steve{{ k }}</v-list-item-title>
-                      <v-list-item-subtitle>VIP</v-list-item-subtitle>
+                      <v-list-item-title>{{ k.nick }}</v-list-item-title>
+                      <v-list-item-subtitle>{{ k.service }}</v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list>
