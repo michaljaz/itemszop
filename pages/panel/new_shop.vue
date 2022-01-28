@@ -71,6 +71,7 @@ export default {
         .set({
           icon: '',
           owner: uid,
+          collected: 0,
           goal: 100,
           name,
           pages: {
@@ -98,8 +99,7 @@ export default {
               commands: 'say [nick] kupił VIP',
               description: 'OPIS'
             }
-          },
-          zebrane: 0
+          }
         })
         .then(() => {
           this.$fire.database.ref().child(`users/${uid}`)

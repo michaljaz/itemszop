@@ -50,7 +50,7 @@
                 Cel miesięczny
               </v-card-title>
               <v-card-text>
-                <v-progress-linear value="15" />
+                <v-progress-linear :value="collected" />
                 <h1 class="mt-4 d-flex headline justify-center">
                   „Utrzymanie serwera”
                 </h1>
@@ -97,6 +97,11 @@ export default {
       shop: {},
       servers: {},
       breadCrumbs: []
+    }
+  },
+  computed: {
+    collected () {
+      return this.shop.collected / this.shop.goal * 100
     }
   }
 }

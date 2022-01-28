@@ -107,9 +107,40 @@ class SmsHandler extends Handler {
       service: this.service.name,
       date: Date.now()
     }).then(() => {
-      this.success()
+      this.addMothlyGoal()
     }).catch(() => {
       this.error()
+    })
+  }
+  addMothlyGoal () {
+    const smsCost=({
+      1: 1,
+      2: 2,
+      3: 3,
+      4: 4,
+      5: 5,
+      6: 6,
+      7: 9,
+      8: 14,
+      9: 19,
+      10: 20,
+      11: 25
+    })[this.service.smsType]
+
+    this.db.child(`shops/${this.shopid}/collected`).once('value', (snapshot) => {
+      if (snapshot.exists()) {
+        this.db.child(`shops/${this.shopid}/collected`).set(parseFloat(snapshot.val()) +smsCost).then(() => {
+          this.success()
+        }).catch(() => {
+          this.error()
+        })
+      } else {
+        this.db.child(`shops/${this.shopid}/collected`).set(smsCost).then(() => {
+          this.success()
+        }).catch(() => {
+          this.error()
+        })
+      }
     })
   }
   success () {
