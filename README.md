@@ -27,12 +27,9 @@ $ npm run generate
 
 Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację](https://nuxtjs.org).
 
-## Własne hostowanie (niedługo będzie działać)
+## Własne hostowanie (opcjonalne)
 
-- Sklonuj projekt i utwórz nowe repozytorium klikając ten [LINK](https://vercel.com/new/clone?repository-url=https://github.com/michaljaz/itemszop)
-- Przygotuj własną bazę firebase [Dokumentacja](https://github.com/michaljaz/itemszop/wiki/Konfiguracja-w%C5%82asnej-bazy-firebase)
-
-
+[link do dokumentacji](https://github.com/michaljaz/itemszop/wiki/Konfiguracja-sklepu-z-w%C5%82asn%C4%85-baz%C4%85-firebase)
 
 
 ## Linki do dokumentacji płatności
