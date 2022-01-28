@@ -3,6 +3,16 @@ import colors from 'vuetify/es5/util/colors'
 const productionUrl = 'https://itemszop.tk'
 const baseUrl = process.env.NODE_ENV === 'production' ? productionUrl : 'http://localhost:8080'
 
+let firebaseConfig;
+try {
+  firebaseConfig = JSON.parse((new Buffer.from(process.env.FIREBASE_CONFIG, 'base64')).toString('ascii'))
+  const serviceAccount = JSON.parse((new Buffer.from(process.env.FIREBASE_SERVICE_ACCOUNT_KEY, 'base64')).toString('ascii'))
+  const databaseURL = process.env.FIREBASE_DATABASE_URL
+}catch(e){
+  console.error('Klucze zostały źle skonfigurowane')
+  process.exit()
+}
+
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -64,15 +74,7 @@ export default {
     [
       '@nuxtjs/firebase',
       {
-        config: {
-          apiKey: 'AIzaSyAgqotnCT9d_zcmwrE8mHWiC9JL8r75U-s',
-          authDomain: 'sklepmc-c7516.firebaseapp.com',
-          databaseURL: 'https://sklepmc-c7516-default-rtdb.europe-west1.firebasedatabase.app',
-          projectId: 'sklepmc-c7516',
-          storageBucket: 'sklepmc-c7516.appspot.com',
-          messagingSenderId: '889784816765',
-          appId: '1:889784816765:web:7c84a7bce9b480ce7d4d14'
-        },
+        config: firebaseConfig,
         services: {
           database: true,
           auth: {
