@@ -27,6 +27,10 @@ $ npm run generate
 
 Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację](https://nuxtjs.org).
 
+## Własne hostowanie (opcjonalne)
+
+[link do dokumentacji](https://github.com/michaljaz/itemszop/wiki/Konfiguracja-sklepu-z-w%C5%82asn%C4%85-baz%C4%85-firebase)
+
 
 ## Linki do dokumentacji płatności
 

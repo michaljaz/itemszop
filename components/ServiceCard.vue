@@ -255,7 +255,9 @@ export default {
         this.$axios.get('/sms', {
           params: { code, nick, shopid, serviceid }
         }).then(({ data }) => {
-          console.log(data)
+          if (data === 'OK') {
+            this.$router.push(`/shop/${shopid}/payment_success`)
+          }
         })
       }
     }

@@ -111,9 +111,26 @@ class PrzelewHandler extends Handler {
       service: this.service.name,
       date: Date.now()
     }).then(() => {
-      this.success()
+      this.addMothlyGoal()
     }).catch(() => {
       this.error()
+    })
+  }
+  addMothlyGoal () {
+    this.db.child(`shops/${this.shopid}/collected`).once('value', (snapshot) => {
+      if (snapshot.exists()) {
+        this.db.child(`shops/${this.shopid}/collected`).set(parseFloat(snapshot.val()) + parseFloat(this.service.przelewCost)).then(() => {
+          this.success()
+        }).catch(() => {
+          this.error()
+        })
+      } else {
+        this.db.child(`shops/${this.shopid}/collected`).set(parseFloat(this.service.przelewCost)).then(() => {
+          this.success()
+        }).catch(() => {
+          this.error()
+        })
+      }
     })
   }
   error () {
