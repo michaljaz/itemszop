@@ -7,11 +7,12 @@ app.use(cors())
 
 class Handler {
   constructor () {
-    const serviceAccount = JSON.parse((new Buffer.from(process.env.FIREBASE_SERVICE_ACCOUNT_KEY, 'base64')).toString('ascii'))
+    const firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG)
+    const {serviceAccount, databaseURL} = firebaseConfig
     if (admin.apps.length === 0) {
       admin.initializeApp({
         credential: admin.credential.cert(serviceAccount),
-        databaseURL: process.env.FIREBASE_DATABASE_URL
+        databaseURL
       })
     }
     this.rcon = Rcon

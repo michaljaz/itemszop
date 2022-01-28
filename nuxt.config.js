@@ -3,11 +3,9 @@ import colors from 'vuetify/es5/util/colors'
 const productionUrl = 'https://itemszop.tk'
 const baseUrl = process.env.NODE_ENV === 'production' ? productionUrl : 'http://localhost:8080'
 
-let firebaseConfig;
+let firebaseConfig
 try {
-  firebaseConfig = JSON.parse((new Buffer.from(process.env.FIREBASE_CONFIG, 'base64')).toString('ascii'))
-  const serviceAccount = JSON.parse((new Buffer.from(process.env.FIREBASE_SERVICE_ACCOUNT_KEY, 'base64')).toString('ascii'))
-  const databaseURL = process.env.FIREBASE_DATABASE_URL
+  firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG)
 }catch(e){
   console.error('Klucze zostały źle skonfigurowane')
   process.exit()
@@ -74,7 +72,7 @@ export default {
     [
       '@nuxtjs/firebase',
       {
-        config: firebaseConfig,
+        config: firebaseConfig.publicConfig,
         services: {
           database: true,
           auth: {
