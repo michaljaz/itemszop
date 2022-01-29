@@ -67,7 +67,7 @@
                       tile
                       size="40"
                     >
-                      <v-img :src="`https://www.topkamc.pl/content/player/${k.nick}/avatar?dimensions=32`" />
+                      <v-img :src="`https://minotar.net/helm/${k.nick}/32.png`" />
                     </v-list-item-avatar>
                     <v-list-item-content>
                       <v-list-item-title>{{ k.nick }}</v-list-item-title>
