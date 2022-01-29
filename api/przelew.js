@@ -10,14 +10,14 @@ class PrzelewHandler extends Handler {
   check (req, res) {
     this.req = req
     this.res = res
-    const [shopid, service, nick] = req.control.split('|')
+    const [shopid, serviceid, nick] = req.control.split('|')
     this.shopid = shopid
-    this.serviceId = serviceId
+    this.serviceid = serviceid
     this.nick = nick
     this.checkRegex()
   }
   checkRegex () {
-    if (/^[A-Za-z0-9_]{4,}$/.test(this.shopid) && /^[A-Za-z0-9_]{4,}$/.test(this.serviceId) && /^[a-zA-Z0-9_]{2,16}$/.test(this.nick)) {
+    if (/^[A-Za-z0-9_]{4,}$/.test(this.shopid) && /^[A-Za-z0-9_]{4,}$/.test(this.serviceid) && /^[a-zA-Z0-9_]{2,16}$/.test(this.nick)) {
       this.checkIp()
     } else {
       this.error()
@@ -47,7 +47,7 @@ class PrzelewHandler extends Handler {
   }
   checkService () {
     // check if service exists and check cost
-    this.db.child(`shops/${this.shopid}/services/${this.serviceId}`).once('value', (snapshot) => {
+    this.db.child(`shops/${this.shopid}/services/${this.serviceid}`).once('value', (snapshot) => {
       if (snapshot.exists() && this.req.amountUni === this.service.przelewCost) {
         this.service = snapshot.val()
         this.checkServer()
@@ -109,6 +109,7 @@ class PrzelewHandler extends Handler {
     this.db.child(`shops/${this.shopid}/history`).push().set({
       nick: this.nick,
       service: this.service.name,
+      serviceid: this.serviceid,
       date: Date.now()
     }).then(() => {
       this.addMothlyGoal()

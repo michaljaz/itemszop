@@ -156,6 +156,21 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-snackbar
+      v-model="snackbar"
+    >
+      {{ snackbarMessage }}
+      <template #action="{ attrs }">
+        <v-btn
+          color="pink"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          Zamknij
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 <script>
@@ -181,6 +196,8 @@ export default {
   },
   data () {
     return {
+      snackbar: false,
+      snackbarMessage: '',
       code: '',
       dialogSMS: false,
       valid2: false,
@@ -255,8 +272,23 @@ export default {
         this.$axios.get('/sms', {
           params: { code, nick, shopid, serviceid }
         }).then(({ data }) => {
-          if (data === 'OK') {
+          console.log(data)
+          if (data.success) {
             this.$router.push(`/shop/${shopid}/payment_success`)
+          } else {
+            const errors = {
+              'wrong-format': 'Nieprawidłowy format',
+              'payments-not-exist': 'Płatność nie została skonfigurowana',
+              'service-not-exist': 'Usługa nie istnieje',
+              'server-not-exist': 'Serwer nie istnieje',
+              'wrong-code': 'Nieprawidłowy kod',
+              'command-error': 'Nie udało się wywołać komendy na serwerze minecraftowym',
+              'auth-error': 'Nie udało się połączyć z serwerem minecraftowym',
+              'history-error': 'Nie można zapisać płatności w historii',
+              'monthly-goal-error': 'Nie udało się zaktualizować celu miesięcznego'
+            }
+            this.snackbarMessage = errors[data.error]
+            this.snackbar = true
           }
         })
       }

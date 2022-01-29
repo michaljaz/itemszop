@@ -7,18 +7,13 @@ app.use(cors())
 
 class Handler {
   constructor () {
-    if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY === undefined) {
-      console.log('FIREBASE_SERVICE_ACCOUNT_KEY is not set')
-    } else {
-      const buff = new Buffer.from(process.env.FIREBASE_SERVICE_ACCOUNT_KEY, 'base64')
-      const text = buff.toString('ascii')
-      const serviceAccount = JSON.parse(text)
-      if (admin.apps.length === 0) {
-        admin.initializeApp({
-          credential: admin.credential.cert(serviceAccount),
-          databaseURL: process.env.FIREBASE_DATABASE_URL
-        })
-      }
+    const firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG)
+    const {serviceAccount, databaseURL} = firebaseConfig
+    if (admin.apps.length === 0) {
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount),
+        databaseURL
+      })
     }
     this.rcon = Rcon
     this.axios = axios

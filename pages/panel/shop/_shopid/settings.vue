@@ -58,8 +58,11 @@
           </div>
         </v-card-text>
         <v-card-actions>
-          <v-btn block color="red" :disabled="cdel===$route.params.shopid ? false : true" @click="remove()">
-            Rozumiem konsekwencje, usuwam sklep
+          <v-btn color="green" text rounded @click="dialog=false">
+            Anuluj
+          </v-btn>
+          <v-btn color="red" :disabled="cdel===$route.params.shopid ? false : true" @click="remove()">
+            Usuwam sklep
           </v-btn>
         </v-card-actions>
       </v-card>
