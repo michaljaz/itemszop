@@ -2,28 +2,36 @@
   <div>
     <v-card class="pt-1 pb-4">
       <v-card-title class="headline justify-center">
-        Zarejestruj się
+        {{ $t('sign_up') }}
       </v-card-title>
       <v-card-text>
         <v-form
           ref="form"
           v-model="valid"
         >
-          <v-text-field v-model="email" :rules="rules.email" label="Email*" />
-          <v-text-field v-model="displayName" :rules="rules.displayName" label="Pseudonim*" />
+          <v-text-field
+            v-model="email"
+            :rules="rules.email"
+            :label="`${$t('email')}*`"
+          />
+          <v-text-field
+            v-model="displayName"
+            :rules="rules.displayName"
+            :label="`${$t('display_name')}*`"
+          />
           <v-text-field
             v-model="password"
-            label="Hasło*"
+            :label="`${$t('password')}*`"
             type="password"
             :rules="rules.password"
           />
           <v-text-field
             v-model="confirmPassword"
-            label="Powtórz Hasło*"
+            :label="`${$t('repeat_password')}*`"
             type="password"
             :rules="rules.confirmPassword"
           />
-          <small>*wskazuje pole wymagane</small>
+          <small>*{{ $t('required_fields') }}</small>
         </v-form>
         <v-dialog
           v-model="dialog"
@@ -43,7 +51,7 @@
                 text
                 @click="dialog=false"
               >
-                Anuluj
+                {{ $t('cancel') }}
               </v-btn>
               <v-btn
                 v-if="nextButton"
@@ -51,7 +59,7 @@
                 text
                 @click="$router.push('/auth/signin')"
               >
-                Przejdź do panelu
+                {{ $t('go_to_panel') }}
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -64,7 +72,7 @@
           large
           @click="submit"
         >
-          Dalej
+          {{ $t('cancel') }}
         </v-btn>
         <v-btn
           text
@@ -72,7 +80,7 @@
           to="/auth/signin"
           large
         >
-          Zaloguj się
+          {{ $t('sign_in') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -97,26 +105,26 @@ export default {
       confirmPassword: '',
       rules: {
         email: [
-          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Nieprawidłowy format'
+          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || this.$t('wrong_format')
         ],
         displayName: [
-          value => !!value || 'Wpisz pseudonim'
+          value => !!value || this.$t('write_display_name')
         ],
         password: [
-          value => !!value || 'Wpisz hasło',
-          value => (value && value.length >= 6) || 'Minimum 6 znaków'
+          value => !!value || this.$t('write_password'),
+          value => (value && value.length >= 6) || this.$t('min_6_chars')
         ],
         confirmPassword: [
-          value => !!value || 'Wpisz hasło',
+          value => !!value || this.$t('write_password'),
           value =>
-            value === this.password || 'Hasła do siebie nie pasują.'
+            value === this.password || this.$t('passwords_not_match')
         ]
       }
     }
   },
   head () {
     return {
-      title: 'Rejestracja'
+      title: this.$t('sign_up')
     }
   },
   computed: {
@@ -126,14 +134,14 @@ export default {
   },
   methods: {
     errorDialog (e) {
-      this.dialogTitle = 'Błąd'
+      this.dialogTitle = this.$t('error')
       this.dialogContent = this.errorCodes[e.code] || e.message
       this.nextButton = false
       this.dialog = true
     },
     successDialog () {
-      this.dialogTitle = 'Email został wysłany'
-      this.dialogContent = 'Sprawdź swojego maila, aby móc się zalogować na swoje konto.'
+      this.dialogTitle = this.$t('email_sent')
+      this.dialogContent = this.$t('check_mailbox')
       this.nextButton = true
       this.dialog = true
     },

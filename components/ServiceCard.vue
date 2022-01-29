@@ -47,7 +47,7 @@
           block
           :to="link"
         >
-          Opis
+          {{ $t('description') }}
         </v-btn>
       </v-card-actions>
       <v-card-actions>
@@ -65,7 +65,7 @@
               v-bind="attrs"
               v-on="on"
             >
-              Kupuję
+              {{ $t('buy') }}
             </v-btn>
           </template>
 
@@ -104,14 +104,14 @@
                 text
                 @click="dialog=false"
               >
-                Anuluj
+                {{ $t('cancel') }}
               </v-btn>
               <v-btn
                 color="green"
                 text
                 @click="next"
               >
-                Dalej
+                {{ $t('next') }}
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -155,14 +155,14 @@
             text
             @click="dialogSMS=false"
           >
-            Anuluj
+            {{ $t('cancel') }}
           </v-btn>
           <v-btn
             color="green"
             text
             @click="checkSMS"
           >
-            Dalej
+            {{ $t('next') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -178,7 +178,7 @@
           v-bind="attrs"
           @click="snackbar = false"
         >
-          Zamknij
+          {{ $t('cancel') }}
         </v-btn>
       </template>
     </v-snackbar>

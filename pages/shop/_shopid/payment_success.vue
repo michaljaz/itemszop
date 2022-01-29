@@ -3,10 +3,10 @@
     <v-container>
       <center>
         <div class="display-2 mt-7">
-          Płatność została zrealizowana pomyślnie!
+          {{ $t('payment_success') }}!
         </div>
         <v-btn :to="`/shop/${$route.params.shopid}`" color="blue" class="mt-10" text>
-          Przejdź do strony głównej
+          {{ $t('back_to_servers_list') }}
         </v-btn>
       </center>
     </v-container>
@@ -17,12 +17,12 @@ export default {
   name: 'PaymentSuccess',
   mounted () {
     this.$emit('breadcrumb', [{
-      text: 'Sklep',
+      text: this.$t('shop'),
       disabled: false,
       href: `/shop/${this.$route.params.shopid}`
     },
     {
-      text: 'Płatność zakończona pomyślnie',
+      text: this.$t('payment_success'),
       disabled: true
     }])
   }

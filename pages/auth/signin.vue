@@ -2,18 +2,22 @@
   <div>
     <v-card class="pt-1 pb-4">
       <v-card-title class="headline justify-center">
-        Zaloguj się
+        {{ $t('sign_in') }}
       </v-card-title>
       <v-card-text>
         <v-form
           ref="form"
           v-model="valid"
         >
-          <v-text-field v-model="email" :rules="rules.email" label="Email" />
+          <v-text-field
+            v-model="email"
+            :rules="rules.email"
+            :label="$t('email')"
+          />
           <v-text-field
             v-model="password"
             :rules="rules.password"
-            label="Hasło"
+            :label="$t('password')"
             :type="showPassword ? 'text' : 'password'"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             @click:append="showPassword = !showPassword"
@@ -24,13 +28,13 @@
             small
             @click="reset_dialog=true"
           >
-            Resetowanie hasła
+            {{ $t('password_reset') }}
           </v-btn>
         </v-form>
         <v-snackbar
           v-model="snackbar"
         >
-          Wysłano emaila z linkiem do zresetowania hasła
+          {{ $t('email_sent') }}
           <template #action="{ attrs }">
             <v-btn
               color="pink"
@@ -38,7 +42,7 @@
               v-bind="attrs"
               @click="snackbar = false"
             >
-              Zamknij
+              {{ $t('cancel') }}
             </v-btn>
           </template>
         </v-snackbar>
@@ -48,14 +52,18 @@
         >
           <v-card>
             <v-card-title class="text-h5">
-              Resetowanie hasła
+              {{ $t('password_reset') }}
             </v-card-title>
             <v-card-text>
               <v-form
                 ref="form_reset"
                 v-model="reset_valid"
               >
-                <v-text-field v-model="reset_email" :rules="rules.email" label="Email" />
+                <v-text-field
+                  v-model="reset_email"
+                  :rules="rules.email"
+                  :label="$t('email')"
+                />
               </v-form>
             </v-card-text>
             <v-card-actions>
@@ -65,13 +73,13 @@
                 text
                 @click="reset_dialog=false"
               >
-                Anuluj
+                {{ $t('cancel') }}
               </v-btn>
               <v-btn
                 color="green darken-1"
                 @click="resetPassword"
               >
-                Resetuj
+                {{ $t('reset') }}
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -82,7 +90,7 @@
         >
           <v-card>
             <v-card-title class="text-h5">
-              Błąd
+              {{ $t('error') }}
             </v-card-title>
             <v-card-text>
               {{ dialogContent }}
@@ -94,7 +102,7 @@
                 text
                 @click="dialog=false"
               >
-                Anuluj
+                {{ $t('cancel') }}
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -107,7 +115,7 @@
           large
           @click="submit"
         >
-          Dalej
+          {{ $t('next') }}
         </v-btn>
         <v-btn
           text
@@ -115,7 +123,7 @@
           to="/auth/signup"
           large
         >
-          Zarejestruj się
+          {{ $t('sign_up') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -141,18 +149,18 @@ export default {
       showPassword: false,
       rules: {
         email: [
-          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Nieprawidłowy format'
+          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || this.$t('wrong_format')
         ],
         password: [
-          value => !!value || 'Wpisz hasło',
-          value => (value && value.length >= 6) || 'Minimalnie 6 znaków'
+          value => !!value || this.$t('write_password'),
+          value => (value && value.length >= 6) || this.$t('min_6_chars')
         ]
       }
     }
   },
   head () {
     return {
-      title: 'Logowanie'
+      title: this.$t('sign_in')
     }
   },
   computed: {

@@ -3,7 +3,7 @@
     <v-row justify="center" align="center">
       <v-col cols="12" sm="8" md="6">
         <center class="mt-5">
-          <h1>Sprawdź voucher</h1>
+          <h1>{{ $t('check_voucher') }}</h1>
           <v-form
             ref="form"
             v-model="valid"
@@ -11,20 +11,20 @@
             <v-text-field
               v-model="code"
               class="mt-5"
-              label="Kod"
+              :label="$t('code')"
               prepend-icon="mdi-ticket-percent"
               :rules="rules.code"
             />
             <v-text-field
               v-model="nick"
               class="mt-5"
-              label="Nick"
+              :label="$t('nick')"
               prepend-icon="mdi-account"
               :rules="rules.nick"
             />
           </v-form>
           <v-btn class="blue darken-4" large @click="check">
-            Sprawdź
+            {{ $t('check_voucher') }}
           </v-btn>
         </center>
       </v-col>
@@ -47,24 +47,24 @@ export default {
       nick: '',
       rules: {
         code: [
-          value => !!value || 'Wpisz kod',
-          v => /^[a-z0-9]{6,}$/.test(v) || 'Nieprawidłowy format'
+          value => !!value || this.$t('field_not_empty'),
+          v => /^[a-z0-9]{6,}$/.test(v) || this.$t('wrong_format')
         ],
         nick: [
-          value => !!value || 'Wpisz nick',
-          v => /^[a-zA-Z0-9_]{2,16}$/.test(v) || 'Nieprawidłowy format'
+          value => !!value || this.$t('field_not_empty'),
+          v => /^[a-zA-Z0-9_]{2,16}$/.test(v) || this.$t('wrong_format')
         ]
       }
     }
   },
   mounted () {
     this.$emit('breadcrumb', [{
-      text: 'Sklep',
+      text: this.$t('shop'),
       disabled: false,
       href: `/shop/${this.$route.params.shopid}`
     },
     {
-      text: 'Sprawdź voucher',
+      text: this.$t('check_voucher'),
       disabled: true
     }])
   },
