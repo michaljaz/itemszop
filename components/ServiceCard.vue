@@ -45,9 +45,7 @@
           large
           outlined
           block
-          v-bind="attrs"
           :to="link"
-          v-on="on"
         >
           Opis
         </v-btn>
