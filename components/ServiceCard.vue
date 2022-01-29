@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card elevation="5" height="100%" :to="link">
+    <v-card elevation="5" height="100%">
       <center>
         <template v-if="service.icon">
           <v-img :src="service.iconUrl" max-height="120" contain />
@@ -39,7 +39,20 @@
       <v-card-title class="justify-center">
         {{ service.name }}
       </v-card-title>
-      <v-card-actions v-if="!link">
+      <v-card-actions v-if="link">
+        <v-btn
+          color="info"
+          large
+          outlined
+          block
+          v-bind="attrs"
+          :to="link"
+          v-on="on"
+        >
+          Opis
+        </v-btn>
+      </v-card-actions>
+      <v-card-actions>
         <v-dialog
           v-model="dialog"
           persistent
