@@ -20,13 +20,13 @@
             </v-btn>
             <client-only>
               <v-btn v-if="!loggedIn" text to="/auth/signin">
-                Zaloguj się
+                {{ $t('sign_in') }}
               </v-btn>
               <v-btn v-if="!loggedIn" text to="/auth/signup">
-                Zarejestruj się
+                {{ $t('sign_up') }}
               </v-btn>
               <v-btn v-if="loggedIn" text to="/panel">
-                Przejdź do panelu
+                {{ $t('go_to_panel') }}
               </v-btn>
             </client-only>
           </v-toolbar-items>
@@ -46,20 +46,20 @@
             <v-col md="1" />
             <v-col md="6">
               <h1 class="display-2 font-weight-thick mb-4">
-                Darmowy sklep serwera minecraftowego
+                {{ $t('main_message') }}
               </h1>
               <h4 class="headline">
-                Zacznij zarabiać na swoim serwerze już teraz!
+                {{ $t('main_message_small') }}
                 <client-only>
                   <div class="mt-3">
                     <v-btn v-if="!loggedIn" to="/auth/signin" large color="indigo">
-                      Zaloguj się
+                      {{ $t('sign_in') }}
                     </v-btn>
                     <v-btn v-if="!loggedIn" to="/auth/signup" large color="info">
-                      Zarejestruj się
+                      {{ $t('sign_up') }}
                     </v-btn>
                     <v-btn v-if="loggedIn" to="/panel" large color="indigo">
-                      Przejdź do panelu
+                      {{ $t('go_to_panel') }}
                     </v-btn>
                   </div>
                 </client-only>
@@ -71,35 +71,31 @@
       </v-parallax>
       <v-container>
         <h1 class="display-1 mt-10 mb-7">
-          Dlaczego Itemszop jest najlepszy?
+          {{ $t('why_best') }}
         </h1>
         <v-row>
           <v-col cols="12" md="4" sm="6">
             <v-card height="100%">
               <v-card-title>
-                Cena
+                {{ $t("main_card_title_1") }}
               </v-card-title>
               <v-card-text>
-                Nie ma tutaj żadnych planów cenowych.
-                Nie ma także żadnych limitów na liczbę usług, liczbę sklepów, czy liczbę serwerów.
-                ItemSzop jest kompletnie za darmo, przez co tworzy sporą konkurencję dla innych sklepów serwerów.
+                {{ $t("main_card_content_1") }}
               </v-card-text>
             </v-card>
           </v-col>
           <v-col cols="12" md="4" sm="6">
             <v-card height="100%">
               <v-card-title>
-                Open-source
+                {{ $t("main_card_title_2") }}
               </v-card-title>
               <v-card-text>
-                Kod źródłowy jest publicznie dostępny na githubie.
-                Każdy może zostać współtwórcą tego projektu.
-                Dzięki temu ItemSzop może szybciej się rozwijać.
+                {{ $t("main_card_content_2") }}
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
                 <v-btn color="blue" text to="/github">
-                  Zobacz kod źródłowy
+                  {{ $t('main_card_look_2') }}
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -107,27 +103,25 @@
           <v-col cols="12" md="4" sm="6">
             <v-card height="100%">
               <v-card-title>
-                Technologia
+                {{ $t('main_card_title_3') }}
               </v-card-title>
               <v-card-text>
-                ItemSzop jest zbudowany przy użyciu najnowszych technologii
-                takich jak statyczna strona, serverless'owe funkcje lub baza danych w chmurze.
+                {{ $t('main_card_content_3') }}
               </v-card-text>
             </v-card>
           </v-col>
           <v-col cols="12" md="4" sm="6">
             <v-card height="100%">
               <v-card-title>
-                Społeczność
+                {{ $t('main_card_title_4') }}
               </v-card-title>
               <v-card-text>
-                Utworzyliśmy serwer discordowy, na którym można zadawać pytania odnośnie ItemSzopu.
-                Można również składać propozycje lub zgłaszać problemy techniczne.
+                {{ $t('main_card_content_4') }}
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
                 <v-btn to="/discord" color="indigo" text>
-                  Dołącz do serwera dc
+                  {{ $t('main_card_look_4') }}
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -135,24 +129,20 @@
           <v-col cols="12" md="4" sm="6">
             <v-card height="100%">
               <v-card-title>
-                Bezpieczeństwo
+                {{ $t('main_card_title_5') }}
               </v-card-title>
               <v-card-text>
-                Wszystkie dane dotyczące sklepu znajdują się w bazie danych w chmurze.
-                Żadna osoba niepowołana nie posiada dostępu do całej bazy.
-                Otrzymuje dostęp jedynie do skrawku, w którym nie może nic zniszczyć.
+                {{ $t('main_card_content_5') }}
               </v-card-text>
             </v-card>
           </v-col>
           <v-col cols="12" md="4" sm="6">
             <v-card height="100%">
               <v-card-title>
-                Architektura SaaS
+                {{ $t('main_card_title_6') }}
               </v-card-title>
               <v-card-text>
-                Cały sklep jest hostowany u nas.
-                Nie musisz się martwić o stronę techniczną.
-                Jest również możliwość "postawienia" swojego sklepu, lecz zalecamy używanie domyślnego.
+                {{ $t('main_card_content_6') }}
               </v-card-text>
             </v-card>
           </v-col>
@@ -162,7 +152,7 @@
         <v-row align="center" justify="center">
           <v-col class="text-center" cols="12">
             <h1 class="text-h4 font-weight-thick mb-4">
-              Użyte serwisy i frameworki
+              {{ $t('used_services') }}
             </h1>
             <v-container>
               <v-row class="ma-2">
@@ -213,7 +203,7 @@
       </v-parallax>
       <v-container>
         <h1 class="display-1 mt-15 mb-7">
-          Wspierani operatorzy płatności
+          {{ $t('supported_operators') }}
         </h1>
         <v-row class="ma-2">
           <v-col>
@@ -238,13 +228,13 @@
         <v-divider />
         <client-only>
           <v-list-item v-if="loggedIn" link to="/panel">
-            Panel
+            {{ $t('go_to_panel') }}
           </v-list-item>
           <v-list-item v-if="!loggedIn" link to="/auth/signin">
-            Zaloguj się
+            {{ $t('sign_in') }}
           </v-list-item>
           <v-list-item v-if="!loggedIn" link to="/auth/signup">
-            Zarejestruj się
+            {{ $t('sign_up') }}
           </v-list-item>
         </client-only>
       </v-navigation-drawer>

@@ -13,13 +13,13 @@
       >
         <v-toolbar-items>
           <v-btn text :to="`/shop/${$route.params.shopid}`" active-class="no-active">
-            Sklep
+            {{ $t('shop') }}
           </v-btn>
         </v-toolbar-items>
         <v-spacer />
         <v-toolbar-items>
           <v-btn text :to="`/shop/${$route.params.shopid}/voucher`">
-            Zrealizuj voucher
+            {{ $t('redeem_voucher') }}
           </v-btn>
         </v-toolbar-items>
       </v-app-bar>
@@ -47,18 +47,18 @@
           <v-col md="4" sm="12" xs="12" cols="12">
             <v-card>
               <v-card-title class="headline justify-center">
-                Cel miesięczny
+                {{ $t('monthly_goal') }}
               </v-card-title>
               <v-card-text>
                 <v-progress-linear :value="collected" />
                 <h1 class="mt-4 d-flex headline justify-center">
-                  „Utrzymanie serwera”
+                  „{{ $t('server_maintenance') }}”
                 </h1>
               </v-card-text>
             </v-card>
             <v-card class="mt-5">
               <v-card-title class="headline justify-center">
-                Ostatnie zakupy
+                {{ $t('latest_payments') }}
               </v-card-title>
               <v-card-text>
                 <v-list flat>

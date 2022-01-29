@@ -45,7 +45,7 @@ export default {
   methods: {
     updateBreadCrumb () {
       this.$emit('breadcrumb', [{
-        text: 'Sklep',
+        text: this.$t('shop'),
         disabled: false,
         href: `/shop/${this.$route.params.shopid}`
       },
@@ -55,7 +55,7 @@ export default {
         href: this.$route.path
       },
       {
-        text: 'Usługi',
+        text: this.$t('services'),
         disabled: true
       }])
     }

@@ -2,18 +2,18 @@
   <div>
     <v-card>
       <v-card-title class="headline">
-        Email nie został jeszcze potwierdzony
+        {{ $t('email_not_verified') }}
       </v-card-title>
       <v-card-text>
-        Sprawdź swoją skrzynkę mailową lub poproś o wysłanie maila jeszcze raz.
+        {{ $t('check_mailbox_again') }}
       </v-card-text>
       <v-card-actions>
         <v-spacer />
         <v-btn color="green" @click="reload">
-          Odśwież stronę
+          {{ $t('reload') }}
         </v-btn>
         <v-btn color="blue" @click="signOut">
-          Wyloguj się
+          {{ $t('logout') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -27,7 +27,7 @@ export default {
   name: 'NotVerified',
   head () {
     return {
-      title: 'Nie zweryfikowano maila'
+      title: this.$t('email_not_verified')
     }
   },
   computed: {

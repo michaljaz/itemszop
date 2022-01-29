@@ -27,7 +27,7 @@
                 </v-icon>
                 <span class="hidden-sm-and-down">
                   <span v-if="!$route.params.shopid">
-                    Sklepy
+                    {{ $t('shops') }}
                   </span>
                   <span v-else>
                     {{ $route.params.shopid }}
@@ -52,13 +52,13 @@
               link
               to="/panel/new_shop"
             >
-              <v-list-item-title>Nowy sklep</v-list-item-title>
+              <v-list-item-title>{{ $t('new_shop') }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
         <v-toolbar-items class="hidden-sm-and-down">
           <v-btn text to="/panel/new_shop" color="blue">
-            Nowy sklep
+            {{ $t('new_shop') }}
           </v-btn>
         </v-toolbar-items>
         <v-toolbar-title style="cursor: pointer" class="hidden-md-and-up" @click="$router.push('/panel')">
@@ -84,7 +84,7 @@
                     {{ $store.state.user.displayName }}
                   </span>
                   <span v-else>
-                    Konto
+                    {{ $t('account') }}
                   </span>
                 </span>
                 <v-icon>mdi-menu-down</v-icon>
@@ -94,12 +94,12 @@
 
           <v-list>
             <v-list-item to="/panel/settings">
-              <v-list-item-title>Ustawienia</v-list-item-title>
+              <v-list-item-title>{{ $t('settings') }}</v-list-item-title>
             </v-list-item>
             <v-list-item
               @click="signOut"
             >
-              <v-list-item-title>Wyloguj się</v-list-item-title>
+              <v-list-item-title>{{ $t('logout') }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -111,22 +111,22 @@
             background-color="rgb(0, 0, 0, 0)"
           >
             <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/`">
-              Kokpit
+              {{ $t('dashboard') }}
             </v-tab>
             <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/servers`">
-              Serwery
+              {{ $t('servers') }}
             </v-tab>
             <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/services`">
-              Usługi
+              {{ $t('services') }}
             </v-tab>
             <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/payments`">
-              Płatności
+              {{ $t('payments') }}
             </v-tab>
             <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/vouchers`">
-              Vouchery
+              {{ $t('vouchers') }}
             </v-tab>
             <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/settings`">
-              Ustawienia
+              {{ $t('settings') }}
             </v-tab>
           </v-tabs>
         </v-container>

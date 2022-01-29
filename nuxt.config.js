@@ -6,7 +6,7 @@ const baseUrl = process.env.NODE_ENV === 'production' ? productionUrl : 'http://
 let firebaseConfig
 try {
   firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG)
-}catch(e){
+} catch (e) {
   console.error('Klucze zostały źle skonfigurowane')
   process.exit()
 }
@@ -82,11 +82,24 @@ export default {
           }
         }
       }
+    ],
+    [
+      '@nuxtjs/i18n',
+      {
+        locales: [
+          {
+            code: 'pl',
+            file: 'pl.js'
+          }
+        ],
+        defaultLocale: 'pl',
+        langDir: 'lang/'
+      }
     ]
   ],
 
   axios: {
-    baseURL:`${baseUrl}/api`
+    baseURL: `${baseUrl}/api`
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
@@ -112,7 +125,7 @@ export default {
   build: {
     transpile: ['vuetify/lib', 'tiptap-vuetify']
   },
-  serverMiddleware: process.env.NODE_ENV === 'production' ? [] : ['~/api/rcon.js','~/api/voucher.js','~/api/przelew.js','~/api/sms.js'],
+  serverMiddleware: process.env.NODE_ENV === 'production' ? [] : ['~/api/rcon.js', '~/api/voucher.js', '~/api/przelew.js', '~/api/sms.js'],
   server: {
     port: 8080
   }

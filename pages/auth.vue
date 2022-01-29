@@ -4,7 +4,7 @@
       <v-col cols="12" sm="8" md="6">
         <v-btn class="mb-2 pl-2" to="/" text>
           <v-icon>mdi-arrow-left-thin</v-icon>
-          Powrót do strony głównej
+          {{ $t('back_to_homepage') }}
         </v-btn>
         <nuxt-child />
       </v-col>
