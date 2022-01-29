@@ -19,7 +19,7 @@ class SmsHandler extends Handler {
     if (/^[A-Za-z0-9]{8}$/.test(this.code) && /^[a-zA-Z0-9_]{2,16}$/.test(this.nick) && /^[A-Za-z0-9_]{4,}$/.test(this.shopid) && /^[A-Za-z0-9_]{4,}$/.test(this.serviceid)) {
       this.checkPayments()
     } else {
-      this.error()
+      this.error("wrong-format")
     }
   }
   checkPayments () {
@@ -28,7 +28,7 @@ class SmsHandler extends Handler {
         this.payments = snapshot.val()
         this.checkService()
       } else {
-        this.error()
+        this.error("payments-not-exist")
       }
     })
   }
@@ -51,7 +51,7 @@ class SmsHandler extends Handler {
         })[this.service.smsType]
         this.checkServer()
       } else {
-        this.error()
+        this.error("service-not-exist")
       }
     })
   }
@@ -61,7 +61,7 @@ class SmsHandler extends Handler {
         this.server = snapshot.val()
         this.checkCode()
       } else {
-        this.error()
+        this.error("server-not-exist")
       }
     })
   }
@@ -70,7 +70,7 @@ class SmsHandler extends Handler {
       if (data.split(',')[0] === '1') {
         this.checkRcon()
       } else {
-        this.error()
+        this.error("wrong-code")
       }
     })
   }
@@ -93,10 +93,10 @@ class SmsHandler extends Handler {
             }
           })
           .catch((e) => {
-            this.error()
+            this.error("command-error")
           })
       }).catch((e) => {
-        this.error()
+        this.error("auth-error")
       })
     }
   }
@@ -109,7 +109,7 @@ class SmsHandler extends Handler {
     }).then(() => {
       this.addMothlyGoal()
     }).catch(() => {
-      this.error()
+      this.error("history-error")
     })
   }
   addMothlyGoal () {
@@ -129,25 +129,25 @@ class SmsHandler extends Handler {
 
     this.db.child(`shops/${this.shopid}/collected`).once('value', (snapshot) => {
       if (snapshot.exists()) {
-        this.db.child(`shops/${this.shopid}/collected`).set(parseFloat(snapshot.val()) +smsCost).then(() => {
+        this.db.child(`shops/${this.shopid}/collected`).set(parseFloat(snapshot.val())+smsCost).then(() => {
           this.success()
         }).catch(() => {
-          this.error()
+          this.error("monthly-goal-error")
         })
       } else {
         this.db.child(`shops/${this.shopid}/collected`).set(smsCost).then(() => {
           this.success()
         }).catch(() => {
-          this.error()
+          this.error("monthly-goal-error")
         })
       }
     })
   }
   success () {
-    this.res.send('OK')
+    this.res.json({success: true})
   }
-  error () {
-    this.res.send('ERR')
+  error (message) {
+    this.res.json({success: false, error: message})
   }
 }
 
