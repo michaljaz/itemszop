@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row>
-      <v-col v-for="service in services" :key="service.serviceId" cols="12" md="4">
+      <v-col v-for="service in services" :key="service.serviceId" cols="12" md="6" xl="4">
         <ServiceCard :service="service" :link="`/shop/${$route.params.shopid}/service/${service.serviceId}`" />
       </v-col>
     </v-row>
