@@ -5,6 +5,10 @@
         <ServiceCard :service="service" :payments="shop.payments" :shopid="$route.params.shopid" />
       </v-col>
       <v-col cols="12" md="7" sm="6">
+        <v-btn class="mb-3 pl-2" :to="`/shop/${$route.params.shopid}/server/${service.server}`">
+          <v-icon>mdi-arrow-left-thin</v-icon>
+          Powrót do usług
+        </v-btn>
         <!-- eslint-disable vue/no-v-html -->
         <div v-html="service.description" />
         <!--eslint-enable-->
