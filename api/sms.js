@@ -105,6 +105,7 @@ class SmsHandler extends Handler {
     this.db.child(`shops/${this.shopid}/history`).push().set({
       nick: this.nick,
       service: this.service.name,
+      serviceid: this.serviceid,
       date: Date.now()
     }).then(() => {
       this.addMothlyGoal()
