@@ -278,10 +278,10 @@ export default {
       this.$refs.form2.validate()
       if (this.valid2) {
         const { code, nick } = this
-        const { shopid, serviceid } = this.$route.params
+        const { shopid } = this.$route.params
         console.log('ready to check SMS', code, nick)
         this.$axios.get('/sms', {
-          params: { code, nick, shopid, serviceid }
+          params: { code, nick, shopid, serviceid: this.service.serviceId }
         }).then(({ data }) => {
           console.log(data)
           if (data.success) {
