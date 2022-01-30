@@ -157,6 +157,8 @@ export default {
   latest_payments: 'Ostatnie zakupy',
   payment_success: 'Płatność zakończona pomyślnie',
   description: 'Opis',
+
+  // odpowiedzi z funkcji serverlessowych
   payments_not_exist: 'Płatność nie została skonfigurowana',
   service_not_exist: 'Usługa nie istnieje',
   server_not_exist: 'Serwer nie istnieje',
