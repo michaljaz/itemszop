@@ -12,7 +12,7 @@
       <v-card-text>
         <v-row>
           <v-col cols="12" xs="6" sm="6" md="6" class="pb-0">
-            SMS
+            {{ $t('sms') }}
           </v-col>
           <v-col cols="12" xs="6" sm="6" md="6" class="text-right pb-0">
             <template v-if="service.sms">
@@ -23,7 +23,7 @@
             </template>
           </v-col>
           <v-col cols="12" xs="6" sm="6" md="6" class="pt-1">
-            Przelew
+            {{ $t('transfer') }}
           </v-col>
           <v-col cols="12" xs="6" sm="6" md="6" class="text-right pt-1">
             <template v-if="service.przelew">
@@ -233,15 +233,15 @@ export default {
       },
       rules: {
         type: [
-          value => !!value || 'Wybierz rodzaj płatności'
+          value => !!value || this.$t('field_not_empty')
         ],
         nick: [
-          value => !!value || 'Wpisz nick',
-          v => /^[a-zA-Z0-9_]{2,16}$/.test(v) || 'Nieprawidłowy format'
+          value => !!value || this.$t('field_not_empty'),
+          v => /^[a-zA-Z0-9_]{2,16}$/.test(v) || this.$t('wrong_format')
         ],
         code: [
-          value => !!value || 'Wpisz kod',
-          v => /^[A-Za-z0-9]{8}$/.test(v) || 'Nieprawidłowy format'
+          value => !!value || this.$t('field_not_empty'),
+          v => /^[A-Za-z0-9]{8}$/.test(v) || this.$t('wrong_format')
         ]
       }
     }
@@ -288,15 +288,15 @@ export default {
             this.$router.push(`/shop/${shopid}/payment_success`)
           } else {
             const errors = {
-              'wrong-format': 'Nieprawidłowy format',
-              'payments-not-exist': 'Płatność nie została skonfigurowana',
-              'service-not-exist': 'Usługa nie istnieje',
-              'server-not-exist': 'Serwer nie istnieje',
-              'wrong-code': 'Nieprawidłowy kod',
-              'command-error': 'Nie udało się wywołać komendy na serwerze minecraftowym',
-              'auth-error': 'Nie udało się połączyć z serwerem minecraftowym',
-              'history-error': 'Nie można zapisać płatności w historii',
-              'monthly-goal-error': 'Nie udało się zaktualizować celu miesięcznego'
+              'wrong-format': this.$t('wrong_format'),
+              'payments-not-exist': this.$t('payments_not_exist'),
+              'service-not-exist': this.$t('service_not_exist'),
+              'server-not-exist': this.$t('server_not_exist'),
+              'wrong-code': this.$t('wrong_code'),
+              'command-error': this.$t('command_error'),
+              'auth-error': this.$t('auth_error'),
+              'history-error': this.$t('history_error'),
+              'monthly-goal-error': this.$t('monthly_goal_error')
             }
             this.snackbarMessage = errors[data.error]
             this.snackbar = true
