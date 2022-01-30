@@ -47,6 +47,10 @@ export default {
   hash_format: 'Hash może zawierać litery, cyfry oraz @,*,$',
   max_100_vouchers: 'Nie możesz wygenerować więcej niż 100 voucherów na raz',
   wrong_codes_number: 'Niepoprawna liczba kodów',
+  wrong_format_code: 'Niepoprawny format kodu',
+  wrong_format_nick: 'Niepoprawny format nicka',
+  wrong_format_shopid: 'Niepoprawny format id sklepu',
+  wrong_format_serviceid: 'Niepoprawny format id usługi',
 
   // rejestracja i logowanie
   sign_in: 'Zaloguj się',
