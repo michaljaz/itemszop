@@ -22,7 +22,7 @@ class SmsHandler extends Handler {
       this.error('wrong-format-nick')
     }else if(!/^[A-Za-z0-9_]{4,}$/.test(this.shopid)){
       this.error('wrong-format-shopid')
-    }else if(!/^[A-Za-z0-9_]{4,}$/.test(this.serviceid)){
+    }else if(!/^[A-Za-z0-9_]{3,}$/.test(this.serviceid)){
       this.error('wrong-format-serviceid')
     }else{
       this.checkPayments()
