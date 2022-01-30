@@ -264,8 +264,8 @@ export default {
         signature: require('md5')(`${this.payments.paymentsPrzelewId}${this.payments.paymentsHash}${this.service.przelewCost}`),
         description: `${this.service.name} dla ${this.nick}`,
         control: `${this.shopid}|${this.service.serviceId}|${this.nick}`,
-        returl_url: `${apiBaseUrl}/shop/${this.shopid}/payment_success`,
-        returl_urlc: `${apiBaseUrl}/api/przelew`
+        returl_url: `${this.baseUrl}/shop/${this.shopid}/payment_success`,
+        returl_urlc: `${this.baseUrl}/api/przelew`
       })
       const url = `https://microsms.pl/api/bankTransfer/?${params}`
       window.top.location.href = url
