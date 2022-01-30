@@ -18,7 +18,7 @@
               />
               <v-text-field
                 v-model="paymentsUserId"
-                label="ID użytkownika"
+                :label="$t('user_id')"
                 autocomplete="new-password"
                 :rules="rulesUserId"
                 type="number"
@@ -26,18 +26,18 @@
               <v-row>
                 <v-col>
                   <h1 class="display-1">
-                    Przelew
+                    {{ $t('transfer') }}
                   </h1>
                   <v-text-field
                     v-model="paymentsPrzelewId"
                     type="number"
-                    label="Numer ID"
+                    :label="$t('id_number')"
                     autocomplete="new-password"
                     :rules="rulesPrzelewId"
                   />
                   <v-text-field
                     v-model="paymentsHash"
-                    label="Hash"
+                    :label="$t('hash')"
                     autocomplete="new-password"
                     :rules="rulesHash"
                   />
@@ -48,14 +48,14 @@
                   </h1>
                   <v-text-field
                     v-model="paymentsShopId"
-                    label="Numer ID"
+                    :label="$t('id_number')"
                     autocomplete="new-password"
                     :rules="rulesShopId"
                     type="number"
                   />
                   <v-text-field
                     v-model="paymentsSMS"
-                    label="Treść SMS"
+                    :label="$t('sms_content')"
                     autocomplete="new-password"
                     :rules="rulesSMS"
                   />
