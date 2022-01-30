@@ -11,7 +11,7 @@
           </span>
         </div>
         <v-btn to="/" color="blue" class="mt-10" text>
-          Przejdź do strony głównej
+          {{ $t('back_to_homepage') }}
         </v-btn>
       </center>
     </v-container>
@@ -30,8 +30,8 @@ export default {
   },
   data () {
     return {
-      pageNotFound: '404 - Nie znaleziono strony',
-      otherError: 'Nastąpił błąd'
+      pageNotFound: this.$t('page_not_found'),
+      otherError: this.$t('error_occurred')
     }
   },
   head () {

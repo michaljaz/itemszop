@@ -4,11 +4,11 @@
       <v-col cols="12" sm="10" md="8">
         <v-card class="pt-1 pb-4" elevation="10">
           <v-card-title class="headline">
-            Ustawienia
+            {{ $t('settings') }}
           </v-card-title>
           <v-card-text>
             <v-text-field v-model="name" label="Nazwa sklepu" />
-            Cel miesięczny {{ goal }} zł
+            {{ $t('monthly_goal') }} {{ goal }} zł
             <v-slider
               v-model="goal"
               min="1"
@@ -17,17 +17,17 @@
           </v-card-text>
           <v-card-actions>
             <v-btn color="green" rounded text @click="save">
-              Zapisz
+              {{ $t('save') }}
             </v-btn>
           </v-card-actions>
         </v-card>
         <v-card class="pt-1 mt-5 pb-4" elevation="10">
           <v-card-title class="headline">
-            Ustawienia zaawansowane
+            {{ $t('advanced_settings') }}
           </v-card-title>
           <v-card-text>
             <v-btn color="red" @click="removeDialog">
-              Usuń sklep
+              {{ $t('remove_shop') }}
             </v-btn>
           </v-card-text>
         </v-card>
@@ -39,7 +39,7 @@
     >
       <v-card>
         <v-card-title class="text-h5">
-          Czy jesteś tego pewien?
+          {{ $t('are_you_sure') }}
         </v-card-title>
         <v-card-text>
           <v-alert
@@ -47,22 +47,21 @@
             color="red"
             dark
           >
-            Jeśli tego nie przeczytasz staną się nieoczekiwane złe rzeczy!
+            {{ $t('if_not_read') }}
           </v-alert>
-          Tej czynności nie można cofnąć.
-          Spowoduje to trwałe usunięcie sklepu serwera oraz wszystkich rzeczy w tym sklepie takich jak Serwerów, Usług, Voucherów, Płatności.
+          {{ $t('after_shop_delete') }}
           <br>
           <div class="pt-2">
-            Wpisz <strong>{{ $route.params.shopid }}</strong> aby potwierdzić swoją operację:
+            {{ $t('write') }} <strong>{{ $route.params.shopid }}</strong> {{ $t('to_confirm') }}
             <v-text-field v-model="cdel" />
           </div>
         </v-card-text>
         <v-card-actions>
           <v-btn color="green" text rounded @click="dialog=false">
-            Anuluj
+            {{ $t('cancel') }}
           </v-btn>
           <v-btn color="red" :disabled="cdel===$route.params.shopid ? false : true" @click="remove()">
-            Usuwam sklep
+            {{ $t('remove_shop') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -88,7 +87,7 @@ export default {
   },
   head () {
     return {
-      title: 'Ustawienia'
+      title: this.$t('settings')
     }
   },
   methods: {

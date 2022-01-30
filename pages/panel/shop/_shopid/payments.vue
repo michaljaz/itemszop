@@ -4,7 +4,7 @@
       <v-col cols="12" sm="10" md="8">
         <v-card class="pt-1 pb-4" elevation="10">
           <v-card-title class="headline">
-            Konfiguracja płatności
+            {{ $t('payments_config') }}
           </v-card-title>
           <v-card-text>
             <v-form
@@ -14,7 +14,7 @@
               <v-select
                 v-model="select"
                 :items="items"
-                label="Dostawca płatności"
+                :label="$t('payment_operator')"
               />
               <v-text-field
                 v-model="paymentsUserId"
@@ -66,7 +66,7 @@
           <v-card-actions>
             <v-spacer />
             <v-btn color="green" rounded text @click="save">
-              Zapisz
+              {{ $t('save') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -94,27 +94,27 @@ export default {
       paymentsShopId: this.shop.payments.paymentsShopId,
       paymentsSMS: this.shop.payments.paymentsSMS,
       rulesUserId: [
-        value => !!value || 'Wpisz ID użytkownika'
+        value => !!value || this.$t('field_not_empty')
       ],
       rulesPrzelewId: [
-        value => !!value || 'Wpisz id przelewu'
+        value => !!value || this.$t('field_not_empty')
       ],
       rulesHash: [
-        value => !!value || 'Wpisz hash',
-        v => /^[A-Za-z0-9$*@]+$/.test(v) || 'Hash może zawierać litery, cyfry oraz @,*,$'
+        value => !!value || this.$t('field_not_empty'),
+        v => /^[A-Za-z0-9$*@]+$/.test(v) || this.$t('hash_format')
       ],
       rulesShopId: [
-        value => !!value || 'Wpisz id sklepu'
+        value => !!value || this.$t('field_not_empty')
       ],
       rulesSMS: [
-        value => !!value || 'Wpisz treść SMS',
-        v => /^[A-Z.]+$/.test(v) || 'Treść sms może zawierać tylko wielkie litery i kropki'
+        value => !!value || this.$t('field_not_empty'),
+        v => /^[A-Z.]+$/.test(v) || this.$t('sms_format')
       ]
     }
   },
   head () {
     return {
-      title: 'Płatności'
+      title: this.$t('payments')
     }
   },
   methods: {

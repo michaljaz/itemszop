@@ -6,7 +6,7 @@
     >
       <v-card elevation="10" outlined>
         <v-card-title>
-          <span class="text-h5">Konfiguracja serwera</span>
+          <span class="text-h5">{{ $t('server_config') }}</span>
         </v-card-title>
         <v-card-text>
           <v-form
@@ -15,19 +15,19 @@
           >
             <v-text-field
               v-model="serverName"
-              label="Nazwa serwera"
+              :label="$t('server_name')"
               :rules="rules.name"
               autocomplete="new-password"
             />
             <v-text-field
               v-model="serverIp"
-              label="IP serwera"
+              :label="$t('server_ip')"
               :rules="rules.ip"
               autocomplete="new-password"
             />
             <v-text-field
               v-model="serverPort"
-              label="Port RCON"
+              :label="$t('rcon_port')"
               :rules="rules.port"
               autocomplete="new-password"
               type="number"
@@ -35,7 +35,7 @@
             <v-text-field
               v-model="serverPassword"
               autocomplete="new-password"
-              label="Hasło RCON"
+              :label="$t('rcon_password')"
               :rules="rules.password"
               :type="showPassword ? 'text' : 'password'"
               :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -51,7 +51,7 @@
             rounded
             @click="dialog = false"
           >
-            Anuluj
+            {{ $t('cancel') }}
           </v-btn>
           <v-btn
             color="green darken-1"
@@ -59,7 +59,7 @@
             rounded
             @click="saveServer"
           >
-            Zapisz
+            {{ $t('save') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -70,12 +70,12 @@
     >
       <v-card elevation="10" outlined>
         <v-card-title>
-          <span class="text-h5">Konsola RCON</span>
+          <span class="text-h5">{{ $t('rcon_console') }}</span>
         </v-card-title>
         <v-card-text>
-          <v-text-field v-model="rconCommand" label="Komenda" autocomplete="new-password" />
+          <v-text-field v-model="rconCommand" :label="$t('command')" autocomplete="new-password" />
           <v-btn color="blue" @click="runRcon">
-            Wyślij do serwera
+            {{ $t('send_to_server') }}
           </v-btn>
           <!-- eslint-disable vue/no-v-html -->
           <div v-html="rconResponse" />
@@ -85,7 +85,7 @@
       </v-card>
     </v-dialog>
     <strong>
-      Serwery
+      {{ $t('servers') }}
     </strong>
     <v-row class="mt-3">
       <v-col
@@ -118,13 +118,13 @@
           <v-card-actions>
             <v-spacer />
             <v-btn text rounded color="indigo" @click="consoleDialog(server)">
-              RCON
+              {{ $t('rcon') }}
             </v-btn>
             <v-btn text rounded color="blue" @click="editDialog(server)">
-              Edytuj
+              {{ $t('edit') }}
             </v-btn>
             <v-btn text rounded color="red" @click="removeServer(server)">
-              Usuń
+              {{ $t('remove') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -138,7 +138,7 @@
       class="mt-5"
       @click="newServer"
     >
-      Nowy serwer
+      {{ $t('new_server') }}
     </v-btn>
   </div>
 </template>
@@ -166,25 +166,25 @@ export default {
       dialog: false,
       rules: {
         port: [
-          value => !!value || 'Wpisz port'
+          value => !!value || this.$t('field_not_empty')
         ],
         name: [
-          value => !!value || 'Wpisz nazwę'
+          value => !!value || this.$t('field_not_empty')
         ],
         ip: [
-          value => !!value || 'Wpisz ip',
-          v => /^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]))*$/.test(v) || 'Nieprawidłowy format ip'
+          value => !!value || this.$t('field_not_empty'),
+          v => /^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]))*$/.test(v) || this.$t('wrong_format')
         ],
         password: [
-          value => !!value || 'Wpisz hasło',
-          value => (value && value.length >= 4) || 'Minimalnie 6 znaków'
+          value => !!value || this.$t('field_not_empty'),
+          value => (value && value.length >= 4) || this.$t('min_6_chars')
         ]
       }
     }
   },
   head () {
     return {
-      title: 'Serwery'
+      title: this.$t('servers')
     }
   },
   computed: {
@@ -256,7 +256,7 @@ export default {
       this.sendRconCommand(this.serverIp, this.serverPort, this.serverPassword, this.rconCommand).then((response) => {
         const { data } = response
         if (data.error === 'auth') {
-          this.rconResponse = 'Nie udało się połączyć'
+          this.rconResponse = this.$t('unable_to_connect')
         } else {
           this.rconResponse = require('minecraft-text-js').default.toHTML(data.response).replaceAll('\n', '<br>')
         }

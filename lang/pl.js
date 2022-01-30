@@ -3,6 +3,9 @@ export default {
   main_message: 'Darmowy sklep serwera minecraftowego',
   main_message_small: 'Zacznij zarabiać na swoim serwerze już teraz!',
 
+  page_not_found: '404 - Nie znaleziono strony',
+  error_occurred: 'Nastąpił Błąd',
+
   sign_in: 'Zaloguj się',
   sign_up: 'Zarejestruj się',
   go_to_panel: 'Przejdź do panelu',
@@ -47,13 +50,16 @@ export default {
   wrong_format: 'Nieprawidłowy format',
   field_not_empty: 'Pole nie może pozostać puste',
   min_6_chars: 'Minimum 6 znaków',
+  min_4_chars: 'Minimum 4 znaki',
   passwords_not_match: 'Hasła do siebie nie pasują',
 
   // panel
+  panel: 'Panel',
   logout: 'Wyloguj się',
   new_shop: 'Nowy sklep',
   shops: 'Sklepy',
   account: 'Konto',
+  save: 'Zapisz',
 
   // sklep w panelu
   dashboard: 'Kokpit',
@@ -64,6 +70,9 @@ export default {
   settings: 'Ustawienia',
   edit: 'Edytuj',
   remove: 'Usuń',
+  shop_id_format: 'Id sklepu może zawierać tylko litery, cyfry lub "_"',
+  shop_url: 'Twój sklep jest dostępny pod adresem',
+  shop_html: 'Kod HTML, kóry wyświetla ramkę ze sklepem',
 
   // Serwery
   rcon: 'Rcon',
@@ -75,6 +84,8 @@ export default {
   command: 'Komenda',
   send_to_server: 'Wyślij do serwera',
   rcon_console: 'Konsola RCON',
+  server_config: 'Konfiguracja serwera',
+  unable_to_connect: 'Nie udało się połączyć',
 
   // Usługi
   service_config: 'Konfiguracja usługi',
@@ -84,6 +95,43 @@ export default {
   sms_payment: "Płatność SMS'em",
   choose_sms: 'Wybierz sms',
   transfer_payment: 'Płatność przelewem',
+  transfer_cost: 'Koszt (w zł)',
+  choose_server: 'Wybierz serwer',
+  server_command_info: 'Komendy do wywołania na serwerze ([nick] - nick kupującego)',
+  without_server: 'Bez serwera',
+  no_payment_enabled: 'Nie włączono żadnej płatności!',
+  new_service: 'Nowa usługa',
+  default_description: '<h1>Opis super usługi!</h1><p>Tutaj możesz zamieścić opis usługi używając super tagów!</p>',
+  transfer: 'Przelew',
+  sms: 'SMS',
+
+  // Płatności
+  payments_config: 'Konfiguracja płatności',
+  payment_operator: 'Dostawca płatności',
+  sms_format: 'Treść sms może zawierać tylko wielkie litery i kropki',
+  hash_format: 'Hash może zawierać litery, cyfry oraz @,*,$',
+
+  // Ustawienia
+  advanced_settings: 'Ustawienia zaawansowane',
+  remove_shop: 'Usuń sklep',
+  are_you_sure: 'Czy jesteś tego pewien?',
+  if_not_read: 'Jeśli tego nie przeczytasz staną się nieoczekiwane złe rzeczy!',
+  after_shop_delete: 'Tej czynności nie można cofnąć.Spowoduje to trwałe usunięcie sklepu serwera oraz wszystkich rzeczy w tym sklepie takich jak Serwerów, Usług, Voucherów, Płatności.',
+  write: 'Wpisz',
+  to_confirm: 'aby potwierdzić swoją operację:',
+
+  // vouchery
+  adding_vouchers: 'Dodawanie voucherów',
+  remove_all_vouchers: 'Usuń wszystkie vouchery',
+  removing_vouchers: 'Usuwanie voucherów',
+  create_and_download: 'Stwórz i pobierz plik',
+  wrong_codes_number: 'Niepoprawna liczba kodów',
+  max_100_vouchers: 'Nie możesz wygenerować więcej niż 100 voucherów na raz',
+  choose_service: 'Wybierz usługę',
+  choose_service_hint: 'Wybierz jaką usługę będzie można aktywować voucherem.',
+  codes_amount: 'Liczba kodów',
+  codes_amount_hint: 'Liczba kodów, które mają zostać wygenerowane. Ustawiając np. 20 stworzysz dwadzieścia różnych kodów na tę samą usługę.',
+  voucher_deadline: 'Termin działania voucherów',
 
   // Sklep publiczny
   shop: 'Sklep',

@@ -4,7 +4,7 @@
       <v-col cols="12" sm="10" md="8">
         <v-card elevation="10" class="pt-1">
           <v-card-title class="headline">
-            <span class="text-h5">Dodawanie voucherów</span>
+            <span class="text-h5">{{ $t('adding_vouchers') }}</span>
           </v-card-title>
           <v-card-text>
             <v-form
@@ -17,8 +17,8 @@
                     v-model="service"
                     item-text="name"
                     item-value="value"
-                    label="Wybierz usługę"
-                    hint="Wybierz jaką usługę będzie można aktywować voucherem."
+                    :label="$t('choose_service')"
+                    :hint="$t('choose_service_hint')"
                     persistent-hint
                     :items="services"
                     :rules="rules.service"
@@ -27,8 +27,8 @@
                 <v-col cols="12" md="6">
                   <v-text-field
                     v-model="amount"
-                    label="Liczba kodów"
-                    hint="Liczba kodów, które mają zostać wygenerowane. Ustawiając np. 20 stworzysz dwadzieścia różnych kodów na tę samą usługę."
+                    :label="$t('codes_amount')"
+                    :hint="$t('codes_amount_hint')"
                     persistent-hint
                     type="number"
                     :rules="rules.amount"
@@ -49,7 +49,7 @@
                     <template #activator="{ on, attrs }">
                       <v-text-field
                         v-model="date"
-                        label="Termin działania voucherów"
+                        :label="$t('voucher_deadline')"
                         prepend-icon="mdi-calendar"
                         readonly
                         v-bind="attrs"
@@ -71,14 +71,14 @@
                         color="primary"
                         @click="menu = false"
                       >
-                        Anuluj
+                        {{ $t('cancel') }}
                       </v-btn>
                       <v-btn
                         text
                         color="primary"
                         @click="$refs.menu.save(date)"
                       >
-                        Zapisz
+                        {{ $t('save') }}
                       </v-btn>
                     </v-date-picker>
                   </v-menu>
@@ -94,7 +94,7 @@
               rounded
               @click="dialog = false"
             >
-              Anuluj
+              {{ $t('cancel') }}
             </v-btn>
             <v-btn
               color="green darken-1"
@@ -102,13 +102,13 @@
               rounded
               @click="create"
             >
-              Stwórz i pobierz plik
+              {{ $t('create_and_download') }}
             </v-btn>
           </v-card-actions>
         </v-card>
         <v-card elevation="10" class="pt-1 mt-5">
           <v-card-title class="headline">
-            <span class="text-h5">Usuwanie voucherów</span>
+            <span class="text-h5">{{ $t('removing_vouchers') }}</span>
           </v-card-title>
           <v-card-actions>
             <v-spacer />
@@ -118,7 +118,7 @@
               rounded
               @click="del"
             >
-              Usuń wszystkie vouchery
+              {{ $t('remove_all_vouchers') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -148,22 +148,22 @@ export default {
       amount: 0,
       rules: {
         service: [
-          value => !!value || 'Wybierz usługę'
+          value => !!value || this.$t('field_not_empty')
         ],
         amount: [
-          value => !!value || 'Wpisz liczbę kodów',
-          value => this.isNaturalNumber(value) || 'Niepoprawna liczba kodów',
-          value => value <= 100 || 'Nie możesz wygenerować więcej niż 100 voucherów na raz'
+          value => !!value || this.$t('field_not_empty'),
+          value => this.isNaturalNumber(value) || this.$t('wrong_codes_number'),
+          value => value <= 100 || this.$t('max_100_vouchers')
         ],
         date: [
-          value => !!value || 'Wybierz termin działania'
+          value => !!value || this.$t('field_not_empty')
         ]
       }
     }
   },
   head () {
     return {
-      title: 'Vouchery'
+      title: this.$t('vouchers')
     }
   },
   computed: {
