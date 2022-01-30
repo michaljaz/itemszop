@@ -6,7 +6,7 @@
     >
       <v-card elevation="10" outlined>
         <v-card-title>
-          <span class="text-h5">Konfiguracja usługi</span>
+          <span class="text-h5">{{ $t('service_config') }}</span>
         </v-card-title>
         <v-card-text>
           <v-form
@@ -15,25 +15,25 @@
           >
             <v-text-field
               v-model="fields.name"
-              label="Nazwa usługi"
+              :label="$t('service_name')"
               autocomplete="new-password"
               :rules="rules.name"
             />
             <v-switch
               v-model="fields.icon"
-              label="Ikona usługi"
+              :label="$t('service_icon')"
             />
             <v-text-field
               v-if="fields.icon"
               v-model="fields.iconUrl"
               type="text"
-              label="Adres url do ikony"
+              :label="$t('icon_url')"
               autocomplete="new-password"
               :rules="rules.iconUrl"
             />
             <v-switch
               v-model="fields.sms"
-              label="Płatność SMS'em"
+              :label="$t('sms_payment')"
             />
             <v-select
               v-if="fields.sms"
@@ -41,18 +41,18 @@
               item-text="name"
               item-value="value"
               :items="smsTypes"
-              label="Wybierz sms"
+              :label="$t('choose_sms')"
               :rules="rules.smsType"
             />
             <v-switch
               v-model="fields.przelew"
-              label="Płatność przelewem"
+              :label="$t('transfer_payment')"
             />
             <v-text-field
               v-if="fields.przelew"
               v-model="fields.przelewCost"
               type="number"
-              label="Koszt (w zł)"
+              :label="$t('transfer_cost')"
               autocomplete="new-password"
               :rules="rules.przelewCost"
             />
@@ -61,13 +61,12 @@
               item-text="serverName"
               item-value="serverId"
               :items="serversList"
-              label="Wybierz serwer"
+              :label="$t('choose_server')"
               :rules="rules.server"
             />
             <v-textarea
               v-model="fields.commands"
-              label="Komendy do wywołania na serwerze ([nick] - nick kupującego)"
-              value="say [nick] kupil cos tam"
+              :label="$t('server_command_info')"
               class="mb-2"
             />
           </v-form>
@@ -81,7 +80,7 @@
             rounded
             @click="dialog = false"
           >
-            Anuluj
+            {{ $t('cancel') }}
           </v-btn>
           <v-btn
             color="green darken-1"
@@ -89,7 +88,7 @@
             rounded
             @click="saveService"
           >
-            Zapisz
+            {{ $t('save') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -104,7 +103,7 @@
         >
           <strong v-if="servers[serverServices.name]">{{ servers[serverServices.name].serverName }} </strong>
           <strong v-else>
-            Bez serwera
+            {{ $t('without_server') }}
           </strong>
         </v-col>
         <v-col
@@ -123,14 +122,14 @@
                 <v-list-item-subtitle style="height:55px;">
                   <div v-if="service.sms || service.przelew">
                     <v-chip v-if="service.sms" small class="mb-1">
-                      SMS: {{ smsCost[service.smsType] }}
+                      {{ $t('sms') }}: {{ smsCost[service.smsType] }}
                     </v-chip><br>
                     <v-chip v-if="service.przelew" small>
-                      Przelew: {{ service.przelewCost }}zł
+                      {{ $t('transfer') }}: {{ service.przelewCost }}zł
                     </v-chip>
                   </div>
                   <div v-else>
-                    Nie włączono żadnej płatności!
+                    {{ $t('no_payment_enabled') }}
                   </div>
                 </v-list-item-subtitle>
               </v-list-item-content>
@@ -147,10 +146,10 @@
             <v-card-actions>
               <v-spacer />
               <v-btn text color="blue" rounded @click="editService(service)">
-                Edytuj
+                {{ $t('edit') }}
               </v-btn>
               <v-btn text color="red" rounded @click="removeService(service)">
-                Usuń
+                {{ $t('remove') }}
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -165,7 +164,7 @@
       class="mt-5"
       @click="newService"
     >
-      Nowa usługa
+      {{ $t('new_service') }}
     </v-btn>
   </div>
 </template>
@@ -229,27 +228,27 @@ export default {
       },
       rules: {
         name: [
-          value => !!value || 'Wpisz nazwę usługi'
+          value => !!value || this.$t('field_not_empty')
         ],
         iconUrl: [
-          value => !!value || 'Wpisz adres URL',
-          value => this.isURL(value) || 'Adres URL nie jest prawidłowy'
+          value => !!value || this.$t('field_not_empty'),
+          value => this.isURL(value) || this.$t('wrong_format')
         ],
         smsType: [
-          value => !!value || 'Wpisz typ sms\'a'
+          value => !!value || this.$t('field_not_empty')
         ],
         przelewCost: [
-          value => !!value || 'Wpisz cenę usługi'
+          value => !!value || this.$t('field_not_empty')
         ],
         server: [
-          value => !!value || 'Wybierz serwer'
+          value => !!value || this.$t('field_not_empty')
         ]
       }
     }
   },
   head () {
     return {
-      title: 'Usługi'
+      title: this.$t('services')
     }
   },
   computed: {
@@ -321,7 +320,7 @@ export default {
         przelewCost: 0,
         server: '',
         commands: '',
-        description: '<h1>Opis super usługi!</h1><p>Tutaj możesz zamieścić opis usługi używając super tagów!</p>'
+        description: this.$t('default_description')
       }
       this.dialog = true
     },

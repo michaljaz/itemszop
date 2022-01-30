@@ -4,16 +4,16 @@
       <v-col cols="12" sm="8" md="6">
         <v-card class="pt-1 pb-4" elevation="10">
           <v-card-title class="headline justify-center">
-            Ustawienia
+            {{ $t('settings') }}
           </v-card-title>
           <v-card-text>
-            <v-text-field v-model="email" label="Email" readonly />
-            <v-text-field v-model="displayName" label="Pseudonim" />
+            <v-text-field v-model="email" :label="$t('email')" readonly />
+            <v-text-field v-model="displayName" :label="$t('display_name')" />
           </v-card-text>
           <v-card-actions>
             <v-spacer />
             <v-btn color="primary" rounded text @click="update">
-              Aktualizuj
+              {{ $t('save') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -32,7 +32,7 @@ export default {
   },
   head () {
     return {
-      title: 'Ustawienia'
+      title: this.$t('settings')
     }
   },
   methods: {

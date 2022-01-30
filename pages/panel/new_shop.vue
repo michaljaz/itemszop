@@ -8,7 +8,7 @@
             v-model="valid"
           >
             <v-card-title class="headline justify-center">
-              Nowy sklep
+              {{ $t('new_shop') }}
             </v-card-title>
             <v-card-text>
               <v-text-field v-model="name" :rules="rules.name" label="Nazwa sklepu" />
@@ -22,7 +22,7 @@
             <v-card-actions>
               <v-spacer />
               <v-btn color="blue" rounded text @click="submit">
-                Dalej
+                {{ $t('next') }}
               </v-btn>
             </v-card-actions>
           </v-form>
@@ -42,19 +42,19 @@ export default {
       valid: false,
       rules: {
         name: [
-          value => !!value || 'Wpisz nazwę sklepu'
+          value => !!value || this.$t('field_not_empty')
         ],
         shopid: [
-          value => !!value || 'Wpisz id sklepu',
-          value => (value && value.length >= 4) || 'Minimalnie 4 znaki',
-          v => /^[A-Za-z0-9_]{4,}$/.test(v) || 'Id sklepu może zawierać tylko litery, cyfry lub "_"'
+          value => !!value || this.$t('field_not_empty'),
+          value => (value && value.length >= 4) || this.$t('min_4_chars'),
+          v => /^[A-Za-z0-9_]{4,}$/.test(v) || this.$t('shop_id_format')
         ]
       }
     }
   },
   head () {
     return {
-      title: 'Nowy sklep'
+      title: this.$t('new_shop')
     }
   },
   methods: {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <strong>
-      Sklepy
+      {{ $t('shops') }}
     </strong>
     <v-row class="mt-3">
       <v-col
@@ -41,7 +41,7 @@ export default {
   },
   head () {
     return {
-      title: 'Panel'
+      title: this.$t('panel')
     }
   }
 }
