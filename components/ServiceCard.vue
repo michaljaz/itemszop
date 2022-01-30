@@ -288,7 +288,10 @@ export default {
             this.$router.push(`/shop/${shopid}/payment_success`)
           } else {
             const errors = {
-              'wrong-format': this.$t('wrong_format'),
+              'wrong-format-code': this.$t('wrong_format_code'),
+              'wrong-format-nick': this.$t('wrong_format_nick'),
+              'wrong-format-shopid': this.$t('wrong_format_shopid'),
+              'wrong-format-serviceid': this.$t('wrong_format_serviceid'),
               'payments-not-exist': this.$t('payments_not_exist'),
               'service-not-exist': this.$t('service_not_exist'),
               'server-not-exist': this.$t('server_not_exist'),
