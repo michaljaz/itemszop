@@ -277,13 +277,10 @@ export default {
     checkSMS () {
       this.$refs.form2.validate()
       if (this.valid2) {
-        const { code, nick } = this
-        const { shopid } = this.$route.params
-        console.log('ready to check SMS', code, nick)
+        const { code, nick, shopid } = this
         this.$axios.get('/sms', {
           params: { code, nick, shopid, serviceid: this.service.serviceId }
         }).then(({ data }) => {
-          console.log(data)
           if (data.success) {
             this.$router.push(`/shop/${shopid}/payment_success`)
           } else {
