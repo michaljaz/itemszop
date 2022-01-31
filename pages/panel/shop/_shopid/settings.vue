@@ -7,21 +7,39 @@
             {{ $t('settings') }}
           </v-card-title>
           <v-card-text>
-            <v-text-field v-model="name" label="Nazwa sklepu" />
-            {{ $t('monthly_goal') }} {{ goal }} zł
-            <v-slider
-              v-model="goal"
-              min="1"
-              max="500"
-            />
+            <v-form
+              ref="form"
+              v-model="valid"
+            >
+              <v-text-field v-model="name" label="Nazwa sklepu" />
+              {{ $t('monthly_goal') }} {{ goal }} zł
+              <v-slider
+                v-model="goal"
+                min="1"
+                max="500"
+              />
+              <v-switch v-model="webhook" class="mt-0" label="Webhook discordowy" />
+
+              <v-text-field
+                v-if="webhook"
+                v-model="webhookUrl"
+                :label="$t('webhook_url')"
+                autocomplete="new-password"
+                :rules="rules.webhook"
+              />
+              <v-btn v-if="webhook" color="indigo" rounded @click="testWebhook">
+                Przetestuj webhooka
+              </v-btn>
+            </v-form>
           </v-card-text>
           <v-card-actions>
+            <v-spacer />
             <v-btn color="green" rounded text @click="save">
               {{ $t('save') }}
             </v-btn>
           </v-card-actions>
         </v-card>
-        <v-card class="pt-1 mt-5 pb-4" elevation="10">
+        <v-card class="pt-1 mt-4 pb-4" elevation="10">
           <v-card-title class="headline">
             {{ $t('advanced_settings') }}
           </v-card-title>
@@ -79,10 +97,19 @@ export default {
   },
   data () {
     return {
+      valid: false,
+      webhook: this.shop.webhook,
+      webhookUrl: this.shop.webhook,
       cdel: '',
       goal: this.shop.goal,
       name: this.shop.name,
-      dialog: false
+      dialog: false,
+      rules: {
+        webhook: [
+          value => !!value || this.$t('field_not_empty'),
+          v => /^https:\/\/discord(?:app)?\.com\/api\/webhooks\//.test(v) || this.$t('wrong_format')
+        ]
+      }
     }
   },
   head () {
@@ -92,11 +119,15 @@ export default {
   },
   methods: {
     save () {
-      const { shopid } = this.$route.params
-      this.$fire.database.ref().child(`shops/${shopid}`).update({
-        name: this.name,
-        goal: this.goal
-      })
+      this.$refs.form.validate()
+      if (this.valid) {
+        const { shopid } = this.$route.params
+        this.$fire.database.ref().child(`shops/${shopid}`).update({
+          name: this.name,
+          goal: this.goal,
+          webhook: this.webhook ? this.webhookUrl : ''
+        })
+      }
     },
     removeDialog () {
       this.dialog = true
@@ -121,6 +152,11 @@ export default {
       const { uid } = this.$fire.auth.currentUser
       this.$fire.database.ref().child(`shops/${shopid}`).remove().then(() => {
         this.$fire.database.ref().child(`users/${uid}/${shopid}`).remove()
+      })
+    },
+    testWebhook () {
+      this.$axios.post(this.webhookUrl, {
+        content: this.$t('test_message')
       })
     }
   }
