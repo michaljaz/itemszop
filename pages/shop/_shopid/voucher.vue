@@ -29,6 +29,21 @@
         </center>
       </v-col>
     </v-row>
+    <v-snackbar
+      v-model="snackbar"
+    >
+      {{ snackbarMessage }}
+      <template #action="{ attrs }">
+        <v-btn
+          color="pink"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          {{ $t('cancel') }}
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 <script>
@@ -42,17 +57,19 @@ export default {
   },
   data () {
     return {
+      snackbarMessage: '',
+      snackbar: false,
       valid: false,
       code: '',
       nick: '',
       rules: {
         code: [
           value => !!value || this.$t('field_not_empty'),
-          v => /^[a-z0-9]{6,}$/.test(v) || this.$t('wrong_format')
+          v => /^[a-z0-9]{6,}$/.test(v) || this.$t('wrong_format_voucher')
         ],
         nick: [
           value => !!value || this.$t('field_not_empty'),
-          v => /^[a-zA-Z0-9_]{2,16}$/.test(v) || this.$t('wrong_format')
+          v => /^[a-zA-Z0-9_]{2,16}$/.test(v) || this.$t('wrong_format_nick')
         ]
       }
     }
@@ -77,7 +94,22 @@ export default {
         this.$axios.get('/voucher', {
           params: { code, nick, shopid }
         }).then(({ data }) => {
-          console.log(data)
+          if (data.success) {
+            this.snackbarMessage = 'Pomyślnie użyto vouchera'
+          } else {
+            this.snackbarMessage = ({
+              'wrong-format-voucher': this.$t('wrong_format_voucher'),
+              'wrong-format-nick': this.$t('wrong_format_nick'),
+              'wrong-format-shopid': this.$t('wrong_format_shopid'),
+              'voucher-not-exist': this.$t('voucher_not_exist'),
+              'voucher-expired': this.$t('voucher_expired'),
+              'service-not-exist': this.$t('service_not_exist'),
+              'server-not-exist': this.$t('server_not_exist'),
+              'command-error': this.$t('command_error'),
+              'auth-error': this.$t('auth_error')
+            })[data.error]
+          }
+          this.snackbar = true
         })
       }
     }

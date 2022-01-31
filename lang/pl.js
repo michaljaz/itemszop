@@ -95,6 +95,7 @@ export default {
   wrong_format_nick: 'Niepoprawny format nicka',
   wrong_format_shopid: 'Niepoprawny format id sklepu',
   wrong_format_serviceid: 'Niepoprawny format id usługi',
+  wrong_format_voucher: 'Niepoprawny format vouchera',
 
   // rejestracja i logowanie
   sign_in: 'Zaloguj się',
@@ -171,5 +172,7 @@ export default {
   auth_error: 'Nie udało się połączyć z serwerem minecraftowym',
   history_error: 'Nie można zapisać płatności w historii',
   monthly_goal_error: 'Nie udało się zaktualizować celu miesięcznego',
-  discord_webhook_error: 'Nie udało się połączyć z webhookiem z discorda'
+  discord_webhook_error: 'Nie udało się połączyć z webhookiem z discorda',
+  voucher_not_exist: 'Voucher nie istnieje',
+  voucher_expired: 'Voucher wygasł'
 }
