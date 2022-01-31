@@ -47,6 +47,7 @@ export default {
   remove_all_vouchers: 'Usuń wszystkie vouchery',
   remove_shop: 'Usuń sklep',
   back_to_servers_list: 'Powrót do listy serwerów',
+  test: 'Przetestuj',
 
   // Nazwy pól
   email: 'Email',
@@ -77,6 +78,7 @@ export default {
   choose_service: 'Wybierz usługę',
   voucher_deadline: 'Termin działania voucherów',
   codes_amount: 'Liczba kodów',
+  webhook_url: 'Adres URL webhooka',
 
   // formaty
   field_not_empty: 'Pole nie może pozostać puste',
@@ -134,6 +136,8 @@ export default {
 
   // płatności
   payments_config: 'Konfiguracja płatności',
+  discord_webhook: 'Webhook discordowy',
+  test_message: 'Testowa wiadomość',
 
   // ustawienia
   advanced_settings: 'Ustawienia zaawansowane',
