@@ -22,7 +22,7 @@ class VoucherHandler extends Handler {
     }else if(!/^[A-Za-z0-9_]{4,}$/.test(this.shopid)){
       this.error('wrong-format-shopid')
     }else{
-      this.checkPayments()
+      this.checkVoucher()
     }
   }
   checkVoucher () {
