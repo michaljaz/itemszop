@@ -283,7 +283,7 @@ export default {
           if (data.success) {
             this.$router.push(`/shop/${shopid}/payment_success`)
           } else {
-            const errors = {
+            this.snackbarMessage = ({
               'wrong-format-code': this.$t('wrong_format_code'),
               'wrong-format-nick': this.$t('wrong_format_nick'),
               'wrong-format-shopid': this.$t('wrong_format_shopid'),
@@ -297,8 +297,7 @@ export default {
               'history-error': this.$t('history_error'),
               'monthly-goal-error': this.$t('monthly_goal_error'),
               'discord-webhook-error': this.$t('discord_webhook_error')
-            }
-            this.snackbarMessage = errors[data.error]
+            })[data.error]
             this.snackbar = true
           }
         })

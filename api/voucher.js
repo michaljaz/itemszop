@@ -15,10 +15,14 @@ class VoucherHandler extends Handler {
     this.checkRegex()
   }
   checkRegex () {
-    if (/^[a-z0-9]{6,}$/.test(this.code) && /^[a-zA-Z0-9_]{2,16}$/.test(this.nick) && /^[A-Za-z0-9_]{4,}$/.test(this.shopid)) {
-      this.checkVoucher()
-    } else {
-      this.error('wrong-format')
+    if(!/^[a-z0-9]{6,}$/.test(this.code)){
+      this.error('wrong-format-voucher')
+    }else if(!/^[a-zA-Z0-9_]{2,16}$/.test(this.nick)){
+      this.error('wrong-format-nick')
+    }else if(!/^[A-Za-z0-9_]{4,}$/.test(this.shopid)){
+      this.error('wrong-format-shopid')
+    }else{
+      this.checkPayments()
     }
   }
   checkVoucher () {
@@ -30,7 +34,7 @@ class VoucherHandler extends Handler {
         if (((this.voucher.end && this.voucher.start <= this.getDate()) || (!this.voucher.end && this.voucher.start === this.getDate())) && ((this.voucher.end && this.voucher.end >= this.getDate()) || !this.voucher.end)) {
           this.checkService()
         } else {
-          this.error('expired')
+          this.error('voucher-expired')
         }
       } else {
         this.error('voucher-not-exist')
