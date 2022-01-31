@@ -12,6 +12,12 @@
               v-model="valid"
             >
               <v-text-field v-model="name" label="Nazwa sklepu" />
+              Ilość wyświetlanych ostatnich zakupów w sklepie {{ maxservices }}
+              <v-slider
+                v-model="maxservices"
+                min="1"
+                max="10"
+              />
               {{ $t('monthly_goal') }} {{ goal }} zł
               <v-slider
                 v-model="goal"
@@ -97,6 +103,7 @@ export default {
   },
   data () {
     return {
+      maxservices: this.shop.maxservices,
       valid: false,
       webhook: this.shop.webhook,
       webhookUrl: this.shop.webhook,
@@ -125,7 +132,8 @@ export default {
         this.$fire.database.ref().child(`shops/${shopid}`).update({
           name: this.name,
           goal: this.goal,
-          webhook: this.webhook ? this.webhookUrl : ''
+          webhook: this.webhook ? this.webhookUrl : '',
+          maxservices: this.maxservices
         })
       }
     },
