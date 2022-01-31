@@ -212,7 +212,6 @@ export default {
       code: '',
       dialogSMS: false,
       valid2: false,
-      baseUrl: process.env.baseUrl,
       valid: false,
       nick: '',
       type: '',
@@ -264,8 +263,8 @@ export default {
         signature: require('md5')(`${this.payments.paymentsPrzelewId}${this.payments.paymentsHash}${this.service.przelewCost}`),
         description: `${this.service.name} dla ${this.nick}`,
         control: `${this.shopid}|${this.service.serviceId}|${this.nick}`,
-        returl_url: `${this.baseUrl}/shop/${this.shopid}/payment_success`,
-        returl_urlc: `${this.baseUrl}/api/przelew`
+        returl_url: `${process.env.apiBaseUrl}/shop/${this.shopid}/payment_success`,
+        returl_urlc: `${process.env.apiBaseUrl}/api/przelew`
       })
       const url = `https://microsms.pl/api/bankTransfer/?${params}`
       window.top.location.href = url
@@ -277,13 +276,10 @@ export default {
     checkSMS () {
       this.$refs.form2.validate()
       if (this.valid2) {
-        const { code, nick } = this
-        const { shopid } = this.$route.params
-        console.log('ready to check SMS', code, nick)
+        const { code, nick, shopid } = this
         this.$axios.get('/sms', {
           params: { code, nick, shopid, serviceid: this.service.serviceId }
         }).then(({ data }) => {
-          console.log(data)
           if (data.success) {
             this.$router.push(`/shop/${shopid}/payment_success`)
           } else {
@@ -299,7 +295,8 @@ export default {
               'command-error': this.$t('command_error'),
               'auth-error': this.$t('auth_error'),
               'history-error': this.$t('history_error'),
-              'monthly-goal-error': this.$t('monthly_goal_error')
+              'monthly-goal-error': this.$t('monthly_goal_error'),
+              'discord-webhook-error': this.$t('discord_webhook_error')
             }
             this.snackbarMessage = errors[data.error]
             this.snackbar = true

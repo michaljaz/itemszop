@@ -1,7 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
 
-const productionUrl = 'https://itemszop.tk'
-const baseUrl = process.env.NODE_ENV === 'production' ? productionUrl : 'http://localhost:8080'
+const baseUrl = process.env.NODE_ENV === 'production' ? 'https://itemszop.tk' : 'http://localhost:8080'
 const apiBaseUrl = process.env.API_BASE_URL ? process.env.API_BASE_URL : baseUrl
 
 let firebaseConfig
@@ -41,7 +40,8 @@ export default {
   },
 
   env: {
-    baseUrl
+    baseUrl,
+    apiBaseUrl
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css

@@ -20,7 +20,7 @@
                 v-model="paymentsUserId"
                 :label="$t('user_id')"
                 autocomplete="new-password"
-                :rules="rulesUserId"
+                :rules="rules.userId"
                 type="number"
               />
               <v-row>
@@ -33,13 +33,13 @@
                     type="number"
                     :label="$t('id_number')"
                     autocomplete="new-password"
-                    :rules="rulesPrzelewId"
+                    :rules="rules.przelewId"
                   />
                   <v-text-field
                     v-model="paymentsHash"
                     :label="$t('hash')"
                     autocomplete="new-password"
-                    :rules="rulesHash"
+                    :rules="rules.hash"
                   />
                 </v-col>
                 <v-col>
@@ -50,14 +50,14 @@
                     v-model="paymentsShopId"
                     :label="$t('id_number')"
                     autocomplete="new-password"
-                    :rules="rulesShopId"
+                    :rules="rules.shopId"
                     type="number"
                   />
                   <v-text-field
                     v-model="paymentsSMS"
                     :label="$t('sms_content')"
                     autocomplete="new-password"
-                    :rules="rulesSMS"
+                    :rules="rules.SMS"
                   />
                 </v-col>
               </v-row>
@@ -66,6 +66,33 @@
           <v-card-actions>
             <v-spacer />
             <v-btn color="green" rounded text @click="save">
+              {{ $t('save') }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+        <v-card class="pt-1 mt-4 pb-4" elevation="10">
+          <v-card-title class="headline">
+            {{ $t('discord_webhook') }}
+          </v-card-title>
+          <v-card-text>
+            <v-form
+              ref="form2"
+              v-model="valid2"
+            >
+              <v-text-field
+                v-model="webhookUrl"
+                :label="$t('webhook_url')"
+                autocomplete="new-password"
+                :rules="rules.webhook"
+              />
+            </v-form>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn color="blue" rounded text @click="testWebhook">
+              {{ $t('test') }}
+            </v-btn>
+            <v-btn color="green" rounded text @click="saveWebhook">
               {{ $t('save') }}
             </v-btn>
           </v-card-actions>
@@ -85,31 +112,39 @@ export default {
   },
   data () {
     return {
+      valid2: false,
       valid: false,
       select: 'MicroSMS',
       items: ['MicroSMS'],
+      webhookUrl: this.shop.webhook,
       paymentsUserId: this.shop.payments.paymentsUserId,
       paymentsPrzelewId: this.shop.payments.paymentsPrzelewId,
       paymentsHash: this.shop.payments.paymentsHash,
       paymentsShopId: this.shop.payments.paymentsShopId,
       paymentsSMS: this.shop.payments.paymentsSMS,
-      rulesUserId: [
-        value => !!value || this.$t('field_not_empty')
-      ],
-      rulesPrzelewId: [
-        value => !!value || this.$t('field_not_empty')
-      ],
-      rulesHash: [
-        value => !!value || this.$t('field_not_empty'),
-        v => /^[A-Za-z0-9$*@]+$/.test(v) || this.$t('hash_format')
-      ],
-      rulesShopId: [
-        value => !!value || this.$t('field_not_empty')
-      ],
-      rulesSMS: [
-        value => !!value || this.$t('field_not_empty'),
-        v => /^[A-Z.]+$/.test(v) || this.$t('sms_format')
-      ]
+      rules: {
+        userId: [
+          value => !!value || this.$t('field_not_empty')
+        ],
+        przelewId: [
+          value => !!value || this.$t('field_not_empty')
+        ],
+        hash: [
+          value => !!value || this.$t('field_not_empty'),
+          v => /^[A-Za-z0-9$*@]+$/.test(v) || this.$t('hash_format')
+        ],
+        shopId: [
+          value => !!value || this.$t('field_not_empty')
+        ],
+        SMS: [
+          value => !!value || this.$t('field_not_empty'),
+          v => /^[A-Z.]+$/.test(v) || this.$t('sms_format')
+        ],
+        webhook: [
+          value => !!value || this.$t('field_not_empty'),
+          v => /^https:\/\/discord(?:app)?\.com\/api\/webhooks\//.test(v) || this.$t('wrong_format')
+        ]
+      }
     }
   },
   head () {
@@ -130,6 +165,18 @@ export default {
           paymentsShopId,
           paymentsSMS
         })
+      }
+    },
+    testWebhook () {
+      this.$axios.post(this.webhookUrl, {
+        content: this.$t('test_message')
+      })
+    },
+    saveWebhook () {
+      const { shopid } = this.$route.params
+      this.$refs.form2.validate()
+      if (this.valid2) {
+        this.$fire.database.ref().child(`shops/${shopid}/webhook`).set(this.webhookUrl)
       }
     }
   }
