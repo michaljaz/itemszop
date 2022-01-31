@@ -73,6 +73,7 @@ export default {
           owner: uid,
           collected: 0,
           goal: 100,
+          maxservices: 5,
           name,
           pages: {
             page1: {

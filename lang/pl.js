@@ -72,7 +72,7 @@ export default {
   nick: 'Nick',
   user_id: 'ID użytkownika',
   id_number: 'Numer ID',
-  hash: 'Hash',
+  hash: 'Hash (kodowanie md5)',
   sms_content: 'Treść SMS',
   payment_operator: 'Dostawca płatności',
   choose_service: 'Wybierz usługę',

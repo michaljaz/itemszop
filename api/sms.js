@@ -151,7 +151,7 @@ class SmsHandler extends Handler {
   }
   sendDiscordMessage () {
     this.db.child(`shops/${this.shopid}/webhook`).once('value', (snapshot) => {
-      if (snapshot.exists()) {
+      if (snapshot.exists() && snapshot.val() !== '') {
         const webhookUrl = snapshot.val()
         this.axios.post(webhookUrl, {
           content: `${this.nick} właśnie kupił(a) ${this.service.name}`

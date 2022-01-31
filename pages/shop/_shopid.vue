@@ -62,7 +62,7 @@
               </v-card-title>
               <v-card-text>
                 <v-list flat>
-                  <v-list-item v-for="k in shop.history" :key="k.date" two-line>
+                  <v-list-item v-for="k in history" :key="k.date" two-line>
                     <v-list-item-avatar
                       tile
                       size="40"
@@ -102,6 +102,9 @@ export default {
   computed: {
     collected () {
       return this.shop.collected / this.shop.goal * 100
+    },
+    history () {
+      return Object.values(this.shop.history).slice(0, this.shop.maxservices)
     }
   }
 }

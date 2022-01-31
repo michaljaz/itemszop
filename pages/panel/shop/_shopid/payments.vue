@@ -70,33 +70,6 @@
             </v-btn>
           </v-card-actions>
         </v-card>
-        <v-card class="pt-1 mt-4 pb-4" elevation="10">
-          <v-card-title class="headline">
-            {{ $t('discord_webhook') }}
-          </v-card-title>
-          <v-card-text>
-            <v-form
-              ref="form2"
-              v-model="valid2"
-            >
-              <v-text-field
-                v-model="webhookUrl"
-                :label="$t('webhook_url')"
-                autocomplete="new-password"
-                :rules="rules.webhook"
-              />
-            </v-form>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer />
-            <v-btn color="blue" rounded text @click="testWebhook">
-              {{ $t('test') }}
-            </v-btn>
-            <v-btn color="green" rounded text @click="saveWebhook">
-              {{ $t('save') }}
-            </v-btn>
-          </v-card-actions>
-        </v-card>
       </v-col>
     </v-row>
   </div>
@@ -112,11 +85,9 @@ export default {
   },
   data () {
     return {
-      valid2: false,
       valid: false,
       select: 'MicroSMS',
       items: ['MicroSMS'],
-      webhookUrl: this.shop.webhook,
       paymentsUserId: this.shop.payments.paymentsUserId,
       paymentsPrzelewId: this.shop.payments.paymentsPrzelewId,
       paymentsHash: this.shop.payments.paymentsHash,
@@ -139,10 +110,6 @@ export default {
         SMS: [
           value => !!value || this.$t('field_not_empty'),
           v => /^[A-Z.]+$/.test(v) || this.$t('sms_format')
-        ],
-        webhook: [
-          value => !!value || this.$t('field_not_empty'),
-          v => /^https:\/\/discord(?:app)?\.com\/api\/webhooks\//.test(v) || this.$t('wrong_format')
         ]
       }
     }
@@ -165,18 +132,6 @@ export default {
           paymentsShopId,
           paymentsSMS
         })
-      }
-    },
-    testWebhook () {
-      this.$axios.post(this.webhookUrl, {
-        content: this.$t('test_message')
-      })
-    },
-    saveWebhook () {
-      const { shopid } = this.$route.params
-      this.$refs.form2.validate()
-      if (this.valid2) {
-        this.$fire.database.ref().child(`shops/${shopid}/webhook`).set(this.webhookUrl)
       }
     }
   }
