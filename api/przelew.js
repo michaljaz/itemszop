@@ -138,7 +138,7 @@ class PrzelewHandler extends Handler {
     this.db.child(`shops/${this.shopid}/webhook`).once('value', (snapshot) => {
       if (snapshot.exists()) {
         const webhookUrl = snapshot.val()
-        this.$axios.post(webhookUrl, {
+        this.axios.post(webhookUrl, {
           content: `${this.nick} właśnie kupił(a) ${this.service.name}`
         }).then(() => {
           this.success()
