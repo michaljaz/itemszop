@@ -168,13 +168,9 @@ export default {
       }
     },
     testWebhook () {
-      const request = new XMLHttpRequest()
-      request.open('POST', this.webhookUrl)
-      request.setRequestHeader('Content-type', 'application/json')
-      const params = {
+      this.$axios.post(this.webhookUrl, {
         content: this.$t('test_message')
-      }
-      request.send(JSON.stringify(params))
+      })
     },
     saveWebhook () {
       const { shopid } = this.$route.params

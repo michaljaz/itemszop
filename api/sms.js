@@ -133,20 +133,35 @@ class SmsHandler extends Handler {
       10: 20,
       11: 25
     })[this.service.smsType]
-
     this.db.child(`shops/${this.shopid}/collected`).once('value', (snapshot) => {
       if (snapshot.exists()) {
         this.db.child(`shops/${this.shopid}/collected`).set(parseFloat(snapshot.val()) + smsCost).then(() => {
-          this.success()
+          this.sendDiscordMessage()
         }).catch(() => {
           this.error('monthly-goal-error')
         })
       } else {
         this.db.child(`shops/${this.shopid}/collected`).set(smsCost).then(() => {
-          this.success()
+          this.sendDiscordMessage()
         }).catch(() => {
           this.error('monthly-goal-error')
         })
+      }
+    })
+  }
+  sendDiscordMessage () {
+    this.db.child(`shops/${this.shopid}/webhook`).once('value', (snapshot) => {
+      if (snapshot.exists()) {
+        const webhookUrl = snapshot.val()
+        this.$axios.post(webhookUrl, {
+          content: `${this.nick} właśnie kupił(a) ${this.service.name}`
+        }).then(() => {
+          this.success()
+        }).catch(() => {
+          this.error('discord-webhook-error')
+        })
+      } else {
+        this.success()
       }
     })
   }

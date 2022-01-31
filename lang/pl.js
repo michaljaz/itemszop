@@ -170,5 +170,6 @@ export default {
   command_error: 'Nie udało się wywołać komendy na serwerze minecraftowym',
   auth_error: 'Nie udało się połączyć z serwerem minecraftowym',
   history_error: 'Nie można zapisać płatności w historii',
-  monthly_goal_error: 'Nie udało się zaktualizować celu miesięcznego'
+  monthly_goal_error: 'Nie udało się zaktualizować celu miesięcznego',
+  discord_webhook_error: 'Nie udało się połączyć z webhookiem z discorda'
 }

@@ -296,7 +296,8 @@ export default {
               'command-error': this.$t('command_error'),
               'auth-error': this.$t('auth_error'),
               'history-error': this.$t('history_error'),
-              'monthly-goal-error': this.$t('monthly_goal_error')
+              'monthly-goal-error': this.$t('monthly_goal_error'),
+              'discord-webhook-error': this.$t('discord_webhook_error')
             }
             this.snackbarMessage = errors[data.error]
             this.snackbar = true
