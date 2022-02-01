@@ -65,7 +65,7 @@ export default {
   sms_payment: "Płatność SMS'em",
   choose_sms: 'Wybierz sms',
   transfer_payment: 'Płatność przelewem',
-  transfer_cost: 'Koszt (w zł)',
+  transfer_cost: 'Koszt (w zł za sztukę)',
   choose_server: 'Wybierz serwer',
   server_command_info: 'Komendy do wywołania na serwerze ([nick] - nick kupującego)',
   code: 'Kod',
@@ -79,6 +79,7 @@ export default {
   voucher_deadline: 'Termin działania voucherów',
   codes_amount: 'Liczba kodów',
   webhook_url: 'Adres URL webhooka',
+  cost_slider: 'Suwak do wyboru ilości produktu',
 
   // formaty
   field_not_empty: 'Pole nie może pozostać puste',

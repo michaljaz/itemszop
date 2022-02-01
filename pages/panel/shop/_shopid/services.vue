@@ -8,7 +8,6 @@
     >
       <v-card tile flat>
         <v-toolbar
-          extended
           dark
           color="primary"
           class="mb-4"
@@ -40,64 +39,88 @@
             ref="form"
             v-model="valid"
           >
-            <v-text-field
-              v-model="fields.name"
-              :label="$t('service_name')"
-              autocomplete="new-password"
-              :rules="rules.name"
-            />
-            <v-switch
-              v-model="fields.icon"
-              :label="$t('service_icon')"
-            />
-            <v-text-field
-              v-if="fields.icon"
-              v-model="fields.iconUrl"
-              type="text"
-              :label="$t('icon_url')"
-              autocomplete="new-password"
-              :rules="rules.iconUrl"
-            />
-            <v-switch
-              v-model="fields.sms"
-              :label="$t('sms_payment')"
-            />
-            <v-select
-              v-if="fields.sms"
-              v-model="fields.smsType"
-              item-text="name"
-              item-value="value"
-              :items="smsTypes"
-              :label="$t('choose_sms')"
-              :rules="rules.smsType"
-            />
-            <v-switch
-              v-model="fields.przelew"
-              :label="$t('transfer_payment')"
-            />
-            <v-text-field
-              v-if="fields.przelew"
-              v-model="fields.przelewCost"
-              type="number"
-              :label="$t('transfer_cost')"
-              autocomplete="new-password"
-              :rules="rules.przelewCost"
-            />
-            <v-select
-              v-model="fields.server"
-              item-text="serverName"
-              item-value="serverId"
-              :items="serversList"
-              :label="$t('choose_server')"
-              :rules="rules.server"
-            />
-            <v-textarea
-              v-model="fields.commands"
-              :label="$t('server_command_info')"
-              class="mb-2"
-            />
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="fields.name"
+                  :label="$t('service_name')"
+                  autocomplete="new-password"
+                  :rules="rules.name"
+                />
+                <v-switch
+                  v-model="fields.icon"
+                  :label="$t('service_icon')"
+                />
+                <v-text-field
+                  v-if="fields.icon"
+                  v-model="fields.iconUrl"
+                  type="text"
+                  :label="$t('icon_url')"
+                  autocomplete="new-password"
+                  :rules="rules.iconUrl"
+                />
+                <v-select
+                  v-model="fields.server"
+                  item-text="serverName"
+                  item-value="serverId"
+                  :items="serversList"
+                  :label="$t('choose_server')"
+                  :rules="rules.server"
+                />
+                <v-textarea
+                  v-model="fields.commands"
+                  :label="$t('server_command_info')"
+                  class="mb-2"
+                />
+                <TiptapEditor :editorcontent="fields.description" @content="fields.description=$event" />
+              </v-col>
+              <v-col>
+                <v-switch
+                  v-model="fields.sms"
+                  :label="$t('sms_payment')"
+                />
+                <v-select
+                  v-if="fields.sms"
+                  v-model="fields.smsType"
+                  item-text="name"
+                  item-value="value"
+                  :items="smsTypes"
+                  :label="$t('choose_sms')"
+                  :rules="rules.smsType"
+                />
+                <v-switch
+                  v-model="fields.przelew"
+                  :label="$t('transfer_payment')"
+                />
+                <v-text-field
+                  v-if="fields.przelew"
+                  v-model="fields.przelewCost"
+                  type="number"
+                  :label="$t('transfer_cost')"
+                  autocomplete="new-password"
+                  :rules="rules.przelewCost"
+                />
+                <v-switch
+                  v-model="fields.costSlider"
+                  :label="$t('cost_slider')"
+                />
+                <div v-if="fields.costSlider">
+                  Przy płatnośći przelewem koszt liczony jest ILOŚĆ * KOSZT SZTUKI.<br>
+                  Zaś przy płatności sms'em musisz wybrać w polach poniżej ile usług będzie za dany sms.
+                  <v-checkbox
+                    v-model="enable_sms_1"
+                    label="Włącz sms o wartości 1zł"
+                  />
+                  <v-text-field
+                    v-if="enable_sms_1"
+                    type="number"
+                    label="Ilość usług za SMS o wartości 1zł"
+                    autocomplete="new-password"
+                  />
+                </div>
+              </v-col>
+            </v-row>
           </v-form>
-          <TiptapEditor :editorcontent="fields.description" @content="fields.description=$event" />
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -191,6 +214,7 @@ export default {
   },
   data () {
     return {
+      enable_sms_1: false,
       serviceId: '',
       valid: false,
       fields: {
@@ -203,7 +227,8 @@ export default {
         przelewCost: 0,
         server: '',
         commands: '',
-        description: ''
+        description: '',
+        costSlider: false
       },
       dialog: false,
       sms: false,
