@@ -2,12 +2,39 @@
   <div>
     <v-dialog
       v-model="dialog"
-      max-width="600px"
+      fullscreen
+      hide-overlay
+      scrollable
     >
-      <v-card elevation="10" outlined>
-        <v-card-title>
-          <span class="text-h5">{{ $t('service_config') }}</span>
-        </v-card-title>
+      <v-card tile flat>
+        <v-toolbar
+          extended
+          dark
+          color="primary"
+          class="mb-4"
+        >
+          <v-btn
+            icon
+            dark
+            @click="dialog = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>
+            <span class="text-h5">{{ $t('service_config') }}</span>
+          </v-toolbar-title>
+          <v-spacer />
+          <v-toolbar-items>
+            <v-btn
+              large
+              dark
+              text
+              @click="saveService"
+            >
+              {{ $t('save') }}
+            </v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
         <v-card-text>
           <v-form
             ref="form"
@@ -72,25 +99,6 @@
           </v-form>
           <TiptapEditor :editorcontent="fields.description" @content="fields.description=$event" />
         </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="blue darken-1"
-            text
-            rounded
-            @click="dialog = false"
-          >
-            {{ $t('cancel') }}
-          </v-btn>
-          <v-btn
-            color="green darken-1"
-            text
-            rounded
-            @click="saveService"
-          >
-            {{ $t('save') }}
-          </v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
     <v-row>
