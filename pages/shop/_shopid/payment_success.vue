@@ -17,12 +17,12 @@ export default {
   name: 'PaymentSuccess',
   mounted () {
     this.$emit('breadcrumb', [{
-      text: this.$t('shop'),
+      text: this.$t('titles.shop'),
       disabled: false,
       href: `/shop/${this.$route.params.shopid}`
     },
     {
-      text: this.$t('payment_success'),
+      text: this.$t('titles.payment_success'),
       disabled: true
     }])
   }

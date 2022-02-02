@@ -20,7 +20,7 @@
             <v-icon>mdi-close</v-icon>
           </v-btn>
           <v-toolbar-title>
-            <span class="text-h5">{{ $t('service_config') }}</span>
+            <span class="text-h5">{{ $t('titles.service_config') }}</span>
           </v-toolbar-title>
           <v-spacer />
           <v-toolbar-items>
@@ -30,7 +30,7 @@
               text
               @click="saveService"
             >
-              {{ $t('save') }}
+              {{ $t('actions.save') }}
             </v-btn>
           </v-toolbar-items>
         </v-toolbar>
@@ -43,19 +43,19 @@
               <v-col>
                 <v-text-field
                   v-model="fields.name"
-                  :label="$t('service_name')"
+                  :label="$t('fields.service_name')"
                   autocomplete="new-password"
                   :rules="rules.name"
                 />
                 <v-switch
                   v-model="fields.icon"
-                  :label="$t('service_icon')"
+                  :label="$t('fields.service_icon')"
                 />
                 <v-text-field
                   v-if="fields.icon"
                   v-model="fields.iconUrl"
                   type="text"
-                  :label="$t('icon_url')"
+                  :label="$t('fields.icon_url')"
                   autocomplete="new-password"
                   :rules="rules.iconUrl"
                 />
@@ -64,12 +64,12 @@
                   item-text="serverName"
                   item-value="serverId"
                   :items="serversList"
-                  :label="$t('choose_server')"
+                  :label="$t('fields.choose_server')"
                   :rules="rules.server"
                 />
                 <v-textarea
                   v-model="fields.commands"
-                  :label="$t('server_command_info')"
+                  :label="$t('fields.server_command_info')"
                   class="mb-2"
                 />
                 <TiptapEditor :editorcontent="fields.description" @content="fields.description=$event" />
@@ -77,7 +77,7 @@
               <v-col>
                 <v-switch
                   v-model="fields.sms"
-                  :label="$t('sms_payment')"
+                  :label="$t('fields.sms_payment')"
                 />
                 <v-select
                   v-if="fields.sms"
@@ -85,24 +85,24 @@
                   item-text="name"
                   item-value="value"
                   :items="smsTypes"
-                  :label="$t('choose_sms')"
+                  :label="$t('fields.choose_sms')"
                   :rules="rules.smsType"
                 />
                 <v-switch
                   v-model="fields.przelew"
-                  :label="$t('transfer_payment')"
+                  :label="$t('fields.transfer_payment')"
                 />
                 <v-text-field
                   v-if="fields.przelew"
                   v-model="fields.przelewCost"
                   type="number"
-                  :label="$t('transfer_cost')"
+                  :label="$t('fields.transfer_cost')"
                   autocomplete="new-password"
                   :rules="rules.przelewCost"
                 />
                 <v-switch
                   v-model="fields.costSlider"
-                  :label="$t('cost_slider')"
+                  :label="$t('fields.cost_slider')"
                 />
                 <div v-if="fields.costSlider">
                   Przy płatnośći przelewem koszt liczony jest ILOŚĆ * KOSZT SZTUKI.<br>
@@ -134,7 +134,7 @@
         >
           <strong v-if="servers[serverServices.name]">{{ servers[serverServices.name].serverName }} </strong>
           <strong v-else>
-            {{ $t('without_server') }}
+            {{ $t('misc.without_server') }}
           </strong>
         </v-col>
         <v-col
@@ -160,7 +160,7 @@
                     </v-chip>
                   </div>
                   <div v-else>
-                    {{ $t('no_payment_enabled') }}
+                    {{ $t('misc.no_payment_enabled') }}
                   </div>
                 </v-list-item-subtitle>
               </v-list-item-content>
@@ -177,10 +177,10 @@
             <v-card-actions>
               <v-spacer />
               <v-btn text color="blue" rounded @click="editService(service)">
-                {{ $t('edit') }}
+                {{ $t('actions.edit') }}
               </v-btn>
               <v-btn text color="red" rounded @click="removeService(service)">
-                {{ $t('remove') }}
+                {{ $t('actions.remove') }}
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -195,7 +195,7 @@
       class="mt-5"
       @click="newService"
     >
-      {{ $t('new_service') }}
+      {{ $t('actions.new_service') }}
     </v-btn>
   </div>
 </template>

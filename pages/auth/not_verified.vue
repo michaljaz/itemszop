@@ -2,18 +2,18 @@
   <div>
     <v-card>
       <v-card-title class="headline">
-        {{ $t('email_not_verified') }}
+        {{ $t('titles.email_not_verified') }}
       </v-card-title>
       <v-card-text>
-        {{ $t('check_mailbox_again') }}
+        {{ $t('misc.check_mailbox_again') }}
       </v-card-text>
       <v-card-actions>
         <v-spacer />
         <v-btn color="green" @click="reload">
-          {{ $t('reload') }}
+          {{ $t('actions.reload') }}
         </v-btn>
         <v-btn color="blue" @click="signOut">
-          {{ $t('logout') }}
+          {{ $t('actions.logout') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -27,7 +27,7 @@ export default {
   name: 'NotVerified',
   head () {
     return {
-      title: this.$t('email_not_verified')
+      title: this.$t('titles.email_not_verified')
     }
   },
   computed: {

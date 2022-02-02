@@ -4,7 +4,7 @@
       <v-col cols="12" sm="10" md="8">
         <v-card elevation="10" class="pt-1">
           <v-card-title class="headline">
-            <span class="text-h5">{{ $t('adding_vouchers') }}</span>
+            <span class="text-h5">{{ $t('titles.adding_vouchers') }}</span>
           </v-card-title>
           <v-card-text>
             <v-form
@@ -17,8 +17,8 @@
                     v-model="service"
                     item-text="name"
                     item-value="value"
-                    :label="$t('choose_service')"
-                    :hint="$t('choose_service_hint')"
+                    :label="$t('fields.choose_service')"
+                    :hint="$t('fields.choose_service_hint')"
                     persistent-hint
                     :items="services"
                     :rules="rules.service"
@@ -27,8 +27,8 @@
                 <v-col cols="12" md="6">
                   <v-text-field
                     v-model="amount"
-                    :label="$t('codes_amount')"
-                    :hint="$t('codes_amount_hint')"
+                    :label="$t('fields.codes_amount')"
+                    :hint="$t('fields.codes_amount_hint')"
                     persistent-hint
                     type="number"
                     :rules="rules.amount"
@@ -49,7 +49,7 @@
                     <template #activator="{ on, attrs }">
                       <v-text-field
                         v-model="date"
-                        :label="$t('voucher_deadline')"
+                        :label="$t('fields.voucher_deadline')"
                         prepend-icon="mdi-calendar"
                         readonly
                         v-bind="attrs"
@@ -71,14 +71,14 @@
                         color="primary"
                         @click="menu = false"
                       >
-                        {{ $t('cancel') }}
+                        {{ $t('actions.cancel') }}
                       </v-btn>
                       <v-btn
                         text
                         color="primary"
                         @click="$refs.menu.save(date)"
                       >
-                        {{ $t('save') }}
+                        {{ $t('actions.save') }}
                       </v-btn>
                     </v-date-picker>
                   </v-menu>
@@ -94,7 +94,7 @@
               rounded
               @click="dialog = false"
             >
-              {{ $t('cancel') }}
+              {{ $t('actions.cancel') }}
             </v-btn>
             <v-btn
               color="green darken-1"
@@ -102,13 +102,13 @@
               rounded
               @click="create"
             >
-              {{ $t('create_and_download') }}
+              {{ $t('actions.create_and_download') }}
             </v-btn>
           </v-card-actions>
         </v-card>
         <v-card elevation="10" class="pt-1 mt-5">
           <v-card-title class="headline">
-            <span class="text-h5">{{ $t('removing_vouchers') }}</span>
+            <span class="text-h5">{{ $t('titles.removing_vouchers') }}</span>
           </v-card-title>
           <v-card-actions>
             <v-spacer />
@@ -118,7 +118,7 @@
               rounded
               @click="del"
             >
-              {{ $t('remove_all_vouchers') }}
+              {{ $t('actions.remove_all_vouchers') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -148,22 +148,22 @@ export default {
       amount: 0,
       rules: {
         service: [
-          value => !!value || this.$t('field_not_empty')
+          value => !!value || this.$t('formats.field_not_empty')
         ],
         amount: [
-          value => !!value || this.$t('field_not_empty'),
-          value => this.isNaturalNumber(value) || this.$t('wrong_codes_number'),
-          value => value <= 100 || this.$t('max_100_vouchers')
+          value => !!value || this.$t('formats.field_not_empty'),
+          value => this.isNaturalNumber(value) || this.$t('formats.wrong_codes_number'),
+          value => value <= 100 || this.$t('formats.max_100_vouchers')
         ],
         date: [
-          value => !!value || this.$t('field_not_empty')
+          value => !!value || this.$t('formats.field_not_empty')
         ]
       }
     }
   },
   head () {
     return {
-      title: this.$t('vouchers')
+      title: this.$t('titles.vouchers')
     }
   },
   computed: {

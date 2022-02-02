@@ -47,7 +47,7 @@
           block
           :to="link"
         >
-          {{ $t('description') }}
+          {{ $t('actions.description') }}
         </v-btn>
       </v-card-actions>
       <v-card-actions>
@@ -65,7 +65,7 @@
               v-bind="attrs"
               v-on="on"
             >
-              {{ $t('buy') }}
+              {{ $t('actions.buy') }}
             </v-btn>
           </template>
 
@@ -82,16 +82,16 @@
                 <v-radio-group v-model="type" :rules="rules.type">
                   <v-radio
                     v-if="service.przelew"
-                    label="Przelew"
+                    :label="$t('transfer')"
                     value="przelew"
                   />
                   <v-radio
                     v-if="service.sms"
-                    label="SMS"
+                    :label="$t('sms')"
                     value="sms"
                   />
                 </v-radio-group>
-                <v-text-field v-model="nick" label="Wprowadź swój nick" :rules="rules.nick" />
+                <v-text-field v-model="nick" :label="$t('fields.nick')" :rules="rules.nick" />
               </v-form>
             </v-card-text>
 
@@ -104,14 +104,14 @@
                 text
                 @click="dialog=false"
               >
-                {{ $t('cancel') }}
+                {{ $t('actions.cancel') }}
               </v-btn>
               <v-btn
                 color="green"
                 text
                 @click="next"
               >
-                {{ $t('next') }}
+                {{ $t('actions.next') }}
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -155,14 +155,14 @@
             text
             @click="dialogSMS=false"
           >
-            {{ $t('cancel') }}
+            {{ $t('actions.cancel') }}
           </v-btn>
           <v-btn
             color="green"
             text
             @click="checkSMS"
           >
-            {{ $t('next') }}
+            {{ $t('actions.next') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -178,7 +178,7 @@
           v-bind="attrs"
           @click="snackbar = false"
         >
-          {{ $t('cancel') }}
+          {{ $t('actions.cancel') }}
         </v-btn>
       </template>
     </v-snackbar>
@@ -232,15 +232,15 @@ export default {
       },
       rules: {
         type: [
-          value => !!value || this.$t('field_not_empty')
+          value => !!value || this.$t('formats.field_not_empty')
         ],
         nick: [
-          value => !!value || this.$t('field_not_empty'),
-          v => /^[a-zA-Z0-9_]{2,16}$/.test(v) || this.$t('wrong_format')
+          value => !!value || this.$t('formats.field_not_empty'),
+          v => /^[a-zA-Z0-9_]{2,16}$/.test(v) || this.$t('formats.wrong_format')
         ],
         code: [
-          value => !!value || this.$t('field_not_empty'),
-          v => /^[A-Za-z0-9]{8}$/.test(v) || this.$t('wrong_format')
+          value => !!value || this.$t('formats.field_not_empty'),
+          v => /^[A-Za-z0-9]{8}$/.test(v) || this.$t('formats.wrong_format')
         ]
       }
     }
@@ -284,19 +284,19 @@ export default {
             this.$router.push(`/shop/${shopid}/payment_success`)
           } else {
             this.snackbarMessage = ({
-              'wrong-format-code': this.$t('wrong_format_code'),
-              'wrong-format-nick': this.$t('wrong_format_nick'),
-              'wrong-format-shopid': this.$t('wrong_format_shopid'),
-              'wrong-format-serviceid': this.$t('wrong_format_serviceid'),
-              'payments-not-exist': this.$t('payments_not_exist'),
-              'service-not-exist': this.$t('service_not_exist'),
-              'server-not-exist': this.$t('server_not_exist'),
-              'wrong-code': this.$t('wrong_code'),
-              'command-error': this.$t('command_error'),
-              'auth-error': this.$t('auth_error'),
-              'history-error': this.$t('history_error'),
-              'monthly-goal-error': this.$t('monthly_goal_error'),
-              'discord-webhook-error': this.$t('discord_webhook_error')
+              'wrong-format-code': this.$t('responses.wrong_format_code'),
+              'wrong-format-nick': this.$t('responses.wrong_format_nick'),
+              'wrong-format-shopid': this.$t('responses.wrong_format_shopid'),
+              'wrong-format-serviceid': this.$t('responses.wrong_format_serviceid'),
+              'payments-not-exist': this.$t('responses.payments_not_exist'),
+              'service-not-exist': this.$t('responses.service_not_exist'),
+              'server-not-exist': this.$t('responses.server_not_exist'),
+              'wrong-code': this.$t('responses.wrong_code'),
+              'command-error': this.$t('responses.command_error'),
+              'auth-error': this.$t('responses.auth_error'),
+              'history-error': this.$t('responses.history_error'),
+              'monthly-goal-error': this.$t('responses.monthly_goal_error'),
+              'discord-webhook-error': this.$t('responses.discord_webhook_error')
             })[data.error]
             this.snackbar = true
           }

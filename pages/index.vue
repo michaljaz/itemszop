@@ -5,7 +5,7 @@
         <v-container class="pa-0 fill-height justify-space-between">
           <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer" />
           <v-toolbar-title style="cursor: pointer" @click="$router.push('/')">
-            ItemSzop
+            {{ $t('brand') }}
           </v-toolbar-title>
           <v-toolbar-items class="hidden-sm-and-down">
             <v-btn text to="/github">
@@ -26,7 +26,7 @@
                 {{ $t('sign_up') }}
               </v-btn>
               <v-btn v-if="loggedIn" text to="/panel">
-                {{ $t('go_to_panel') }}
+                {{ $t('actions.go_to_panel') }}
               </v-btn>
             </client-only>
           </v-toolbar-items>
@@ -46,10 +46,10 @@
             <v-col md="1" />
             <v-col md="6">
               <h1 class="display-2 font-weight-thick mb-4">
-                {{ $t('main_message') }}
+                {{ $t('homepage.title') }}
               </h1>
               <h4 class="headline">
-                {{ $t('main_message_small') }}
+                {{ $t('homepage.subtitle') }}
                 <client-only>
                   <div class="mt-3">
                     <v-btn v-if="!loggedIn" to="/auth/signin" large color="indigo" class="mt-1">
@@ -59,7 +59,7 @@
                       {{ $t('sign_up') }}
                     </v-btn>
                     <v-btn v-if="loggedIn" to="/panel" large color="indigo">
-                      {{ $t('go_to_panel') }}
+                      {{ $t('actions.go_to_panel') }}
                     </v-btn>
                   </div>
                 </client-only>
@@ -71,31 +71,31 @@
       </v-parallax>
       <v-container>
         <h1 class="display-1 mt-10 mb-7">
-          {{ $t('why_best') }}
+          {{ $t('homepage.why_best') }}
         </h1>
         <v-row>
           <v-col cols="12" md="4" sm="6">
             <v-card height="100%">
               <v-card-title>
-                {{ $t("main_card_title_1") }}
+                {{ $t("homepage.card1_title") }}
               </v-card-title>
               <v-card-text>
-                {{ $t("main_card_content_1") }}
+                {{ $t("homepage.card1_content") }}
               </v-card-text>
             </v-card>
           </v-col>
           <v-col cols="12" md="4" sm="6">
             <v-card height="100%">
               <v-card-title>
-                {{ $t("main_card_title_2") }}
+                {{ $t("homepage.card2_title") }}
               </v-card-title>
               <v-card-text>
-                {{ $t("main_card_content_2") }}
+                {{ $t("homepage.card2_content") }}
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
                 <v-btn color="blue" text to="/github">
-                  {{ $t('main_card_look_2') }}
+                  {{ $t('homepage.card2_button') }}
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -103,25 +103,25 @@
           <v-col cols="12" md="4" sm="6">
             <v-card height="100%">
               <v-card-title>
-                {{ $t('main_card_title_3') }}
+                {{ $t('homepage.card3_title') }}
               </v-card-title>
               <v-card-text>
-                {{ $t('main_card_content_3') }}
+                {{ $t('homepage.card3_content') }}
               </v-card-text>
             </v-card>
           </v-col>
           <v-col cols="12" md="4" sm="6">
             <v-card height="100%">
               <v-card-title>
-                {{ $t('main_card_title_4') }}
+                {{ $t('homepage.card4_title') }}
               </v-card-title>
               <v-card-text>
-                {{ $t('main_card_content_4') }}
+                {{ $t('homepage.card4_content') }}
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
                 <v-btn to="/discord" color="indigo" text>
-                  {{ $t('main_card_look_4') }}
+                  {{ $t('homepage.card4_button') }}
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -129,20 +129,20 @@
           <v-col cols="12" md="4" sm="6">
             <v-card height="100%">
               <v-card-title>
-                {{ $t('main_card_title_5') }}
+                {{ $t('homepage.card5_title') }}
               </v-card-title>
               <v-card-text>
-                {{ $t('main_card_content_5') }}
+                {{ $t('homepage.card5_content') }}
               </v-card-text>
             </v-card>
           </v-col>
           <v-col cols="12" md="4" sm="6">
             <v-card height="100%">
               <v-card-title>
-                {{ $t('main_card_title_6') }}
+                {{ $t('homepage.card6_title') }}
               </v-card-title>
               <v-card-text>
-                {{ $t('main_card_content_6') }}
+                {{ $t('homepage.card6_content') }}
               </v-card-text>
             </v-card>
           </v-col>
@@ -152,7 +152,7 @@
         <v-row align="center" justify="center">
           <v-col class="text-center" cols="12">
             <h1 class="text-h4 font-weight-thick mb-4">
-              {{ $t('used_services') }}
+              {{ $t('homepage.used_services') }}
             </h1>
             <v-container>
               <v-row class="ma-2">
@@ -203,7 +203,7 @@
       </v-parallax>
       <v-container>
         <h1 class="display-1 mt-15 mb-7">
-          {{ $t('supported_operators') }}
+          {{ $t('homepage.supported_operators') }}
         </h1>
         <v-row class="ma-2">
           <v-col>
@@ -222,13 +222,13 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>ItemSzop</v-list-item-title>
+            <v-list-item-title>{{ $t('brand') }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-divider />
         <client-only>
           <v-list-item v-if="loggedIn" link to="/panel">
-            {{ $t('go_to_panel') }}
+            {{ $t('actions.go_to_panel') }}
           </v-list-item>
           <v-list-item v-if="!loggedIn" link to="/auth/signin">
             {{ $t('sign_in') }}

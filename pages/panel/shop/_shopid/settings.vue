@@ -4,32 +4,39 @@
       <v-col cols="12" sm="10" md="8">
         <v-card class="pt-1 pb-4" elevation="10">
           <v-card-title class="headline">
-            {{ $t('settings') }}
+            {{ $t('titles.settings') }}
           </v-card-title>
           <v-card-text>
             <v-form
               ref="form"
               v-model="valid"
             >
-              <v-text-field v-model="name" label="Nazwa sklepu" />
+              <v-text-field
+                v-model="name"
+                :label="$t('fields.shop_name')"
+              />
               Ilość wyświetlanych ostatnich zakupów w sklepie {{ maxservices }}
               <v-slider
                 v-model="maxservices"
                 min="1"
                 max="10"
               />
-              {{ $t('monthly_goal') }} {{ goal }} zł
+              {{ $t('titles.monthly_goal') }} {{ goal }} zł
               <v-slider
                 v-model="goal"
                 min="1"
                 max="500"
               />
-              <v-switch v-model="webhook" class="mt-0" label="Webhook discordowy" />
+              <v-switch
+                v-model="webhook"
+                class="mt-0"
+                :label="$t('fields.discord_webhook')"
+              />
 
               <v-text-field
                 v-if="webhook"
                 v-model="webhookUrl"
-                :label="$t('webhook_url')"
+                :label="$t('fields.webhook_url')"
                 autocomplete="new-password"
                 :rules="rules.webhook"
               />
@@ -41,17 +48,17 @@
           <v-card-actions>
             <v-spacer />
             <v-btn color="green" rounded text @click="save">
-              {{ $t('save') }}
+              {{ $t('actions.save') }}
             </v-btn>
           </v-card-actions>
         </v-card>
         <v-card class="pt-1 mt-4 pb-4" elevation="10">
           <v-card-title class="headline">
-            {{ $t('advanced_settings') }}
+            {{ $t('titles.advanced_settings') }}
           </v-card-title>
           <v-card-text>
             <v-btn color="red" @click="removeDialog">
-              {{ $t('remove_shop') }}
+              {{ $t('actions.remove_shop') }}
             </v-btn>
           </v-card-text>
         </v-card>
@@ -63,7 +70,7 @@
     >
       <v-card>
         <v-card-title class="text-h5">
-          {{ $t('are_you_sure') }}
+          {{ $t('titles.are_you_sure') }}
         </v-card-title>
         <v-card-text>
           <v-alert
@@ -71,21 +78,21 @@
             color="red"
             dark
           >
-            {{ $t('if_not_read') }}
+            {{ $t('misc.if_not_read') }}
           </v-alert>
-          {{ $t('after_shop_delete') }}
+          {{ $t('misc.after_shop_delete') }}
           <br>
           <div class="pt-2">
-            {{ $t('write') }} <strong>{{ $route.params.shopid }}</strong> {{ $t('to_confirm') }}
+            {{ $t('misc.write') }} <strong>{{ $route.params.shopid }}</strong> {{ $t('misc.to_confirm') }}
             <v-text-field v-model="cdel" />
           </div>
         </v-card-text>
         <v-card-actions>
           <v-btn color="green" text rounded @click="dialog=false">
-            {{ $t('cancel') }}
+            {{ $t('actions.cancel') }}
           </v-btn>
           <v-btn color="red" :disabled="cdel===$route.params.shopid ? false : true" @click="remove()">
-            {{ $t('remove_shop') }}
+            {{ $t('actions.remove_shop') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -113,15 +120,15 @@ export default {
       dialog: false,
       rules: {
         webhook: [
-          value => !!value || this.$t('field_not_empty'),
-          v => /^https:\/\/discord(?:app)?\.com\/api\/webhooks\//.test(v) || this.$t('wrong_format')
+          value => !!value || this.$t('formats.field_not_empty'),
+          v => /^https:\/\/discord(?:app)?\.com\/api\/webhooks\//.test(v) || this.$t('formats.wrong_format')
         ]
       }
     }
   },
   head () {
     return {
-      title: this.$t('settings')
+      title: this.$t('titles.settings')
     }
   },
   methods: {
@@ -164,7 +171,7 @@ export default {
     },
     testWebhook () {
       this.$axios.post(this.webhookUrl, {
-        content: this.$t('test_message')
+        content: this.$t('misc.test_message')
       })
     }
   }

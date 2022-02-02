@@ -6,7 +6,7 @@
     >
       <v-card elevation="10" outlined>
         <v-card-title>
-          <span class="text-h5">{{ $t('server_config') }}</span>
+          <span class="text-h5">{{ $t('titles.server_config') }}</span>
         </v-card-title>
         <v-card-text>
           <v-form
@@ -15,19 +15,19 @@
           >
             <v-text-field
               v-model="serverName"
-              :label="$t('server_name')"
+              :label="$t('fields.server_name')"
               :rules="rules.name"
               autocomplete="new-password"
             />
             <v-text-field
               v-model="serverIp"
-              :label="$t('server_ip')"
+              :label="$t('fields.server_ip')"
               :rules="rules.ip"
               autocomplete="new-password"
             />
             <v-text-field
               v-model="serverPort"
-              :label="$t('rcon_port')"
+              :label="$t('fields.rcon_port')"
               :rules="rules.port"
               autocomplete="new-password"
               type="number"
@@ -35,7 +35,7 @@
             <v-text-field
               v-model="serverPassword"
               autocomplete="new-password"
-              :label="$t('rcon_password')"
+              :label="$t('fields.rcon_password')"
               :rules="rules.password"
               :type="showPassword ? 'text' : 'password'"
               :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -51,7 +51,7 @@
             rounded
             @click="dialog = false"
           >
-            {{ $t('cancel') }}
+            {{ $t('actions.cancel') }}
           </v-btn>
           <v-btn
             color="green darken-1"
@@ -59,7 +59,7 @@
             rounded
             @click="saveServer"
           >
-            {{ $t('save') }}
+            {{ $t('actions.save') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -70,12 +70,12 @@
     >
       <v-card elevation="10" outlined>
         <v-card-title>
-          <span class="text-h5">{{ $t('rcon_console') }}</span>
+          <span class="text-h5">{{ $t('titles.rcon_console') }}</span>
         </v-card-title>
         <v-card-text>
-          <v-text-field v-model="rconCommand" :label="$t('command')" autocomplete="new-password" />
+          <v-text-field v-model="rconCommand" :label="$t('fields.command')" autocomplete="new-password" />
           <v-btn color="blue" @click="runRcon">
-            {{ $t('send_to_server') }}
+            {{ $t('actions.send_to_server') }}
           </v-btn>
           <!-- eslint-disable vue/no-v-html -->
           <div v-html="rconResponse" />
@@ -85,7 +85,7 @@
       </v-card>
     </v-dialog>
     <strong>
-      {{ $t('servers') }}
+      {{ $t('titles.servers') }}
     </strong>
     <v-row class="mt-3">
       <v-col
@@ -118,13 +118,13 @@
           <v-card-actions>
             <v-spacer />
             <v-btn text rounded color="indigo" @click="consoleDialog(server)">
-              {{ $t('rcon') }}
+              {{ $t('actions.rcon') }}
             </v-btn>
             <v-btn text rounded color="blue" @click="editDialog(server)">
-              {{ $t('edit') }}
+              {{ $t('actions.edit') }}
             </v-btn>
             <v-btn text rounded color="red" @click="removeServer(server)">
-              {{ $t('remove') }}
+              {{ $t('actions.remove') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -138,7 +138,7 @@
       class="mt-5"
       @click="newServer"
     >
-      {{ $t('new_server') }}
+      {{ $t('actions.new_server') }}
     </v-btn>
   </div>
 </template>
@@ -166,25 +166,25 @@ export default {
       dialog: false,
       rules: {
         port: [
-          value => !!value || this.$t('field_not_empty')
+          value => !!value || this.$t('formats.field_not_empty')
         ],
         name: [
-          value => !!value || this.$t('field_not_empty')
+          value => !!value || this.$t('formats.field_not_empty')
         ],
         ip: [
-          value => !!value || this.$t('field_not_empty'),
-          v => /^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]))*$/.test(v) || this.$t('wrong_format')
+          value => !!value || this.$t('formats.field_not_empty'),
+          v => /^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]))*$/.test(v) || this.$t('formats.wrong_format')
         ],
         password: [
-          value => !!value || this.$t('field_not_empty'),
-          value => (value && value.length >= 4) || this.$t('min_6_chars')
+          value => !!value || this.$t('formats.field_not_empty'),
+          value => (value && value.length >= 4) || this.$t('formats.min_6_chars')
         ]
       }
     }
   },
   head () {
     return {
-      title: this.$t('servers')
+      title: this.$t('titles.servers')
     }
   },
   computed: {
@@ -256,7 +256,7 @@ export default {
       this.sendRconCommand(this.serverIp, this.serverPort, this.serverPassword, this.rconCommand).then((response) => {
         const { data } = response
         if (data.error === 'auth') {
-          this.rconResponse = this.$t('unable_to_connect')
+          this.rconResponse = this.$t('responses.unable_to_connect')
         } else {
           this.rconResponse = require('minecraft-text-js').default.toHTML(data.response).replaceAll('\n', '<br>')
         }
