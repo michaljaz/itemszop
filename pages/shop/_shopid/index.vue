@@ -41,12 +41,12 @@ export default {
   },
   mounted () {
     this.$emit('breadcrumb', [{
-      text: this.$t('shop'),
+      text: this.$t('titles.shop'),
       disabled: false,
       href: this.$route.path
     },
     {
-      text: this.$t('servers'),
+      text: this.$t('titles.servers'),
       disabled: true
     }])
   }

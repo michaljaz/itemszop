@@ -4,7 +4,7 @@
       <v-col cols="12" sm="10" md="8">
         <v-card class="pt-1 pb-4" elevation="10">
           <v-card-title class="headline">
-            {{ $t('payments_config') }}
+            {{ $t('titles.payments_config') }}
           </v-card-title>
           <v-card-text>
             <v-form
@@ -14,11 +14,11 @@
               <v-select
                 v-model="select"
                 :items="items"
-                :label="$t('payment_operator')"
+                :label="$t('fields.payment_operator')"
               />
               <v-text-field
                 v-model="paymentsUserId"
-                :label="$t('user_id')"
+                :label="$t('fields.user_id')"
                 autocomplete="new-password"
                 :rules="rules.userId"
                 type="number"
@@ -31,13 +31,13 @@
                   <v-text-field
                     v-model="paymentsPrzelewId"
                     type="number"
-                    :label="$t('id_number')"
+                    :label="$t('fields.id_number')"
                     autocomplete="new-password"
                     :rules="rules.przelewId"
                   />
                   <v-text-field
                     v-model="paymentsHash"
-                    :label="$t('hash')"
+                    :label="$t('fields.hash')"
                     autocomplete="new-password"
                     :rules="rules.hash"
                   />
@@ -48,14 +48,14 @@
                   </h1>
                   <v-text-field
                     v-model="paymentsShopId"
-                    :label="$t('id_number')"
+                    :label="$t('fields.id_number')"
                     autocomplete="new-password"
                     :rules="rules.shopId"
                     type="number"
                   />
                   <v-text-field
                     v-model="paymentsSMS"
-                    :label="$t('sms_content')"
+                    :label="$t('fields.sms_content')"
                     autocomplete="new-password"
                     :rules="rules.SMS"
                   />
@@ -66,7 +66,7 @@
           <v-card-actions>
             <v-spacer />
             <v-btn color="green" rounded text @click="save">
-              {{ $t('save') }}
+              {{ $t('actions.save') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -95,28 +95,28 @@ export default {
       paymentsSMS: this.shop.payments.paymentsSMS,
       rules: {
         userId: [
-          value => !!value || this.$t('field_not_empty')
+          value => !!value || this.$t('formats.field_not_empty')
         ],
         przelewId: [
-          value => !!value || this.$t('field_not_empty')
+          value => !!value || this.$t('formats.field_not_empty')
         ],
         hash: [
-          value => !!value || this.$t('field_not_empty'),
-          v => /^[A-Za-z0-9$*@]+$/.test(v) || this.$t('hash_format')
+          value => !!value || this.$t('formats.field_not_empty'),
+          v => /^[A-Za-z0-9$*@]+$/.test(v) || this.$t('formats.hash_format')
         ],
         shopId: [
-          value => !!value || this.$t('field_not_empty')
+          value => !!value || this.$t('formats.field_not_empty')
         ],
         SMS: [
-          value => !!value || this.$t('field_not_empty'),
-          v => /^[A-Z.]+$/.test(v) || this.$t('sms_format')
+          value => !!value || this.$t('formats.field_not_empty'),
+          v => /^[A-Z.]+$/.test(v) || this.$t('formats.sms_format')
         ]
       }
     }
   },
   head () {
     return {
-      title: this.$t('payments')
+      title: this.$t('titles.payments')
     }
   },
   methods: {

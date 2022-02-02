@@ -12,12 +12,12 @@
           <v-text-field
             v-model="email"
             :rules="rules.email"
-            :label="$t('email')"
+            :label="$t('fields.email')"
           />
           <v-text-field
             v-model="password"
             :rules="rules.password"
-            :label="$t('password')"
+            :label="$t('fields.password')"
             :type="showPassword ? 'text' : 'password'"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             @click:append="showPassword = !showPassword"
@@ -28,13 +28,13 @@
             small
             @click="reset_dialog=true"
           >
-            {{ $t('password_reset') }}
+            {{ $t('actions.password_reset') }}
           </v-btn>
         </v-form>
         <v-snackbar
           v-model="snackbar"
         >
-          {{ $t('email_sent') }}
+          {{ $t('misc.email_sent') }}
           <template #action="{ attrs }">
             <v-btn
               color="pink"
@@ -42,7 +42,7 @@
               v-bind="attrs"
               @click="snackbar = false"
             >
-              {{ $t('cancel') }}
+              {{ $t('actions.cancel') }}
             </v-btn>
           </template>
         </v-snackbar>
@@ -52,7 +52,7 @@
         >
           <v-card>
             <v-card-title class="text-h5">
-              {{ $t('password_reset') }}
+              {{ $t('actions.password_reset') }}
             </v-card-title>
             <v-card-text>
               <v-form
@@ -62,7 +62,7 @@
                 <v-text-field
                   v-model="reset_email"
                   :rules="rules.email"
-                  :label="$t('email')"
+                  :label="$t('fields.email')"
                 />
               </v-form>
             </v-card-text>
@@ -73,13 +73,13 @@
                 text
                 @click="reset_dialog=false"
               >
-                {{ $t('cancel') }}
+                {{ $t('actions.cancel') }}
               </v-btn>
               <v-btn
                 color="green darken-1"
                 @click="resetPassword"
               >
-                {{ $t('reset') }}
+                {{ $t('actions.reset') }}
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -90,7 +90,7 @@
         >
           <v-card>
             <v-card-title class="text-h5">
-              {{ $t('error') }}
+              {{ $t('titles.error') }}
             </v-card-title>
             <v-card-text>
               {{ dialogContent }}
@@ -102,7 +102,7 @@
                 text
                 @click="dialog=false"
               >
-                {{ $t('cancel') }}
+                {{ $t('actions.cancel') }}
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -115,7 +115,7 @@
           large
           @click="submit"
         >
-          {{ $t('next') }}
+          {{ $t('actions.next') }}
         </v-btn>
         <v-btn
           text
@@ -149,11 +149,11 @@ export default {
       showPassword: false,
       rules: {
         email: [
-          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || this.$t('wrong_format')
+          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || this.$t('formats.wrong_format')
         ],
         password: [
-          value => !!value || this.$t('write_password'),
-          value => (value && value.length >= 6) || this.$t('min_6_chars')
+          value => !!value || this.$t('formats.write_password'),
+          value => (value && value.length >= 6) || this.$t('formats.min_6_chars')
         ]
       }
     }

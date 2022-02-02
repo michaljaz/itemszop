@@ -12,26 +12,26 @@
           <v-text-field
             v-model="email"
             :rules="rules.email"
-            :label="`${$t('email')}*`"
+            :label="`${$t('fields.email')}*`"
           />
           <v-text-field
             v-model="displayName"
             :rules="rules.displayName"
-            :label="`${$t('display_name')}*`"
+            :label="`${$t('fields.display_name')}*`"
           />
           <v-text-field
             v-model="password"
-            :label="`${$t('password')}*`"
+            :label="`${$t('fields.password')}*`"
             type="password"
             :rules="rules.password"
           />
           <v-text-field
             v-model="confirmPassword"
-            :label="`${$t('repeat_password')}*`"
+            :label="`${$t('fields.repeat_password')}*`"
             type="password"
             :rules="rules.confirmPassword"
           />
-          <small>*{{ $t('required_fields') }}</small>
+          <small>*{{ $t('misc.required_fields') }}</small>
         </v-form>
         <v-dialog
           v-model="dialog"
@@ -51,7 +51,7 @@
                 text
                 @click="dialog=false"
               >
-                {{ $t('cancel') }}
+                {{ $t('actions.cancel') }}
               </v-btn>
               <v-btn
                 v-if="nextButton"
@@ -59,7 +59,7 @@
                 text
                 @click="$router.push('/auth/signin')"
               >
-                {{ $t('go_to_panel') }}
+                {{ $t('actions.go_to_panel') }}
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -72,7 +72,7 @@
           large
           @click="submit"
         >
-          {{ $t('cancel') }}
+          {{ $t('actions.cancel') }}
         </v-btn>
         <v-btn
           text
@@ -105,19 +105,19 @@ export default {
       confirmPassword: '',
       rules: {
         email: [
-          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || this.$t('wrong_format')
+          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || this.$t('formats.wrong_format')
         ],
         displayName: [
-          value => !!value || this.$t('write_display_name')
+          value => !!value || this.$t('formats.write_display_name')
         ],
         password: [
-          value => !!value || this.$t('write_password'),
-          value => (value && value.length >= 6) || this.$t('min_6_chars')
+          value => !!value || this.$t('formats.write_password'),
+          value => (value && value.length >= 6) || this.$t('formats.min_6_chars')
         ],
         confirmPassword: [
-          value => !!value || this.$t('write_password'),
+          value => !!value || this.$t('formats.write_password'),
           value =>
-            value === this.password || this.$t('passwords_not_match')
+            value === this.password || this.$t('formats.passwords_not_match')
         ]
       }
     }
@@ -134,14 +134,14 @@ export default {
   },
   methods: {
     errorDialog (e) {
-      this.dialogTitle = this.$t('error')
+      this.dialogTitle = this.$t('titles.error')
       this.dialogContent = this.errorCodes[e.code] || e.message
       this.nextButton = false
       this.dialog = true
     },
     successDialog () {
-      this.dialogTitle = this.$t('email_sent')
-      this.dialogContent = this.$t('check_mailbox')
+      this.dialogTitle = this.$t('misc.email_sent')
+      this.dialogContent = this.$t('misc.check_mailbox')
       this.nextButton = true
       this.dialog = true
     },

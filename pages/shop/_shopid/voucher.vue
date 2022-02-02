@@ -11,20 +11,20 @@
             <v-text-field
               v-model="code"
               class="mt-5"
-              :label="$t('code')"
+              :label="$t('fields.code')"
               prepend-icon="mdi-ticket-percent"
               :rules="rules.code"
             />
             <v-text-field
               v-model="nick"
               class="mt-5"
-              :label="$t('nick')"
+              :label="$t('fields.nick')"
               prepend-icon="mdi-account"
               :rules="rules.nick"
             />
           </v-form>
           <v-btn class="blue darken-4" large @click="check">
-            {{ $t('check_voucher') }}
+            {{ $t('actions.check_voucher') }}
           </v-btn>
         </center>
       </v-col>
@@ -40,7 +40,7 @@
           v-bind="attrs"
           @click="snackbar = false"
         >
-          {{ $t('cancel') }}
+          {{ $t('actions.cancel') }}
         </v-btn>
       </template>
     </v-snackbar>
@@ -64,24 +64,24 @@ export default {
       nick: '',
       rules: {
         code: [
-          value => !!value || this.$t('field_not_empty'),
-          v => /^[a-z0-9]{6,}$/.test(v) || this.$t('wrong_format_voucher')
+          value => !!value || this.$t('formats.field_not_empty'),
+          v => /^[a-z0-9]{6,}$/.test(v) || this.$t('formats.wrong_format_voucher')
         ],
         nick: [
-          value => !!value || this.$t('field_not_empty'),
-          v => /^[a-zA-Z0-9_]{2,16}$/.test(v) || this.$t('wrong_format_nick')
+          value => !!value || this.$t('formats.field_not_empty'),
+          v => /^[a-zA-Z0-9_]{2,16}$/.test(v) || this.$t('formats.wrong_format_nick')
         ]
       }
     }
   },
   mounted () {
     this.$emit('breadcrumb', [{
-      text: this.$t('shop'),
+      text: this.$t('titles.shop'),
       disabled: false,
       href: `/shop/${this.$route.params.shopid}`
     },
     {
-      text: this.$t('check_voucher'),
+      text: this.$t('titles.redeem_voucher'),
       disabled: true
     }])
   },
@@ -97,17 +97,7 @@ export default {
           if (data.success) {
             this.snackbarMessage = 'Pomyślnie użyto vouchera'
           } else {
-            this.snackbarMessage = ({
-              'wrong-format-voucher': this.$t('wrong_format_voucher'),
-              'wrong-format-nick': this.$t('wrong_format_nick'),
-              'wrong-format-shopid': this.$t('wrong_format_shopid'),
-              'voucher-not-exist': this.$t('voucher_not_exist'),
-              'voucher-expired': this.$t('voucher_expired'),
-              'service-not-exist': this.$t('service_not_exist'),
-              'server-not-exist': this.$t('server_not_exist'),
-              'command-error': this.$t('command_error'),
-              'auth-error': this.$t('auth_error')
-            })[data.error]
+            this.snackbarMessage = this.$t(`responses.${data.error}`)
           }
           this.snackbar = true
         })

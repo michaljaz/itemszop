@@ -41,7 +41,7 @@ export default {
   },
   head () {
     return {
-      title: this.$t('panel')
+      title: this.$t('titles.panel')
     }
   }
 }

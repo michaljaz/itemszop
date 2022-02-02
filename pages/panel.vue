@@ -8,7 +8,7 @@
     >
       <v-container class="pa-0 fill-height justify-space-between">
         <v-toolbar-title style="cursor: pointer" class="hidden-sm-and-down mr-3" @click="$router.push('/panel')">
-          ItemSzop
+          {{ $t('brand') }}
         </v-toolbar-title>
 
         <v-menu
@@ -27,7 +27,7 @@
                 </v-icon>
                 <span class="hidden-sm-and-down">
                   <span v-if="!$route.params.shopid">
-                    {{ $t('shops') }}
+                    {{ $t('titles.shops') }}
                   </span>
                   <span v-else>
                     {{ $route.params.shopid }}
@@ -52,17 +52,17 @@
               link
               to="/panel/new_shop"
             >
-              <v-list-item-title>{{ $t('new_shop') }}</v-list-item-title>
+              <v-list-item-title>{{ $t('actions.new_shop') }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
         <v-toolbar-items class="hidden-sm-and-down">
           <v-btn text to="/panel/new_shop" color="blue">
-            {{ $t('new_shop') }}
+            {{ $t('actions.new_shop') }}
           </v-btn>
         </v-toolbar-items>
         <v-toolbar-title style="cursor: pointer" class="hidden-md-and-up" @click="$router.push('/panel')">
-          ItemSzop
+          {{ $t('brand') }}
         </v-toolbar-title>
         <v-spacer class="hidden-sm-and-down" />
         <v-menu
@@ -84,7 +84,7 @@
                     {{ $store.state.user.displayName }}
                   </span>
                   <span v-else>
-                    {{ $t('account') }}
+                    {{ $t('titles.account') }}
                   </span>
                 </span>
                 <v-icon>mdi-menu-down</v-icon>
@@ -94,12 +94,12 @@
 
           <v-list>
             <v-list-item to="/panel/settings">
-              <v-list-item-title>{{ $t('settings') }}</v-list-item-title>
+              <v-list-item-title>{{ $t('titles.settings') }}</v-list-item-title>
             </v-list-item>
             <v-list-item
               @click="signOut"
             >
-              <v-list-item-title>{{ $t('logout') }}</v-list-item-title>
+              <v-list-item-title>{{ $t('actions.logout') }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -111,22 +111,22 @@
             background-color="rgb(0, 0, 0, 0)"
           >
             <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/`">
-              {{ $t('dashboard') }}
+              {{ $t('titles.dashboard') }}
             </v-tab>
             <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/servers`">
-              {{ $t('servers') }}
+              {{ $t('titles.servers') }}
             </v-tab>
             <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/services`">
-              {{ $t('services') }}
+              {{ $t('titles.services') }}
             </v-tab>
             <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/payments`">
-              {{ $t('payments') }}
+              {{ $t('titles.payments') }}
             </v-tab>
             <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/vouchers`">
-              {{ $t('vouchers') }}
+              {{ $t('titles.vouchers') }}
             </v-tab>
             <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/settings`">
-              {{ $t('settings') }}
+              {{ $t('titles.settings') }}
             </v-tab>
           </v-tabs>
         </v-container>

@@ -17,13 +17,13 @@ class SmsHandler extends Handler {
   }
   checkRegex () {
     if(!/^[A-Za-z0-9]{8}$/.test(this.code)){
-      this.error('wrong-format-code')
+      this.error('wrong_format_code')
     }else if(!/^[a-zA-Z0-9_]{2,16}$/.test(this.nick)){
-      this.error('wrong-format-nick')
+      this.error('wrong_format_nick')
     }else if(!/^[A-Za-z0-9_]{4,}$/.test(this.shopid)){
-      this.error('wrong-format-shopid')
+      this.error('wrong_format_shopid')
     }else if(!/^[A-Za-z0-9_]{3,}$/.test(this.serviceid)){
-      this.error('wrong-format-serviceid')
+      this.error('wrong_format_serviceid')
     }else{
       this.checkPayments()
     }
@@ -34,7 +34,7 @@ class SmsHandler extends Handler {
         this.payments = snapshot.val()
         this.checkService()
       } else {
-        this.error('payments-not-exist')
+        this.error('payments_not_exist')
       }
     })
   }
@@ -57,7 +57,7 @@ class SmsHandler extends Handler {
         })[this.service.smsType]
         this.checkServer()
       } else {
-        this.error('service-not-exist')
+        this.error('service_not_exist')
       }
     })
   }
@@ -67,7 +67,7 @@ class SmsHandler extends Handler {
         this.server = snapshot.val()
         this.checkCode()
       } else {
-        this.error('server-not-exist')
+        this.error('server_not_exist')
       }
     })
   }
@@ -76,7 +76,7 @@ class SmsHandler extends Handler {
       if (data.split(',')[0] === '1') {
         this.checkRcon()
       } else {
-        this.error('wrong-code')
+        this.error('wrong_code')
       }
     })
   }
@@ -99,10 +99,10 @@ class SmsHandler extends Handler {
             }
           })
           .catch((e) => {
-            this.error('command-error')
+            this.error('command_error')
           })
       }).catch((e) => {
-        this.error('auth-error')
+        this.error('auth_error')
       })
     }
   }
@@ -116,7 +116,7 @@ class SmsHandler extends Handler {
     }).then(() => {
       this.addMothlyGoal()
     }).catch(() => {
-      this.error('history-error')
+      this.error('history_error')
     })
   }
   addMothlyGoal () {
@@ -138,13 +138,13 @@ class SmsHandler extends Handler {
         this.db.child(`shops/${this.shopid}/collected`).set(parseFloat(snapshot.val()) + smsCost).then(() => {
           this.sendDiscordMessage()
         }).catch(() => {
-          this.error('monthly-goal-error')
+          this.error('monthly_goal_error')
         })
       } else {
         this.db.child(`shops/${this.shopid}/collected`).set(smsCost).then(() => {
           this.sendDiscordMessage()
         }).catch(() => {
-          this.error('monthly-goal-error')
+          this.error('monthly_goal_error')
         })
       }
     })
@@ -158,7 +158,7 @@ class SmsHandler extends Handler {
         }).then(() => {
           this.success()
         }).catch(() => {
-          this.error('discord-webhook-error')
+          this.error('discord_webhook_error')
         })
       } else {
         this.success()
