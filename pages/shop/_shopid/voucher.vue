@@ -97,17 +97,7 @@ export default {
           if (data.success) {
             this.snackbarMessage = 'Pomyślnie użyto vouchera'
           } else {
-            this.snackbarMessage = ({
-              'wrong-format-voucher': this.$t('responses.wrong_format_voucher'),
-              'wrong-format-nick': this.$t('responses.wrong_format_nick'),
-              'wrong-format-shopid': this.$t('responses.wrong_format_shopid'),
-              'voucher-not-exist': this.$t('responses.voucher_not_exist'),
-              'voucher-expired': this.$t('responses.voucher_expired'),
-              'service-not-exist': this.$t('responses.service_not_exist'),
-              'server-not-exist': this.$t('responses.server_not_exist'),
-              'command-error': this.$t('responses.command_error'),
-              'auth-error': this.$t('responses.auth_error')
-            })[data.error]
+            this.snackbarMessage = this.$t(`responses.${data.error}`)
           }
           this.snackbar = true
         })

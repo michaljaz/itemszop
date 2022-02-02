@@ -283,21 +283,7 @@ export default {
           if (data.success) {
             this.$router.push(`/shop/${shopid}/payment_success`)
           } else {
-            this.snackbarMessage = ({
-              'wrong-format-code': this.$t('responses.wrong_format_code'),
-              'wrong-format-nick': this.$t('responses.wrong_format_nick'),
-              'wrong-format-shopid': this.$t('responses.wrong_format_shopid'),
-              'wrong-format-serviceid': this.$t('responses.wrong_format_serviceid'),
-              'payments-not-exist': this.$t('responses.payments_not_exist'),
-              'service-not-exist': this.$t('responses.service_not_exist'),
-              'server-not-exist': this.$t('responses.server_not_exist'),
-              'wrong-code': this.$t('responses.wrong_code'),
-              'command-error': this.$t('responses.command_error'),
-              'auth-error': this.$t('responses.auth_error'),
-              'history-error': this.$t('responses.history_error'),
-              'monthly-goal-error': this.$t('responses.monthly_goal_error'),
-              'discord-webhook-error': this.$t('responses.discord_webhook_error')
-            })[data.error]
+            this.snackbarMessage = this.$t(`responses.${data.error}`)
             this.snackbar = true
           }
         })

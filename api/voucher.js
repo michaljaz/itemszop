@@ -16,11 +16,11 @@ class VoucherHandler extends Handler {
   }
   checkRegex () {
     if(!/^[a-z0-9]{6,}$/.test(this.code)){
-      this.error('wrong-format-voucher')
+      this.error('wrong_format_voucher')
     }else if(!/^[a-zA-Z0-9_]{2,16}$/.test(this.nick)){
-      this.error('wrong-format-nick')
+      this.error('wrong_format_nick')
     }else if(!/^[A-Za-z0-9_]{4,}$/.test(this.shopid)){
-      this.error('wrong-format-shopid')
+      this.error('wrong_format_shopid')
     }else{
       this.checkVoucher()
     }
@@ -34,10 +34,10 @@ class VoucherHandler extends Handler {
         if (((this.voucher.end && this.voucher.start <= this.getDate()) || (!this.voucher.end && this.voucher.start === this.getDate())) && ((this.voucher.end && this.voucher.end >= this.getDate()) || !this.voucher.end)) {
           this.checkService()
         } else {
-          this.error('voucher-expired')
+          this.error('voucher_expired')
         }
       } else {
-        this.error('voucher-not-exist')
+        this.error('voucher_not_exist')
       }
     })
   }
@@ -48,7 +48,7 @@ class VoucherHandler extends Handler {
         this.service = snapshot.val()
         this.checkServer()
       } else {
-        this.error('service-not-exist')
+        this.error('service_not_exist')
       }
     })
   }
@@ -59,7 +59,7 @@ class VoucherHandler extends Handler {
         this.server = snapshot.val()
         this.checkRcon()
       } else {
-        this.error('server-not-exist')
+        this.error('server_not_exist')
       }
     })
   }
@@ -82,10 +82,10 @@ class VoucherHandler extends Handler {
             }
           })
           .catch((e) => {
-            this.error('command-error')
+            this.error('command_error')
           })
       }).catch((e) => {
-        this.error('auth-error')
+        this.error('auth_error')
       })
     }
   }
