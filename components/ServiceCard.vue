@@ -10,30 +10,26 @@
         </template>
       </center>
       <v-card-text>
-        <v-row>
-          <v-col cols="12" xs="6" sm="6" md="6" class="pb-0">
-            {{ $t('sms') }}
-          </v-col>
-          <v-col cols="12" xs="6" sm="6" md="6" class="text-right pb-0">
-            <template v-if="service.sms">
-              {{ smsCost[service.smsType][1] }} zł
-            </template>
-            <template v-else>
-              X
-            </template>
-          </v-col>
-          <v-col cols="12" xs="6" sm="6" md="6" class="pt-1">
-            {{ $t('transfer') }}
-          </v-col>
-          <v-col cols="12" xs="6" sm="6" md="6" class="text-right pt-1">
-            <template v-if="service.przelew">
-              {{ service.przelewCost }} zł
-            </template>
-            <template v-else>
-              X
-            </template>
-          </v-col>
-        </v-row>
+        <div class="d-flex justify-center mb-1">
+          {{ $t('sms') }}
+          <v-spacer />
+          <span v-if="service.sms">
+            {{ smsCost[service.smsType][1] }} zł
+          </span>
+          <span v-else>
+            X
+          </span>
+        </div>
+        <div class="d-flex justify-center mb-1">
+          {{ $t('transfer') }}
+          <v-spacer />
+          <template v-if="service.przelew">
+            {{ service.przelewCost }} zł
+          </template>
+          <template v-else>
+            X
+          </template>
+        </div>
       </v-card-text>
       <v-divider class="mx-4" />
       <v-card-title class="justify-center">
