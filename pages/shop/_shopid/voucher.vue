@@ -3,7 +3,7 @@
     <v-row justify="center" align="center">
       <v-col cols="12" sm="8" md="6">
         <center class="mt-5">
-          <h1>{{ $t('check_voucher') }}</h1>
+          <h1>{{ $t('titles.redeem_voucher') }}</h1>
           <v-form
             ref="form"
             v-model="valid"
