@@ -3,10 +3,10 @@
     <v-container>
       <center>
         <div class="display-2 mt-7">
-          {{ $t('payment_success') }}!
+          {{ $t('titles.payment_success') }}!
         </div>
         <v-btn :to="`/shop/${$route.params.shopid}`" color="blue" class="mt-10" text>
-          {{ $t('back_to_servers_list') }}
+          {{ $t('actions.back_to_servers_list') }}
         </v-btn>
       </center>
     </v-container>

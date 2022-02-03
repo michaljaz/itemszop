@@ -110,7 +110,8 @@ class PrzelewHandler extends Handler {
       nick: this.nick,
       service: this.service.name,
       serviceid: this.serviceid,
-      date: Date.now()
+      date: Date.now(),
+      type: 'przelew'
     }).then(() => {
       this.addMothlyGoal()
     }).catch(() => {
