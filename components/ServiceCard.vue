@@ -130,10 +130,25 @@
 
         <v-card-text>
           <center>
-            Ta usługa kosztuje <b>{{ smsCost[service.smsType][0] }}zł netto ({{ smsCost[service.smsType][1] }}zł z vat)</b>.
-            <br>
-            Aby zakupić tą usługę wyślij SMS o treści <b>{{ payments.paymentsSMS }}</b> pod numer <b>{{ smsCost[service.smsType][2] }}</b>.
-            <br>W odpowiedzi otrzymasz SMS z kodem, który wpisz poniżej.
+            <i18n
+              path="misc.sms_send_instruction"
+            >
+              <template #netto>
+                {{ smsCost[service.smsType][0] }}
+              </template>
+              <template #brutto>
+                {{ smsCost[service.smsType][1] }}
+              </template>
+              <template #sms>
+                <b>{{ payments.paymentsSMS }}</b>
+              </template>
+              <template #number>
+                <b>{{ smsCost[service.smsType][2] }}</b>
+              </template>
+              <template #br>
+              </br>
+              </template>
+            </i18n>
           </center>
           <v-form
             ref="form2"
@@ -141,11 +156,6 @@
           >
             <v-text-field v-model="code" label="Wpisz kod z sms'a" :rules="rules.code" />
           </v-form>
-          <center>
-            Płatności zapewnia firma <a href="http://microsms.pl/">MicroSMS</a>. <br>
-            Korzystanie z serwisu jest jednozanczne z akceptacją <a href="http://microsms.pl/partner/documents/">regulaminów</a>.<br>
-            Jeśli nie dostałeś kodu zwrotnego w ciągu 30 minut skorzystaj z <a href="http://microsms.pl/customer/complaint/">formularza reklamacyjnego</a><br><br>
-          </center>
         </v-card-text>
         <v-divider />
         <v-card-actions>

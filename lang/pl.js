@@ -143,7 +143,9 @@ export default {
     server_maintenance: 'Utrzymanie serwera',
     email_not_verified: 'Email nie został jeszcze potwierdzony',
     error: 'Błąd',
-    redeem_voucher: 'Zrealizuj voucher'
+    redeem_voucher: 'Zrealizuj voucher',
+    most_common_services: 'Najczęściej kupowane produkty',
+    payment_methods: 'Metody płatności'
   },
 
   responses: {
@@ -167,14 +169,14 @@ export default {
     check_mailbox: 'Sprawdź swoją skrzynkę mailową, aby zalogować się na swoje konto',
     if_not_read: 'Jeśli tego nie przeczytasz staną się nieoczekiwane złe rzeczy!',
     after_shop_delete: 'Tej czynności nie można cofnąć. Spowoduje to trwałe usunięcie sklepu serwera oraz wszystkich rzeczy w tym sklepie takich jak Serwerów, Usług, Voucherów, Płatności.',
-    write: 'Wpisz',
-    to_confirm: 'aby potwierdzić swoją operację:',
-    this_service_cost: 'Ta usługa kosztuje {netto}zł netto ({brutto}zł z vat).',
+    type_shopid_to_confirm: 'Wpisz {shopid} aby potwierdzić swoją operację:',
+    sms_send_instruction: 'Ta usługa kosztuje {netto}zł netto ( {brutto}zł z VAT ). {br} Aby zakupić tą usługę wyślij SMS o treści {sms} pod numer {number}. {br} W odpowiedzi otrzymasz SMS z kodem, który wpisz poniżej.',
     email_sent: 'Email został wysłany',
     shop_url: 'Twój sklep jest dostępny pod adresem',
     without_server: 'Bez serwera',
     no_payment_enabled: 'Nie włączono żadnej płatności!',
     default_description: '<h1>Opis super usługi!</h1><p>Tutaj możesz zamieścić opis usługi używając super tagów!</p>',
-    test_message: 'Testowa wiadomość'
+    test_message: 'Testowa wiadomość',
+    other: 'Inne'
   }
 }

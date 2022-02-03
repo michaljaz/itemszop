@@ -83,7 +83,13 @@
           {{ $t('misc.after_shop_delete') }}
           <br>
           <div class="pt-2">
-            {{ $t('misc.write') }} <strong>{{ $route.params.shopid }}</strong> {{ $t('misc.to_confirm') }}
+            <i18n
+              path="misc.type_shopid_to_confirm"
+            >
+              <template #shopid>
+                <strong>{{ $route.params.shopid }}</strong>
+              </template>
+            </i18n>
             <v-text-field v-model="cdel" />
           </div>
         </v-card-text>
