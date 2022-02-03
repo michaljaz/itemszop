@@ -72,7 +72,6 @@ export default {
     getData1 () {
       let countSms = 0
       let countPrzelew = 0
-      let countOthers = 0
       const { history } = this.shop
       for (const i in history) {
         const { type } = history[i]
@@ -80,19 +79,16 @@ export default {
           countSms++
         } else if (type === 'przelew') {
           countPrzelew++
-        } else {
-          countOthers++
         }
       }
       return {
         labels: [
           this.$t('sms'),
-          this.$t('transfer'),
-          this.$t('misc.other')
+          this.$t('transfer')
         ],
         datasets: [{
           label: 'My First Dataset',
-          data: [countSms, countPrzelew, countOthers],
+          data: [countSms, countPrzelew],
           backgroundColor: [
             '#52b69a',
             '#76c893',
@@ -106,7 +102,6 @@ export default {
       }
     },
     getData2 () {
-      let other = 0
       const countServices = {}
       const { history } = this.shop
       for (const i in history) {
@@ -118,17 +113,14 @@ export default {
           } else {
             countServices[serviceid] = 1
           }
-        } else {
-          other++
         }
       }
-      console.log(countServices, other)
 
       return {
-        labels: [...Object.keys(countServices), this.$t('misc.other')],
+        labels: Object.keys(countServices),
         datasets: [{
           label: 'My First Dataset',
-          data: [...Object.values(countServices), other],
+          data: Object.values(countServices),
           backgroundColor: [
             '#005f73',
             '#0a9396',

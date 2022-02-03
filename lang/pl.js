@@ -176,7 +176,6 @@ export default {
     without_server: 'Bez serwera',
     no_payment_enabled: 'Nie włączono żadnej płatności!',
     default_description: '<h1>Opis super usługi!</h1><p>Tutaj możesz zamieścić opis usługi używając super tagów!</p>',
-    test_message: 'Testowa wiadomość',
-    other: 'Inne'
+    test_message: 'Testowa wiadomość'
   }
 }
