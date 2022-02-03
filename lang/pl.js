@@ -143,7 +143,9 @@ export default {
     server_maintenance: 'Utrzymanie serwera',
     email_not_verified: 'Email nie został jeszcze potwierdzony',
     error: 'Błąd',
-    redeem_voucher: 'Zrealizuj voucher'
+    redeem_voucher: 'Zrealizuj voucher',
+    most_common_services: 'Najczęściej kupowane produkty',
+    payment_methods: 'Metody płatności'
   },
 
   responses: {
@@ -174,6 +176,7 @@ export default {
     without_server: 'Bez serwera',
     no_payment_enabled: 'Nie włączono żadnej płatności!',
     default_description: '<h1>Opis super usługi!</h1><p>Tutaj możesz zamieścić opis usługi używając super tagów!</p>',
-    test_message: 'Testowa wiadomość'
+    test_message: 'Testowa wiadomość',
+    other: 'Inne'
   }
 }

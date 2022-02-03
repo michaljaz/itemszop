@@ -7,7 +7,7 @@
       <v-col cols="12" md="6">
         <v-card class="mb-3">
           <v-card-title>
-            Metody płatności
+            {{ $t('titles.payment_methods') }}
           </v-card-title>
           <v-card-text>
             <PieChart :data="pieChartData" :options="pieChartOptions" :height="200" />
@@ -17,9 +17,11 @@
       <v-col cols="12" md="6">
         <v-card class="mb-3">
           <v-card-title>
-            Ostatnie zakupy
+            {{ $t('titles.most_common_services') }}
           </v-card-title>
-          <v-card-text />
+          <v-card-text>
+            <PieChart :data="pieChartData2" :options="pieChartOptions2" :height="200" />
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -55,25 +57,10 @@ export default {
   data () {
     return {
       url: `${document.location.origin}/shop/${this.$route.params.shopid}`,
-      pieChartData: {
-        labels: [
-          'SMS',
-          'Przelew',
-          'Inne'
-        ],
-        datasets: [{
-          label: 'My First Dataset',
-          data: this.getData(),
-          backgroundColor: [
-            '#ff3333',
-            '#1976d2',
-            'rgb(255, 205, 86)'
-          ],
-          borderColor: 'rgba(0,0,0,0)',
-          hoverOffset: 4
-        }]
-      },
-      pieChartOptions: {}
+      pieChartData: this.getData1(),
+      pieChartOptions: {},
+      pieChartData2: this.getData2(),
+      pieChartOptions2: {}
     }
   },
   head () {
@@ -81,11 +68,8 @@ export default {
       title: this.$t('titles.dashboard')
     }
   },
-  mounted () {
-    this.getData()
-  },
   methods: {
-    getData () {
+    getData1 () {
       let countSms = 0
       let countPrzelew = 0
       let countOthers = 0
@@ -100,7 +84,64 @@ export default {
           countOthers++
         }
       }
-      return [countSms, countPrzelew, countOthers]
+      return {
+        labels: [
+          this.$t('sms'),
+          this.$t('transfer'),
+          this.$t('misc.other')
+        ],
+        datasets: [{
+          label: 'My First Dataset',
+          data: [countSms, countPrzelew, countOthers],
+          backgroundColor: [
+            '#52b69a',
+            '#76c893',
+            '#99d98c',
+            '#b5e48c',
+            '#d9ed92'
+          ],
+          borderColor: 'rgba(0,0,0,0)',
+          hoverOffset: 4
+        }]
+      }
+    },
+    getData2 () {
+      let other = 0
+      const countServices = {}
+      const { history } = this.shop
+      for (const i in history) {
+        let { serviceid } = history[i]
+        if (serviceid) {
+          serviceid = this.shop.services[serviceid].name
+          if (countServices[serviceid]) {
+            countServices[serviceid]++
+          } else {
+            countServices[serviceid] = 1
+          }
+        } else {
+          other++
+        }
+      }
+      console.log(countServices, other)
+
+      return {
+        labels: [...Object.keys(countServices), this.$t('misc.other')],
+        datasets: [{
+          label: 'My First Dataset',
+          data: [...Object.values(countServices), other],
+          backgroundColor: [
+            '#005f73',
+            '#0a9396',
+            '#94d2bd',
+            '#e9d8a6',
+            '#ee9b00',
+            '#ca6702',
+            '#bb3e03'
+          ],
+          borderColor: 'rgba(0,0,0,0)',
+          hoverOffset: 4
+        }]
+      }
     }
   }
 }
