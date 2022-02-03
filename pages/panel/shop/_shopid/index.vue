@@ -3,7 +3,26 @@
     <h1 class="display-1 mt-3 mb-5">
       {{ shop.name }}
     </h1>
-    <BarChart :data="barChartData" :options="barChartOptions" :height="100" />
+    <v-row>
+      <v-col>
+        <v-card class="mb-3">
+          <v-card-title>
+            Metody płatności
+          </v-card-title>
+          <v-card-text>
+            <PieChart :data="pieChartData" :options="pieChartOptions" :height="200" />
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col>
+        <v-card class="mb-3">
+          <v-card-title>
+            Ostatnie zakupy
+          </v-card-title>
+          <v-card-text />
+        </v-card>
+      </v-col>
+    </v-row>
     <v-alert
       border="top"
       colored-border
@@ -36,37 +55,25 @@ export default {
   data () {
     return {
       url: `${document.location.origin}/shop/${this.$route.params.shopid}`,
-      barChartData: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      pieChartData: {
+        labels: [
+          'SMS',
+          'Przelew',
+          'Inne'
+        ],
         datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
+          label: 'My First Dataset',
+          data: [300, 50, 100],
           backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)'
           ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
+          borderColor: 'rgba(0,0,0,0)',
+          hoverOffset: 4
         }]
       },
-      barChartOptions: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
+      pieChartOptions: {}
     }
   },
   head () {
