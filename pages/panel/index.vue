@@ -1,7 +1,7 @@
 <template>
   <div>
     <strong>
-      {{ $t('shops') }}
+      {{ $t('titles.shops') }}
     </strong>
     <v-row class="mt-3">
       <v-col
