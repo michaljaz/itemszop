@@ -4,7 +4,7 @@
       {{ shop.name }}
     </h1>
     <v-row>
-      <v-col>
+      <v-col cols="12" md="6">
         <v-card class="mb-3">
           <v-card-title>
             Metody płatności
@@ -14,7 +14,7 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col>
+      <v-col cols="12" md="6">
         <v-card class="mb-3">
           <v-card-title>
             Ostatnie zakupy
@@ -63,10 +63,10 @@ export default {
         ],
         datasets: [{
           label: 'My First Dataset',
-          data: [300, 50, 100],
+          data: this.getData(),
           backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
+            '#ff3333',
+            '#1976d2',
             'rgb(255, 205, 86)'
           ],
           borderColor: 'rgba(0,0,0,0)',
@@ -79,6 +79,28 @@ export default {
   head () {
     return {
       title: this.$t('titles.dashboard')
+    }
+  },
+  mounted () {
+    this.getData()
+  },
+  methods: {
+    getData () {
+      let countSms = 0
+      let countPrzelew = 0
+      let countOthers = 0
+      const { history } = this.shop
+      for (const i in history) {
+        const { type } = history[i]
+        if (type === 'sms') {
+          countSms++
+        } else if (type === 'przelew') {
+          countPrzelew++
+        } else {
+          countOthers++
+        }
+      }
+      return [countSms, countPrzelew, countOthers]
     }
   }
 }

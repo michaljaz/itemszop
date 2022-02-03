@@ -11,7 +11,7 @@
           </span>
         </div>
         <v-btn to="/" color="blue" class="mt-10" text>
-          {{ $t('back_to_homepage') }}
+          {{ $t('actions.back_to_homepage') }}
         </v-btn>
       </center>
     </v-container>
