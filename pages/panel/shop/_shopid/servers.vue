@@ -2,12 +2,42 @@
   <div>
     <v-dialog
       v-model="dialog"
-      max-width="600px"
+      fullscreen
+      hide-overlay
+      scrollable
     >
-      <v-card elevation="10" outlined>
-        <v-card-title>
-          <span class="text-h5">{{ $t('titles.server_config') }}</span>
-        </v-card-title>
+      <v-card tile flat>
+        <v-toolbar
+          max-height="150"
+          dark
+          color="primary"
+          class="mb-4"
+        >
+          <v-btn
+            icon
+            dark
+            @click="dialog = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>
+            <span class="text-h5">{{ $t('titles.server_config') }}</span>
+          </v-toolbar-title>
+          <v-spacer />
+          <v-toolbar-items>
+            <v-btn text dark @click="dialog2=true">
+              {{ $t('actions.remove') }}
+            </v-btn>
+            <v-btn
+              large
+              dark
+              text
+              @click="saveServer"
+            >
+              {{ $t('actions.save') }}
+            </v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
         <v-card-text>
           <v-form
             ref="form"
@@ -43,45 +73,6 @@
             />
           </v-form>
         </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="blue darken-1"
-            text
-            rounded
-            @click="dialog = false"
-          >
-            {{ $t('actions.cancel') }}
-          </v-btn>
-          <v-btn
-            color="green darken-1"
-            text
-            rounded
-            @click="saveServer"
-          >
-            {{ $t('actions.save') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    <v-dialog
-      v-model="rconDialog"
-      max-width="600px"
-    >
-      <v-card elevation="10" outlined>
-        <v-card-title>
-          <span class="text-h5">{{ $t('titles.rcon_console') }}</span>
-        </v-card-title>
-        <v-card-text>
-          <v-text-field v-model="rconCommand" :label="$t('fields.command')" autocomplete="new-password" />
-          <v-btn color="blue" @click="runRcon">
-            {{ $t('actions.send_to_server') }}
-          </v-btn>
-          <!-- eslint-disable vue/no-v-html -->
-          <div v-html="rconResponse" />
-          <!--eslint-enable-->
-        </v-card-text>
-        <v-card-actions />
       </v-card>
     </v-dialog>
     <strong>
@@ -96,13 +87,15 @@
         md="6"
       >
         <v-card
+          min-height="170"
           text
           class="mb-2"
           elevation="10"
+          @click="serverDialog(server)"
         >
           <v-list-item three-line>
             <v-list-item-content>
-              <v-list-item-title class="text-h5 mb-3">
+              <v-list-item-title class="text-h4 mb-3">
                 {{ server.serverName }}
               </v-list-item-title>
               <v-list-item-subtitle>
@@ -114,19 +107,6 @@
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-
-          <v-card-actions>
-            <v-spacer />
-            <v-btn text rounded color="indigo" @click="consoleDialog(server)">
-              {{ $t('actions.rcon') }}
-            </v-btn>
-            <v-btn text rounded color="blue" @click="editDialog(server)">
-              {{ $t('actions.edit') }}
-            </v-btn>
-            <v-btn text rounded color="red" @click="removeServer(server)">
-              {{ $t('actions.remove') }}
-            </v-btn>
-          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -140,6 +120,36 @@
     >
       {{ $t('actions.new_server') }}
     </v-btn>
+    <v-dialog
+      v-model="dialog2"
+      max-width="400"
+    >
+      <v-card>
+        <v-card-title class="text-h5">
+          {{ $t('titles.are_you_sure') }}
+        </v-card-title>
+        <v-card-text>
+          {{ $t('misc.after_server_delete') }}
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialog2 = false"
+          >
+            {{ $t('actions.cancel') }}
+          </v-btn>
+          <v-btn
+            color="red"
+            text
+            @click="removeServer"
+          >
+            {{ $t('actions.remove') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -153,9 +163,8 @@ export default {
   },
   data () {
     return {
-      rconDialog: false,
-      rconResponse: '',
-      rconCommand: '',
+      dialog2: false,
+      dialog: false,
       valid: false,
       serverPort: '',
       serverName: '',
@@ -163,7 +172,6 @@ export default {
       serverIp: '',
       serverPassword: '',
       showPassword: false,
-      dialog: false,
       rules: {
         port: [
           value => !!value || this.$t('formats.field_not_empty')
@@ -201,19 +209,12 @@ export default {
     }
   },
   methods: {
-    applyServer (server) {
+    serverDialog (server) {
       this.serverId = server.serverId
       this.serverPort = server.serverPort
       this.serverName = server.serverName
       this.serverIp = server.serverIp
       this.serverPassword = server.serverPassword
-    },
-    consoleDialog (server) {
-      this.applyServer(server)
-      this.rconDialog = true
-    },
-    editDialog (server) {
-      this.applyServer(server)
       this.dialog = true
     },
     saveServer () {
@@ -232,12 +233,13 @@ export default {
         this.dialog = false
       }
     },
-    removeServer (server) {
+    removeServer () {
       const { shopid } = this.$route.params
-      const { serverId } = server
+      const { serverId } = this
       this.$fire.database.ref().child(`shops/${shopid}/servers/${serverId}`).remove()
       this.$fire.database.ref().child(`servers/${serverId}`).remove()
       this.dialog = false
+      this.dialog2 = false
     },
     newServer () {
       this.serverName = 'A Minecraft Server'
@@ -246,21 +248,6 @@ export default {
       this.serverPort = '25575'
       this.serverId = `${Math.random().toString(36).replace('0.', '')}`
       this.dialog = true
-    },
-    sendRconCommand (host, port, password, command) {
-      return this.$axios.get('/rcon', {
-        params: { host, port, password, command }
-      })
-    },
-    runRcon () {
-      this.sendRconCommand(this.serverIp, this.serverPort, this.serverPassword, this.rconCommand).then((response) => {
-        const { data } = response
-        if (data.error === 'auth') {
-          this.rconResponse = this.$t('responses.unable_to_connect')
-        } else {
-          this.rconResponse = require('minecraft-text-js').default.toHTML(data.response).replaceAll('\n', '<br>')
-        }
-      })
     }
   }
 }

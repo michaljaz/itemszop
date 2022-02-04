@@ -8,6 +8,7 @@
     >
       <v-card tile flat>
         <v-toolbar
+          max-height="150"
           dark
           color="primary"
           class="mb-4"
@@ -24,7 +25,7 @@
           </v-toolbar-title>
           <v-spacer />
           <v-toolbar-items>
-            <v-btn text dark @click="removeDialog">
+            <v-btn text dark @click="dialog2 = true">
               {{ $t('actions.remove') }}
             </v-btn>
             <v-btn
@@ -199,7 +200,7 @@
           {{ $t('titles.are_you_sure') }}
         </v-card-title>
         <v-card-text>
-          Spowoduje to usunięcie usługi na stałe, nie będzie się dało tej operacji cofnąć.
+          {{ $t('misc.after_service_delete') }}
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -390,9 +391,6 @@ export default {
         this.$fire.database.ref().child(`/shops/${shopid}/services/${this.serviceId}`).set(this.fields)
         this.dialog = false
       }
-    },
-    removeDialog () {
-      this.dialog2 = true
     }
   }
 }

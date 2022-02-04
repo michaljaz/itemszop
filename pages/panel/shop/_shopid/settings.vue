@@ -70,9 +70,9 @@
     </v-row>
     <v-dialog
       v-model="dialog"
-      max-width="400"
+      max-width="550"
     >
-      <v-card style="overflow:hidden;">
+      <v-card style="overflow:hidden;" elevation="10">
         <v-card-title class="text-h5">
           {{ $t('titles.are_you_sure') }}
         </v-card-title>
