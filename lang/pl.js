@@ -58,7 +58,8 @@ export default {
     password_reset: 'Resetowanie hasła',
     reload: 'Odśwież stronę',
     rcon: 'Rcon',
-    description: 'Opis'
+    description: 'Opis',
+    remove_payment_history: 'Usuń historię płatności'
   },
 
   fields: {

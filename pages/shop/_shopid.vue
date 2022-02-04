@@ -104,17 +104,21 @@ export default {
       return this.shop.collected / this.shop.goal * 100
     },
     history () {
-      const history = Object.values(this.shop.history)
-      history.sort((x, y) => {
-        if (x.date > y.date) {
-          return -1
-        }
-        if (x.date < y.date) {
-          return 1
-        }
-        return 0
-      })
-      return history.slice(0, this.shop.maxservices)
+      if (this.shop.history) {
+        const history = Object.values(this.shop.history)
+        history.sort((x, y) => {
+          if (x.date > y.date) {
+            return -1
+          }
+          if (x.date < y.date) {
+            return 1
+          }
+          return 0
+        })
+        return history.slice(0, this.shop.maxservices)
+      } else {
+        return []
+      }
     }
   }
 }

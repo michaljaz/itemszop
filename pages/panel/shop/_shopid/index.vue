@@ -81,14 +81,22 @@ export default {
           countPrzelew++
         }
       }
+      const labels = []
+      const data = []
+      if (countSms > 0) {
+        labels.push(this.$t('sms'))
+        data.push(countSms)
+      }
+      if (countPrzelew > 0) {
+        labels.push(this.$t('transfer'))
+        data.push(countPrzelew)
+      }
+
       return {
-        labels: [
-          this.$t('sms'),
-          this.$t('transfer')
-        ],
+        labels,
         datasets: [{
           label: 'My First Dataset',
-          data: [countSms, countPrzelew],
+          data,
           backgroundColor: [
             '#52b69a',
             '#76c893',
