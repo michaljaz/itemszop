@@ -170,6 +170,8 @@ export default {
     check_mailbox: 'Sprawdź swoją skrzynkę mailową, aby zalogować się na swoje konto',
     if_not_read: 'Jeśli tego nie przeczytasz staną się nieoczekiwane złe rzeczy!',
     after_shop_delete: 'Tej czynności nie można cofnąć. Spowoduje to trwałe usunięcie sklepu serwera oraz wszystkich rzeczy w tym sklepie takich jak Serwerów, Usług, Voucherów, Płatności.',
+    after_service_delete: 'Spowoduje to usunięcie usługi na stałe, nie będzie się dało tej operacji cofnąć.',
+    after_server_delete: 'Spowoduje to usunięcie serwera na stałe, nie będzie się dało tej operacji cofnąć.',
     type_shopid_to_confirm: 'Wpisz {shopid} aby potwierdzić swoją operację:',
     sms_send_instruction: 'Ta usługa kosztuje {netto}zł netto ( {brutto}zł z VAT ). {br} Aby zakupić tą usługę wyślij SMS o treści {sms} pod numer {number}. {br} W odpowiedzi otrzymasz SMS z kodem, który wpisz poniżej.',
     email_sent: 'Email został wysłany',
