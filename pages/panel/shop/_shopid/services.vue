@@ -8,7 +8,7 @@
     >
       <v-card tile flat>
         <v-toolbar
-          max-height="150"
+          max-height="80"
           dark
           color="primary"
           class="mb-4"
@@ -44,7 +44,7 @@
             v-model="valid"
           >
             <v-row>
-              <v-col>
+              <v-col cols="12" xs="12" md="6">
                 <v-text-field
                   v-model="fields.name"
                   :label="$t('fields.service_name')"
@@ -78,7 +78,7 @@
                 />
                 <TiptapEditor :editorcontent="fields.description" @content="fields.description=$event" />
               </v-col>
-              <v-col>
+              <v-col cols="12" xs="12" md="6">
                 <v-switch
                   v-model="fields.sms"
                   :label="$t('fields.sms_payment')"
