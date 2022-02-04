@@ -57,7 +57,11 @@
             {{ $t('titles.advanced_settings') }}
           </v-card-title>
           <v-card-text>
-            <v-btn color="red" @click="removeDialog">
+            <v-btn color="red" outlined class="mb-2" @click="removeHistory">
+              {{ $t('actions.remove_payment_history') }}
+            </v-btn>
+            <br>
+            <v-btn color="red" outlined class="mb-2" @click="removeDialog">
               {{ $t('actions.remove_shop') }}
             </v-btn>
           </v-card-text>
@@ -68,7 +72,7 @@
       v-model="dialog"
       max-width="400"
     >
-      <v-card>
+      <v-card style="overflow:hidden;">
         <v-card-title class="text-h5">
           {{ $t('titles.are_you_sure') }}
         </v-card-title>
@@ -94,12 +98,18 @@
           </div>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="green" text rounded @click="dialog=false">
-            {{ $t('actions.cancel') }}
-          </v-btn>
-          <v-btn color="red" :disabled="cdel===$route.params.shopid ? false : true" @click="remove()">
-            {{ $t('actions.remove_shop') }}
-          </v-btn>
+          <v-row>
+            <v-col>
+              <v-btn color="green" text block @click="dialog=false">
+                {{ $t('actions.cancel') }}
+              </v-btn>
+            </v-col>
+            <v-col>
+              <v-btn color="red" :disabled="cdel===$route.params.shopid ? false : true" block @click="remove()">
+                {{ $t('actions.remove_shop') }}
+              </v-btn>
+            </v-col>
+          </v-row>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -179,6 +189,10 @@ export default {
       this.$axios.post(this.webhookUrl, {
         content: this.$t('misc.test_message')
       })
+    },
+    removeHistory () {
+      const { shopid } = this.$route.params
+      this.$fire.database.ref().child(`shops/${shopid}/history`).remove()
     }
   }
 }
