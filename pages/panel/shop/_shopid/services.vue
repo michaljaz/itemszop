@@ -24,6 +24,9 @@
           </v-toolbar-title>
           <v-spacer />
           <v-toolbar-items>
+            <v-btn text dark @click="removeDialog">
+              {{ $t('actions.remove') }}
+            </v-btn>
             <v-btn
               large
               dark
@@ -144,7 +147,7 @@
           lg="4"
           md="6"
         >
-          <v-card elevation="10">
+          <v-card elevation="10" min-height="170" @click="editService(service)">
             <v-list-item three-line>
               <v-list-item-content>
                 <v-list-item-title class="text-h4 mb-3">
@@ -173,16 +176,6 @@
                 <v-img :src="service.iconUrl" />
               </v-list-item-avatar>
             </v-list-item>
-
-            <v-card-actions>
-              <v-spacer />
-              <v-btn text color="blue" rounded @click="editService(service)">
-                {{ $t('actions.edit') }}
-              </v-btn>
-              <v-btn text color="red" rounded @click="removeService(service)">
-                {{ $t('actions.remove') }}
-              </v-btn>
-            </v-card-actions>
           </v-card>
         </v-col>
       </template>
@@ -197,6 +190,36 @@
     >
       {{ $t('actions.new_service') }}
     </v-btn>
+    <v-dialog
+      v-model="dialog2"
+      max-width="400"
+    >
+      <v-card>
+        <v-card-title class="text-h5">
+          {{ $t('titles.are_you_sure') }}
+        </v-card-title>
+        <v-card-text>
+          Spowoduje to usunięcie usługi na stałe, nie będzie się dało tej operacji cofnąć.
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialog2 = false"
+          >
+            {{ $t('actions.cancel') }}
+          </v-btn>
+          <v-btn
+            color="red"
+            text
+            @click="removeService"
+          >
+            {{ $t('actions.remove') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -214,6 +237,7 @@ export default {
   },
   data () {
     return {
+      dialog2: false,
       enable_sms_1: false,
       serviceId: '',
       valid: false,
@@ -261,27 +285,27 @@ export default {
       },
       rules: {
         name: [
-          value => !!value || this.$t('field_not_empty')
+          value => !!value || this.$t('formats.field_not_empty')
         ],
         iconUrl: [
-          value => !!value || this.$t('field_not_empty'),
-          value => this.isURL(value) || this.$t('wrong_format')
+          value => !!value || this.$t('formats.field_not_empty'),
+          value => this.isURL(value) || this.$t('formats.wrong_format')
         ],
         smsType: [
-          value => !!value || this.$t('field_not_empty')
+          value => !!value || this.$t('formats.field_not_empty')
         ],
         przelewCost: [
-          value => !!value || this.$t('field_not_empty')
+          value => !!value || this.$t('formats.field_not_empty')
         ],
         server: [
-          value => !!value || this.$t('field_not_empty')
+          value => !!value || this.$t('formats.field_not_empty')
         ]
       }
     }
   },
   head () {
     return {
-      title: this.$t('services')
+      title: this.$t('titles.services')
     }
   },
   computed: {
@@ -337,9 +361,11 @@ export default {
       this.fields = newService
       this.dialog = true
     },
-    removeService (service) {
+    removeService () {
       const { shopid } = this.$route.params
-      this.$fire.database.ref().child(`shops/${shopid}/services/${service.serviceId}`).remove()
+      this.$fire.database.ref().child(`shops/${shopid}/services/${this.serviceId}`).remove()
+      this.dialog = false
+      this.dialog2 = false
     },
     newService () {
       this.serviceId = `${Math.random().toString(36).replace('0.', '')}`
@@ -353,7 +379,7 @@ export default {
         przelewCost: 0,
         server: '',
         commands: '',
-        description: this.$t('default_description')
+        description: this.$t('misc.default_description')
       }
       this.dialog = true
     },
@@ -364,6 +390,9 @@ export default {
         this.$fire.database.ref().child(`/shops/${shopid}/services/${this.serviceId}`).set(this.fields)
         this.dialog = false
       }
+    },
+    removeDialog () {
+      this.dialog2 = true
     }
   }
 }
