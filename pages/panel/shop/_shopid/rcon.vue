@@ -1,0 +1,112 @@
+<template>
+  <div>
+    <v-row justify="center" align="center">
+      <v-col cols="12" sm="10" md="8">
+        <v-card class="pt-1 pb-4" elevation="10">
+          <v-card-title class="headline">
+            {{ $t('titles.rcon_console') }}
+          </v-card-title>
+          <v-card-text>
+            <v-form ref="form" v-model="valid" @submit.prevent="submit">
+              <v-select
+                v-model="server"
+                item-text="serverName"
+                item-value="serverId"
+                :items="serversList"
+                :label="$t('fields.choose_server')"
+                :rules="rules.server"
+              />
+              <v-text-field
+                v-model="command"
+                :label="$t('fields.command')"
+                autocomplete="new-password"
+                @keydown.enter.prevent="submit"
+              />
+              <v-alert
+                v-if="rconResponse"
+                border="left"
+                color="indigo"
+                dark
+              >
+                <!-- eslint-disable vue/no-v-html -->
+                <div v-html="rconResponse" />
+                <!--eslint-enable-->
+              </v-alert>
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'RconView',
+  props: {
+    shop: {
+      type: Object,
+      required: true
+    },
+    servers: {
+      type: Object,
+      required: true
+    }
+  },
+  data () {
+    return {
+      rconResponse: '',
+      valid: false,
+      server: null,
+      command: '',
+      rules: {
+        server: [
+          value => !!value || this.$t('formats.field_not_empty')
+        ]
+      }
+    }
+  },
+  computed: {
+    serversList () {
+      const result = []
+      for (const serverId in this.servers) {
+        if (this.servers[serverId]) {
+          const server = Object.assign({}, this.servers[serverId])
+          server.serverId = serverId
+          result.push(server)
+        }
+      }
+      return result
+    }
+  },
+  methods: {
+    submit () {
+      this.$refs.form.validate()
+      if (this.valid) {
+        const { command } = this
+
+        console.log('READY', command)
+        this.sendCommand(command)
+      }
+    },
+    sendCommand (command) {
+      const { serverIp, serverPort, serverPassword } = this.servers[this.server]
+      this.$axios.get('/rcon', {
+        params: {
+          host: serverIp,
+          port: serverPort,
+          password: serverPassword,
+          command: this.command
+        }
+      }).then((response) => {
+        const { data } = response
+        if (data.error === 'auth') {
+          this.rconResponse = this.$t('responses.unable_to_connect')
+        } else {
+          this.rconResponse = require('minecraft-text-js').default.toHTML(data.response).replaceAll('\n', '<br>')
+        }
+      })
+    }
+  }
+}
+</script>
