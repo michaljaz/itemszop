@@ -8,7 +8,7 @@
     >
       <v-card tile flat>
         <v-toolbar
-          max-height="150"
+          max-height="80"
           dark
           color="primary"
           class="mb-4"
@@ -44,7 +44,7 @@
             v-model="valid"
           >
             <v-row>
-              <v-col>
+              <v-col cols="12" xs="12" md="6">
                 <v-text-field
                   v-model="fields.name"
                   :label="$t('fields.service_name')"
@@ -78,7 +78,7 @@
                 />
                 <TiptapEditor :editorcontent="fields.description" @content="fields.description=$event" />
               </v-col>
-              <v-col>
+              <v-col cols="12" xs="12" md="6">
                 <v-switch
                   v-model="fields.sms"
                   :label="$t('fields.sms_payment')"
@@ -111,15 +111,14 @@
                 <div v-if="fields.costSlider">
                   Przy płatnośći przelewem koszt liczony jest ILOŚĆ * KOSZT SZTUKI.<br>
                   Zaś przy płatności sms'em musisz wybrać w polach poniżej ile usług będzie za dany sms.
-                  <v-checkbox
-                    v-model="enable_sms_1"
-                    label="Włącz sms o wartości 1zł"
-                  />
-                  <v-text-field
-                    v-if="enable_sms_1"
-                    type="number"
-                    label="Ilość usług za SMS o wartości 1zł"
-                    autocomplete="new-password"
+                  <v-select
+                    v-model="multipleSMS"
+                    item-text="name"
+                    item-value="value"
+                    :items="smsTypes"
+                    label="Wybierz SMS'y, którymi będzie można płacić"
+                    multiple
+                    persistent-hint
                   />
                 </div>
               </v-col>
@@ -238,6 +237,7 @@ export default {
   },
   data () {
     return {
+      multipleSMS: [],
       dialog2: false,
       enable_sms_1: false,
       serviceId: '',

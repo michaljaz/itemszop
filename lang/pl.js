@@ -57,7 +57,6 @@ export default {
     test: 'Przetestuj',
     password_reset: 'Resetowanie hasła',
     reload: 'Odśwież stronę',
-    rcon: 'Rcon',
     description: 'Opis',
     remove_payment_history: 'Usuń historię płatności'
   },
@@ -128,6 +127,7 @@ export default {
     services: 'Usługi',
     payments: 'Płatności',
     vouchers: 'Vouchery',
+    rcon: 'Rcon',
     settings: 'Ustawienia',
     shop: 'Sklep',
     server_config: 'Konfiguracja serwera',

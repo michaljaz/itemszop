@@ -8,7 +8,7 @@
     >
       <v-card tile flat>
         <v-toolbar
-          max-height="150"
+          max-height="80"
           dark
           color="primary"
           class="mb-4"

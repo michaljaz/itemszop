@@ -72,7 +72,7 @@
           large
           @click="submit"
         >
-          {{ $t('actions.cancel') }}
+          {{ $t('actions.next') }}
         </v-btn>
         <v-btn
           text
