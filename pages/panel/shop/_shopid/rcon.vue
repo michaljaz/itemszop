@@ -25,7 +25,7 @@
               <v-alert
                 v-if="rconResponse"
                 border="left"
-                color="indigo"
+                color="#2A3B4D"
                 dark
               >
                 <!-- eslint-disable vue/no-v-html -->
@@ -84,9 +84,10 @@ export default {
       this.$refs.form.validate()
       if (this.valid) {
         const { command } = this
-
-        console.log('READY', command)
-        this.sendCommand(command)
+        if (command) {
+          this.sendCommand(command)
+          this.command = ''
+        }
       }
     },
     sendCommand (command) {
