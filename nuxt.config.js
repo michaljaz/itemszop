@@ -96,8 +96,7 @@ export default {
         defaultLocale: 'pl',
         langDir: 'lang/'
       }
-    ],
-    '@nuxtjs/sitemap'
+    ]
   ],
 
   axios: {

@@ -28,11 +28,8 @@
       "use": "@nuxtjs/vercel-builder",
 			"config": {
         "serverFiles": [
-					"api/**",
-					"package.json",
-					".nuxt/dist/sitemap-routes.json"
-				],
-				"internalServer": true
+					"api/**"
+				]
       }
     }
   ]
