@@ -3,11 +3,19 @@ import { Pie } from 'vue-chartjs'
 
 export default {
   extends: Pie,
-  props: ['data', 'options'],
+  props: {
+    data: {
+      type: Object,
+      required: true
+    },
+    options: {
+      type: Object,
+      required: true
+    }
+  },
   watch: {
     data () {
-      console.log('xd')
-      this._chart.destroy()
+      this.$data._chart.destroy()
       this.renderPieChart()
     }
   },

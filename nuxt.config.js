@@ -96,8 +96,13 @@ export default {
         defaultLocale: 'pl',
         langDir: 'lang/'
       }
-    ]
+    ],
+    '@nuxtjs/sitemap'
   ],
+
+  sitemap: {
+    gzip: true,
+  },
 
   axios: {
     baseURL: `${apiBaseUrl}/api`
