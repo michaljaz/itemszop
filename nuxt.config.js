@@ -100,10 +100,6 @@ export default {
     '@nuxtjs/sitemap'
   ],
 
-  sitemap: {
-    gzip: true,
-  },
-
   axios: {
     baseURL: `${apiBaseUrl}/api`
   },
