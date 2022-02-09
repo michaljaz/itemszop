@@ -110,17 +110,26 @@
                 />
 
                 <div v-if="fields.costSlider">
-                  <v-switch
-                    label="Wywołaj listę komend tylko raz i użyj tagów"
-                  />
-                  Przy płatnośći przelewem koszt liczony jest ILOŚĆ * KOSZT SZTUKI.<br>
-                  Zaś przy płatności sms'em musisz wybrać w polach poniżej ile sztuk produktu będzie za dany sms.
+                  <v-alert
+                    border="top"
+                    colored-border
+                    type="info"
+                    elevation="2"
+                  >
+                    <i18n
+                      path="misc.costslider_instruction"
+                    >
+                      <template #br>
+                    </br>
+                      </template>
+                    </i18n>
+                  </v-alert>
                   <v-select
                     v-model="multipleSMS"
                     item-text="name"
                     item-value="value"
                     :items="smsTypes"
-                    label="Wybierz SMS'y, którymi będzie można płacić"
+                    :label="$t('fields.choose_smses')"
                     multiple
                     persistent-hint
                   />
@@ -128,7 +137,7 @@
                     v-for="k in multipleSMS"
                     :key="k"
                     type="number"
-                    :label="`Ile produktów na SMS za ${smsCost[k]}`"
+                    :label="$t('fields.sms_service_amount').replace('{sms}',smsCost[k])"
                   />
                 </div>
               </v-col>

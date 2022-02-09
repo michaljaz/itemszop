@@ -75,7 +75,8 @@ export default {
     service_icon: 'Ikona usługi',
     icon_url: 'Adres URL do ikony',
     sms_payment: "Płatność SMS'em",
-    choose_sms: 'Wybierz sms',
+    choose_sms: 'Wybierz sms (za sztukę)',
+    choose_smses: "Wybierz SMS'y, którymi będzie można płacić",
     transfer_payment: 'Płatność przelewem',
     transfer_cost: 'Koszt (w zł za sztukę)',
     choose_server: 'Wybierz serwer',
@@ -97,7 +98,9 @@ export default {
     choose_service_hint: 'Wybierz jaką usługę będzie można aktywować voucherem.',
     codes_amount_hint: 'Liczba kodów, które mają zostać wygenerowane. Ustawiając np. 20 stworzysz dwadzieścia różnych kodów na tę samą usługę.',
     shop_name: 'Nazwa sklepu',
-    shop_id: 'ID sklepu'
+    shop_id: 'ID sklepu',
+    sms_service_amount: 'Ilość produktów za SMS na {sms}',
+    buy_more_once: 'Kup więcej za jednym razem'
   },
 
   formats: {
@@ -179,6 +182,8 @@ export default {
     without_server: 'Bez serwera',
     no_payment_enabled: 'Nie włączono żadnej płatności!',
     default_description: '<h1>Opis super usługi!</h1><p>Tutaj możesz zamieścić opis usługi używając super tagów!</p>',
-    test_message: 'Testowa wiadomość'
+    test_message: 'Testowa wiadomość',
+    costslider_instruction: "Przy płatnośći przelewem koszt liczony jest: ILOŚĆ * KOSZT SZTUKI. {br}Przy płatności sms'em musisz wybrać w polach poniżej ile sztuk produktu będzie za dany sms.{br}W komendach możesz użyć [n] jeśli chcesz użyć liczby wybranej na suwaku.",
+    costslider_amount: 'Liczba produktów: {amount}'
   }
 }
