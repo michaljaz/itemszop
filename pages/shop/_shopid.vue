@@ -61,13 +61,13 @@
                 {{ $t('titles.latest_payments') }}
               </v-card-title>
               <v-card-text>
-                <v-list flat>
+                <v-list v-if="shop.last_payments_type===1" flat>
                   <v-list-item v-for="k in history" :key="k.date" two-line>
                     <v-list-item-avatar
                       tile
                       size="40"
                     >
-                      <v-img :src="`https://minotar.net/helm/${k.nick}/32.png`" />
+                      <v-img class="rounded-lg" :src="`https://minotar.net/helm/${k.nick}/32.png`" />
                     </v-list-item-avatar>
                     <v-list-item-content>
                       <v-list-item-title>{{ k.nick }}</v-list-item-title>
@@ -75,6 +75,30 @@
                     </v-list-item-content>
                   </v-list-item>
                 </v-list>
+                <v-row v-if="shop.last_payments_type===2">
+                  <v-col
+                    v-for="k in history"
+                    :key="k.date"
+                    cols="2"
+                    xs="1"
+                    sm="1"
+                    md="3"
+                    lg="2"
+                    class="pa-2"
+                  >
+                    <v-tooltip top color="black">
+                      <template #activator="{ on, attrs }">
+                        <v-img
+                          v-bind="attrs"
+                          class="p-0 m-0 rounded-lg"
+                          :src="`https://minotar.net/helm/${k.nick}/32.png`"
+                          v-on="on"
+                        />
+                      </template>
+                      <span>{{ k.nick }} {{ $t('misc.bought') }} {{ k.service }}</span>
+                    </v-tooltip>
+                  </v-col>
+                </v-row>
               </v-card-text>
             </v-card>
           </v-col>

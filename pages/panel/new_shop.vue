@@ -78,6 +78,7 @@ export default {
           collected: 0,
           goal: 100,
           maxservices: 5,
+          last_payments_type: 1,
           name,
           pages: {
             page1: {
