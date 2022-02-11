@@ -100,7 +100,10 @@ export default {
     shop_name: 'Nazwa sklepu',
     shop_id: 'ID sklepu',
     sms_service_amount: 'Ilość produktów za SMS na {sms}',
-    buy_more_once: 'Kup więcej za jednym razem'
+    buy_more_once: 'Kup więcej za jednym razem',
+    last_payments_amount: 'Ilość wyświetlanych ostatnich zakupów w sklepie',
+    horizontal_history: 'Lista pozioma (z tooltipami)',
+    vertical_history: 'Lista pionowa'
   },
 
   formats: {
@@ -149,7 +152,8 @@ export default {
     error: 'Błąd',
     redeem_voucher: 'Zrealizuj voucher',
     most_common_services: 'Najczęściej kupowane produkty',
-    payment_methods: 'Metody płatności'
+    payment_methods: 'Metody płatności',
+    shop_appearance: 'Wygląd sklepu'
   },
 
   responses: {
@@ -184,6 +188,7 @@ export default {
     default_description: '<h1>Opis super usługi!</h1><p>Tutaj możesz zamieścić opis usługi używając super tagów!</p>',
     test_message: 'Testowa wiadomość',
     costslider_instruction: "Przy płatnośći przelewem koszt liczony jest: ILOŚĆ * KOSZT SZTUKI. {br}Przy płatności sms'em musisz wybrać w polach poniżej ile sztuk produktu będzie za dany sms.{br}W komendach możesz użyć [n] jeśli chcesz użyć liczby wybranej na suwaku.",
-    costslider_amount: 'Liczba produktów: {amount}'
+    costslider_amount: 'Liczba produktów: {amount}',
+    bought: 'kupił'
   }
 }

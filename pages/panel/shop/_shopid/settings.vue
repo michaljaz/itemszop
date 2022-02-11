@@ -15,18 +15,7 @@
                 v-model="name"
                 :label="$t('fields.shop_name')"
               />
-              Ilość wyświetlanych ostatnich zakupów w sklepie {{ maxservices }}
-              <v-slider
-                v-model="maxservices"
-                min="1"
-                max="10"
-              />
-              {{ $t('titles.monthly_goal') }} {{ goal }} zł
-              <v-slider
-                v-model="goal"
-                min="1"
-                max="500"
-              />
+
               <v-switch
                 v-model="webhook"
                 class="mt-0"
@@ -39,15 +28,37 @@
                 :label="$t('fields.webhook_url')"
                 autocomplete="new-password"
                 :rules="rules.webhook"
+                append-icon="mdi-lan-connect"
+                @click:append="testWebhook"
               />
-              <v-btn v-if="webhook" color="indigo" rounded @click="testWebhook">
-                Przetestuj webhooka
-              </v-btn>
             </v-form>
           </v-card-text>
+          <v-card-title class="headline">
+            {{ $t('titles.shop_appearance') }}
+          </v-card-title>
+          <v-card-text>
+            {{ $t('fields.last_payments_amount') }} {{ maxservices }}
+            <v-slider
+              v-model="maxservices"
+              min="1"
+              max="10"
+            />
+            {{ $t('titles.monthly_goal') }} {{ goal }} zł
+            <v-slider
+              v-model="goal"
+              min="1"
+              max="500"
+            />
+            <v-select
+              v-model="last_payments_type"
+              item-text="name"
+              item-value="value"
+              :items="last_payments_type_list"
+              label="Widżet ostatnich zakupów"
+            />
+          </v-card-text>
           <v-card-actions>
-            <v-spacer />
-            <v-btn color="green" rounded text @click="save">
+            <v-btn color="green" outlined @click="save">
               {{ $t('actions.save') }}
             </v-btn>
           </v-card-actions>
@@ -126,6 +137,11 @@ export default {
   },
   data () {
     return {
+      last_payments_type: this.shop.last_payments_type,
+      last_payments_type_list: [
+        { name: this.$t('fields.vertical_history'), value: 1 },
+        { name: this.$t('fields.horizontal_history'), value: 2 }
+      ],
       maxservices: this.shop.maxservices,
       valid: false,
       webhook: this.shop.webhook,
@@ -156,7 +172,8 @@ export default {
           name: this.name,
           goal: this.goal,
           webhook: this.webhook ? this.webhookUrl : '',
-          maxservices: this.maxservices
+          maxservices: this.maxservices,
+          last_payments_type: this.last_payments_type
         })
       }
     },
