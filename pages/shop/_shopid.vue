@@ -2,9 +2,19 @@
   <div>
     <ShopListener public @servers="servers=$event" @shop="shop=$event" />
     <v-container v-if="shop.loaded">
-      <h1 class="display-1 mb-5 mt-4">
-        {{ shop.name }}
-      </h1>
+      <div class="d-inline-flex mt-4 mb-5">
+        <v-img
+          v-if="shop.icon"
+          contain
+          :src="shop.icon"
+          width="50"
+          height="50"
+          class="mr-2"
+        />
+        <h1 class="display-1 mt-2">
+          {{ shop.name }}
+        </h1>
+      </div>
       <v-app-bar
         class="blue darken-4"
         elevation="4"
@@ -142,6 +152,16 @@ export default {
         return history.slice(0, this.shop.maxservices)
       } else {
         return []
+      }
+    }
+  },
+  watch: {
+    shop () {
+      const favicon = document.querySelector("link[rel~='icon']")
+      if (this.shop.icon) {
+        favicon.href = this.shop.icon
+      } else {
+        favicon.href = '/favicon.ico'
       }
     }
   }

@@ -103,7 +103,8 @@ export default {
     buy_more_once: 'Kup więcej za jednym razem',
     last_payments_amount: 'Ilość wyświetlanych ostatnich zakupów w sklepie',
     horizontal_history: 'Lista pozioma (z tooltipami)',
-    vertical_history: 'Lista pionowa'
+    vertical_history: 'Lista pionowa',
+    shop_icon: 'Ikona sklepu'
   },
 
   formats: {
