@@ -17,6 +17,20 @@
               />
 
               <v-switch
+                v-model="shop_icon"
+                class="mt-0"
+                :label="$t('fields.shop_icon')"
+              />
+
+              <v-text-field
+                v-if="shop_icon"
+                v-model="shop_icon_url"
+                :label="$t('fields.icon_url')"
+                autocomplete="new-password"
+                :rules="rules.icon_url"
+              />
+
+              <v-switch
                 v-model="webhook"
                 class="mt-0"
                 :label="$t('fields.discord_webhook')"
@@ -137,6 +151,8 @@ export default {
   },
   data () {
     return {
+      shop_icon: false,
+      shop_icon_url: '',
       last_payments_type: this.shop.last_payments_type,
       last_payments_type_list: [
         { name: this.$t('fields.vertical_history'), value: 1 },
@@ -154,6 +170,10 @@ export default {
         webhook: [
           value => !!value || this.$t('formats.field_not_empty'),
           v => /^https:\/\/discord(?:app)?\.com\/api\/webhooks\//.test(v) || this.$t('formats.wrong_format')
+        ],
+        icon_url: [
+          value => !!value || this.$t('formats.field_not_empty'),
+          value => this.isURL(value) || this.$t('formats.wrong_format')
         ]
       }
     }
@@ -164,6 +184,15 @@ export default {
     }
   },
   methods: {
+    isURL (str) {
+      let url
+      try {
+        url = new URL(str)
+      } catch (_) {
+        return false
+      }
+      return url.protocol === 'http:' || url.protocol === 'https:'
+    },
     save () {
       this.$refs.form.validate()
       if (this.valid) {
@@ -173,7 +202,8 @@ export default {
           goal: this.goal,
           webhook: this.webhook ? this.webhookUrl : '',
           maxservices: this.maxservices,
-          last_payments_type: this.last_payments_type
+          last_payments_type: this.last_payments_type,
+          icon: this.shop_icon ? this.shop_icon_url : ''
         })
       }
     },
