@@ -8,7 +8,7 @@
 
 Tu znajduje się link do wersji produkcyjnej : https://itemszop.tk
 
-## Konfiguracja budowania
+## Konfiguracja dewelopera
 
 ```bash
 # Instalowanie bibliotek
@@ -17,12 +17,6 @@ $ npm install
 # serwowanie z hot reaload'em localhost:8080
 $ npm run dev
 
-# budowanie i uruchamianie serwera
-$ npm run build
-$ npm run start
-
-# generowanie statycznego projektu
-$ npm run generate
 ```
 
 Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację](https://nuxtjs.org).
