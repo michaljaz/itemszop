@@ -154,7 +154,8 @@ export default {
     redeem_voucher: 'Zrealizuj voucher',
     most_common_services: 'Najczęściej kupowane produkty',
     payment_methods: 'Metody płatności',
-    shop_appearance: 'Wygląd sklepu'
+    shop_appearance: 'Wygląd sklepu',
+    additional_settings: 'Dodatkowe opcje'
   },
 
   responses: {

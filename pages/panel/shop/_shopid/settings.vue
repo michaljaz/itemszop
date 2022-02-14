@@ -2,15 +2,15 @@
   <div>
     <v-row justify="center" align="center">
       <v-col cols="12" sm="10" md="8">
-        <v-card class="pt-1 pb-4" elevation="10">
-          <v-card-title class="headline">
-            {{ $t('titles.settings') }}
-          </v-card-title>
-          <v-card-text>
-            <v-form
-              ref="form"
-              v-model="valid"
-            >
+        <v-form
+          ref="form"
+          v-model="valid"
+        >
+          <v-card class="pt-1 pb-4" elevation="10">
+            <v-card-title class="headline">
+              {{ $t('titles.shop_appearance') }}
+            </v-card-title>
+            <v-card-text>
               <v-text-field
                 v-model="name"
                 :label="$t('fields.shop_name')"
@@ -29,7 +29,32 @@
                 autocomplete="new-password"
                 :rules="rules.icon_url"
               />
-
+            </v-card-text>
+            <v-card-text>
+              {{ $t('fields.last_payments_amount') }} {{ maxservices }}
+              <v-slider
+                v-model="maxservices"
+                min="1"
+                max="10"
+              />
+              {{ $t('titles.monthly_goal') }} {{ goal }} zł
+              <v-slider
+                v-model="goal"
+                min="1"
+                max="500"
+              />
+              <v-select
+                v-model="last_payments_type"
+                item-text="name"
+                item-value="value"
+                :items="last_payments_type_list"
+                label="Widżet ostatnich zakupów"
+              />
+            </v-card-text>
+            <v-card-title class="headline">
+              {{ $t('titles.additional_settings') }}
+            </v-card-title>
+            <v-card-text>
               <v-switch
                 v-model="webhook"
                 class="mt-0"
@@ -45,38 +70,15 @@
                 append-icon="mdi-lan-connect"
                 @click:append="testWebhook"
               />
-            </v-form>
-          </v-card-text>
-          <v-card-title class="headline">
-            {{ $t('titles.shop_appearance') }}
-          </v-card-title>
-          <v-card-text>
-            {{ $t('fields.last_payments_amount') }} {{ maxservices }}
-            <v-slider
-              v-model="maxservices"
-              min="1"
-              max="10"
-            />
-            {{ $t('titles.monthly_goal') }} {{ goal }} zł
-            <v-slider
-              v-model="goal"
-              min="1"
-              max="500"
-            />
-            <v-select
-              v-model="last_payments_type"
-              item-text="name"
-              item-value="value"
-              :items="last_payments_type_list"
-              label="Widżet ostatnich zakupów"
-            />
-          </v-card-text>
-          <v-card-actions>
-            <v-btn color="green" outlined @click="save">
-              {{ $t('actions.save') }}
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-btn color="green" outlined @click="save">
+                {{ $t('actions.save') }}
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-form>
         <v-card class="pt-1 mt-4 pb-4" elevation="10">
           <v-card-title class="headline">
             {{ $t('titles.advanced_settings') }}
