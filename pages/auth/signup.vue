@@ -129,13 +129,20 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'errorCodes'
+      'loggedIn'
     ])
+  },
+  watch: {
+    loggedIn (newVal, oldVal) {
+      if (newVal) {
+        this.$router.push('/panel')
+      }
+    }
   },
   methods: {
     errorDialog (e) {
       this.dialogTitle = this.$t('titles.error')
-      this.dialogContent = this.errorCodes[e.code] || e.message
+      this.dialogContent = this.$t(`firebase.${e.code}`) || e.message
       this.nextButton = false
       this.dialog = true
     },

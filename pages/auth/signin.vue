@@ -165,8 +165,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'loggedIn',
-      'errorCodes'
+      'loggedIn'
     ])
   },
   watch: {
@@ -187,7 +186,7 @@ export default {
       }
     },
     errorDialog (e) {
-      this.dialogContent = this.errorCodes[e.code] || e.message
+      this.dialogContent = this.$t(`firebase.${e.code}`) || e.message
       this.dialog = true
     },
     submit () {
