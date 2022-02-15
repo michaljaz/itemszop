@@ -104,7 +104,9 @@ export default {
     last_payments_amount: 'Ilość wyświetlanych ostatnich zakupów w sklepie',
     horizontal_history: 'Lista pozioma (z tooltipami)',
     vertical_history: 'Lista pionowa',
-    shop_icon: 'Ikona sklepu'
+    shop_icon: 'Ikona sklepu',
+    discord_widget: 'Widżet serwera discordowego',
+    discord_server_id: 'ID Twojego serwera discordowego'
   },
 
   formats: {
