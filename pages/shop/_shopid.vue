@@ -111,6 +111,16 @@
                 </v-row>
               </v-card-text>
             </v-card>
+            <iframe
+              v-if="shop.dsc_id"
+              class="mt-5"
+              :src="`https://discord.com/widget?id=${shop.dsc_id}&theme=dark`"
+              width="100%"
+              height="400"
+              allowtransparency="true"
+              frameborder="0"
+              sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+            />
           </v-col>
         </v-row>
       </div>

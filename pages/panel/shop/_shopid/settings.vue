@@ -70,6 +70,20 @@
                 append-icon="mdi-lan-connect"
                 @click:append="testWebhook"
               />
+
+              <v-switch
+                v-model="dsc"
+                class="mt-0"
+                :label="$t('fields.discord_widget')"
+              />
+
+              <v-text-field
+                v-if="dsc"
+                v-model="dsc_id"
+                :label="$t('fields.discord_server_id')"
+                autocomplete="new-password"
+                :rules="rules.dsc_id"
+              />
             </v-card-text>
 
             <v-card-actions>
@@ -153,8 +167,10 @@ export default {
   },
   data () {
     return {
-      shop_icon: false,
-      shop_icon_url: '',
+      dsc: this.shop.dsc_id,
+      dsc_id: this.shop.dsc_id,
+      shop_icon: this.shop.icon,
+      shop_icon_url: this.shop.icon,
       last_payments_type: this.shop.last_payments_type,
       last_payments_type_list: [
         { name: this.$t('fields.vertical_history'), value: 1 },
@@ -176,6 +192,10 @@ export default {
         icon_url: [
           value => !!value || this.$t('formats.field_not_empty'),
           value => this.isURL(value) || this.$t('formats.wrong_format')
+        ],
+        dsc_id: [
+          value => !!value || this.$t('formats.field_not_empty'),
+          v => /^\d+$/.test(v) || this.$t('formats.wrong_format')
         ]
       }
     }
@@ -205,7 +225,8 @@ export default {
           webhook: this.webhook ? this.webhookUrl : '',
           maxservices: this.maxservices,
           last_payments_type: this.last_payments_type,
-          icon: this.shop_icon ? this.shop_icon_url : ''
+          icon: this.shop_icon ? this.shop_icon_url : '',
+          dsc_id: this.dsc ? this.dsc_id : ''
         })
       }
     },
