@@ -65,6 +65,15 @@
           {{ $t('brand') }}
         </v-toolbar-title>
         <v-spacer class="hidden-sm-and-down" />
+        <v-btn icon @click="toggle_theme">
+          <v-icon v-if="$vuetify.theme.dark">
+            mdi-white-balance-sunny
+          </v-icon>
+          <v-icon v-if="!$vuetify.theme.dark">
+            mdi-weather-night
+          </v-icon>
+        </v-btn>
+        <!-- <v-switch v-model="" class="mt-5" /> -->
         <v-menu
           offset-y
           left
@@ -80,6 +89,7 @@
                   mdi-account
                 </v-icon>
                 <span class="hidden-sm-and-down">
+
                   <span v-if="$store.state.user">
                     {{ $store.state.user.displayName }}
                   </span>
@@ -159,6 +169,16 @@ export default {
     }
   },
   mounted () {
+    const theme = localStorage.getItem('dark')
+    if (theme) {
+      if (theme === 'true') {
+        this.$vuetify.theme.dark = true
+      } else {
+        this.$vuetify.theme.dark = false
+      }
+    } else {
+      localStorage.setItem('dark', 'true')
+    }
     if (this.$route.params.shopid) {
       this.tabs = true
     } else {
@@ -186,6 +206,10 @@ export default {
       this.$fire.auth.signOut()
       this.shops = []
       this.$router.push('/')
+    },
+    toggle_theme () {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark
+      localStorage.setItem('dark', this.$vuetify.theme.dark.toString())
     }
   }
 }

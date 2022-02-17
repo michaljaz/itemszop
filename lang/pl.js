@@ -204,6 +204,8 @@ export default {
     test_message: 'Testowa wiadomość',
     costslider_instruction: "Przy płatnośći przelewem koszt liczony jest: ILOŚĆ * KOSZT SZTUKI. {br}Przy płatności sms'em musisz wybrać w polach poniżej ile sztuk produktu będzie za dany sms.{br}W komendach możesz użyć [n] jeśli chcesz użyć liczby wybranej na suwaku.",
     costslider_amount: 'Liczba produktów: {amount}',
-    bought: 'kupił'
+    bought: 'kupił',
+    privacy_policy_accept: 'Rejestrując się w serwisie automatycznie akceptujesz ',
+    privacy_policy: 'Politykę prywatności'
   }
 }
