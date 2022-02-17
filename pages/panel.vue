@@ -5,6 +5,8 @@
       elevation="4"
       fixed
       app
+      :color="$vuetify.theme.dark ? '' : 'light-blue darken-4'"
+      dark
     >
       <v-container class="pa-0 fill-height justify-space-between">
         <v-toolbar-title style="cursor: pointer" class="hidden-sm-and-down mr-3" @click="$router.push('/panel')">
