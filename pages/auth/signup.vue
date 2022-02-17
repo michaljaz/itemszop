@@ -66,6 +66,12 @@
         </v-dialog>
       </v-card-text>
       <v-card-actions>
+        <div class="ml-3">
+          {{ $t('misc.privacy_policy_accept') }}
+          <a href="https://www.freeprivacypolicy.com/live/3a8aa0bd-79f8-4882-b2c4-9a1a4b825bd2" target="_blank">
+            {{ $t('misc.privacy_policy') }}
+          </a>
+        </div>
         <v-spacer />
         <v-btn
           class="indigo darken-4"
@@ -108,14 +114,14 @@ export default {
           v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || this.$t('formats.wrong_format')
         ],
         displayName: [
-          value => !!value || this.$t('formats.write_display_name')
+          value => !!value || this.$t('formats.field_not_empty')
         ],
         password: [
-          value => !!value || this.$t('formats.write_password'),
+          value => !!value || this.$t('formats.field_not_empty'),
           value => (value && value.length >= 6) || this.$t('formats.min_6_chars')
         ],
         confirmPassword: [
-          value => !!value || this.$t('formats.write_password'),
+          value => !!value || this.$t('formats.field_not_empty'),
           value =>
             value === this.password || this.$t('formats.passwords_not_match')
         ]
