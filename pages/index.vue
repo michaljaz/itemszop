@@ -264,6 +264,7 @@ export default {
     ])
   },
   mounted () {
+    this.$vuetify.theme.dark = true
     const hostname = window.location.hostname
     this.issub = /^[a-zA-Z0-9][a-zA-Z0-9-]+\.itemszop\.ga$/.test(hostname)
     this.sub = hostname.split('.')[0]
