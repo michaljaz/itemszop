@@ -49,7 +49,12 @@
 <script>
 export default {
   name: 'VoucherPage',
+  layout: 'shop',
   props: {
+    shopPath: {
+      type: String,
+      required: true
+    },
     shop: {
       type: Object,
       required: true
@@ -78,7 +83,7 @@ export default {
     this.$emit('breadcrumb', [{
       text: this.$t('titles.shop'),
       disabled: false,
-      href: `/shop/${this.$route.params.shopid}`
+      href: `${this.shopPath}/`
     },
     {
       text: this.$t('titles.redeem_voucher'),

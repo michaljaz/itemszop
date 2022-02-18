@@ -17,7 +17,7 @@ export default {
       shop: {},
       listeningServers: {},
       servers: {},
-      shopid: this.$route.params.shopid
+      shopid: this.$route.params.shopid ? this.$route.params.shopid : process.env.singleShopId
     }
   },
   computed: {
@@ -27,10 +27,12 @@ export default {
   },
   watch: {
     $route (newRoute, oldRoute) {
-      if (newRoute.params.shopid !== oldRoute.params.shopid) {
-        this.shopid = newRoute.params.shopid
-        this.destroyListeners(oldRoute.params.shopid)
-        this.createShopListener(newRoute.params.shopid)
+      if (this.$route.params.shopid) {
+        if (newRoute.params.shopid !== oldRoute.params.shopid) {
+          this.shopid = newRoute.params.shopid
+          this.destroyListeners(oldRoute.params.shopid)
+          this.createShopListener(newRoute.params.shopid)
+        }
       }
     },
     servers () {
@@ -42,7 +44,11 @@ export default {
     }
   },
   mounted () {
-    this.createShopListener(this.$route.params.shopid)
+    if (this.$route.params.shopid) {
+      this.createShopListener(this.$route.params.shopid)
+    } else {
+      this.createShopListener(process.env.singleShopId)
+    }
   },
   beforeDestroy () {
     this.destroyListeners(this.shopid)
@@ -88,7 +94,8 @@ export default {
             shop.loaded = true
             this.shop = shop
           } else if (this.loggedIn) {
-            this.$router.push('/panel')
+            console.log('shop not exist', shopId)
+            this.$router.push('/')
           } else {
             window.top.location.href = process.env.baseUrl
           }

@@ -106,7 +106,9 @@ export default {
     vertical_history: 'Lista pionowa',
     shop_icon: 'Ikona sklepu',
     discord_widget: 'Widżet serwera discordowego',
-    discord_server_id: 'ID Twojego serwera discordowego'
+    discord_server_id: 'ID Twojego serwera discordowego',
+    shop_background: 'Zdjęcie w tle strony',
+    shop_background_url: 'Adres URL tła strony'
   },
 
   formats: {
