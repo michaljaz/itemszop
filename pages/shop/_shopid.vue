@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :style="background ? `background:url(${backgroundUrl}) no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;`:''">
     <ShopListener public @servers="servers=$event" @shop="shop=$event" />
     <v-container v-if="shop.loaded">
       <div class="d-inline-flex mt-4 mb-5">
@@ -138,6 +138,8 @@ export default {
   name: 'ShopidRoute',
   data () {
     return {
+      background: true,
+      backgroundUrl: 'https://wallpaperaccess.com/full/4003568.png',
       shop: {},
       servers: {},
       breadCrumbs: []
@@ -172,6 +174,12 @@ export default {
         favicon.href = this.shop.icon
       } else {
         favicon.href = '/favicon.ico'
+      }
+      if (this.shop.background) {
+        this.background = true
+        this.backgroundUrl = this.shop.background
+      } else {
+        this.background = false
       }
     }
   }

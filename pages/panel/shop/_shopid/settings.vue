@@ -29,8 +29,19 @@
                 autocomplete="new-password"
                 :rules="rules.icon_url"
               />
-            </v-card-text>
-            <v-card-text>
+              <v-switch
+                v-model="shop_background"
+                class="mt-0"
+                :label="$t('fields.shop_background')"
+              />
+
+              <v-text-field
+                v-if="shop_background"
+                v-model="shop_background_url"
+                :label="$t('fields.shop_background_url')"
+                autocomplete="new-password"
+                :rules="rules.icon_url"
+              />
               {{ $t('fields.last_payments_amount') }} {{ maxservices }}
               <v-slider
                 v-model="maxservices"
@@ -167,6 +178,8 @@ export default {
   },
   data () {
     return {
+      shop_background: this.shop.background,
+      shop_background_url: this.shop.background,
       dsc: this.shop.dsc_id,
       dsc_id: this.shop.dsc_id,
       shop_icon: this.shop.icon,
@@ -226,7 +239,8 @@ export default {
           maxservices: this.maxservices,
           last_payments_type: this.last_payments_type,
           icon: this.shop_icon ? this.shop_icon_url : '',
-          dsc_id: this.dsc ? this.dsc_id : ''
+          dsc_id: this.dsc ? this.dsc_id : '',
+          background: this.shop_background ? this.shop_background_url : ''
         })
       }
     },
