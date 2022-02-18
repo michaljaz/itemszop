@@ -138,8 +138,8 @@ export default {
   name: 'ShopidRoute',
   data () {
     return {
-      background: true,
-      backgroundUrl: 'https://wallpaperaccess.com/full/4003568.png',
+      background: false,
+      backgroundUrl: '',
       shop: {},
       servers: {},
       breadCrumbs: []
