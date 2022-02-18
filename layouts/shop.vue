@@ -1,6 +1,6 @@
 <template>
   <default-layout>
-    <div :style="background ? `background:url(${backgroundUrl}) no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;`:''">
+    <div :style="background ? `background:url(${backgroundUrl}) no-repeat center center fixed;height:100%;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;`:''">
       <ShopListener public @servers="servers=$event" @shop="shop=$event" />
       <v-container v-if="shop.loaded">
         <div class="d-inline-flex mt-4 mb-5">
