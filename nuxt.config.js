@@ -33,6 +33,10 @@ export default {
     ]
   },
 
+  dir: {
+    pages: process.env.SINGLE_SHOP ? 'pages/shop/_shopid' : 'pages',
+  },
+
   router: {
     middleware: [
       'auth'
@@ -41,7 +45,8 @@ export default {
 
   env: {
     baseUrl,
-    apiBaseUrl
+    apiBaseUrl,
+    singleShopId:process.env.SINGLE_SHOP
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css

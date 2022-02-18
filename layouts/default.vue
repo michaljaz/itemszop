@@ -1,7 +1,8 @@
 <template>
   <v-app dark>
     <v-main>
-      <Nuxt />
+      <nuxt v-if="!$slots.default" />
+      <slot />
     </v-main>
     <v-footer class="justify-center">
       <span>

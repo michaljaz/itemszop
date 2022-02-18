@@ -2,10 +2,10 @@
   <div>
     <v-row>
       <v-col cols="12" md="5" sm="6">
-        <ServiceCard :service="service" :payments="shop.payments" :shopid="$route.params.shopid" />
+        <ServiceCard :service="service" :payments="shop.payments" :shopid="shopId" />
       </v-col>
       <v-col cols="12" md="7" sm="6">
-        <v-btn class="mb-3 pl-2" :to="`/shop/${$route.params.shopid}/server/${service.server}`">
+        <v-btn class="mb-3 pl-2" :to="`${shopPath}/server/${service.server}`">
           <v-icon>mdi-arrow-left-thin</v-icon>
           {{ $t('actions.back_to_services') }}
         </v-btn>
@@ -19,7 +19,16 @@
 <script>
 export default {
   name: 'ServicePage',
+  layout: 'shop',
   props: {
+    shopId: {
+      type: String,
+      required: true
+    },
+    shopPath: {
+      type: String,
+      required: true
+    },
     shop: {
       type: Object,
       required: true
@@ -53,12 +62,12 @@ export default {
       this.$emit('breadcrumb', [{
         text: this.$t('titles.shop'),
         disabled: false,
-        href: `/shop/${this.$route.params.shopid}`
+        href: `${this.shopPath}/`
       },
       {
         text: this.serverName,
         disabled: false,
-        href: `/shop/${this.$route.params.shopid}/server/${this.service.server}`
+        href: `${this.shopPath}/server/${this.service.server}`
       },
       {
         text: this.service.name,

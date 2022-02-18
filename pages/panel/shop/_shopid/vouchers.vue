@@ -89,14 +89,6 @@
           <v-card-actions>
             <v-spacer />
             <v-btn
-              color="blue darken-1"
-              text
-              rounded
-              @click="dialog = false"
-            >
-              {{ $t('actions.cancel') }}
-            </v-btn>
-            <v-btn
               color="green darken-1"
               text
               rounded
