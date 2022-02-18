@@ -1,6 +1,6 @@
 import {Handler, Router} from './lib/Request.js'
 
-class SmsHandler extends Handler {
+class Main extends Handler {
   constructor () {
     super()
     return (req, res) => {
@@ -174,4 +174,4 @@ class SmsHandler extends Handler {
   }
 }
 
-module.exports = Router('/api/sms', new SmsHandler())
+module.exports = Router('/api/microsms_sms', new Main())

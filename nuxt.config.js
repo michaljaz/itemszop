@@ -34,7 +34,7 @@ export default {
   },
 
   dir: {
-    pages: process.env.SINGLE_SHOP ? 'pages/shop/_shopid' : 'pages',
+    pages: process.env.SINGLE_SHOP ? 'pages/shop/_shopid' : 'pages'
   },
 
   router: {
@@ -46,7 +46,7 @@ export default {
   env: {
     baseUrl,
     apiBaseUrl,
-    singleShopId:process.env.SINGLE_SHOP
+    singleShopId: process.env.SINGLE_SHOP
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -131,7 +131,7 @@ export default {
   build: {
     transpile: ['vuetify/lib', 'tiptap-vuetify']
   },
-  serverMiddleware: process.env.NODE_ENV === 'production' ? [] : ['~/api/rcon.js', '~/api/voucher.js', '~/api/przelew.js', '~/api/sms.js'],
+  serverMiddleware: process.env.NODE_ENV === 'production' ? [] : ['~/api/rcon.js', '~/api/voucher.js', '~/api/microsms_przelew.js', '~/api/microsms_sms.js', '~/api/lvlup.js'],
   server: {
     port: 8080
   }
