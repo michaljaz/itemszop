@@ -1,0 +1,36 @@
+
+=== SKLEP ===
+name - nazwa sklepu
+icon - url ikony
+owner - id właściciela
+collected - zebrane w zł
+goal - cel w zł
+maxservices - ilość wyświetlanych ostatnich zakupów
+dsc_id - id serwera discordowego (do widżetu)
+last_payments_type - rodzaj listy ostatnich płatności
+payments.
+
+=== SERWER ===
+owner - id właściciela
+serverIp - ip serwera
+serverName - nazwa serwera
+serverPort - port rcon do serwera
+serverPassword - hasło rcon do servera
+
+=== USŁUGA ===
+commands - komendy wykonywane przez serwer
+description - opis usługi
+icon - ikona usługi
+iconUrl - adres Url ikony
+name - nazwa usługi
+przelew - czy płatność przelewem włączona
+przelewCost - koszt przelewu
+sms - czy płatność smsem włączona
+smsType - typ smsa
+
+=== PŁATNOŚĆ W HISTORII ===
+date - data płatności
+nick - nick kupującego
+service - nazwa usługi
+serviceid - id usługi
+type - typ usługi
