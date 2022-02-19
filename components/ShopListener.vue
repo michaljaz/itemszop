@@ -15,8 +15,9 @@ export default {
   data () {
     return {
       shop: {},
-      listeningServers: {},
       servers: {},
+      payments: {},
+      listeningServers: {},
       shopid: this.$route.params.shopid ? this.$route.params.shopid : process.env.singleShopId
     }
   },
@@ -41,14 +42,13 @@ export default {
     shop () {
       this.updateServerListeners(this.shop.servers)
       this.$emit('shop', this.shop)
+    },
+    payments () {
+      this.$emit('payments', this.payments)
     }
   },
   mounted () {
-    if (this.$route.params.shopid) {
-      this.createShopListener(this.$route.params.shopid)
-    } else {
-      this.createShopListener(process.env.singleShopId)
-    }
+    this.createShopListener(this.shopid)
   },
   beforeDestroy () {
     this.destroyListeners(this.shopid)
@@ -87,6 +87,7 @@ export default {
         })
     },
     createShopListener (shopId) {
+      this.createPaymentsListener(shopId)
       this.$fire.database.ref().child(`shops/${shopId}`)
         .on('value', (snapshot) => {
           if (snapshot.exists()) {
@@ -101,11 +102,27 @@ export default {
           }
         })
     },
+    createPaymentsListener (shopId) {
+      const paymentsPath = this.public ? `payments/${shopId}/microsms_sms_text` : `payments/${shopId}`
+      this.$fire.database.ref().child(paymentsPath)
+        .on('value', (snapshot) => {
+          if (snapshot.exists()) {
+            const data = snapshot.val() === null ? {} : snapshot.val()
+            if (this.public) {
+              this.payments = { microsms_sms_text: data }
+            } else {
+              this.payments = data
+            }
+          }
+        })
+    },
     destroyListeners (shopId) {
       for (const serverId in this.listeningServers) {
         this.destroyServerListener(serverId)
       }
       this.$fire.database.ref().child(`shops/${shopId}`).off('value')
+      this.$fire.database.ref().child(`payments/${shopId}`).off('value')
+      this.$fire.database.ref().child(`payments/${shopId}/microsms_sms_text`).off('value')
     }
   }
 }

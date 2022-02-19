@@ -1,10 +1,11 @@
 <template>
   <div>
-    <ShopListener @servers="servers=$event" @shop="shop=$event" />
+    <ShopListener @servers="servers=$event" @shop="shop=$event" @payments="payments=$event" />
     <nuxt-child
       v-if="shop.loaded"
       :shop="shop"
       :servers="servers"
+      :payments="payments"
     />
     <div v-else class="d-flex mt-5 justify-center">
       <v-progress-circular
@@ -20,7 +21,8 @@ export default {
   data () {
     return {
       shop: {},
-      servers: {}
+      servers: {},
+      payments: {}
     }
   },
   head () {
