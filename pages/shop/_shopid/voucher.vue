@@ -69,12 +69,12 @@ export default {
       nick: '',
       rules: {
         code: [
-          value => !!value || this.$t('formats.field_not_empty'),
-          v => /^[a-z0-9]{6,}$/.test(v) || this.$t('formats.wrong_format_voucher')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.voucher(v) || this.$t('formats.wrong_format_voucher')
         ],
         nick: [
-          value => !!value || this.$t('formats.field_not_empty'),
-          v => /^[a-zA-Z0-9_]{2,16}$/.test(v) || this.$t('formats.wrong_format_nick')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.nick(v) || this.$t('formats.wrong_format_nick')
         ]
       }
     }

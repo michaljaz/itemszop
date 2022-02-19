@@ -174,18 +174,18 @@ export default {
       showPassword: false,
       rules: {
         port: [
-          value => !!value || this.$t('formats.field_not_empty')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
         name: [
-          value => !!value || this.$t('formats.field_not_empty')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
         ip: [
-          value => !!value || this.$t('formats.field_not_empty'),
-          v => /^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]))*$/.test(v) || this.$t('formats.wrong_format')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.ip(v) || this.$t('formats.wrong_format')
         ],
         password: [
-          value => !!value || this.$t('formats.field_not_empty'),
-          value => (value && value.length >= 4) || this.$t('formats.min_6_chars')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.min_6_chars(v) || this.$t('formats.min_6_chars')
         ]
       }
     }

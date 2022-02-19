@@ -305,20 +305,20 @@ export default {
       },
       rules: {
         name: [
-          value => !!value || this.$t('formats.field_not_empty')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
         iconUrl: [
-          value => !!value || this.$t('formats.field_not_empty'),
-          value => this.isURL(value) || this.$t('formats.wrong_format')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.is_url(v) || this.$t('formats.wrong_format')
         ],
         smsType: [
-          value => !!value || this.$t('formats.field_not_empty')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
         przelewCost: [
-          value => !!value || this.$t('formats.field_not_empty')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
         server: [
-          value => !!value || this.$t('formats.field_not_empty')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ]
       }
     }
@@ -365,15 +365,6 @@ export default {
     }
   },
   methods: {
-    isURL (str) {
-      let url
-      try {
-        url = new URL(str)
-      } catch (_) {
-        return false
-      }
-      return url.protocol === 'http:' || url.protocol === 'https:'
-    },
     editService (service) {
       this.serviceId = service.serviceId
       const newService = Object.assign({}, service)

@@ -140,15 +140,15 @@ export default {
       amount: 0,
       rules: {
         service: [
-          value => !!value || this.$t('formats.field_not_empty')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
         amount: [
-          value => !!value || this.$t('formats.field_not_empty'),
-          value => this.isNaturalNumber(value) || this.$t('formats.wrong_codes_number'),
-          value => value <= 100 || this.$t('formats.max_100_vouchers')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.is_natural_number(v) || this.$t('formats.wrong_codes_number'),
+          v => this.$regex.max_100(v) || this.$t('formats.max_100_vouchers')
         ],
         date: [
-          value => !!value || this.$t('formats.field_not_empty')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ]
       }
     }
@@ -173,12 +173,6 @@ export default {
     }
   },
   methods: {
-    isNaturalNumber (n) {
-      n = n.toString() // force the value incase it is not
-      const n1 = Math.abs(n)
-      const n2 = parseInt(n, 10)
-      return !isNaN(n1) && n2 === n1 && n1.toString() === n
-    },
     download (text, filename) {
       const blob = new Blob([text], { type: 'text/plain' })
       const url = window.URL.createObjectURL(blob)

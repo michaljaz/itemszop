@@ -21,6 +21,15 @@
 				".write":"(data.child('owner').val() == auth.uid || !data.exists()) && (newData.child('owner').val() == auth.uid || !newData.exists())",
 			}
 		},
+		"payments":{
+			"$shop_id":{
+				"microsms_sms_text":{
+					".read":true
+				},
+				".read":"root.child('shops').child($shop_id).child('owner').val() == auth.uid",
+				".write":"root.child('shops').child($shop_id).child('owner').val() == auth.uid"
+			}
+		},
 		"vouchers":{
 			"$shop_id":{
 				".read":"root.child('shops').child($shop_id).child('owner').val() == auth.uid",

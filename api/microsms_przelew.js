@@ -1,6 +1,6 @@
 import {Handler, Router} from './lib/Request.js'
 
-class PrzelewHandler extends Handler {
+class Main extends Handler {
   constructor () {
     super()
     return (req, res) => {
@@ -159,4 +159,4 @@ class PrzelewHandler extends Handler {
   }
 }
 
-module.exports = Router('/api/przelew', new PrzelewHandler())
+module.exports = Router('/api/microsms_przelew', new Main())

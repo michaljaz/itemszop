@@ -199,16 +199,16 @@ export default {
       dialog: false,
       rules: {
         webhook: [
-          value => !!value || this.$t('formats.field_not_empty'),
-          v => /^https:\/\/discord(?:app)?\.com\/api\/webhooks\//.test(v) || this.$t('formats.wrong_format')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.dsc_webhook_url(v) || this.$t('formats.wrong_format')
         ],
         icon_url: [
-          value => !!value || this.$t('formats.field_not_empty'),
-          value => this.isURL(value) || this.$t('formats.wrong_format')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.is_url(v) || this.$t('formats.wrong_format')
         ],
         dsc_id: [
-          value => !!value || this.$t('formats.field_not_empty'),
-          v => /^\d+$/.test(v) || this.$t('formats.wrong_format')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.digits(v) || this.$t('formats.wrong_format')
         ]
       }
     }
@@ -219,15 +219,6 @@ export default {
     }
   },
   methods: {
-    isURL (str) {
-      let url
-      try {
-        url = new URL(str)
-      } catch (_) {
-        return false
-      }
-      return url.protocol === 'http:' || url.protocol === 'https:'
-    },
     save () {
       this.$refs.form.validate()
       if (this.valid) {

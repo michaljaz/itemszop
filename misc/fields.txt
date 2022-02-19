@@ -1,0 +1,48 @@
+
+REF: /shops/[id sklepu]
+=== SKLEP ===
+name - nazwa sklepu
+icon - url ikony
+owner - id właściciela
+collected - zebrane w zł
+goal - cel w zł
+maxservices - ilość wyświetlanych ostatnich zakupów
+dsc_id - id serwera discordowego (do widżetu)
+last_payments_type - rodzaj listy ostatnich płatności
+
+REF: /payments/[id sklepu]
+=== KONFIGURACJA PŁATNOŚCI ===
+lvlup_api - klucz api lvlup
+microsms_user_id - id użytkownika microsms
+microsms_transfer_id - id przelewu z microsms
+microsms_transfer_hash - hash przelewu z microsms
+microsms_sms_id - id smsa z microsms
+microsms_sms_text - treść smsa z microsms
+
+REF: /servers/[id serwera]
+=== SERWER ===
+owner - id właściciela
+serverIp - ip serwera
+serverName - nazwa serwera
+serverPort - port rcon do serwera
+serverPassword - hasło rcon do servera
+
+REF: /shop/[id sklepu]/service/[id usługi]
+=== USŁUGA ===
+commands - komendy wykonywane przez serwer
+description - opis usługi
+icon - ikona usługi
+iconUrl - adres Url ikony
+name - nazwa usługi
+przelew - czy płatność przelewem włączona
+przelewCost - koszt przelewu
+sms - czy płatność smsem włączona
+smsType - typ smsa
+
+REF: /shop/[id sklepu]/history
+=== PŁATNOŚĆ W HISTORII ===
+date - data płatności
+nick - nick kupującego
+service - nazwa usługi
+serviceid - id usługi
+type - typ usługi

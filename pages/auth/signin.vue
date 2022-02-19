@@ -149,11 +149,11 @@ export default {
       showPassword: false,
       rules: {
         email: [
-          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || this.$t('formats.wrong_format')
+          v => this.$regex.email(v) || this.$t('formats.wrong_format')
         ],
         password: [
-          value => !!value || this.$t('formats.write_password'),
-          value => (value && value.length >= 6) || this.$t('formats.min_6_chars')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.min_6_chars(v) || this.$t('formats.min_6_chars')
         ]
       }
     }

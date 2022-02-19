@@ -111,19 +111,18 @@ export default {
       confirmPassword: '',
       rules: {
         email: [
-          v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || this.$t('formats.wrong_format')
+          v => this.$regex.email(v) || this.$t('formats.wrong_format')
         ],
         displayName: [
-          value => !!value || this.$t('formats.field_not_empty')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
         password: [
-          value => !!value || this.$t('formats.field_not_empty'),
-          value => (value && value.length >= 6) || this.$t('formats.min_6_chars')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.min_6_chars(v) || this.$t('formats.min_6_chars')
         ],
         confirmPassword: [
-          value => !!value || this.$t('formats.field_not_empty'),
-          value =>
-            value === this.password || this.$t('formats.passwords_not_match')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => v === this.password || this.$t('formats.passwords_not_match')
         ]
       }
     }

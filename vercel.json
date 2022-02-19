@@ -10,12 +10,20 @@
       "dest": "/api/voucher.js"
     },
 		{
-      "src": "/api/przelew",
-      "dest": "/api/przelew.js"
+      "src": "/api/microsms_przelew",
+      "dest": "/api/microsms_przelew.js"
     },
 		{
-      "src": "/api/sms",
-      "dest": "/api/sms.js"
+      "src": "/api/microsms_sms",
+      "dest": "/api/microsms_sms.js"
+    },
+		{
+      "src": "/api/lvlup",
+      "dest": "/api/lvlup.js"
+    },
+		{
+      "src": "/api/lvlup_link_gen",
+      "dest": "/api/lvlup_link_gen.js"
     }
   ],
   "builds": [

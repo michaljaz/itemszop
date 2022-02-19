@@ -260,15 +260,15 @@ export default {
       },
       rules: {
         type: [
-          value => !!value || this.$t('formats.field_not_empty')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
         nick: [
-          value => !!value || this.$t('formats.field_not_empty'),
-          v => /^[a-zA-Z0-9_]{2,16}$/.test(v) || this.$t('formats.wrong_format')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.nick(v) || this.$t('formats.wrong_format')
         ],
         code: [
-          value => !!value || this.$t('formats.field_not_empty'),
-          v => /^[A-Za-z0-9]{8}$/.test(v) || this.$t('formats.wrong_format')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.sms_code(v) || this.$t('formats.wrong_format')
         ]
       }
     }
@@ -292,7 +292,7 @@ export default {
         description: `${this.service.name} dla ${this.nick}`,
         control: `${this.shopid}|${this.service.serviceId}|${this.nick}`,
         returl_url: `${process.env.apiBaseUrl}/shop/${this.shopid}/payment_success`,
-        returl_urlc: `${process.env.apiBaseUrl}/api/przelew`
+        returl_urlc: `${process.env.apiBaseUrl}/api/microsms_przelew`
       })
       const url = `https://microsms.pl/api/bankTransfer/?${params}`
       window.top.location.href = url
@@ -305,7 +305,7 @@ export default {
       this.$refs.form2.validate()
       if (this.valid2) {
         const { code, nick, shopid } = this
-        this.$axios.get('/sms', {
+        this.$axios.get('/microsms_sms', {
           params: { code, nick, shopid, serviceid: this.service.serviceId }
         }).then(({ data }) => {
           if (data.success) {
