@@ -61,7 +61,7 @@ export default {
       command: '',
       rules: {
         server: [
-          value => !!value || this.$t('formats.field_not_empty')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ]
       }
     }

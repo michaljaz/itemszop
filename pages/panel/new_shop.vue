@@ -46,12 +46,12 @@ export default {
       valid: false,
       rules: {
         name: [
-          value => !!value || this.$t('formats.field_not_empty')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
         shopid: [
-          value => !!value || this.$t('formats.field_not_empty'),
-          value => (value && value.length >= 4) || this.$t('formats.min_4_chars'),
-          v => /^[A-Za-z0-9_]{4,}$/.test(v) || this.$t('formats.shop_id_format')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.min_4_chars(v) || this.$t('formats.min_4_chars'),
+          v => this.$regex.normal_string(v) || this.$t('formats.shop_id_format')
         ]
       }
     }

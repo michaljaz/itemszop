@@ -260,15 +260,15 @@ export default {
       },
       rules: {
         type: [
-          value => !!value || this.$t('formats.field_not_empty')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
         nick: [
-          value => !!value || this.$t('formats.field_not_empty'),
-          v => /^[a-zA-Z0-9_]{2,16}$/.test(v) || this.$t('formats.wrong_format')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.nick(v) || this.$t('formats.wrong_format')
         ],
         code: [
-          value => !!value || this.$t('formats.field_not_empty'),
-          v => /^[A-Za-z0-9]{8}$/.test(v) || this.$t('formats.wrong_format')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.sms_code(v) || this.$t('formats.wrong_format')
         ]
       }
     }

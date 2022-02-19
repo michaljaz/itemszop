@@ -95,21 +95,21 @@ export default {
       paymentsSMS: this.shop.payments.paymentsSMS,
       rules: {
         userId: [
-          value => !!value || this.$t('formats.field_not_empty')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
         przelewId: [
-          value => !!value || this.$t('formats.field_not_empty')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
         hash: [
-          value => !!value || this.$t('formats.field_not_empty'),
-          v => /^[A-Za-z0-9$*@]+$/.test(v) || this.$t('formats.hash_format')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.microsms_hash(v) || this.$t('formats.hash_format')
         ],
         shopId: [
-          value => !!value || this.$t('formats.field_not_empty')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
         SMS: [
-          value => !!value || this.$t('formats.field_not_empty'),
-          v => /^[A-Z.]+$/.test(v) || this.$t('formats.sms_format')
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.sms_text(v) || this.$t('formats.sms_format')
         ]
       }
     }
