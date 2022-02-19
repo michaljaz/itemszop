@@ -20,6 +20,10 @@
 		{
       "src": "/api/lvlup",
       "dest": "/api/lvlup.js"
+    },
+		{
+      "src": "/api/lvlup_link_gen",
+      "dest": "/api/lvlup_link_gen.js"
     }
   ],
   "builds": [
