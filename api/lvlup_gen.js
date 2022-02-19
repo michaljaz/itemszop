@@ -24,4 +24,4 @@ class Main extends Handler {
   }
 }
 
-module.exports = Router('/api/lvlup_link_gen', new Main())
+module.exports = Router('/api/lvlup_gen', new Main())

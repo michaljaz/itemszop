@@ -285,17 +285,16 @@ export default {
       }
     },
     buyPrzelew () {
-      const params = new URLSearchParams({
-        shopid: this.payments.paymentsPrzelewId,
-        amount: this.service.przelewCost,
-        signature: require('md5')(`${this.payments.paymentsPrzelewId}${this.payments.paymentsHash}${this.service.przelewCost}`),
-        description: `${this.service.name} dla ${this.nick}`,
-        control: `${this.shopid}|${this.service.serviceId}|${this.nick}`,
-        returl_url: `${process.env.apiBaseUrl}/shop/${this.shopid}/payment_success`,
-        returl_urlc: `${process.env.apiBaseUrl}/api/microsms_przelew`
+      const { nick, shopid } = this
+      this.$axios.get('/microsms_transfer_gen', {
+        params: { nick, shopid, serviceid: this.service.serviceId }
+      }).then(({ data }) => {
+        if (data.success) {
+          window.top.location.href = data.url
+        } else {
+          console.log(data.error)
+        }
       })
-      const url = `https://microsms.pl/api/bankTransfer/?${params}`
-      window.top.location.href = url
     },
     buySMS () {
       this.dialog = false

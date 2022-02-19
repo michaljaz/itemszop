@@ -132,7 +132,15 @@ export default {
   build: {
     transpile: ['vuetify/lib', 'tiptap-vuetify']
   },
-  serverMiddleware: process.env.NODE_ENV === 'production' ? [] : ['~/api/rcon.js', '~/api/voucher.js', '~/api/microsms_przelew.js', '~/api/microsms_sms.js', '~/api/lvlup.js', '~/api/lvlup_link_gen.js'],
+  serverMiddleware: process.env.NODE_ENV === 'production' ? [] : [
+    '~/api/rcon.js',
+    '~/api/voucher.js',
+    '~/api/microsms_transfer.js',
+    '~/api/microsms_transfer_gen.js',
+    '~/api/microsms_sms.js',
+    '~/api/lvlup.js',
+    '~/api/lvlup_gen.js'
+  ],
   server: {
     port: 8080
   }

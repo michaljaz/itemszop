@@ -1,5 +1,5 @@
 {
-	"version":2,
+	"version": 2,
 	"routes": [
     {
       "src": "/api/rcon",
@@ -10,8 +10,12 @@
       "dest": "/api/voucher.js"
     },
 		{
-      "src": "/api/microsms_przelew",
-      "dest": "/api/microsms_przelew.js"
+      "src": "/api/microsms_transfer",
+      "dest": "/api/microsms_transfer.js"
+    },
+		{
+      "src": "/api/microsms_transfer_gen",
+      "dest": "/api/microsms_transfer_gen.js"
     },
 		{
       "src": "/api/microsms_sms",
@@ -22,8 +26,8 @@
       "dest": "/api/lvlup.js"
     },
 		{
-      "src": "/api/lvlup_link_gen",
-      "dest": "/api/lvlup_link_gen.js"
+      "src": "/api/lvlup_gen",
+      "dest": "/api/lvlup_gen.js"
     }
   ],
   "builds": [
