@@ -108,7 +108,10 @@ export default {
     discord_widget: 'Widżet serwera discordowego',
     discord_server_id: 'ID Twojego serwera discordowego',
     shop_background: 'Zdjęcie w tle strony',
-    shop_background_url: 'Adres URL tła strony'
+    shop_background_url: 'Adres URL tła strony',
+    microsms: 'Operator płatności microsms.pl',
+    lvlup: 'Operator płatności lvlup.pro',
+    lvlup_api: 'Klucz api z panelu lvlup.pro'
   },
 
   formats: {

@@ -11,56 +11,63 @@
               ref="form"
               v-model="valid"
             >
-              <v-select
-                v-model="select"
-                :items="items"
-                :label="$t('fields.payment_operator')"
-              />
-              <v-text-field
-                v-model="paymentsUserId"
-                :label="$t('fields.user_id')"
-                autocomplete="new-password"
-                :rules="rules.userId"
-                type="number"
-              />
-              <v-row>
-                <v-col>
-                  <h1 class="display-1">
-                    {{ $t('transfer') }}
-                  </h1>
-                  <v-text-field
-                    v-model="paymentsPrzelewId"
-                    type="number"
-                    :label="$t('fields.id_number')"
-                    autocomplete="new-password"
-                    :rules="rules.przelewId"
-                  />
-                  <v-text-field
-                    v-model="paymentsHash"
-                    :label="$t('fields.hash')"
-                    autocomplete="new-password"
-                    :rules="rules.hash"
-                  />
-                </v-col>
-                <v-col>
-                  <h1 class="display-1">
-                    SMS
-                  </h1>
-                  <v-text-field
-                    v-model="paymentsShopId"
-                    :label="$t('fields.id_number')"
-                    autocomplete="new-password"
-                    :rules="rules.shopId"
-                    type="number"
-                  />
-                  <v-text-field
-                    v-model="paymentsSMS"
-                    :label="$t('fields.sms_content')"
-                    autocomplete="new-password"
-                    :rules="rules.SMS"
-                  />
-                </v-col>
-              </v-row>
+              <v-switch v-model="fields.microsms" :label="$t('fields.microsms')" />
+              <div v-if="fields.microsms">
+                <v-text-field
+                  v-model="fields.microsms_user_id"
+                  :label="$t('fields.user_id')"
+                  autocomplete="new-password"
+                  :rules="rules.microsms_user_id"
+                  type="number"
+                />
+                <v-row>
+                  <v-col>
+                    <h1 class="display-1">
+                      {{ $t('transfer') }}
+                    </h1>
+                    <v-text-field
+                      v-model="fields.microsms_transfer_id"
+                      type="number"
+                      :label="$t('fields.id_number')"
+                      autocomplete="new-password"
+                      :rules="rules.microsms_transfer_id"
+                    />
+                    <v-text-field
+                      v-model="fields.microsms_transfer_hash"
+                      :label="$t('fields.hash')"
+                      autocomplete="new-password"
+                      :rules="rules.microsms_transfer_hash"
+                    />
+                  </v-col>
+                  <v-col>
+                    <h1 class="display-1">
+                      SMS
+                    </h1>
+                    <v-text-field
+                      v-model="fields.microsms_sms_id"
+                      :label="$t('fields.id_number')"
+                      autocomplete="new-password"
+                      :rules="rules.microsms_sms_id"
+                      type="number"
+                    />
+                    <v-text-field
+                      v-model="fields.microsms_sms_text"
+                      :label="$t('fields.sms_content')"
+                      autocomplete="new-password"
+                      :rules="rules.microsms_sms_text"
+                    />
+                  </v-col>
+                </v-row>
+              </div>
+              <v-switch v-model="fields.lvlup" :label="$t('fields.lvlup')" />
+              <div v-if="fields.lvlup">
+                <v-text-field
+                  v-model="fields.lvlup_api"
+                  :label="$t('fields.lvlup_api')"
+                  autocomplete="new-password"
+                  :rules="rules.lvlup_api"
+                />
+              </div>
             </v-form>
           </v-card-text>
           <v-card-actions>
@@ -81,6 +88,10 @@ export default {
     shop: {
       type: Object,
       required: true
+    },
+    payments: {
+      type: Object,
+      required: true
     }
   },
   data () {
@@ -88,26 +99,31 @@ export default {
       valid: false,
       select: 'MicroSMS',
       items: ['MicroSMS'],
-      paymentsUserId: this.shop.payments.paymentsUserId,
-      paymentsPrzelewId: this.shop.payments.paymentsPrzelewId,
-      paymentsHash: this.shop.payments.paymentsHash,
-      paymentsShopId: this.shop.payments.paymentsShopId,
-      paymentsSMS: this.shop.payments.paymentsSMS,
+      fields: {
+        microsms: false,
+        microsms_user_id: '',
+        microsms_transfer_id: '',
+        microsms_transfer_hash: '',
+        microsms_sms_id: '',
+        microsms_sms_text: '',
+        lvlup: false,
+        lvlup_api: ''
+      },
       rules: {
-        userId: [
+        microsms_user_id: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
-        przelewId: [
+        microsms_transfer_id: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
-        hash: [
+        microsms_transfer_hash: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
           v => this.$regex.microsms_hash(v) || this.$t('formats.hash_format')
         ],
-        shopId: [
+        microsms_sms_id: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
-        SMS: [
+        microsms_sms_text: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
           v => this.$regex.sms_text(v) || this.$t('formats.sms_format')
         ]
@@ -119,19 +135,22 @@ export default {
       title: this.$t('titles.payments')
     }
   },
+  mounted () {
+    this.fields.microsms = this.payments.microsms
+    this.fields.microsms_user_id = this.payments.microsms_user_id
+    this.fields.microsms_transfer_id = this.payments.microsms_transfer_id
+    this.fields.microsms_transfer_hash = this.payments.microsms_transfer_hash
+    this.fields.microsms_sms_id = this.payments.microsms_sms_id
+    this.fields.microsms_sms_text = this.payments.microsms_sms_text
+    this.fields.lvlup = this.payments.lvlup
+    this.fields.lvlup_api = this.payments.lvlup_api
+  },
   methods: {
     save () {
       this.$refs.form.validate()
       if (this.valid) {
         const { shopid } = this.$route.params
-        const { paymentsUserId, paymentsPrzelewId, paymentsHash, paymentsShopId, paymentsSMS } = this
-        this.$fire.database.ref().child(`shops/${shopid}/payments/`).set({
-          paymentsUserId,
-          paymentsPrzelewId,
-          paymentsHash,
-          paymentsShopId,
-          paymentsSMS
-        })
+        this.$fire.database.ref().child(`payments/${shopid}`).set(this.fields)
       }
     }
   }
