@@ -8,79 +8,77 @@ class Main extends Handler {
     }
   }
   check (req, res) {
+    this.req = req
     this.res = res
-    this.code = req.query.code
-    this.nick = req.query.nick
-    this.shopid = req.query.shopid
-    this.serviceid = req.query.serviceid
+    const [shopid, serviceid, nick] = req.control.split('|')
+    this.shopid = shopid
+    this.serviceid = serviceid
+    this.nick = nick
     this.checkRegex()
   }
   checkRegex () {
-    if(!/^[A-Za-z0-9]{8}$/.test(this.code)){
-      this.error('wrong_format_code')
-    }else if(!/^[a-zA-Z0-9_]{2,16}$/.test(this.nick)){
-      this.error('wrong_format_nick')
-    }else if(!/^[A-Za-z0-9_]{4,}$/.test(this.shopid)){
-      this.error('wrong_format_shopid')
-    }else if(!/^[A-Za-z0-9_]{3,}$/.test(this.serviceid)){
-      this.error('wrong_format_serviceid')
-    }else{
-      this.checkPayments()
+    if (/^[A-Za-z0-9_]{4,}$/.test(this.shopid) && /^[A-Za-z0-9_]{4,}$/.test(this.serviceid) && /^[a-zA-Z0-9_]{2,16}$/.test(this.nick)) {
+      this.checkIp()
+    } else {
+      this.error()
     }
   }
-  checkPayments () {
-    this.db.child(`payments/${this.shopid}`).once('value', (snapshot) => {
-      if (snapshot.exists()) {
-        this.payments = snapshot.val()
+  checkIp () {
+    // check if ip is correct
+    const ip = this.req.headers['x-forwarded-for'] || this.req.socket.remoteAddress
+    this.axios.get('https://microsms.pl/psc/ips/').then((response) => {
+      if (response.data.split(',').includes(ip) && status) {
+        this.checkUserId()
+      } else {
+        this.error()
+      }
+    })
+  }
+  checkUserId () {
+    // compare shop userid with payment userid
+    const {userid} = this.req.query
+    this.db.child(`payments/${this.shopid}/microsms_user_id`).once('value', (snapshot) => {
+      if (snapshot.exists() && snapshot.val() === userid) {
         this.checkService()
       } else {
-        this.error('payments_not_exist')
+        this.error()
       }
     })
   }
   checkService () {
+    // check if service exists and check cost
     this.db.child(`shops/${this.shopid}/services/${this.serviceid}`).once('value', (snapshot) => {
-      if (snapshot.exists()) {
+      if (snapshot.exists() && this.req.amountUni === this.service.przelewCost) {
         this.service = snapshot.val()
-        this.number = ({
-          1: '71480',
-          2: '72480',
-          3: '73480',
-          4: '74480',
-          5: '75480',
-          6: '76480',
-          7: '79480',
-          8: '91400',
-          9: '91900',
-          10: '92022',
-          11: '92550'
-        })[this.service.smsType]
         this.checkServer()
       } else {
-        this.error('service_not_exist')
+        this.error()
       }
     })
   }
   checkServer () {
+    // check if server exists
     this.db.child(`servers/${this.service.server}`).once('value', (snapshot) => {
       if (snapshot.exists()) {
         this.server = snapshot.val()
-        this.checkCode()
+        this.checkOwner()
       } else {
-        this.error('server_not_exist')
+        this.error()
       }
     })
   }
-  checkCode () {
-    this.axios.get(`https://microsms.pl/api/check.php?userid=${this.payments.microsms_user_id}&number=${this.number}&code=${this.code}&serviceid=${this.payments.microsms_sms_id}`).then(({data}) => {
-      if (data.split(',')[0] === '1') {
+  checkOwner () {
+    // check server owner == shop owner
+    this.db.child(`shop/${this.shopid}/owner`).once('value', (snapshot) => {
+      if (snapshot.exists() && this.server.owner === snapshot.val()) {
         this.checkRcon()
       } else {
-        this.error('wrong_code')
+        this.error()
       }
     })
   }
   checkRcon () {
+    // send rcon commands to server
     let count = 0
     const commands = this.service.commands.split('\n')
     for (let command of commands) {
@@ -99,10 +97,10 @@ class Main extends Handler {
             }
           })
           .catch((e) => {
-            this.error('command_error')
+            this.error()
           })
       }).catch((e) => {
-        this.error('auth_error')
+        this.error()
       })
     }
   }
@@ -113,39 +111,26 @@ class Main extends Handler {
       service: this.service.name,
       serviceid: this.serviceid,
       date: Date.now(),
-      type: 'sms'
+      type: 'przelew'
     }).then(() => {
       this.addMothlyGoal()
     }).catch(() => {
-      this.error('history_error')
+      this.error()
     })
   }
   addMothlyGoal () {
-    const smsCost = ({
-      1: 1,
-      2: 2,
-      3: 3,
-      4: 4,
-      5: 5,
-      6: 6,
-      7: 9,
-      8: 14,
-      9: 19,
-      10: 20,
-      11: 25
-    })[this.service.smsType]
     this.db.child(`shops/${this.shopid}/collected`).once('value', (snapshot) => {
       if (snapshot.exists()) {
-        this.db.child(`shops/${this.shopid}/collected`).set(parseFloat(snapshot.val()) + smsCost).then(() => {
+        this.db.child(`shops/${this.shopid}/collected`).set(parseFloat(snapshot.val()) + parseFloat(this.service.przelewCost)).then(() => {
           this.sendDiscordMessage()
         }).catch(() => {
-          this.error('monthly_goal_error')
+          this.error()
         })
       } else {
-        this.db.child(`shops/${this.shopid}/collected`).set(smsCost).then(() => {
+        this.db.child(`shops/${this.shopid}/collected`).set(parseFloat(this.service.przelewCost)).then(() => {
           this.sendDiscordMessage()
         }).catch(() => {
-          this.error('monthly_goal_error')
+          this.error()
         })
       }
     })
@@ -159,19 +144,19 @@ class Main extends Handler {
         }).then(() => {
           this.success()
         }).catch(() => {
-          this.error('discord_webhook_error')
+          this.error()
         })
       } else {
         this.success()
       }
     })
   }
-  success () {
-    this.res.json({success: true})
+  error () {
+    this.res.send('ERR')
   }
-  error (message) {
-    this.res.json({success: false, error: message})
+  success () {
+    this.res.send('OK')
   }
 }
 
-module.exports = Router('/api/microsms_sms', new Main())
+module.exports = Router('/api/microsms_transfer_webhook', new Main())

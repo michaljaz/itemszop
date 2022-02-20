@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <v-col cols="12" md="5" sm="6">
-        <ServiceCard :service="service" :payments="shop.payments" :shopid="shopId" />
+        <ServiceCard :service="service" :payments="payments" :shopid="shopId" />
       </v-col>
       <v-col cols="12" md="7" sm="6">
         <v-btn class="mb-3 pl-2" :to="`${shopPath}/server/${service.server}`">
@@ -34,6 +34,10 @@ export default {
       required: true
     },
     servers: {
+      type: Object,
+      required: true
+    },
+    payments: {
       type: Object,
       required: true
     }

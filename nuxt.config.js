@@ -136,10 +136,10 @@ export default {
     '~/api/rcon.js',
     '~/api/voucher.js',
     '~/api/microsms_transfer.js',
-    '~/api/microsms_transfer_gen.js',
+    '~/api/microsms_transfer_webhook.js',
     '~/api/microsms_sms.js',
     '~/api/lvlup.js',
-    '~/api/lvlup_gen.js'
+    '~/api/lvlup_webhook.js'
   ],
   server: {
     port: 8080

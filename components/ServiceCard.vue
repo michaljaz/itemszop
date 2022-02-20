@@ -156,7 +156,7 @@
                 {{ smsCost[service.smsType][1] }}
               </template>
               <template #sms>
-                <b>{{ payments.paymentsSMS }}</b>
+                <b>{{ payments.microsms_sms_text }}</b>
               </template>
               <template #number>
                 <b>{{ smsCost[service.smsType][2] }}</b>
@@ -273,6 +273,9 @@ export default {
       }
     }
   },
+  mounted () {
+    console.log(this.payments)
+  },
   methods: {
     next () {
       this.$refs.form.validate()
@@ -286,7 +289,7 @@ export default {
     },
     buyPrzelew () {
       const { nick, shopid } = this
-      this.$axios.get('/microsms_transfer_gen', {
+      this.$axios.get('/microsms_transfer', {
         params: { nick, shopid, serviceid: this.service.serviceId }
       }).then(({ data }) => {
         if (data.success) {

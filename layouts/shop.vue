@@ -1,7 +1,7 @@
 <template>
   <default-layout>
     <div :style="background ? `background:url(${backgroundUrl}) no-repeat center center fixed;height:100%;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;`:''">
-      <ShopListener public @servers="servers=$event" @shop="shop=$event" />
+      <ShopListener public @servers="servers=$event" @shop="shop=$event" @payments="payments=$event" />
       <v-container v-if="shop.loaded">
         <div class="d-inline-flex mt-4 mb-5">
           <v-img
@@ -51,7 +51,14 @@
                       </v-breadcrumbs-item>
                     </template>
                   </v-breadcrumbs>
-                  <nuxt-child :shop="shop" :servers="servers" :shop-path="shopPath" :shop-id="shopId" @breadcrumb="breadCrumbs=$event" />
+                  <nuxt-child
+                    :shop="shop"
+                    :servers="servers"
+                    :shop-path="shopPath"
+                    :payments="payments"
+                    :shop-id="shopId"
+                    @breadcrumb="breadCrumbs=$event"
+                  />
                 </v-card-text>
               </v-card>
             </v-col>
@@ -149,6 +156,7 @@ export default {
       backgroundUrl: '',
       shop: {},
       servers: {},
+      payments: {},
       breadCrumbs: []
     }
   },

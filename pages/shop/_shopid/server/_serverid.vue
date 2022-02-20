@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <v-col v-for="service in services" :key="service.serviceId" cols="12" md="6" xl="4">
-        <ServiceCard :service="service" :payments="shop.payments" :shopid="$route.params.shopid" :link="`${shopPath}/service/${service.serviceId}`" />
+        <ServiceCard :service="service" :payments="payments" :shopid="shopId" :link="`${shopPath}/service/${service.serviceId}`" />
       </v-col>
     </v-row>
   </div>
@@ -12,6 +12,10 @@ export default {
   name: 'ShopServer',
   layout: 'shop',
   props: {
+    shopId: {
+      type: String,
+      required: true
+    },
     shopPath: {
       type: String,
       required: true
@@ -21,6 +25,10 @@ export default {
       required: true
     },
     servers: {
+      type: Object,
+      required: true
+    },
+    payments: {
       type: Object,
       required: true
     }

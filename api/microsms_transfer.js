@@ -1,4 +1,5 @@
 import {Handler, Router} from './lib/Request.js'
+import md5 from 'md5'
 
 class Main extends Handler {
   constructor () {
@@ -10,153 +11,58 @@ class Main extends Handler {
   check (req, res) {
     this.req = req
     this.res = res
-    const [shopid, serviceid, nick] = req.control.split('|')
-    this.shopid = shopid
-    this.serviceid = serviceid
-    this.nick = nick
+    this.nick = req.query.nick
+    this.shopid = req.query.shopid
+    this.serviceid = req.query.serviceid
     this.checkRegex()
   }
   checkRegex () {
-    if (/^[A-Za-z0-9_]{4,}$/.test(this.shopid) && /^[A-Za-z0-9_]{4,}$/.test(this.serviceid) && /^[a-zA-Z0-9_]{2,16}$/.test(this.nick)) {
-      this.checkIp()
+    if (!/^[a-zA-Z0-9_]{2,16}$/.test(this.nick)) {
+      this.error('wrong_format_nick')
+    } else if (!/^[A-Za-z0-9_]{4,}$/.test(this.shopid)) {
+      this.error('wrong_format_shopid')
+    } else if (!/^[A-Za-z0-9_]{3,}$/.test(this.serviceid)) {
+      this.error('wrong_format_serviceid')
     } else {
-      this.error()
+      this.checkPayments()
     }
   }
-  checkIp () {
-    // check if ip is correct
-    const ip = this.req.headers['x-forwarded-for'] || this.req.socket.remoteAddress
-    this.axios.get('https://microsms.pl/psc/ips/').then((response) => {
-      if (response.data.split(',').includes(ip) && status) {
-        this.checkUserId()
-      } else {
-        this.error()
-      }
-    })
-  }
-  checkUserId () {
-    // compare shop userid with payment userid
-    const {userid} = this.req.query
-    this.db.child(`payments/${this.shopid}/microsms_user_id`).once('value', (snapshot) => {
-      if (snapshot.exists() && snapshot.val() === userid) {
+  checkPayments () {
+    this.db.child(`payments/${this.shopid}`).once('value', (snapshot) => {
+      if (snapshot.exists()) {
+        this.payments = snapshot.val()
         this.checkService()
       } else {
-        this.error()
+        this.error('payments_not_exist')
       }
     })
   }
   checkService () {
-    // check if service exists and check cost
     this.db.child(`shops/${this.shopid}/services/${this.serviceid}`).once('value', (snapshot) => {
-      if (snapshot.exists() && this.req.amountUni === this.service.przelewCost) {
+      if (snapshot.exists()) {
         this.service = snapshot.val()
-        this.checkServer()
-      } else {
-        this.error()
-      }
-    })
-  }
-  checkServer () {
-    // check if server exists
-    this.db.child(`servers/${this.service.server}`).once('value', (snapshot) => {
-      if (snapshot.exists()) {
-        this.server = snapshot.val()
-        this.checkOwner()
-      } else {
-        this.error()
-      }
-    })
-  }
-  checkOwner () {
-    // check server owner == shop owner
-    this.db.child(`shop/${this.shopid}/owner`).once('value', (snapshot) => {
-      if (snapshot.exists() && this.server.owner === snapshot.val()) {
-        this.checkRcon()
-      } else {
-        this.error()
-      }
-    })
-  }
-  checkRcon () {
-    // send rcon commands to server
-    let count = 0
-    const commands = this.service.commands.split('\n')
-    for (let command of commands) {
-      command = command.replace(/\[nick\]/g, this.nick)
-      const config = {
-        host: this.server.serverIp,
-        port: this.server.serverPort,
-        password: this.server.serverPassword
-      }
-      this.rcon.connect(config).then((rcon) => {
-        rcon.send(command)
-          .then((response) => {
-            count++
-            if (count === commands.length) {
-              this.addPaymentHistory()
-            }
-          })
-          .catch((e) => {
-            this.error()
-          })
-      }).catch((e) => {
-        this.error()
-      })
-    }
-  }
-  addPaymentHistory () {
-    // update payments history
-    this.db.child(`shops/${this.shopid}/history`).push().set({
-      nick: this.nick,
-      service: this.service.name,
-      serviceid: this.serviceid,
-      date: Date.now(),
-      type: 'przelew'
-    }).then(() => {
-      this.addMothlyGoal()
-    }).catch(() => {
-      this.error()
-    })
-  }
-  addMothlyGoal () {
-    this.db.child(`shops/${this.shopid}/collected`).once('value', (snapshot) => {
-      if (snapshot.exists()) {
-        this.db.child(`shops/${this.shopid}/collected`).set(parseFloat(snapshot.val()) + parseFloat(this.service.przelewCost)).then(() => {
-          this.sendDiscordMessage()
-        }).catch(() => {
-          this.error()
-        })
-      } else {
-        this.db.child(`shops/${this.shopid}/collected`).set(parseFloat(this.service.przelewCost)).then(() => {
-          this.sendDiscordMessage()
-        }).catch(() => {
-          this.error()
-        })
-      }
-    })
-  }
-  sendDiscordMessage () {
-    this.db.child(`shops/${this.shopid}/webhook`).once('value', (snapshot) => {
-      if (snapshot.exists() && snapshot.val() !== '') {
-        const webhookUrl = snapshot.val()
-        this.axios.post(webhookUrl, {
-          content: `${this.nick} właśnie kupił(a) ${this.service.name}`
-        }).then(() => {
-          this.success()
-        }).catch(() => {
-          this.error()
-        })
-      } else {
         this.success()
+      } else {
+        this.error('service_not_exist')
       }
     })
-  }
-  error () {
-    this.res.send('ERR')
   }
   success () {
-    this.res.send('OK')
+    const params = new URLSearchParams({
+      shopid: this.payments.microsms_transfer_id,
+      amount: this.service.przelewCost,
+      signature: md5(`${this.payments.microsms_transfer_id}${this.payments.microsms_transfer_hash}${this.service.przelewCost}`),
+      description: `${this.service.name} dla ${this.nick}`,
+      control: `${this.shopid}|${this.serviceid}|${this.nick}`,
+      returl_url: `${process.env.apiBaseUrl}/shop/${this.shopid}/payment_success`,
+      returl_urlc: `${process.env.apiBaseUrl}/api/microsms_transfer_webhook`
+    })
+    const url = `https://microsms.pl/api/bankTransfer/?${params}`
+    this.res.json({success: true, url})
+  }
+  error (message) {
+    this.res.json({success: false, error: message})
   }
 }
 
-module.exports = Router('/api/microsms_transfer', new Main())
+module.exports = Router('/api/microsms_transfer_gen', new Main())
