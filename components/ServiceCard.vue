@@ -30,6 +30,16 @@
             X
           </template>
         </div>
+        <div class="d-flex justify-center mb-1">
+          {{ $t('fields.lvlup_payment') }}
+          <v-spacer />
+          <template v-if="service.lvlup">
+            {{ service.lvlup_cost }} zł
+          </template>
+          <template v-else>
+            X
+          </template>
+        </div>
       </v-card-text>
       <v-divider class="mx-4" />
       <v-card-title class="justify-center">
@@ -77,14 +87,19 @@
               >
                 <v-radio-group v-model="type" :rules="rules.type">
                   <v-radio
-                    v-if="service.przelew"
+                    v-if="service.microsms_transfer"
                     :label="$t('transfer')"
-                    value="przelew"
+                    value="microsms_transfer"
                   />
                   <v-radio
-                    v-if="service.sms"
+                    v-if="service.microsms_sms"
                     :label="$t('sms')"
-                    value="sms"
+                    value="microsms_sms"
+                  />
+                  <v-radio
+                    v-if="service.lvlup"
+                    :label="$t('fields.lvlup_payment')"
+                    value="lvlup"
                   />
                 </v-radio-group>
                 <v-text-field v-model="nick" :label="$t('fields.nick')" :rules="rules.nick" />
@@ -277,14 +292,28 @@ export default {
     next () {
       this.$refs.form.validate()
       if (this.valid) {
-        if (this.type === 'przelew') {
-          this.buyPrzelew()
+        if (this.type === 'microsms_transfer') {
+          this.buyMicrosmsTransfer()
+        } else if (this.type === 'lvlup') {
+          this.buyLvlup()
         } else {
-          this.buySMS()
+          this.buyMicrosmsSms()
         }
       }
     },
-    buyPrzelew () {
+    buyLvlup () {
+      const { nick, shopid } = this
+      this.$axios.get('/lvlup', {
+        params: { nick, shopid, serviceid: this.service.serviceId }
+      }).then(({ data }) => {
+        if (data.success) {
+          window.top.location.href = data.url
+        } else {
+          console.log(data.error)
+        }
+      })
+    },
+    buyMicrosmsTransfer () {
       const { nick, shopid } = this
       this.$axios.get('/microsms_transfer', {
         params: { nick, shopid, serviceid: this.service.serviceId }
@@ -296,7 +325,7 @@ export default {
         }
       })
     },
-    buySMS () {
+    buyMicrosmsSms () {
       this.dialog = false
       this.dialogSMS = true
     },
