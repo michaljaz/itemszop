@@ -188,13 +188,16 @@
                 <v-list-item-title class="text-h4 mb-3">
                   {{ service.name }}
                 </v-list-item-title>
-                <v-list-item-subtitle style="height:55px;">
+                <v-list-item-subtitle style="height:100px;">
                   <div v-if="service.sms || service.przelew">
-                    <v-chip v-if="service.sms" small class="mb-1">
-                      {{ $t('sms') }}: {{ smsCost[service.smsType] }}
-                    </v-chip><br>
-                    <v-chip v-if="service.przelew" small>
-                      {{ $t('transfer') }}: {{ service.przelewCost }}zł
+                    <v-chip v-if="service.microsms_sms && payments.microsms" small class="mb-1">
+                      {{ $t('sms') }}: {{ smsCost[service.microsms_sms_type] }}
+                    </v-chip>
+                    <v-chip v-if="service.microsms_transfer && payments.microsms" small class="mb-1">
+                      {{ $t('transfer') }}: {{ service.microsms_transfer_cost }}zł
+                    </v-chip>
+                    <v-chip v-if="service.lvlup && payments.lvlup" small class="mb-1">
+                      {{ $t('transfer_paypal_psc') }}: {{ service.lvlup_cost }}zł
                     </v-chip>
                   </div>
                   <div v-else>
