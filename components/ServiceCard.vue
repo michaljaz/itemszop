@@ -62,8 +62,9 @@
           persistent
           width="500"
         >
-          <template v-if="service.sms || service.przelew" #activator="{ on, attrs }">
+          <template #activator="{ on, attrs }">
             <v-btn
+              :disabled="!((payments.microsms && (service.microsms_sms || service.microsms_transfer)) || (service.lvlup && payments.lvlup))"
               color="green"
               large
               outlined
@@ -87,17 +88,17 @@
               >
                 <v-radio-group v-model="type" :rules="rules.type">
                   <v-radio
-                    v-if="service.microsms_transfer"
+                    v-if="service.microsms_transfer && payments.microsms"
                     :label="$t('transfer')"
                     value="microsms_transfer"
                   />
                   <v-radio
-                    v-if="service.microsms_sms"
+                    v-if="service.microsms_sms && payments.microsms"
                     :label="$t('sms')"
                     value="microsms_sms"
                   />
                   <v-radio
-                    v-if="service.lvlup"
+                    v-if="service.lvlup && payments.lvlup"
                     :label="$t('transfer_paypal_psc')"
                     value="lvlup"
                   />
