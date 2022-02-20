@@ -94,6 +94,8 @@ export default {
               microsms_sms_type: 0,
               microsms_transfer: false,
               microsms_transfer_cost: 0,
+              lvlup: false,
+              lvlup_cost: 0,
               server: '1_17',
               commands: 'say [nick] kupił VIP',
               description: 'OPIS'

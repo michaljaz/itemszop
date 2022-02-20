@@ -39,6 +39,8 @@ microsms_transfer - czy płatność przelewem włączona
 microsms_transfer_cost - koszt przelewu
 microsms_sms - czy płatność smsem włączona
 microsms_sms_type - typ smsa
+lvlup - czy płatność lvlup włączona
+lvlup_cost - koszt płatności lvlup
 
 REF: /shop/[id sklepu]/history
 === PŁATNOŚĆ W HISTORII ===

@@ -105,6 +105,18 @@
                   :rules="rules.microsms_transfer_cost"
                 />
                 <v-switch
+                  v-model="fields.lvlup"
+                  :label="$t('fields.lvlup_payment')"
+                />
+                <v-text-field
+                  v-if="fields.lvlup"
+                  v-model="fields.lvlup_cost"
+                  type="number"
+                  :label="$t('fields.transfer_cost')"
+                  autocomplete="new-password"
+                  :rules="rules.microsms_transfer_cost"
+                />
+                <v-switch
                   v-model="fields.costSlider"
                   :label="$t('fields.cost_slider')"
                 />
@@ -269,6 +281,8 @@ export default {
         microsms_sms_type: 0,
         microsms_transfer: false,
         microsms_transfer_cost: 0,
+        lvlup: false,
+        lvlup_cost: 0,
         server: '',
         commands: '',
         description: '',
@@ -388,6 +402,8 @@ export default {
         microsms_sms_type: 0,
         microsms_transfer: false,
         microsms_transfer_cost: 0,
+        lvlup: false,
+        lvlup_cost: 0,
         server: '',
         commands: '',
         description: this.$t('misc.default_description')
