@@ -17,7 +17,7 @@ class Main extends Handler {
   checkPayments () {
     this.db.child(`payments/${this.shopid}/lvlup_api`).once('value', (snapshot) => {
       if (snapshot.exists()) {
-        this.lvlup_api = snapshot.val()
+        this.lvlup = new LvlupApi(snapshot.val(), {env: 'sandbox'})
         this.checkLvlup()
       } else {
         this.error('payments_not_exist')
@@ -25,8 +25,7 @@ class Main extends Handler {
     })
   }
   checkLvlup () {
-    const lvlup = new LvlupApi(this.lvlup_api, {env: 'sandbox'})
-    lvlup.createPayment('1', 'https://example.site/redirect', `${process.env.BASE_URL}/api/lvlup_webhook`).then(({url}) => {
+    this.lvlup.createPayment('1', `${process.env.BASE_URL}`, `${process.env.BASE_URL}/api/lvlup_webhook`).then(({url}) => {
       if(url){
         this.url = url
         this.success()
