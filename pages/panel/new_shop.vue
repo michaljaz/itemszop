@@ -90,10 +90,10 @@ export default {
           services: {
             vip: {
               name: 'VIP',
-              sms: false,
-              smsType: 0,
-              przelew: false,
-              przelewCost: 0,
+              microsms_sms: false,
+              microsms_sms_type: 0,
+              microsms_transfer: false,
+              microsms_transfer_cost: 0,
               server: '1_17',
               commands: 'say [nick] kupił VIP',
               description: 'OPIS'

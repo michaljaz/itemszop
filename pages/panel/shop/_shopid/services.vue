@@ -80,29 +80,29 @@
               </v-col>
               <v-col cols="12" xs="12" md="6">
                 <v-switch
-                  v-model="fields.sms"
+                  v-model="fields.microsms_sms"
                   :label="$t('fields.sms_payment')"
                 />
                 <v-select
-                  v-if="fields.sms"
-                  v-model="fields.smsType"
+                  v-if="fields.microsms_sms"
+                  v-model="fields.microsms_sms_type"
                   item-text="name"
                   item-value="value"
                   :items="smsTypes"
                   :label="$t('fields.choose_sms')"
-                  :rules="rules.smsType"
+                  :rules="rules.microsms_sms_type"
                 />
                 <v-switch
-                  v-model="fields.przelew"
+                  v-model="fields.microsms_transfer"
                   :label="$t('fields.transfer_payment')"
                 />
                 <v-text-field
-                  v-if="fields.przelew"
-                  v-model="fields.przelewCost"
+                  v-if="fields.microsms_transfer"
+                  v-model="fields.microsms_transfer_cost"
                   type="number"
                   :label="$t('fields.transfer_cost')"
                   autocomplete="new-password"
-                  :rules="rules.przelewCost"
+                  :rules="rules.microsms_transfer_cost"
                 />
                 <v-switch
                   v-model="fields.costSlider"
@@ -265,10 +265,10 @@ export default {
         name: '',
         icon: false,
         iconUrl: '',
-        sms: false,
-        smsType: 0,
-        przelew: false,
-        przelewCost: 0,
+        microsms_sms: false,
+        microsms_sms_type: 0,
+        microsms_transfer: false,
+        microsms_transfer_cost: 0,
         server: '',
         commands: '',
         description: '',
@@ -311,10 +311,10 @@ export default {
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
           v => this.$regex.is_url(v) || this.$t('formats.wrong_format')
         ],
-        smsType: [
+        microsms_sms_type: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
-        przelewCost: [
+        microsms_transfer_cost: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
         server: [
@@ -384,10 +384,10 @@ export default {
         name: '',
         icon: false,
         iconUrl: '',
-        sms: false,
-        smsType: 0,
-        przelew: false,
-        przelewCost: 0,
+        microsms_sms: false,
+        microsms_sms_type: 0,
+        microsms_transfer: false,
+        microsms_transfer_cost: 0,
         server: '',
         commands: '',
         description: this.$t('misc.default_description')

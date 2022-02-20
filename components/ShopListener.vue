@@ -95,7 +95,7 @@ export default {
             shop.loaded = true
             this.shop = shop
           } else if (this.loggedIn) {
-            console.log('shop not exist', shopId)
+            // console.log('shop not exist', shopId)
             this.$router.push('/')
           } else {
             window.top.location.href = process.env.baseUrl

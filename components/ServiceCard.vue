@@ -13,8 +13,8 @@
         <div class="d-flex justify-center mb-1">
           {{ $t('sms') }}
           <v-spacer />
-          <span v-if="service.sms">
-            {{ smsCost[service.smsType][1] }} zł
+          <span v-if="service.microsms_sms">
+            {{ smsCost[service.microsms_sms_type][1] }} zł
           </span>
           <span v-else>
             X
@@ -23,8 +23,8 @@
         <div class="d-flex justify-center mb-1">
           {{ $t('transfer') }}
           <v-spacer />
-          <template v-if="service.przelew">
-            {{ service.przelewCost }} zł
+          <template v-if="service.microsms_transfer">
+            {{ service.microsms_transfer_cost }} zł
           </template>
           <template v-else>
             X
@@ -150,16 +150,16 @@
               path="misc.sms_send_instruction"
             >
               <template #netto>
-                {{ smsCost[service.smsType][0] }}
+                {{ smsCost[service.microsms_sms_type][0] }}
               </template>
               <template #brutto>
-                {{ smsCost[service.smsType][1] }}
+                {{ smsCost[service.microsms_sms_type][1] }}
               </template>
               <template #sms>
                 <b>{{ payments.microsms_sms_text }}</b>
               </template>
               <template #number>
-                <b>{{ smsCost[service.smsType][2] }}</b>
+                <b>{{ smsCost[service.microsms_sms_type][2] }}</b>
               </template>
               <template #br>
               </br>
@@ -272,9 +272,6 @@ export default {
         ]
       }
     }
-  },
-  mounted () {
-    console.log(this.payments)
   },
   methods: {
     next () {
