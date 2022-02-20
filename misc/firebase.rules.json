@@ -26,6 +26,12 @@
 				"microsms_sms_text":{
 					".read":true
 				},
+				"lvlup":{
+					".read":true
+				},
+				"microsms":{
+					".read":true
+				},
 				".read":"root.child('shops').child($shop_id).child('owner').val() == auth.uid",
 				".write":"root.child('shops').child($shop_id).child('owner').val() == auth.uid"
 			}

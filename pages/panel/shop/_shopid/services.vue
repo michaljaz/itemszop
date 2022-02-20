@@ -79,43 +79,47 @@
                 <TiptapEditor :editorcontent="fields.description" @content="fields.description=$event" />
               </v-col>
               <v-col cols="12" xs="12" md="6">
-                <v-switch
-                  v-model="fields.microsms_sms"
-                  :label="$t('fields.sms_payment')"
-                />
-                <v-select
-                  v-if="fields.microsms_sms"
-                  v-model="fields.microsms_sms_type"
-                  item-text="name"
-                  item-value="value"
-                  :items="smsTypes"
-                  :label="$t('fields.choose_sms')"
-                  :rules="rules.microsms_sms_type"
-                />
-                <v-switch
-                  v-model="fields.microsms_transfer"
-                  :label="$t('fields.transfer_payment')"
-                />
-                <v-text-field
-                  v-if="fields.microsms_transfer"
-                  v-model="fields.microsms_transfer_cost"
-                  type="number"
-                  :label="$t('fields.transfer_cost')"
-                  autocomplete="new-password"
-                  :rules="rules.microsms_transfer_cost"
-                />
-                <v-switch
-                  v-model="fields.lvlup"
-                  :label="$t('fields.lvlup_payment')"
-                />
-                <v-text-field
-                  v-if="fields.lvlup"
-                  v-model="fields.lvlup_cost"
-                  type="number"
-                  :label="$t('fields.transfer_cost')"
-                  autocomplete="new-password"
-                  :rules="rules.microsms_transfer_cost"
-                />
+                <div v-if="payments.microsms">
+                  <v-switch
+                    v-model="fields.microsms_sms"
+                    :label="`${$t('fields.sms_payment')} (microsms.pl)`"
+                  />
+                  <v-select
+                    v-if="fields.microsms_sms"
+                    v-model="fields.microsms_sms_type"
+                    item-text="name"
+                    item-value="value"
+                    :items="smsTypes"
+                    :label="$t('fields.choose_sms')"
+                    :rules="rules.microsms_sms_type"
+                  />
+                  <v-switch
+                    v-model="fields.microsms_transfer"
+                    :label="`${$t('fields.transfer_payment')} (microsms.pl)`"
+                  />
+                  <v-text-field
+                    v-if="fields.microsms_transfer"
+                    v-model="fields.microsms_transfer_cost"
+                    type="number"
+                    :label="$t('fields.transfer_cost')"
+                    autocomplete="new-password"
+                    :rules="rules.microsms_transfer_cost"
+                  />
+                </div>
+                <div v-if="payments.lvlup">
+                  <v-switch
+                    v-model="fields.lvlup"
+                    :label="`${$t('transfer_paypal_psc')} (lvlup.pro)`"
+                  />
+                  <v-text-field
+                    v-if="fields.lvlup"
+                    v-model="fields.lvlup_cost"
+                    type="number"
+                    :label="$t('fields.transfer_cost')"
+                    autocomplete="new-password"
+                    :rules="rules.microsms_transfer_cost"
+                  />
+                </div>
                 <v-switch
                   v-model="fields.costSlider"
                   :label="$t('fields.cost_slider')"
@@ -262,6 +266,10 @@ export default {
       required: true
     },
     servers: {
+      type: Object,
+      required: true
+    },
+    payments: {
       type: Object,
       required: true
     }

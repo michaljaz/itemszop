@@ -103,18 +103,42 @@ export default {
         })
     },
     createPaymentsListener (shopId) {
-      const paymentsPath = this.public ? `payments/${shopId}/microsms_sms_text` : `payments/${shopId}`
-      this.$fire.database.ref().child(paymentsPath)
-        .on('value', (snapshot) => {
-          if (snapshot.exists()) {
-            const data = snapshot.val() === null ? {} : snapshot.val()
-            if (this.public) {
-              this.payments = { microsms_sms_text: data }
-            } else {
-              this.payments = data
+      if (!this.public) {
+        this.$fire.database.ref().child(`payments/${shopId}`)
+          .on('value', (snapshot) => {
+            if (snapshot.exists()) {
+              this.payments = snapshot.val() === null ? {} : snapshot.val()
             }
-          }
-        })
+          })
+      } else {
+        this.$fire.database.ref().child(`payments/${shopId}/microsms_sms_text`)
+          .on('value', (snapshot) => {
+            if (snapshot.exists()) {
+              const data = snapshot.val() === null ? {} : snapshot.val()
+              const newPayments = Object.assign({}, this.payments)
+              newPayments.microsms_sms_text = data
+              this.payments = newPayments
+            }
+          })
+        this.$fire.database.ref().child(`payments/${shopId}/lvlup`)
+          .on('value', (snapshot) => {
+            if (snapshot.exists()) {
+              const data = snapshot.val() === null ? {} : snapshot.val()
+              const newPayments = Object.assign({}, this.payments)
+              newPayments.lvlup = data
+              this.payments = newPayments
+            }
+          })
+        this.$fire.database.ref().child(`payments/${shopId}/microsms`)
+          .on('value', (snapshot) => {
+            if (snapshot.exists()) {
+              const data = snapshot.val() === null ? {} : snapshot.val()
+              const newPayments = Object.assign({}, this.payments)
+              newPayments.microsms = data
+              this.payments = newPayments
+            }
+          })
+      }
     },
     destroyListeners (shopId) {
       for (const serverId in this.listeningServers) {
@@ -123,6 +147,8 @@ export default {
       this.$fire.database.ref().child(`shops/${shopId}`).off('value')
       this.$fire.database.ref().child(`payments/${shopId}`).off('value')
       this.$fire.database.ref().child(`payments/${shopId}/microsms_sms_text`).off('value')
+      this.$fire.database.ref().child(`payments/${shopId}/lvlup`).off('value')
+      this.$fire.database.ref().child(`payments/${shopId}/microsms`).off('value')
     }
   }
 }

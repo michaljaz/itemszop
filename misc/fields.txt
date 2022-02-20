@@ -13,7 +13,9 @@ webhook - url do discordowego webhooka
 
 REF: /payments/[id sklepu]
 === KONFIGURACJA PŁATNOŚCI ===
+lvlup - czy płatność lvlup skonfigurowana
 lvlup_api - klucz api lvlup
+microsms - czy płatność microsms skonfigurowana
 microsms_user_id - id użytkownika microsms
 microsms_transfer_id - id przelewu z microsms
 microsms_transfer_hash - hash przelewu z microsms

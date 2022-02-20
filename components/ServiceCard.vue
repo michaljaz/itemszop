@@ -10,7 +10,7 @@
         </template>
       </center>
       <v-card-text>
-        <div class="d-flex justify-center mb-1">
+        <div v-if="payments.microsms" class="d-flex justify-center mb-1">
           {{ $t('sms') }}
           <v-spacer />
           <span v-if="service.microsms_sms">
@@ -20,7 +20,7 @@
             X
           </span>
         </div>
-        <div class="d-flex justify-center mb-1">
+        <div v-if="payments.microsms" class="d-flex justify-center mb-1">
           {{ $t('transfer') }}
           <v-spacer />
           <template v-if="service.microsms_transfer">
@@ -30,8 +30,8 @@
             X
           </template>
         </div>
-        <div class="d-flex justify-center mb-1">
-          {{ $t('fields.lvlup_payment') }}
+        <div v-if="payments.lvlup" class="d-flex justify-center mb-1">
+          {{ $t('transfer_paypal_psc') }}
           <v-spacer />
           <template v-if="service.lvlup">
             {{ service.lvlup_cost }} zł
@@ -98,7 +98,7 @@
                   />
                   <v-radio
                     v-if="service.lvlup"
-                    :label="$t('fields.lvlup_payment')"
+                    :label="$t('transfer_paypal_psc')"
                     value="lvlup"
                   />
                 </v-radio-group>

@@ -7,6 +7,7 @@ export default {
 
   transfer: 'Przelew',
   sms: 'SMS',
+  transfer_paypal_psc: 'Przelew/Paypal/PSC',
 
   page_not_found: '404 - Nie znaleziono strony',
   error_occurred: 'Nastąpił Błąd',
@@ -111,8 +112,7 @@ export default {
     shop_background_url: 'Adres URL tła strony',
     microsms: 'Operator płatności microsms.pl',
     lvlup: 'Operator płatności lvlup.pro',
-    lvlup_api: 'Klucz api z panelu lvlup.pro',
-    lvlup_payment: 'Przelew/Paypal/PSC'
+    lvlup_api: 'Klucz api z panelu lvlup.pro'
   },
 
   formats: {
