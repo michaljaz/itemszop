@@ -163,7 +163,8 @@ export default {
     most_common_services: 'Najczęściej kupowane produkty',
     payment_methods: 'Metody płatności',
     shop_appearance: 'Wygląd sklepu',
-    additional_settings: 'Dodatkowe opcje'
+    additional_settings: 'Dodatkowe opcje',
+    no_service_available: 'Nie dodano żadnej usługi :('
   },
 
   responses: {
