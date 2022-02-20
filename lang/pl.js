@@ -7,6 +7,7 @@ export default {
 
   transfer: 'Przelew',
   sms: 'SMS',
+  transfer_paypal_psc: 'Przelew/Paypal/PSC',
 
   page_not_found: '404 - Nie znaleziono strony',
   error_occurred: 'Nastąpił Błąd',
@@ -162,7 +163,8 @@ export default {
     most_common_services: 'Najczęściej kupowane produkty',
     payment_methods: 'Metody płatności',
     shop_appearance: 'Wygląd sklepu',
-    additional_settings: 'Dodatkowe opcje'
+    additional_settings: 'Dodatkowe opcje',
+    no_service_available: 'Nie dodano żadnej usługi :('
   },
 
   responses: {

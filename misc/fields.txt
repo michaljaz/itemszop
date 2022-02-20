@@ -9,10 +9,13 @@ goal - cel w zł
 maxservices - ilość wyświetlanych ostatnich zakupów
 dsc_id - id serwera discordowego (do widżetu)
 last_payments_type - rodzaj listy ostatnich płatności
+webhook - url do discordowego webhooka
 
 REF: /payments/[id sklepu]
 === KONFIGURACJA PŁATNOŚCI ===
+lvlup - czy płatność lvlup skonfigurowana
 lvlup_api - klucz api lvlup
+microsms - czy płatność microsms skonfigurowana
 microsms_user_id - id użytkownika microsms
 microsms_transfer_id - id przelewu z microsms
 microsms_transfer_hash - hash przelewu z microsms
@@ -34,10 +37,12 @@ description - opis usługi
 icon - ikona usługi
 iconUrl - adres Url ikony
 name - nazwa usługi
-przelew - czy płatność przelewem włączona
-przelewCost - koszt przelewu
-sms - czy płatność smsem włączona
-smsType - typ smsa
+microsms_transfer - czy płatność przelewem włączona
+microsms_transfer_cost - koszt przelewu
+microsms_sms - czy płatność smsem włączona
+microsms_sms_type - typ smsa
+lvlup - czy płatność lvlup włączona
+lvlup_cost - koszt płatności lvlup
 
 REF: /shop/[id sklepu]/history
 === PŁATNOŚĆ W HISTORII ===

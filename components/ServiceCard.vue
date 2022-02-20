@@ -10,21 +10,31 @@
         </template>
       </center>
       <v-card-text>
-        <div class="d-flex justify-center mb-1">
+        <div v-if="payments.microsms" class="d-flex justify-center mb-1">
           {{ $t('sms') }}
           <v-spacer />
-          <span v-if="service.sms">
-            {{ smsCost[service.smsType][1] }} zł
+          <span v-if="service.microsms_sms">
+            {{ smsCost[service.microsms_sms_type][1] }} zł
           </span>
           <span v-else>
             X
           </span>
         </div>
-        <div class="d-flex justify-center mb-1">
+        <div v-if="payments.microsms" class="d-flex justify-center mb-1">
           {{ $t('transfer') }}
           <v-spacer />
-          <template v-if="service.przelew">
-            {{ service.przelewCost }} zł
+          <template v-if="service.microsms_transfer">
+            {{ service.microsms_transfer_cost }} zł
+          </template>
+          <template v-else>
+            X
+          </template>
+        </div>
+        <div v-if="payments.lvlup" class="d-flex justify-center mb-1">
+          {{ $t('transfer_paypal_psc') }}
+          <v-spacer />
+          <template v-if="service.lvlup">
+            {{ service.lvlup_cost }} zł
           </template>
           <template v-else>
             X
@@ -52,8 +62,9 @@
           persistent
           width="500"
         >
-          <template v-if="service.sms || service.przelew" #activator="{ on, attrs }">
+          <template #activator="{ on, attrs }">
             <v-btn
+              :disabled="!((payments.microsms && (service.microsms_sms || service.microsms_transfer)) || (service.lvlup && payments.lvlup))"
               color="green"
               large
               outlined
@@ -77,14 +88,19 @@
               >
                 <v-radio-group v-model="type" :rules="rules.type">
                   <v-radio
-                    v-if="service.przelew"
+                    v-if="service.microsms_transfer && payments.microsms"
                     :label="$t('transfer')"
-                    value="przelew"
+                    value="microsms_transfer"
                   />
                   <v-radio
-                    v-if="service.sms"
+                    v-if="service.microsms_sms && payments.microsms"
                     :label="$t('sms')"
-                    value="sms"
+                    value="microsms_sms"
+                  />
+                  <v-radio
+                    v-if="service.lvlup && payments.lvlup"
+                    :label="$t('transfer_paypal_psc')"
+                    value="lvlup"
                   />
                 </v-radio-group>
                 <v-text-field v-model="nick" :label="$t('fields.nick')" :rules="rules.nick" />
@@ -150,16 +166,16 @@
               path="misc.sms_send_instruction"
             >
               <template #netto>
-                {{ smsCost[service.smsType][0] }}
+                {{ smsCost[service.microsms_sms_type][0] }}
               </template>
               <template #brutto>
-                {{ smsCost[service.smsType][1] }}
+                {{ smsCost[service.microsms_sms_type][1] }}
               </template>
               <template #sms>
                 <b>{{ payments.microsms_sms_text }}</b>
               </template>
               <template #number>
-                <b>{{ smsCost[service.smsType][2] }}</b>
+                <b>{{ smsCost[service.microsms_sms_type][2] }}</b>
               </template>
               <template #br>
               </br>
@@ -273,21 +289,32 @@ export default {
       }
     }
   },
-  mounted () {
-    console.log(this.payments)
-  },
   methods: {
     next () {
       this.$refs.form.validate()
       if (this.valid) {
-        if (this.type === 'przelew') {
-          this.buyPrzelew()
+        if (this.type === 'microsms_transfer') {
+          this.buyMicrosmsTransfer()
+        } else if (this.type === 'lvlup') {
+          this.buyLvlup()
         } else {
-          this.buySMS()
+          this.buyMicrosmsSms()
         }
       }
     },
-    buyPrzelew () {
+    buyLvlup () {
+      const { nick, shopid } = this
+      this.$axios.get('/lvlup', {
+        params: { nick, shopid, serviceid: this.service.serviceId }
+      }).then(({ data }) => {
+        if (data.success) {
+          window.top.location.href = data.url
+        } else {
+          console.log(data.error)
+        }
+      })
+    },
+    buyMicrosmsTransfer () {
       const { nick, shopid } = this
       this.$axios.get('/microsms_transfer', {
         params: { nick, shopid, serviceid: this.service.serviceId }
@@ -299,7 +326,7 @@ export default {
         }
       })
     },
-    buySMS () {
+    buyMicrosmsSms () {
       this.dialog = false
       this.dialogSMS = true
     },
