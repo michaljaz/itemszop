@@ -54,8 +54,8 @@ class Main extends Handler {
       signature: md5(`${this.payments.microsms_transfer_id}${this.payments.microsms_transfer_hash}${this.service.przelewCost}`),
       description: `${this.service.name} dla ${this.nick}`,
       control: `${this.shopid}|${this.serviceid}|${this.nick}`,
-      returl_url: `${process.env.apiBaseUrl}/shop/${this.shopid}/payment_success`,
-      returl_urlc: `${process.env.apiBaseUrl}/api/microsms_transfer_webhook`
+      returl_url: `${process.env.BASE_URL}/shop/${this.shopid}/payment_success`,
+      returl_urlc: `${process.env.BASE_URL}/api/microsms_transfer_webhook`
     })
     const url = `https://microsms.pl/api/bankTransfer/?${params}`
     this.res.json({success: true, url})
@@ -65,4 +65,4 @@ class Main extends Handler {
   }
 }
 
-module.exports = Router('/api/microsms_transfer_gen', new Main())
+module.exports = Router('/api/microsms_transfer', new Main())
