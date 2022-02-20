@@ -7,7 +7,7 @@
     <v-footer class="justify-center">
       <span>
         &copy; {{ new Date().getFullYear() }}
-        <a :href="baseUrl">ItemSzop</a>
+        <a :href="mainUrl">ItemSzop</a>
       </span>
     </v-footer>
   </v-app>
@@ -18,7 +18,7 @@ export default {
   name: 'DefaultLayout',
   data () {
     return {
-      baseUrl: process.env.baseUrl
+      mainUrl: process.env.mainUrl
     }
   }
 }

@@ -37,7 +37,7 @@ class Main extends Handler {
   checkUserId () {
     // compare shop userid with payment userid
     const {userid} = this.req.query
-    this.db.child(`shops/${this.shopid}/payments/paymentsUserId`).once('value', (snapshot) => {
+    this.db.child(`payments/${this.shopid}/microsms_user_id`).once('value', (snapshot) => {
       if (snapshot.exists() && snapshot.val() === userid) {
         this.checkService()
       } else {
@@ -159,4 +159,4 @@ class Main extends Handler {
   }
 }
 
-module.exports = Router('/api/microsms_przelew', new Main())
+module.exports = Router('/api/microsms_transfer_webhook', new Main())

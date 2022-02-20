@@ -92,7 +92,7 @@ export default {
     voucher_deadline: 'Termin działania voucherów',
     codes_amount: 'Liczba kodów',
     webhook_url: 'Adres URL webhooka',
-    cost_slider: 'Suwak do wyboru ilości produktu',
+    cost_slider: 'Suwak do wyboru ilości produktu (eksperymentalne)',
     shop_html: 'Kod HTML, kóry wyświetla ramkę ze sklepem',
     discord_webhook: 'Webhook discordowy',
     choose_service_hint: 'Wybierz jaką usługę będzie można aktywować voucherem.',

@@ -87,13 +87,6 @@ export default {
             }
           },
           history: {},
-          payments: {
-            paymentsUserId: '',
-            paymentsPrzelewId: '',
-            paymentsHash: '',
-            paymentsShopId: '',
-            paymentsSMS: ''
-          },
           services: {
             vip: {
               name: 'VIP',

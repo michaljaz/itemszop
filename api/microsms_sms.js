@@ -29,7 +29,7 @@ class Main extends Handler {
     }
   }
   checkPayments () {
-    this.db.child(`shops/${this.shopid}/payments`).once('value', (snapshot) => {
+    this.db.child(`payments/${this.shopid}`).once('value', (snapshot) => {
       if (snapshot.exists()) {
         this.payments = snapshot.val()
         this.checkService()
@@ -72,7 +72,7 @@ class Main extends Handler {
     })
   }
   checkCode () {
-    this.axios.get(`https://microsms.pl/api/check.php?userid=${this.payments.paymentsUserId}&number=${this.number}&code=${this.code}&serviceid=${this.payments.paymentsShopId}`).then(({data}) => {
+    this.axios.get(`https://microsms.pl/api/check.php?userid=${this.payments.microsms_user_id}&number=${this.number}&code=${this.code}&serviceid=${this.payments.microsms_sms_id}`).then(({data}) => {
       if (data.split(',')[0] === '1') {
         this.checkRcon()
       } else {

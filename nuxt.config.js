@@ -1,13 +1,17 @@
 import colors from 'vuetify/es5/util/colors'
 
-const baseUrl = process.env.NODE_ENV === 'production' ? 'https://itemszop.tk' : 'http://localhost:8080'
-const apiBaseUrl = process.env.API_BASE_URL ? process.env.API_BASE_URL : baseUrl
+const mainUrl = "https://itemszop.tk"
+const baseUrl = process.env.NODE_ENV === 'production' ? process.env.BASE_URL : 'http://localhost:8080'
 
 let firebaseConfig
 try {
   firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG)
 } catch (e) {
-  console.error('Klucze zostały źle skonfigurowane')
+  console.error('Klucze zostały źle skonfigurowane w zmiennej środowiskowej FIREBASE_CONFIG')
+  process.exit()
+}
+if(!process.env.BASE_URL){
+  console.error('Nie ustawiono prawidłowo zmiennej środowiskowej BASE_URL')
   process.exit()
 }
 
@@ -44,8 +48,8 @@ export default {
   },
 
   env: {
+    mainUrl,
     baseUrl,
-    apiBaseUrl,
     singleShopId: process.env.SINGLE_SHOP
   },
 
@@ -106,7 +110,7 @@ export default {
   ],
 
   axios: {
-    baseURL: `${apiBaseUrl}/api`
+    baseURL: `${baseUrl}/api`
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
@@ -132,7 +136,15 @@ export default {
   build: {
     transpile: ['vuetify/lib', 'tiptap-vuetify']
   },
-  serverMiddleware: process.env.NODE_ENV === 'production' ? [] : ['~/api/rcon.js', '~/api/voucher.js', '~/api/microsms_przelew.js', '~/api/microsms_sms.js', '~/api/lvlup.js', '~/api/lvlup_link_gen.js'],
+  serverMiddleware: process.env.NODE_ENV === 'production' ? [] : [
+    '~/api/rcon.js',
+    '~/api/voucher.js',
+    '~/api/microsms_transfer.js',
+    '~/api/microsms_transfer_webhook.js',
+    '~/api/microsms_sms.js',
+    '~/api/lvlup.js',
+    '~/api/lvlup_webhook.js'
+  ],
   server: {
     port: 8080
   }
