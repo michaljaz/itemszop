@@ -118,7 +118,7 @@
               <v-btn
                 color="red"
                 text
-                @click="removeServer(item)"
+                @click="removeServer(currentItem)"
               >
                 {{ $t('actions.remove') }}
               </v-btn>
@@ -136,7 +136,7 @@
         </v-icon>
         <v-icon
           small
-          @click="dialog2=true"
+          @click="dialog2=true;currentItem=item"
         >
           mdi-delete
         </v-icon>
@@ -171,6 +171,7 @@ export default {
           sortable: false
         }
       ],
+      currentItem: null,
       dialog2: false,
       dialog: false,
       valid: false,
