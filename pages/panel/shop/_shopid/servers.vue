@@ -18,29 +18,17 @@
           />
           <v-spacer />
           <v-btn
+            dark
             color="green"
             @click="newServer"
           >
             {{ $t('actions.new_server') }}
           </v-btn>
         </v-toolbar>
-      </template>
-      <template #[`item.actions`]="{ item }">
         <v-dialog
           v-model="dialog"
           max-width="500"
         >
-          <template #activator="{ on, attrs }">
-            <v-icon
-              small
-              class="mr-2"
-              v-bind="attrs"
-              @click="applyServer(item)"
-              v-on="on"
-            >
-              mdi-pencil
-            </v-icon>
-          </template>
           <v-card tile flat>
             <v-toolbar
               max-height="80"
@@ -111,15 +99,6 @@
           v-model="dialog2"
           max-width="400"
         >
-          <template #activator="{ on, attrs }">
-            <v-icon
-              small
-              v-bind="attrs"
-              v-on="on"
-            >
-              mdi-delete
-            </v-icon>
-          </template>
           <v-card>
             <v-card-title class="text-h5">
               {{ $t('titles.are_you_sure') }}
@@ -146,6 +125,21 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+      </template>
+      <template #[`item.actions`]="{ item }">
+        <v-icon
+          small
+          class="mr-2"
+          @click="applyServer(item);dialog=true"
+        >
+          mdi-pencil
+        </v-icon>
+        <v-icon
+          small
+          @click="dialog2=true"
+        >
+          mdi-delete
+        </v-icon>
       </template>
     </v-data-table>
   </div>
