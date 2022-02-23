@@ -14,7 +14,18 @@ class Main extends Handler {
     this.shopid = req.query.shopid
     this.serviceid = req.query.serviceid
     this.nick = req.query.nick
-    this.checkPayments()
+    this.checkRegex()
+  }
+  checkRegex () {
+    if(!/^[a-zA-Z0-9_]{2,16}$/.test(this.nick)){
+      this.error('wrong_format_nick')
+    }else if(!/^[A-Za-z0-9_]{4,}$/.test(this.shopid)){
+      this.error('wrong_format_shopid')
+    }else if(!/^[A-Za-z0-9_]{3,}$/.test(this.serviceid)){
+      this.error('wrong_format_serviceid')
+    }else{
+      this.checkPayments()
+    }
   }
   checkPayments () {
     this.db.child(`payments/${this.shopid}/lvlup_api`).once('value', (snapshot) => {
