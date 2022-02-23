@@ -23,7 +23,7 @@ class Handler {
 }
 
 const Router = (r, c) => {
-  app.get(r, c)
+  app.all(r, c)
   return app
 }
 

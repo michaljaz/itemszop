@@ -132,14 +132,14 @@
             <v-card-actions>
               <v-spacer />
               <v-btn
-                color="primary"
+                color="green"
                 text
                 @click="dialog=false"
               >
                 {{ $t('actions.cancel') }}
               </v-btn>
               <v-btn
-                color="green"
+                color="primary"
                 text
                 @click="next"
               >
