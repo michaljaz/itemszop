@@ -112,7 +112,8 @@ export default {
     shop_background_url: 'Adres URL tła strony',
     microsms: 'Operator płatności microsms.pl',
     lvlup: 'Operator płatności lvlup.pro',
-    lvlup_api: 'Klucz api z panelu lvlup.pro'
+    lvlup_api: 'Klucz api z panelu lvlup.pro',
+    actions: 'Akcje'
   },
 
   formats: {

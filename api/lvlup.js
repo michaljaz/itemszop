@@ -12,20 +12,43 @@ class Main extends Handler {
     this.req = req
     this.res = res
     this.shopid = req.query.shopid
-    this.checkPayments()
+    this.serviceid = req.query.serviceid
+    this.nick = req.query.nick
+    this.checkRegex()
+  }
+  checkRegex () {
+    if(!/^[a-zA-Z0-9_]{2,16}$/.test(this.nick)){
+      this.error('wrong_format_nick')
+    }else if(!/^[A-Za-z0-9_]{4,}$/.test(this.shopid)){
+      this.error('wrong_format_shopid')
+    }else if(!/^[A-Za-z0-9_]{3,}$/.test(this.serviceid)){
+      this.error('wrong_format_serviceid')
+    }else{
+      this.checkPayments()
+    }
   }
   checkPayments () {
     this.db.child(`payments/${this.shopid}/lvlup_api`).once('value', (snapshot) => {
       if (snapshot.exists()) {
         this.lvlup = new LvlupApi(snapshot.val(), {env: 'sandbox'})
-        this.checkLvlup()
+        this.checkService()
       } else {
         this.error('payments_not_exist')
       }
     })
   }
+  checkService(){
+    this.db.child(`shops/${this.shopid}/services/${this.serviceid}`).once('value', (snapshot) => {
+      if (snapshot.exists()) {
+        this.service = snapshot.val()
+        this.checkLvlup()
+      } else {
+        this.error('service_not_exist')
+      }
+    })
+  }
   checkLvlup () {
-    this.lvlup.createPayment('1', `${process.env.BASE_URL}`, `${process.env.BASE_URL}/api/lvlup_webhook`).then(({url}) => {
+    this.lvlup.createPayment(this.service.lvlup_cost, `${process.env.BASE_URL}`, `${process.env.BASE_URL}/api/lvlup_webhook`).then(({url}) => {
       if(url){
         this.url = url
         this.success()

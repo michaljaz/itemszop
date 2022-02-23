@@ -88,18 +88,18 @@
               >
                 <v-radio-group v-model="type" :rules="rules.type">
                   <v-radio
-                    v-if="service.microsms_transfer && payments.microsms"
-                    :label="$t('transfer')"
-                    value="microsms_transfer"
-                  />
-                  <v-radio
                     v-if="service.microsms_sms && payments.microsms"
-                    :label="$t('sms')"
+                    :label="`${$t('sms')} (${smsCost[service.microsms_sms_type][1]} zł)`"
                     value="microsms_sms"
                   />
                   <v-radio
+                    v-if="service.microsms_transfer && payments.microsms"
+                    :label="`${$t('transfer')} (${service.microsms_transfer_cost} zł)`"
+                    value="microsms_transfer"
+                  />
+                  <v-radio
                     v-if="service.lvlup && payments.lvlup"
-                    :label="$t('transfer_paypal_psc')"
+                    :label="`${$t('transfer_paypal_psc')} (${service.lvlup_cost} zł)`"
                     value="lvlup"
                   />
                 </v-radio-group>
