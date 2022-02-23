@@ -203,6 +203,8 @@ export default {
         }
         const result = codes.join('\n')
         this.download(result, `vouchers-${service}.txt`)
+        this.amount = 0
+        this.service = ''
       }
     }
   }
