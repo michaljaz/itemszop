@@ -36,7 +36,7 @@ class Handler {
       this.check(req, res)
     }
   }
-  checkPayments () {
+  loadPayments () {
     return new Promise((resolve, reject) => {
       this.db.child(`payments/${this.shopid}`).once('value', (snapshot) => {
         if (snapshot.exists()) {
@@ -49,7 +49,7 @@ class Handler {
       })
     })
   }
-  checkService () {
+  loadService () {
     return new Promise((resolve, reject) => {
       this.db.child(`shops/${this.shopid}/services/${this.serviceid}`).once('value', (snapshot) => {
         if (snapshot.exists()) {
@@ -62,7 +62,7 @@ class Handler {
       })
     })
   }
-  checkServer () {
+  loadServer () {
     return new Promise((resolve, reject) => {
       this.db.child(`servers/${this.service.server}`).once('value', (snapshot) => {
         if (snapshot.exists()) {
@@ -75,7 +75,7 @@ class Handler {
       })
     })
   }
-  checkRcon () {
+  sendRcon () {
     return new Promise((resolve, reject) => {
       let count = 0
       const commands = this.service.commands.split('\n')
@@ -105,7 +105,7 @@ class Handler {
       }
     })
   }
-  sendDiscordMessage () {
+  sendDiscord () {
     return new Promise((resolve, reject) => {
       this.db.child(`shops/${this.shopid}/webhook`).once('value', (snapshot) => {
         if (snapshot.exists() && snapshot.val() !== '') {
@@ -124,7 +124,7 @@ class Handler {
       })
     })
   }
-  addPaymentHistory (type) {
+  addPaymentToHistory (type) {
     return new Promise((resolve, reject) => {
       this.db.child(`shops/${this.shopid}/history`).push().set({
         nick: this.nick,
