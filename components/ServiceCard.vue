@@ -151,6 +151,7 @@
       </v-card-actions>
     </v-card>
     <v-dialog
+      v-if="service.microsms"
       v-model="dialogSMS"
       persistent
       width="500"
