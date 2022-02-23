@@ -3,47 +3,27 @@ import md5 from 'md5'
 
 class Main extends Handler {
   constructor () {
-    super()
-    return (req, res) => {
-      this.check(req, res)
-    }
+    return super()
   }
-  check (req, res) {
-    this.req = req
-    this.res = res
-    this.nick = req.query.nick
-    this.shopid = req.query.shopid
-    this.serviceid = req.query.serviceid
-    this.checkRegex()
+  async check () {
+    await this.checkRegex()
+    await this.checkPayments()
+    await this.checkService()
+    this.generate()
   }
   checkRegex () {
-    if (!/^[a-zA-Z0-9_]{2,16}$/.test(this.nick)) {
-      this.error('wrong_format_nick')
-    } else if (!/^[A-Za-z0-9_]{4,}$/.test(this.shopid)) {
-      this.error('wrong_format_shopid')
-    } else if (!/^[A-Za-z0-9_]{3,}$/.test(this.serviceid)) {
-      this.error('wrong_format_serviceid')
-    } else {
-      this.checkPayments()
-    }
-  }
-  checkPayments () {
-    this.db.child(`payments/${this.shopid}`).once('value', (snapshot) => {
-      if (snapshot.exists()) {
-        this.payments = snapshot.val()
-        this.checkService()
+    return new Promise((resolve, reject) => {
+      if (!/^[a-zA-Z0-9_]{2,16}$/.test(this.nick) || typeof (this.nick) !== 'string') {
+        reject()
+        this.error('wrong_format_nick')
+      } else if (!/^[A-Za-z0-9_]{4,}$/.test(this.shopid) || typeof (this.shopid) !== 'string') {
+        reject()
+        this.error('wrong_format_shopid')
+      } else if (!/^[A-Za-z0-9_]{3,}$/.test(this.serviceid) || typeof (this.serviceid) !== 'string') {
+        reject()
+        this.error('wrong_format_serviceid')
       } else {
-        this.error('payments_not_exist')
-      }
-    })
-  }
-  checkService () {
-    this.db.child(`shops/${this.shopid}/services/${this.serviceid}`).once('value', (snapshot) => {
-      if (snapshot.exists()) {
-        this.service = snapshot.val()
-        this.generate()
-      } else {
-        this.error('service_not_exist')
+        resolve()
       }
     })
   }

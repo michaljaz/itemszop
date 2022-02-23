@@ -2,18 +2,9 @@ import {Handler, Router} from './lib/Request.js'
 
 class Main extends Handler {
   constructor () {
-    super()
-		return (req, res) => {
-      this.check(req, res)
-    }
+    return super()
   }
-	check (req, res) {
-    this.req = req
-    this.res = res
-    this.nick = req.query.nick
-    this.serviceid = req.query.serviceid
-    this.shopid = req.query.shopid
-    console.log(this.nick,this.serviceid,this.shopid)
+	async check () {
     this.success()
   }
   success () {
