@@ -41,13 +41,13 @@ class Main extends Handler {
     this.db.child(`shops/${this.shopid}/services/${this.serviceid}`).once('value', (snapshot) => {
       if (snapshot.exists()) {
         this.service = snapshot.val()
-        this.success()
+        this.generate()
       } else {
         this.error('service_not_exist')
       }
     })
   }
-  success () {
+  generate () {
     const params = new URLSearchParams({
       shopid: this.payments.microsms_transfer_id,
       amount: this.service.przelewCost,
@@ -57,11 +57,7 @@ class Main extends Handler {
       returl_url: `${process.env.BASE_URL}/shop/${this.shopid}/payment_success`,
       returl_urlc: `${process.env.BASE_URL}/api/microsms_transfer_webhook`
     })
-    const url = `https://microsms.pl/api/bankTransfer/?${params}`
-    this.res.json({success: true, url})
-  }
-  error (message) {
-    this.res.json({success: false, error: message})
+    this.success(`https://microsms.pl/api/bankTransfer/?${params}`)
   }
 }
 

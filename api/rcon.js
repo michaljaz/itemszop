@@ -1,6 +1,6 @@
 import {Handler, Router} from './lib/Request.js'
 
-class RconHandler extends Handler {
+class Main extends Handler {
   constructor () {
     super()
     return (req, res) => {
@@ -8,21 +8,23 @@ class RconHandler extends Handler {
     }
   }
   check (req, res) {
+    this.req = req
+    this.res = res
     const { host, port, password, command } = req.query
     this.rcon.connect({
       host, port, password
     }).then((rcon) => {
       rcon.send(command)
         .then((response) => {
-          res.json({ response, error: false })
+          this.success(response)
         })
         .catch((e) => {
-          res.json({ error: 'command' })
+          this.error('command')
         })
     }).catch((e) => {
-      res.json({ error: 'auth' })
+      this.error('auth')
     })
   }
 }
 
-module.exports = Router('/api/rcon', new RconHandler())
+module.exports = Router('/api/rcon', new Main())

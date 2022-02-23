@@ -20,6 +20,12 @@ class Handler {
     this.admin = admin
     this.db = admin.database().ref()
   }
+  success (data) {
+    this.res.json({success: true, data})
+  }
+  error (message) {
+    this.res.json({success: false, error: message})
+  }
 }
 
 const Router = (r, c) => {

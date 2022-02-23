@@ -54,20 +54,13 @@ class Main extends Handler {
       `${process.env.BASE_URL}/api/lvlup_webhook?nick=${this.nick}&shopid=${this.shopid}&serviceid=${this.serviceid}`
     ).then(({url}) => {
       if(url){
-        this.url = url
-        this.success()
+        this.success(url)
       }else{
         this.error('wrong_api_key')
       }
     }).catch(() => {
       this.error('lvlup_error')
     })
-  }
-  success () {
-    this.res.json({success: true, url: this.url})
-  }
-  error (message) {
-    this.res.json({success: false, error: message})
   }
 }
 

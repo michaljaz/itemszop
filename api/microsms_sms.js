@@ -166,12 +166,6 @@ class Main extends Handler {
       }
     })
   }
-  success () {
-    this.res.json({success: true})
-  }
-  error (message) {
-    this.res.json({success: false, error: message})
-  }
 }
 
 module.exports = Router('/api/microsms_sms', new Main())

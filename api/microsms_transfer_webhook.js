@@ -10,11 +10,15 @@ class Main extends Handler {
   check (req, res) {
     this.req = req
     this.res = res
-    const [shopid, serviceid, nick] = req.control.split('|')
-    this.shopid = shopid
-    this.serviceid = serviceid
-    this.nick = nick
-    this.checkRegex()
+    if(req.query.control){
+      const [shopid, serviceid, nick] = req.query.control.split('|')
+      this.shopid = shopid
+      this.serviceid = serviceid
+      this.nick = nick
+      this.checkRegex()
+    }else{
+      this.error()
+    }
   }
   checkRegex () {
     if (/^[A-Za-z0-9_]{4,}$/.test(this.shopid) && /^[A-Za-z0-9_]{4,}$/.test(this.serviceid) && /^[a-zA-Z0-9_]{2,16}$/.test(this.nick)) {
