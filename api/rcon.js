@@ -2,15 +2,10 @@ import {Handler, Router} from './lib/Request.js'
 
 class Main extends Handler {
   constructor () {
-    super()
-    return (req, res) => {
-      this.check(req, res)
-    }
+    return super()
   }
-  check (req, res) {
-    this.req = req
-    this.res = res
-    const { host, port, password, command } = req.query
+  check () {
+    const { host, port, password, command } = this.req.query
     this.rcon.connect({
       host, port, password
     }).then((rcon) => {
