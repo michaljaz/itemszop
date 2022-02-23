@@ -30,34 +30,9 @@
           max-width="500"
         >
           <v-card tile flat>
-            <v-toolbar
-              max-height="80"
-              dark
-              color="primary"
-              class="mb-4"
-            >
-              <v-btn
-                icon
-                dark
-                @click="dialog = false"
-              >
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
-              <v-toolbar-title>
-                <span class="text-h5">{{ $t('titles.server_config') }}</span>
-              </v-toolbar-title>
-              <v-spacer />
-              <v-toolbar-items>
-                <v-btn
-                  large
-                  dark
-                  text
-                  @click="saveServer"
-                >
-                  {{ $t('actions.save') }}
-                </v-btn>
-              </v-toolbar-items>
-            </v-toolbar>
+            <v-card-title class="text-h5">
+              {{ $t('titles.server_config') }}
+            </v-card-title>
             <v-card-text>
               <v-form
                 ref="form"
@@ -93,6 +68,23 @@
                 />
               </v-form>
             </v-card-text>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                color="green darken-1"
+                text
+                @click="dialog = false"
+              >
+                {{ $t('actions.cancel') }}
+              </v-btn>
+              <v-btn
+                color="blue"
+                text
+                @click="saveServer"
+              >
+                {{ $t('actions.save') }}
+              </v-btn>
+            </v-card-actions>
           </v-card>
         </v-dialog>
         <v-dialog

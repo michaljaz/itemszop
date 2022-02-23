@@ -132,14 +132,14 @@
             <v-card-actions>
               <v-spacer />
               <v-btn
-                color="primary"
+                color="green"
                 text
                 @click="dialog=false"
               >
                 {{ $t('actions.cancel') }}
               </v-btn>
               <v-btn
-                color="green"
+                color="primary"
                 text
                 @click="next"
               >
@@ -308,7 +308,7 @@ export default {
         params: { nick, shopid, serviceid: this.service.serviceId }
       }).then(({ data }) => {
         if (data.success) {
-          window.top.location.href = data.url
+          window.top.location.href = data.data
         } else {
           console.log(data.error)
         }
@@ -320,7 +320,7 @@ export default {
         params: { nick, shopid, serviceid: this.service.serviceId }
       }).then(({ data }) => {
         if (data.success) {
-          window.top.location.href = data.url
+          window.top.location.href = data.data
         } else {
           console.log(data.error)
         }

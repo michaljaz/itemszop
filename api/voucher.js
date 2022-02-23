@@ -96,12 +96,6 @@ class VoucherHandler extends Handler {
     let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d)
     return `${ye}-${mo}-${da}`
   }
-  error (message) {
-    this.res.json({success: false, error: message})
-  }
-  success () {
-    this.res.json({success: true})
-  }
 }
 
 module.exports = Router('/api/voucher', new VoucherHandler())

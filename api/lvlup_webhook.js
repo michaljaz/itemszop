@@ -10,6 +10,10 @@ class Main extends Handler {
 	check (req, res) {
     this.req = req
     this.res = res
+    this.nick = req.query.nick
+    this.serviceid = req.query.serviceid
+    this.shopid = req.query.shopid
+    console.log(this.nick,this.serviceid,this.shopid)
     this.success()
   }
   success () {

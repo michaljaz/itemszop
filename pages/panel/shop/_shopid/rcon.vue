@@ -99,12 +99,11 @@ export default {
           password: serverPassword,
           command: this.command
         }
-      }).then((response) => {
-        const { data } = response
-        if (data.error === 'auth') {
-          this.rconResponse = this.$t('responses.unable_to_connect')
+      }).then(({ data }) => {
+        if (data.success) {
+          this.rconResponse = require('minecraft-text-js').default.toHTML(data.data).replaceAll('\n', '<br>')
         } else {
-          this.rconResponse = require('minecraft-text-js').default.toHTML(data.response).replaceAll('\n', '<br>')
+          this.rconResponse = this.$t('responses.unable_to_connect')
         }
       })
     }
