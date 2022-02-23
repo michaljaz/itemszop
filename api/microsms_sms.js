@@ -6,14 +6,14 @@ class Main extends Handler {
   }
   async check () {
     await this.checkRegex()
-    await this.checkPayments()
-    await this.checkService()
+    await this.loadPayments()
+    await this.loadService()
     await this.checkCode()
-    await this.checkServer()
-    await this.checkRcon()
-    await this.addPaymentHistory('microsms_sms')
+    await this.loadServer()
+    await this.sendRcon()
+    await this.addPaymentToHistory('microsms_sms')
     await this.addMonthlyGoal()
-    await this.sendDiscordMessage()
+    await this.sendDiscord()
     this.success()
   }
   checkRegex () {

@@ -7,8 +7,8 @@ class Main extends Handler {
   }
   async check () {
     await this.checkRegex()
-    await this.checkPayments()
-    await this.checkService()
+    await this.loadPayments()
+    await this.loadService()
     this.generate()
   }
   checkRegex () {
