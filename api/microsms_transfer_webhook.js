@@ -5,7 +5,7 @@ class Main extends Handler {
     return super()
   }
   async check () {
-    await this.checkRegex()
+    await this.checkBasicRegex()
     await this.checkIp()
     await this.checkUserId()
     await this.loadService()
@@ -17,16 +17,6 @@ class Main extends Handler {
     await this.addMonthlyGoal()
     await this.sendDiscord()
     this.success()
-  }
-  checkRegex () {
-    return new Promise( (resolve, reject) => {
-      if (/^[A-Za-z0-9_]{4,}$/.test(this.shopid) && typeof (this.shopid) === 'string' && /^[A-Za-z0-9_]{4,}$/.test(this.serviceid) && typeof (this.serviceid) === 'string'&& /^[a-zA-Z0-9_]{2,16}$/.test(this.nick) && typeof (this.nick) === 'string') {
-        resolve()
-      } else {
-        reject()
-        this.error()
-      }
-    })
   }
   checkIp () {
     return new Promise((resolve, reject) => {
