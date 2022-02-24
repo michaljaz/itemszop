@@ -5,11 +5,13 @@ class Main extends Handler {
     return super()
   }
   async check () {
+    await this.checkBasicRegex()
     await this.checkRegex()
     await this.loadPayments()
     await this.loadService()
     await this.checkCode()
     await this.loadServer()
+    await this.checkOwner()
     await this.sendRcon()
     await this.addPaymentToHistory('microsms_sms')
     await this.addMonthlyGoal()
@@ -21,15 +23,6 @@ class Main extends Handler {
       if (!/^[A-Za-z0-9]{8}$/.test(this.code) || typeof (this.code) !== 'string') {
         reject()
         this.error('wrong_format_code')
-      } else if (!/^[a-zA-Z0-9_]{2,16}$/.test(this.nick) || typeof (this.nick) !== 'string') {
-        reject()
-        this.error('wrong_format_nick')
-      } else if (!/^[A-Za-z0-9_]{4,}$/.test(this.shopid) || typeof (this.shopid) !== 'string') {
-        reject()
-        this.error('wrong_format_shopid')
-      } else if (!/^[A-Za-z0-9_]{3,}$/.test(this.serviceid) || typeof (this.serviceid) !== 'string') {
-        reject()
-        this.error('wrong_format_serviceid')
       } else {
         resolve()
       }

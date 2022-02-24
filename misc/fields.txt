@@ -37,6 +37,7 @@ description - opis usługi
 icon - ikona usługi
 iconUrl - adres Url ikony
 name - nazwa usługi
+server - id serwera
 microsms_transfer - czy płatność przelewem włączona
 microsms_transfer_cost - koszt przelewu
 microsms_sms - czy płatność smsem włączona

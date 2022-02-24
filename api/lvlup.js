@@ -6,26 +6,10 @@ class Main extends Handler {
     return super()
   }
   async check () {
-    await this.checkRegex()
+    await this.checkBasicRegex()
     await this.loadPayments()
     await this.loadService()
     await this.checkLvlup()
-  }
-  checkRegex () {
-    return new Promise((resolve, reject) => {
-      if (!/^[a-zA-Z0-9_]{2,16}$/.test(this.nick) || typeof (this.nick) !== 'string') {
-        reject()
-        this.error('wrong_format_nick')
-      } else if (!/^[A-Za-z0-9_]{4,}$/.test(this.shopid) || typeof (this.shopid) !== 'string') {
-        reject()
-        this.error('wrong_format_shopid')
-      } else if (!/^[A-Za-z0-9_]{3,}$/.test(this.serviceid) || typeof (this.serviceid) !== 'string') {
-        reject()
-        this.error('wrong_format_serviceid')
-      } else {
-        resolve()
-      }
-    })
   }
   checkLvlup () {
     return new Promise((resolve, reject) => {
