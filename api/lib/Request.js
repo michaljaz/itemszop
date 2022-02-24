@@ -161,6 +161,18 @@ class Handler {
       })
     })
   }
+  checkOwner () {
+    return new Promise((resolve, reject) => {
+      this.db.child(`shop/${this.shopid}/owner`).once('value', (snapshot) => {
+        if (snapshot.exists() && this.server.owner === snapshot.val()) {
+          resolve()
+        } else {
+          reject()
+          this.error('server_owner_error')
+        }
+      })
+    })
+  }
   success (data) {
     this.res.json({success: true, data})
   }

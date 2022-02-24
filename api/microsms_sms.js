@@ -10,6 +10,7 @@ class Main extends Handler {
     await this.loadService()
     await this.checkCode()
     await this.loadServer()
+    await this.checkOwner()
     await this.sendRcon()
     await this.addPaymentToHistory('microsms_sms')
     await this.addMonthlyGoal()

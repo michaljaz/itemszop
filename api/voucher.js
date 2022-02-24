@@ -7,8 +7,8 @@ class VoucherHandler extends Handler {
   async check () {
     await this.checkRegex()
     await this.checkVoucher()
-    await this.checkService()
-    await this.checkServer()
+    await this.loadService()
+    await this.loadServer()
     await this.checkRcon()
     this.success()
   }

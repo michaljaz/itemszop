@@ -180,7 +180,8 @@ export default {
     monthly_goal_error: 'Nie udało się zaktualizować celu miesięcznego',
     discord_webhook_error: 'Nie udało się połączyć z webhookiem z discorda',
     voucher_not_exist: 'Voucher nie istnieje',
-    voucher_expired: 'Voucher wygasł'
+    voucher_expired: 'Voucher wygasł',
+    server_owner_error: 'Nieprawidłowy właściciel serwera'
   },
 
   firebase: {
