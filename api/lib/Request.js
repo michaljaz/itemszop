@@ -275,10 +275,11 @@ class Handler {
   }
   generateLvlup () {
     return new Promise((resolve, reject) => {
-      const lvlup = new LvlupApi(this.payments.lvlup_api, {env: 'sandbox'})
+      const lvlup = new LvlupApi(this.payments.lvlup_api)
+      // const lvlup = new LvlupApi(this.payments.lvlup_api, {env: 'sandbox'})
       lvlup.createPayment(
         this.service.lvlup_cost,
-        `${process.env.BASE_URL}/api/lvlup_webhook`,
+        `${process.env.BASE_URL}`,
         `${process.env.BASE_URL}/api/lvlup_webhook?nick=${this.nick}&shopid=${this.shopid}&serviceid=${this.serviceid}`
       ).then(({url}) => {
         if (url) {
