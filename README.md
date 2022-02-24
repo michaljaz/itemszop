@@ -4,6 +4,13 @@
 
 **ItemSzop to sklep twojego serwera minecraftowego za darmo!** Działa dzięki złożeniu serverless'owych funkcji z hostowaniem statycznych plików co umożliwia [Vercel](https://vercel.com/). Nie wymaga żadnej instalacji - model SaaS. Serwis jest zrobiony we frameworku [Nuxt.js](https://nuxtjs.org/). Uwierzytelnianie użytkowników i zapisywanie konfiguracji sklepów odbywa się za pośrednictwem bazy danych [Firebase](https://firebase.google.com/). Dodatkowo użyty jest framework [Vuetify](https://vuetifyjs.com/) do ładnych stylów strony.
 
+## Wspierani operatorzy płatności
+
+- [x] microsms.pl  
+- [x] lvlup.pro
+- [ ] hotpay.pl
+- [ ] paypal.com
+
 ## Wersja produkcyjna
 
 Tu znajduje się link do wersji produkcyjnej : https://itemszop.tk
