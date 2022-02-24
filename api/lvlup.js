@@ -1,5 +1,4 @@
 import {Handler, Router} from './lib/Request.js'
-import LvlupApi from 'lvlup-js'
 
 class Main extends Handler {
   constructor () {

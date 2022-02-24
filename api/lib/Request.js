@@ -2,6 +2,7 @@ import * as admin from 'firebase-admin'
 import { Rcon } from 'rcon-client'
 import axios from 'axios'
 import md5 from 'md5'
+import LvlupApi from 'lvlup-js'
 const app = require('express')()
 const cors = require('cors')
 app.use(cors())
