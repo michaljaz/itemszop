@@ -44,17 +44,7 @@ export default {
       return result
     }
   },
-  watch: {
-    servers () {
-      if (Object.keys(this.servers).length === 1) {
-        this.$router.push(`${this.shopPath}/server/${Object.keys(this.servers)[0]}`)
-      }
-    }
-  },
   mounted () {
-    if (Object.keys(this.servers).length === 1) {
-      this.$router.push(`${this.shopPath}/server/${Object.keys(this.servers)[0]}`)
-    }
     this.$emit('breadcrumb', [{
       text: this.$t('titles.shop'),
       disabled: false,
