@@ -48,12 +48,19 @@
                 min="1"
                 max="10"
               />
-              {{ $t('titles.monthly_goal') }} {{ goal }} zł
-              <v-slider
-                v-model="goal"
-                min="1"
-                max="500"
+              <v-switch
+                v-model="enable_goal"
+                class="mt-0"
+                :label="$t('titles.monthly_goal')"
               />
+              <div v-if="enable_goal">
+                {{ $t('titles.monthly_goal') }} {{ goal }} zł
+                <v-slider
+                  v-model="goal"
+                  min="1"
+                  max="500"
+                />
+              </div>
               <v-select
                 v-model="last_payments_type"
                 item-text="name"
@@ -178,6 +185,7 @@ export default {
   },
   data () {
     return {
+      enable_goal: this.shop.goal,
       shop_background: this.shop.background,
       shop_background_url: this.shop.background,
       dsc: this.shop.dsc_id,
@@ -225,7 +233,7 @@ export default {
         const { shopid } = this.$route.params
         this.$fire.database.ref().child(`shops/${shopid}`).update({
           name: this.name,
-          goal: this.goal,
+          goal: this.enable_goal ? this.goal : '',
           webhook: this.webhook ? this.webhookUrl : '',
           maxservices: this.maxservices,
           last_payments_type: this.last_payments_type,

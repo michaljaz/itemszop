@@ -6,9 +6,10 @@
 
 ## Wspierani operatorzy płatności
 
-- [x] microsms.pl  
-- [x] lvlup.pro
-- [ ] hotpay.pl
+- [x] microsms.pl - [api przelew](https://microsms.pl/documents/przelewy_online.pdf), [api sms](https://microsms.pl/kernel/Mails/files/dokumentacja_techniczna_mirosms.pdf)
+- [x] lvlup.pro - [api](https://api.lvlup.pro/v4/redoc)
+- [ ] hotpay.pl - [api](https://hotpay.pl/dokumentacja-api/)
+- [ ] cashbill.pl - [api](https://www.cashbill.pl/pobierz/api/)
 - [ ] paypal.com
 
 ## Wersja produkcyjna
@@ -31,11 +32,3 @@ Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację
 ## Własne hostowanie (opcjonalne)
 
 [link do dokumentacji](https://github.com/michaljaz/itemszop/wiki/Konfiguracja-sklepu-z-w%C5%82asn%C4%85-baz%C4%85-firebase)
-
-
-## Linki do dokumentacji płatności
-
-- https://microsms.pl/documents/przelewy_online.pdf
-- https://microsms.pl/kernel/Mails/files/dokumentacja_techniczna_mirosms.pdf
-- https://hotpay.pl/dokumentacja-api/
-- https://api.lvlup.pro/v4/redoc

@@ -63,7 +63,7 @@
             </v-card>
           </v-col>
           <v-col md="4" sm="12" xs="12" cols="12">
-            <v-card>
+            <v-card v-if="shop.goal" class="mb-5">
               <v-card-title class="headline justify-center">
                 {{ $t('titles.monthly_goal') }}
               </v-card-title>
@@ -74,7 +74,7 @@
                 </h1>
               </v-card-text>
             </v-card>
-            <v-card class="mt-5">
+            <v-card>
               <v-card-title class="headline justify-center">
                 {{ $t('titles.latest_payments') }}
               </v-card-title>
