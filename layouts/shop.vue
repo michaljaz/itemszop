@@ -17,7 +17,7 @@
         </h1>
       </div>
       <v-app-bar
-        class="blue darken-4"
+        :color="shop.theme ? shop.theme : 'blue darken-4'"
         elevation="4"
         rounded
         filled
@@ -68,7 +68,7 @@
                 {{ $t('titles.monthly_goal') }}
               </v-card-title>
               <v-card-text>
-                <v-progress-linear :value="collected" />
+                <v-progress-linear :value="collected" :color="shop.theme ? shop.theme : 'blue darken-4'" />
                 <h1 class="mt-4 d-flex headline justify-center">
                   „{{ $t('titles.server_maintenance') }}”
                 </h1>

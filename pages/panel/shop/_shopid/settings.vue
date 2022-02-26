@@ -15,13 +15,11 @@
                 v-model="name"
                 :label="$t('fields.shop_name')"
               />
-
               <v-switch
                 v-model="shop_icon"
                 class="mt-0"
                 :label="$t('fields.shop_icon')"
               />
-
               <v-text-field
                 v-if="shop_icon"
                 v-model="shop_icon_url"
@@ -34,19 +32,12 @@
                 class="mt-0"
                 :label="$t('fields.shop_background')"
               />
-
               <v-text-field
                 v-if="shop_background"
                 v-model="shop_background_url"
                 :label="$t('fields.shop_background_url')"
                 autocomplete="new-password"
                 :rules="rules.icon_url"
-              />
-              {{ $t('fields.last_payments_amount') }} {{ maxservices }}
-              <v-slider
-                v-model="maxservices"
-                min="1"
-                max="10"
               />
               <v-switch
                 v-model="enable_goal"
@@ -61,18 +52,20 @@
                   max="500"
                 />
               </div>
-              <v-select
-                v-model="last_payments_type"
-                item-text="name"
-                item-value="value"
-                :items="last_payments_type_list"
-                label="Widżet ostatnich zakupów"
+              <v-switch
+                v-model="enable_theme"
+                class="mt-0"
+                :label="$t('fields.shop_theme')"
               />
-            </v-card-text>
-            <v-card-title class="headline">
-              {{ $t('titles.additional_settings') }}
-            </v-card-title>
-            <v-card-text>
+              <v-color-picker
+                v-if="enable_theme"
+                v-model="theme"
+                dot-size="17"
+                hide-inputs
+                mode="rgba"
+                swatches-max-height="100"
+              />
+
               <v-switch
                 v-model="webhook"
                 class="mt-0"
@@ -103,7 +96,24 @@
                 :rules="rules.dsc_id"
               />
             </v-card-text>
-
+            <v-card-title class="headline">
+              {{ $t('titles.additional_settings') }}
+            </v-card-title>
+            <v-card-text>
+              {{ $t('fields.last_payments_amount') }} {{ maxservices }}
+              <v-slider
+                v-model="maxservices"
+                min="1"
+                max="60"
+              />
+              <v-select
+                v-model="last_payments_type"
+                item-text="name"
+                item-value="value"
+                :items="last_payments_type_list"
+                label="Widżet ostatnich zakupów"
+              />
+            </v-card-text>
             <v-card-actions>
               <v-btn color="green" outlined @click="save">
                 {{ $t('actions.save') }}
@@ -185,6 +195,8 @@ export default {
   },
   data () {
     return {
+      theme: this.shop.theme,
+      enable_theme: this.shop.theme,
       enable_goal: this.shop.goal,
       shop_background: this.shop.background,
       shop_background_url: this.shop.background,
@@ -239,7 +251,8 @@ export default {
           last_payments_type: this.last_payments_type,
           icon: this.shop_icon ? this.shop_icon_url : '',
           dsc_id: this.dsc ? this.dsc_id : '',
-          background: this.shop_background ? this.shop_background_url : ''
+          background: this.shop_background ? this.shop_background_url : '',
+          theme: this.enable_theme ? this.theme : ''
         })
       }
     },
