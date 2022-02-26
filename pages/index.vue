@@ -201,18 +201,22 @@
           </v-col>
         </v-row>
       </v-parallax>
-      <v-container>
-        <h1 class="display-1 mt-15 mb-7">
-          {{ $t('homepage.supported_operators') }}
-        </h1>
-        <v-row class="ma-2">
-          <v-col>
-            <v-img
-              src="/microsms.webp"
-              width="300"
-            />
-          </v-col>
-        </v-row>
+      <v-container class="mb-10">
+        <center>
+          <h1 class="display-1 mt-15 mb-7">
+            {{ $t('homepage.supported_operators') }}
+          </h1>
+          <v-img
+            class="mt-4"
+            src="/microsms.webp"
+            width="300"
+          />
+          <v-img
+            class="mt-4"
+            src="/lvlup.png"
+            width="300"
+          />
+        </center>
       </v-container>
 
       <v-navigation-drawer v-model="drawer" fixed temporary app>

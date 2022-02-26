@@ -113,7 +113,8 @@ export default {
     microsms: 'Operator płatności microsms.pl',
     lvlup: 'Operator płatności lvlup.pro',
     lvlup_api: 'Klucz api z panelu lvlup.pro',
-    actions: 'Akcje'
+    actions: 'Akcje',
+    shop_theme: 'Własny motyw strony'
   },
 
   formats: {
