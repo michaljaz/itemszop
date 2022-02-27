@@ -1,33 +1,22 @@
-import {Handler, Router} from './lib/Request.js'
+import request from './lib/request.js'
+import firebase from './lib/firebase.js'
+import {getNick, getShopId, getVoucherCode} from './lib/params.js'
+import {loadService, loadServer} from './lib/loaders.js'
+import {sendRconCommands} from './lib/senders.js'
+import {addPaymentToHistory, addMonthlyGoal} from './lib/savers.js'
+import {checkServerOwner, checkVoucher} from './lib/checkers.js'
 
-class VoucherHandler extends Handler {
-  constructor () {
-    return super()
-  }
-  async check () {
-    await this.checkRegex()
-    await this.checkVoucher()
-    await this.loadService()
-    await this.loadServer()
-    await this.checkRcon()
-    await this.success()
-  }
-  checkRegex () {
-    return new Promise((resolve, reject) => {
-      if (!/^[a-z0-9]{6,}$/.test(this.code) || typeof (this.code) !== 'string') {
-        reject()
-        this.error('wrong_format_voucher')
-      } else if (!/^[a-zA-Z0-9_]{2,16}$/.test(this.nick) || typeof (this.nick) !== 'string') {
-        reject()
-        this.error('wrong_format_nick')
-      } else if (!/^[A-Za-z0-9_]{4,}$/.test(this.shopid) || typeof (this.shopid) !== 'string') {
-        reject()
-        this.error('wrong_format_shopid')
-      } else {
-        resolve()
-      }
-    })
-  }
-}
+module.exports = request('/api/voucher', async (req) => {
+  const nick = await getNick(req.query.nick)
+  const shopid = await getShopId(req.query.shopid)
+  const code = await getVoucherCode(req.query.code)
+  const db = await firebase()
 
-module.exports = Router('/api/voucher', new VoucherHandler())
+  const voucher = await checkVoucher({db, shopid, code})
+  const service = await loadService({db, shopid, serviceid: voucher.service})
+  const server = await loadServer({db, serverid: service.server})
+
+  await checkServerOwner({db, shopid, server})
+
+  await sendRconCommands({commands: service.commands, nick, host: server.serverIp, port: server.serverPort, password: server.serverPassword})
+})

@@ -14,10 +14,6 @@
       "dest": "/api/microsms_transfer.js"
     },
 		{
-      "src": "/api/microsms_transfer_webhook",
-      "dest": "/api/microsms_transfer_webhook.js"
-    },
-		{
       "src": "/api/microsms_sms",
       "dest": "/api/microsms_sms.js"
     },
