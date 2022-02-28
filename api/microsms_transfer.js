@@ -1,8 +1,15 @@
-import request from './lib/request.js'
-import firebase from './lib/firebase.js'
-import {getNick, getShopId, getServiceId, getSmsCode} from './lib/params.js'
-import {loadPayments, loadService} from './lib/loaders.js'
-import {generateMicrosmsTransfer} from './lib/generators.js'
+
+import {
+  request,
+  firebase,
+  getNick,
+  getShopId,
+  getServiceId,
+  getSmsCode,
+  loadPayments,
+  loadService,
+  generateMicrosmsTransfer
+} from './lib/modules.js'
 
 module.exports = request('/api/microsms_transfer', async (req) => {
   const nick = await getNick(req.query.nick)

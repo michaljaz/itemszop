@@ -1,5 +1,8 @@
-import request from './lib/request.js'
-import {sendRconCommands} from './lib/senders.js'
+
+import {
+  request,
+  sendRconCommands
+} from './lib/modules.js'
 
 module.exports = request('/api/rcon', async (req) => {
   const { host, port, password, command } = req.query

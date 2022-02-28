@@ -1,8 +1,14 @@
-import request from './lib/request.js'
-import firebase from './lib/firebase.js'
-import {getNick, getShopId, getServiceId} from './lib/params.js'
-import {loadPayments, loadService} from './lib/loaders.js'
-import {generateLvlup} from './lib/generators.js'
+
+import {
+  request,
+  firebase,
+  getNick,
+  getShopId,
+  getServiceId,
+  loadPayments,
+  loadService,
+  generateLvlup
+} from './lib/modules.js'
 
 module.exports = request('/api/lvlup', async (req) => {
   const nick = await getNick(req.query.nick)

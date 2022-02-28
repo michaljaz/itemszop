@@ -1,10 +1,21 @@
-import request from './lib/request.js'
-import firebase from './lib/firebase.js'
-import {getNick, getShopId, getServiceId, getSmsCode} from './lib/params.js'
-import {loadPayments, loadService, loadServer} from './lib/loaders.js'
-import {checkMicrosmsCode, checkServerOwner} from './lib/checkers.js'
-import {sendRconCommands, sendDiscordWebhook} from './lib/senders.js'
-import {addPaymentToHistory, addMonthlyGoal} from './lib/savers.js'
+
+import {
+  request,
+  firebase,
+  getNick,
+  getShopId,
+  getServiceId,
+  getSmsCode,
+  loadPayments,
+  loadService,
+  loadServer,
+  checkMicrosmsCode,
+  checkServerOwner,
+  sendRconCommands,
+  sendDiscordWebhook,
+  addPaymentToHistory,
+  addMonthlyGoal
+} from './lib/modules.js'
 
 module.exports = request('/api/microsms_sms', async (req) => {
   const type = 'microsms_sms'

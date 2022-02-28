@@ -1,10 +1,18 @@
-import request from './lib/request.js'
-import firebase from './lib/firebase.js'
-import {getNick, getShopId, getVoucherCode} from './lib/params.js'
-import {loadService, loadServer} from './lib/loaders.js'
-import {sendRconCommands} from './lib/senders.js'
-import {addPaymentToHistory, addMonthlyGoal} from './lib/savers.js'
-import {checkServerOwner, checkVoucher} from './lib/checkers.js'
+
+import {
+  request,
+  firebase,
+  getNick,
+  getShopId,
+  getVoucherCode,
+  loadService,
+  loadServer,
+  sendRconCommands,
+  addPaymentToHistory,
+  addMonthlyGoal,
+  checkServerOwner,
+  checkVoucher
+} from './lib/modules.js'
 
 module.exports = request('/api/voucher', async (req) => {
   const nick = await getNick(req.query.nick)

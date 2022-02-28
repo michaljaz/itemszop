@@ -1,9 +1,16 @@
-import request from './lib/request.js'
-import firebase from './lib/firebase.js'
-import {loadPayments, loadService, loadServer} from './lib/loaders.js'
-import {checkServerOwner} from './lib/checkers.js'
-import {sendRconCommands, sendDiscordWebhook} from './lib/senders.js'
-import {addPaymentToHistory, addMonthlyGoal} from './lib/savers.js'
+
+import {
+  request,
+  firebase,
+  loadPayments,
+  loadService,
+  loadServer,
+  checkServerOwner,
+  sendRconCommands,
+  sendDiscordWebhook,
+  addPaymentToHistory,
+  addMonthlyGoal
+} from './lib/modules.js'
 
 module.exports = request('/api/lvlup_webhook', async (req) => {
   const type = 'lvlup'
