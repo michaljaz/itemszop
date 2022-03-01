@@ -145,7 +145,8 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: ['vuetify/lib', 'tiptap-vuetify']
+    transpile: ['vuetify/lib', 'tiptap-vuetify'],
+    extractCSS: true
   },
   serverMiddleware: process.env.NODE_ENV === 'production' ? [] : [
     '~/api/rcon.js',
