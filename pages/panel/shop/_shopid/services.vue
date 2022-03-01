@@ -109,7 +109,7 @@
                 <div v-if="payments.lvlup">
                   <v-switch
                     v-model="fields.lvlup"
-                    :label="`${$t('transfer_paypal_psc')} (lvlup.pro)`"
+                    :label="`${$t('transfer_psc')} (lvlup.pro)`"
                   />
                   <v-text-field
                     v-if="fields.lvlup"
@@ -197,7 +197,7 @@
                       {{ $t('transfer') }}: {{ service.microsms_transfer_cost }}zł
                     </v-chip>
                     <v-chip v-if="service.lvlup && payments.lvlup" small class="mb-1">
-                      {{ $t('transfer_paypal_psc') }}: {{ service.lvlup_cost }}zł
+                      {{ $t('transfer_psc') }}: {{ service.lvlup_cost }}zł
                     </v-chip>
                   </div>
                   <div v-else>

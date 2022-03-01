@@ -7,7 +7,7 @@ export default {
 
   transfer: 'Przelew',
   sms: 'SMS',
-  transfer_paypal_psc: 'Przelew/Paypal/PSC',
+  transfer_psc: 'Przelew/PSC',
 
   page_not_found: '404 - Nie znaleziono strony',
   error_occurred: 'Nastąpił Błąd',
