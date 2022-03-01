@@ -1,6 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
 
-const mainUrl = "https://itemszop.tk"
+const mainUrl = 'https://itemszop.tk'
 const baseUrl = process.env.NODE_ENV === 'production' ? process.env.BASE_URL : 'http://localhost:8080'
 
 let firebaseConfig
@@ -10,7 +10,7 @@ try {
   console.error('Klucze zostały źle skonfigurowane w zmiennej środowiskowej FIREBASE_CONFIG')
   process.exit()
 }
-if(!process.env.BASE_URL){
+if (!process.env.BASE_URL) {
   console.error('Nie ustawiono prawidłowo zmiennej środowiskowej BASE_URL')
   process.exit()
 }
@@ -106,6 +106,14 @@ export default {
         defaultLocale: 'pl',
         langDir: 'lang/'
       }
+    ],
+    [
+      'nuxt-webfontloader',
+      {
+        google: {
+          families: ['Roboto:100,300,400,500,700,900&display=swap'] // Loads Roboto in all weights.
+        }
+      }
     ]
   ],
 
@@ -129,12 +137,16 @@ export default {
           success: colors.green.accent3
         }
       }
+    },
+    defaultAssets: {
+      font: false
     }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: ['vuetify/lib', 'tiptap-vuetify']
+    transpile: ['vuetify/lib', 'tiptap-vuetify'],
+    extractCSS: true
   },
   serverMiddleware: process.env.NODE_ENV === 'production' ? [] : [
     '~/api/rcon.js',

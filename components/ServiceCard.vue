@@ -31,7 +31,7 @@
           </template>
         </div>
         <div v-if="payments.lvlup" class="d-flex justify-center mb-1">
-          {{ $t('transfer_paypal_psc') }}
+          {{ $t('transfer_psc') }}
           <v-spacer />
           <template v-if="service.lvlup">
             {{ service.lvlup_cost }} zł
@@ -99,7 +99,7 @@
                   />
                   <v-radio
                     v-if="service.lvlup && payments.lvlup"
-                    :label="`${$t('transfer_paypal_psc')} (${service.lvlup_cost} zł)`"
+                    :label="`${$t('transfer_psc')} (${service.lvlup_cost} zł)`"
                     value="lvlup"
                   />
                 </v-radio-group>
