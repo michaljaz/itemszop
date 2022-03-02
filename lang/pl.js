@@ -144,6 +144,7 @@ export default {
     services: 'Usługi',
     payments: 'Płatności',
     vouchers: 'Vouchery',
+    pages: 'Strony',
     rcon: 'Rcon',
     settings: 'Ustawienia',
     shop: 'Sklep',

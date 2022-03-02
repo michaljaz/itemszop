@@ -137,6 +137,9 @@
             <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/vouchers`">
               {{ $t('titles.vouchers') }}
             </v-tab>
+            <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/pages`">
+              {{ $t('titles.pages') }}
+            </v-tab>
             <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/rcon`">
               {{ $t('titles.rcon') }}
             </v-tab>
