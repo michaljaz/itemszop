@@ -146,6 +146,7 @@ export default {
     vouchers: 'Vouchery',
     pages: 'Strony',
     rcon: 'Rcon',
+    additional_modules: 'Dodatkowe moduły',
     settings: 'Ustawienia',
     shop: 'Sklep',
     server_config: 'Konfiguracja serwera',

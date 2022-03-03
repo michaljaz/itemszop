@@ -1,46 +1,135 @@
 <template>
   <div>
     <v-row>
-      <v-col cols="12" md="3">
+      <v-col cols="12" lg="3" md="4" sm="12">
         <v-card
-          height="450"
-          width="256"
+          width="100%"
           class="mx-auto"
         >
-          <v-navigation-drawer permanent>
+          <v-navigation-drawer permanent :color="$vuetify.theme.dark ? `#272727`: ''" width="100%">
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title class="text-h6">
+                <v-list-item-title class="text-h5 mt-2">
                   {{ shop.name }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
 
-            <v-divider />
-
             <v-list
-              dense
               nav
+              dense
             >
+              <v-divider class="mb-1" />
               <v-list-item
-                v-for="item in items"
-                :key="item.title"
                 link
-                :to="`/panel/shop/${$route.params.shopid}/${item.link}`"
+                :to="`/panel/shop/${$route.params.shopid}/`"
+                active-class="no-active"
               >
                 <v-list-item-icon>
-                  <v-icon>{{ item.icon }}</v-icon>
+                  <v-icon>mdi-view-dashboard</v-icon>
                 </v-list-item-icon>
 
                 <v-list-item-content>
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  <v-list-item-title>{{ $t('titles.dashboard') }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
+              <v-list-item
+                link
+                :to="`/panel/shop/${$route.params.shopid}/servers`"
+              >
+                <v-list-item-icon>
+                  <v-icon>mdi-server</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>{{ $t('titles.servers') }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item
+                link
+                :to="`/panel/shop/${$route.params.shopid}/services`"
+              >
+                <v-list-item-icon>
+                  <v-icon>mdi-cart</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>{{ $t('titles.services') }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item
+                link
+                :to="`/panel/shop/${$route.params.shopid}/payments`"
+              >
+                <v-list-item-icon>
+                  <v-icon>mdi-credit-card-plus</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>{{ $t('titles.payments') }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item
+                link
+                :to="`/panel/shop/${$route.params.shopid}/settings`"
+              >
+                <v-list-item-icon>
+                  <v-icon>mdi-cog</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title>{{ $t('titles.settings') }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider class="mb-1" />
+              <v-list-group
+                :value="true"
+                no-action
+              >
+                <template #activator>
+                  <v-list-item-icon>
+                    <v-icon>mdi-view-grid-plus</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title>{{ $t('titles.additional_modules') }}</v-list-item-title>
+                  </v-list-item-content>
+                </template>
+
+                <v-list-item
+                  link
+                  :to="`/panel/shop/${$route.params.shopid}/vouchers`"
+                >
+                  <v-list-item-icon>
+                    <v-icon>mdi-ticket-percent</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title>{{ $t('titles.vouchers') }}</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item
+                  link
+                  :to="`/panel/shop/${$route.params.shopid}/pages`"
+                >
+                  <v-list-item-icon>
+                    <v-icon>mdi-file</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title>{{ $t('titles.pages') }}</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item
+                  link
+                  :to="`/panel/shop/${$route.params.shopid}/rcon`"
+                >
+                  <v-list-item-icon>
+                    <v-icon>mdi-lan-connect</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title>{{ $t('titles.rcon') }}</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list-group>
             </v-list>
           </v-navigation-drawer>
         </v-card>
       </v-col>
-      <v-col cols="12" md="9">
+      <v-col cols="12" lg="9" md="8" sm="12">
         <ShopListener @servers="servers=$event" @shop="shop=$event" @payments="payments=$event" />
         <nuxt-child
           v-if="shop.loaded"
@@ -65,18 +154,7 @@ export default {
     return {
       shop: {},
       servers: {},
-      payments: {},
-      items: [
-        { title: this.$t('titles.dashboard'), icon: 'mdi-view-dashboard', link: '' },
-        { title: this.$t('titles.servers'), icon: 'mdi-server', link: 'servers' },
-        { title: this.$t('titles.services'), icon: 'mdi-cart', link: 'services' },
-        { title: this.$t('titles.payments'), icon: 'mdi-credit-card-plus', link: 'payments' },
-        { title: this.$t('titles.vouchers'), icon: 'mdi-ticket-percent', link: 'vouchers' },
-        { title: this.$t('titles.pages'), icon: 'mdi-file', link: 'pages' },
-        { title: this.$t('titles.rcon'), icon: 'mdi-lan-connect', link: 'rcon' },
-        { title: this.$t('titles.settings'), icon: 'mdi-cog', link: 'settings' }
-      ],
-      right: null
+      payments: {}
     }
   },
   head () {
@@ -86,3 +164,9 @@ export default {
   }
 }
 </script>
+<style>
+.v-list-item--active.no-active:not(:focus):not(:hover)::before
+{
+  opacity: 0 !important;
+}
+</style>
