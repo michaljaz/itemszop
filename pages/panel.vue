@@ -116,39 +116,6 @@
           </v-list>
         </v-menu>
       </v-container>
-      <template v-if="tabs" #extension>
-        <v-container>
-          <v-tabs
-            show-arrows
-            background-color="rgb(0, 0, 0, 0)"
-          >
-            <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/`">
-              {{ $t('titles.dashboard') }}
-            </v-tab>
-            <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/servers`">
-              {{ $t('titles.servers') }}
-            </v-tab>
-            <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/services`">
-              {{ $t('titles.services') }}
-            </v-tab>
-            <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/payments`">
-              {{ $t('titles.payments') }}
-            </v-tab>
-            <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/vouchers`">
-              {{ $t('titles.vouchers') }}
-            </v-tab>
-            <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/pages`">
-              {{ $t('titles.pages') }}
-            </v-tab>
-            <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/rcon`">
-              {{ $t('titles.rcon') }}
-            </v-tab>
-            <v-tab nuxt :to="`/panel/shop/${$route.params.shopid}/settings`">
-              {{ $t('titles.settings') }}
-            </v-tab>
-          </v-tabs>
-        </v-container>
-      </template>
     </v-app-bar>
     <v-container>
       <nuxt-child :shops="shops" />
@@ -160,17 +127,7 @@ export default {
   name: 'BasePanel',
   data () {
     return {
-      tabs: false,
       shops: []
-    }
-  },
-  watch: {
-    $route (to, from) {
-      if (to.params.shopid) {
-        this.tabs = true
-      } else {
-        this.tabs = false
-      }
     }
   },
   mounted () {

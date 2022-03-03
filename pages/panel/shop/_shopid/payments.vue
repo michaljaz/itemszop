@@ -1,84 +1,80 @@
 <template>
   <div>
-    <v-row justify="center" align="center">
-      <v-col cols="12" sm="10" md="8">
-        <v-card class="pt-1 pb-4" elevation="10">
-          <v-card-title class="headline">
-            {{ $t('titles.payments_config') }}
-          </v-card-title>
-          <v-card-text>
-            <v-form
-              ref="form"
-              v-model="valid"
-            >
-              <v-switch v-model="fields.microsms" :label="$t('fields.microsms')" />
-              <div v-if="fields.microsms">
+    <v-card class="pt-1 pb-4" elevation="10">
+      <v-card-title class="headline">
+        {{ $t('titles.payments_config') }}
+      </v-card-title>
+      <v-card-text>
+        <v-form
+          ref="form"
+          v-model="valid"
+        >
+          <v-switch v-model="fields.microsms" :label="$t('fields.microsms')" />
+          <div v-if="fields.microsms">
+            <v-text-field
+              v-model="fields.microsms_user_id"
+              :label="$t('fields.user_id')"
+              autocomplete="new-password"
+              :rules="rules.microsms_user_id"
+              type="number"
+            />
+            <v-row>
+              <v-col>
+                <h1 class="display-1">
+                  {{ $t('transfer') }}
+                </h1>
                 <v-text-field
-                  v-model="fields.microsms_user_id"
-                  :label="$t('fields.user_id')"
+                  v-model="fields.microsms_transfer_id"
+                  type="number"
+                  :label="$t('fields.id_number')"
                   autocomplete="new-password"
-                  :rules="rules.microsms_user_id"
+                  :rules="rules.microsms_transfer_id"
+                />
+                <v-text-field
+                  v-model="fields.microsms_transfer_hash"
+                  :label="$t('fields.hash')"
+                  autocomplete="new-password"
+                  :rules="rules.microsms_transfer_hash"
+                />
+              </v-col>
+              <v-col>
+                <h1 class="display-1">
+                  SMS
+                </h1>
+                <v-text-field
+                  v-model="fields.microsms_sms_id"
+                  :label="$t('fields.id_number')"
+                  autocomplete="new-password"
+                  :rules="rules.microsms_sms_id"
                   type="number"
                 />
-                <v-row>
-                  <v-col>
-                    <h1 class="display-1">
-                      {{ $t('transfer') }}
-                    </h1>
-                    <v-text-field
-                      v-model="fields.microsms_transfer_id"
-                      type="number"
-                      :label="$t('fields.id_number')"
-                      autocomplete="new-password"
-                      :rules="rules.microsms_transfer_id"
-                    />
-                    <v-text-field
-                      v-model="fields.microsms_transfer_hash"
-                      :label="$t('fields.hash')"
-                      autocomplete="new-password"
-                      :rules="rules.microsms_transfer_hash"
-                    />
-                  </v-col>
-                  <v-col>
-                    <h1 class="display-1">
-                      SMS
-                    </h1>
-                    <v-text-field
-                      v-model="fields.microsms_sms_id"
-                      :label="$t('fields.id_number')"
-                      autocomplete="new-password"
-                      :rules="rules.microsms_sms_id"
-                      type="number"
-                    />
-                    <v-text-field
-                      v-model="fields.microsms_sms_text"
-                      :label="$t('fields.sms_content')"
-                      autocomplete="new-password"
-                      :rules="rules.microsms_sms_text"
-                    />
-                  </v-col>
-                </v-row>
-              </div>
-              <v-switch v-model="fields.lvlup" :label="$t('fields.lvlup')" />
-              <div v-if="fields.lvlup">
                 <v-text-field
-                  v-model="fields.lvlup_api"
-                  :label="$t('fields.lvlup_api')"
+                  v-model="fields.microsms_sms_text"
+                  :label="$t('fields.sms_content')"
                   autocomplete="new-password"
-                  :rules="rules.lvlup_api"
+                  :rules="rules.microsms_sms_text"
                 />
-              </div>
-            </v-form>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer />
-            <v-btn color="green" rounded text @click="save">
-              {{ $t('actions.save') }}
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
+              </v-col>
+            </v-row>
+          </div>
+          <v-switch v-model="fields.lvlup" :label="$t('fields.lvlup')" />
+          <div v-if="fields.lvlup">
+            <v-text-field
+              v-model="fields.lvlup_api"
+              :label="$t('fields.lvlup_api')"
+              autocomplete="new-password"
+              :rules="rules.lvlup_api"
+            />
+          </div>
+        </v-form>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn color="green" rounded text @click="save">
+          {{ $t('actions.save') }}
+        </v-btn>
+      </v-card-actions>
+    </v-card>
   </div>
 </template>
 <script>
