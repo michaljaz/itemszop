@@ -1,142 +1,138 @@
 <template>
   <div>
-    <v-row justify="center" align="center">
-      <v-col cols="12" sm="10" md="8">
-        <v-form
-          ref="form"
-          v-model="valid"
-        >
-          <v-card class="pt-1 pb-4" elevation="10">
-            <v-card-title class="headline">
-              {{ $t('titles.shop_appearance') }}
-            </v-card-title>
-            <v-card-text>
-              <v-text-field
-                v-model="name"
-                :label="$t('fields.shop_name')"
-              />
-              <v-switch
-                v-model="shop_icon"
-                class="mt-0"
-                :label="$t('fields.shop_icon')"
-              />
-              <v-text-field
-                v-if="shop_icon"
-                v-model="shop_icon_url"
-                :label="$t('fields.icon_url')"
-                autocomplete="new-password"
-                :rules="rules.icon_url"
-              />
-              <v-switch
-                v-model="shop_background"
-                class="mt-0"
-                :label="$t('fields.shop_background')"
-              />
-              <v-text-field
-                v-if="shop_background"
-                v-model="shop_background_url"
-                :label="$t('fields.shop_background_url')"
-                autocomplete="new-password"
-                :rules="rules.icon_url"
-              />
-              <v-switch
-                v-model="enable_goal"
-                class="mt-0"
-                :label="$t('titles.monthly_goal')"
-              />
-              <div v-if="enable_goal">
-                {{ $t('titles.monthly_goal') }} {{ goal }} zł
-                <v-slider
-                  v-model="goal"
-                  min="1"
-                  max="500"
-                />
-              </div>
-              <v-switch
-                v-model="enable_theme"
-                class="mt-0"
-                :label="$t('fields.shop_theme')"
-              />
-              <v-color-picker
-                v-if="enable_theme"
-                v-model="theme"
-                dot-size="17"
-                hide-inputs
-                mode="rgba"
-                swatches-max-height="100"
-              />
+    <v-form
+      ref="form"
+      v-model="valid"
+    >
+      <v-card class="pt-1 pb-4" elevation="10">
+        <v-card-title class="headline">
+          {{ $t('titles.shop_appearance') }}
+        </v-card-title>
+        <v-card-text>
+          <v-text-field
+            v-model="name"
+            :label="$t('fields.shop_name')"
+          />
+          <v-switch
+            v-model="shop_icon"
+            class="mt-0"
+            :label="$t('fields.shop_icon')"
+          />
+          <v-text-field
+            v-if="shop_icon"
+            v-model="shop_icon_url"
+            :label="$t('fields.icon_url')"
+            autocomplete="new-password"
+            :rules="rules.icon_url"
+          />
+          <v-switch
+            v-model="shop_background"
+            class="mt-0"
+            :label="$t('fields.shop_background')"
+          />
+          <v-text-field
+            v-if="shop_background"
+            v-model="shop_background_url"
+            :label="$t('fields.shop_background_url')"
+            autocomplete="new-password"
+            :rules="rules.icon_url"
+          />
+          <v-switch
+            v-model="enable_goal"
+            class="mt-0"
+            :label="$t('titles.monthly_goal')"
+          />
+          <div v-if="enable_goal">
+            {{ $t('titles.monthly_goal') }} {{ goal }} zł
+            <v-slider
+              v-model="goal"
+              min="1"
+              max="500"
+            />
+          </div>
+          <v-switch
+            v-model="enable_theme"
+            class="mt-0"
+            :label="$t('fields.shop_theme')"
+          />
+          <v-color-picker
+            v-if="enable_theme"
+            v-model="theme"
+            dot-size="17"
+            hide-inputs
+            mode="rgba"
+            swatches-max-height="100"
+          />
 
-              <v-switch
-                v-model="webhook"
-                class="mt-0"
-                :label="$t('fields.discord_webhook')"
-              />
+          <v-switch
+            v-model="webhook"
+            class="mt-0"
+            :label="$t('fields.discord_webhook')"
+          />
 
-              <v-text-field
-                v-if="webhook"
-                v-model="webhookUrl"
-                :label="$t('fields.webhook_url')"
-                autocomplete="new-password"
-                :rules="rules.webhook"
-                append-icon="mdi-lan-connect"
-                @click:append="testWebhook"
-              />
+          <v-text-field
+            v-if="webhook"
+            v-model="webhookUrl"
+            :label="$t('fields.webhook_url')"
+            autocomplete="new-password"
+            :rules="rules.webhook"
+            append-icon="mdi-lan-connect"
+            @click:append="testWebhook"
+          />
 
-              <v-switch
-                v-model="dsc"
-                class="mt-0"
-                :label="$t('fields.discord_widget')"
-              />
+          <v-switch
+            v-model="dsc"
+            class="mt-0"
+            :label="$t('fields.discord_widget')"
+          />
 
-              <v-text-field
-                v-if="dsc"
-                v-model="dsc_id"
-                :label="$t('fields.discord_server_id')"
-                autocomplete="new-password"
-                :rules="rules.dsc_id"
-              />
-            </v-card-text>
-            <v-card-title class="headline">
-              {{ $t('titles.additional_settings') }}
-            </v-card-title>
-            <v-card-text>
-              {{ $t('fields.last_payments_amount') }} {{ maxservices }}
-              <v-slider
-                v-model="maxservices"
-                min="1"
-                max="60"
-              />
-              <v-select
-                v-model="last_payments_type"
-                item-text="name"
-                item-value="value"
-                :items="last_payments_type_list"
-                label="Widżet ostatnich zakupów"
-              />
-            </v-card-text>
-            <v-card-actions>
-              <v-btn color="green" outlined @click="save">
-                {{ $t('actions.save') }}
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-form>
-        <v-card class="pt-1 mt-4 pb-4" elevation="10">
-          <v-card-title class="headline">
-            {{ $t('titles.advanced_settings') }}
-          </v-card-title>
-          <v-card-text>
-            <v-btn color="red" outlined class="mb-2" @click="removeHistory">
-              {{ $t('actions.remove_payment_history') }}
-            </v-btn>
-            <br>
-            <v-btn color="red" outlined class="mb-2" @click="removeDialog">
-              {{ $t('actions.remove_shop') }}
-            </v-btn>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+          <v-text-field
+            v-if="dsc"
+            v-model="dsc_id"
+            :label="$t('fields.discord_server_id')"
+            autocomplete="new-password"
+            :rules="rules.dsc_id"
+          />
+        </v-card-text>
+        <v-card-title class="headline">
+          {{ $t('titles.additional_settings') }}
+        </v-card-title>
+        <v-card-text>
+          {{ $t('fields.last_payments_amount') }} {{ maxservices }}
+          <v-slider
+            v-model="maxservices"
+            min="1"
+            max="60"
+          />
+          <v-select
+            v-model="last_payments_type"
+            item-text="name"
+            item-value="value"
+            :items="last_payments_type_list"
+            label="Widżet ostatnich zakupów"
+          />
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="green" outlined @click="save">
+            {{ $t('actions.save') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-form>
+    <v-card class="pt-1 mt-4 pb-4" elevation="10">
+      <v-card-title class="headline">
+        {{ $t('titles.advanced_settings') }}
+      </v-card-title>
+      <v-card-text>
+        <v-btn color="red" outlined class="mb-2" @click="removeHistory">
+          {{ $t('actions.remove_payment_history') }}
+        </v-btn>
+        <br>
+        <v-btn color="red" outlined class="mb-2" @click="removeDialog">
+          {{ $t('actions.remove_shop') }}
+        </v-btn>
+      </v-card-text>
+    </v-card>
     <v-dialog
       v-model="dialog"
       max-width="550"
