@@ -1,0 +1,9 @@
+
+[build]
+  command = "npm run generate"
+  functions = "functions"
+  publish = "dist"
+[dev]
+  command = "npm run dev"
+[functions]
+  directory = "netlify_functions"
