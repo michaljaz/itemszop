@@ -118,7 +118,7 @@ export default {
   ],
 
   axios: {
-    baseURL: `${baseUrl}/api`
+    baseURL: (process.env.NETLIFY && process.env.NODE_ENV === 'production') ? `${baseUrl}/.netlify/functions` : `${baseUrl}/api`
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

@@ -98,14 +98,29 @@ exports.addPaymentToHistory = ({db, shopid, nick, service, serviceid, type}) => 
 // REQUEST
 
 exports.request = (path, handler) => {
-  app.get(path, (req, res) => {
-	  handler(req).then((data) => {
-	    res.json({success: true, data})
-	  }).catch((error) => {
-	    res.json({success: false, error})
-	  })
-  })
-  return app
+  if (process.env.NETLIFY || process.env.NETLIFY_DEV) {
+    return {
+      async handler (event, context) {
+        let query = JSON.stringify(event.queryStringParameters)
+        return handler(query).then((data) => ({
+          statusCode: 200,
+          body: JSON.stringify({success: true, data}),
+        })).catch((error) => ({
+          statusCode: 200,
+          body: JSON.stringify({success: false, error}),
+        }))
+      }
+    }
+  } else {
+    app.get(path, (req, res) => {
+  	  handler(req.query).then((data) => {
+  	    res.json({success: true, data})
+  	  }).catch((error) => {
+  	    res.json({success: false, error})
+  	  })
+    })
+    return app
+  }
 }
 
 // PARAMS

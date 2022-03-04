@@ -6,4 +6,5 @@
 [dev]
   command = "npm run dev"
 [functions]
-  directory = "netlify_functions"
+  directory = "api"
+  node_bundler = "esbuild"

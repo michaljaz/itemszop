@@ -11,10 +11,10 @@ import {
   generateMicrosmsTransfer
 } from './lib/modules.js'
 
-module.exports = request('/api/microsms_transfer', async (req) => {
-  const nick = await getNick(req.query.nick)
-  const shopid = await getShopId(req.query.shopid)
-  const serviceid = await getServiceId(req.query.serviceid)
+module.exports = request('/api/microsms_transfer', async (query) => {
+  const nick = await getNick(query.nick)
+  const shopid = await getShopId(query.shopid)
+  const serviceid = await getServiceId(query.serviceid)
 
   const db = await firebase()
 

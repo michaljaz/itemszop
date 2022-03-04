@@ -14,10 +14,10 @@ import {
   checkVoucher
 } from './lib/modules.js'
 
-module.exports = request('/api/voucher', async (req) => {
-  const nick = await getNick(req.query.nick)
-  const shopid = await getShopId(req.query.shopid)
-  const code = await getVoucherCode(req.query.code)
+module.exports = request('/api/voucher', async (query) => {
+  const nick = await getNick(query.nick)
+  const shopid = await getShopId(query.shopid)
+  const code = await getVoucherCode(query.code)
   const db = await firebase()
 
   const voucher = await checkVoucher({db, shopid, code})

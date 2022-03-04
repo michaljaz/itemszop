@@ -17,12 +17,12 @@ import {
   addMonthlyGoal
 } from './lib/modules.js'
 
-module.exports = request('/api/microsms_sms', async (req) => {
+module.exports = request('/api/microsms_sms', async (query) => {
   const type = 'microsms_sms'
-  const nick = await getNick(req.query.nick)
-  const shopid = await getShopId(req.query.shopid)
-  const serviceid = await getServiceId(req.query.serviceid)
-  const code = await getSmsCode(req.query.code)
+  const nick = await getNick(query.nick)
+  const shopid = await getShopId(query.shopid)
+  const serviceid = await getServiceId(query.serviceid)
+  const code = await getSmsCode(query.code)
   const db = await firebase()
 
   const payments = await loadPayments({db, shopid})
