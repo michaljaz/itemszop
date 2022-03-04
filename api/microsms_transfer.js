@@ -11,7 +11,7 @@ import {
   generateMicrosmsTransfer
 } from './lib/modules.js'
 
-module.exports = request(__filename, async (query) => {
+request(exports, __filename, async (query) => {
   const nick = await getNick(query.nick)
   const shopid = await getShopId(query.shopid)
   const serviceid = await getServiceId(query.serviceid)

@@ -7,6 +7,33 @@ const app = require('express')()
 const cors = require('cors')
 app.use(cors())
 
+// REQUEST
+
+exports.request = (_exports, filename, handler) => {
+  if (process.env.NETLIFY || process.env.NETLIFY_DEV) {
+    _exports.handler = async (event, context) => {
+      let query = JSON.stringify(event.queryStringParameters)
+      return handler(query).then((data) => ({
+        statusCode: 200,
+        body: JSON.stringify({success: true, data})
+      })).catch((error) => ({
+        statusCode: 200,
+        body: JSON.stringify({success: false, error})
+      }))
+    }
+  } else {
+    let path = filename.split('.')[0].split('/')
+    app.get(`/api/${path[path.length - 1]}`, (req, res) => {
+  	  handler(req.query).then((data) => {
+  	    res.json({success: true, data})
+  	  }).catch((error) => {
+  	    res.json({success: false, error})
+  	  })
+    })
+    _exports = app
+  }
+}
+
 // SENDERS
 
 exports.sendDiscordWebhook = ({shopid, db, nick, serviceName}) => {
@@ -93,35 +120,6 @@ exports.addPaymentToHistory = ({db, shopid, nick, service, serviceid, type}) => 
       reject('history_error')
     })
   })
-}
-
-// REQUEST
-
-exports.request = (filename, handler) => {
-  if (process.env.NETLIFY || process.env.NETLIFY_DEV) {
-    return {
-      async handler (event, context) {
-        let query = JSON.stringify(event.queryStringParameters)
-        return handler(query).then((data) => ({
-          statusCode: 200,
-          body: JSON.stringify({success: true, data})
-        })).catch((error) => ({
-          statusCode: 200,
-          body: JSON.stringify({success: false, error})
-        }))
-      }
-    }
-  } else {
-    let path = filename.split('.')[0].split('/')
-    app.get(`/api/${path[path.length - 1]}`, (req, res) => {
-  	  handler(req.query).then((data) => {
-  	    res.json({success: true, data})
-  	  }).catch((error) => {
-  	    res.json({success: false, error})
-  	  })
-    })
-    return app
-  }
 }
 
 // PARAMS

@@ -12,11 +12,11 @@ import {
   addMonthlyGoal
 } from './lib/modules.js'
 
-module.exports = request(__filename, async (req) => {
+request(exports, __filename, async (query) => {
   const type = 'lvlup'
-  const nick = await getNick(req.query.nick)
-  const shopid = await getShopId(req.query.shopid)
-  const serviceid = await getServiceId(req.query.serviceid)
+  const nick = await getNick(query.nick)
+  const shopid = await getShopId(query.shopid)
+  const serviceid = await getServiceId(query.serviceid)
   const db = await firebase()
 
   const payments = await loadPayments({db, shopid})
