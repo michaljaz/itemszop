@@ -17,7 +17,7 @@ import {
   addMonthlyGoal
 } from './lib/modules.js'
 
-module.exports = request('/api/microsms_sms', async (query) => {
+module.exports = request(__filename, async (query) => {
   const type = 'microsms_sms'
   const nick = await getNick(query.nick)
   const shopid = await getShopId(query.shopid)

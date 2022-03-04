@@ -12,7 +12,7 @@ import {
   addMonthlyGoal
 } from './lib/modules.js'
 
-module.exports = request('/api/lvlup_webhook', async (req) => {
+module.exports = request(__filename, async (req) => {
   const type = 'lvlup'
   const nick = await getNick(req.query.nick)
   const shopid = await getShopId(req.query.shopid)
