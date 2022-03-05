@@ -2,6 +2,9 @@
 import {
   request,
   firebase,
+  getNick,
+  getShopId,
+  getServiceId,
   loadPayments,
   loadService,
   loadServer,
@@ -12,7 +15,7 @@ import {
   addMonthlyGoal
 } from './lib/modules.js'
 
-request(exports, __filename, async (query) => {
+const handler = async (query) => {
   const type = 'lvlup'
   const nick = await getNick(query.nick)
   const shopid = await getShopId(query.shopid)
@@ -28,4 +31,15 @@ request(exports, __filename, async (query) => {
   await addPaymentToHistory({db, shopid, nick, service: service.name, serviceid, type})
   await addMonthlyGoal({type, shopid, db, service})
   await sendDiscordWebhook({shopid, db, nick, serviceName: service.name})
-})
+}
+
+exports.handler = async (event, context) => {
+  let query = JSON.stringify(event.queryStringParameters)
+  return handler(query).then((data) => ({
+    statusCode: 200,
+    body: JSON.stringify({success: true, data})
+  })).catch((error) => ({
+    statusCode: 200,
+    body: JSON.stringify({success: false, error})
+  }))
+}
