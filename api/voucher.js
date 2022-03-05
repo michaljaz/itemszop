@@ -1,6 +1,7 @@
 
 import {
-  request,
+  netlify,
+  vercel,
   firebase,
   getNick,
   getShopId,
@@ -14,7 +15,7 @@ import {
   checkVoucher
 } from './lib/modules.js'
 
-request(exports, __filename, async (query) => {
+const handler = async (query) => {
   const nick = await getNick(query.nick)
   const shopid = await getShopId(query.shopid)
   const code = await getVoucherCode(query.code)
@@ -27,4 +28,10 @@ request(exports, __filename, async (query) => {
   await checkServerOwner({db, shopid, server})
 
   await sendRconCommands({commands: service.commands, nick, host: server.serverIp, port: server.serverPort, password: server.serverPassword})
-})
+}
+
+if (process.env.NETLIFY || process.env.NETLIFY_DEV) {
+  exports.handler = netlify(handler)
+} else {
+  module.exports = vercel(handler, __filename)
+}

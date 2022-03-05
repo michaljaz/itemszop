@@ -1,6 +1,7 @@
 
 import {
-  request,
+  netlify,
+  vercel,
   firebase,
   getNick,
   getShopId,
@@ -17,7 +18,7 @@ import {
   addMonthlyGoal
 } from './lib/modules.js'
 
-request(exports, __filename, async (query) => {
+const handler = async (query) => {
   const type = 'microsms_sms'
   const nick = await getNick(query.nick)
   const shopid = await getShopId(query.shopid)
@@ -36,4 +37,10 @@ request(exports, __filename, async (query) => {
   await addPaymentToHistory({db, shopid, nick, service: service.name, serviceid, type})
   await addMonthlyGoal({type, shopid, db, service})
   await sendDiscordWebhook({shopid, db, nick, serviceName: service.name})
-})
+}
+
+if (process.env.NETLIFY || process.env.NETLIFY_DEV) {
+  exports.handler = netlify(handler)
+} else {
+  module.exports = vercel(handler, __filename)
+}

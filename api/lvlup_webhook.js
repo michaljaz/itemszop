@@ -1,6 +1,7 @@
 
 import {
-  request,
+  netlify,
+  vercel,
   firebase,
   getNick,
   getShopId,
@@ -33,13 +34,8 @@ const handler = async (query) => {
   await sendDiscordWebhook({shopid, db, nick, serviceName: service.name})
 }
 
-exports.handler = async (event, context) => {
-  let query = JSON.stringify(event.queryStringParameters)
-  return handler(query).then((data) => ({
-    statusCode: 200,
-    body: JSON.stringify({success: true, data})
-  })).catch((error) => ({
-    statusCode: 200,
-    body: JSON.stringify({success: false, error})
-  }))
+if (process.env.NETLIFY || process.env.NETLIFY_DEV) {
+  exports.handler = netlify(handler)
+} else {
+  module.exports = vercel(handler, __filename)
 }
