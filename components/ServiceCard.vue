@@ -133,14 +133,13 @@
               <v-spacer />
               <v-btn
                 color="green"
-                text
                 @click="dialog=false"
               >
                 {{ $t('actions.cancel') }}
               </v-btn>
               <v-btn
                 color="primary"
-                text
+                :loading="loading"
                 @click="next"
               >
                 {{ $t('actions.next') }}
@@ -249,6 +248,7 @@ export default {
   },
   data () {
     return {
+      loading: null,
       costslider: 1,
       buy_more: false,
       snackbar: false,
@@ -293,6 +293,7 @@ export default {
     next () {
       this.$refs.form.validate()
       if (this.valid) {
+        this.loading = 'loading'
         if (this.type === 'microsms_transfer') {
           this.buyMicrosmsTransfer()
         } else if (this.type === 'lvlup') {
