@@ -5,7 +5,6 @@ Vue.use(Router)
 
 export function createRouter (ssrContext, createDefaultRouter, routerOptions) {
   const options = routerOptions || createDefaultRouter(ssrContext).options
-  // console.log(options.routes)
   return new Router({
     ...options,
     routes: fixRoutes(options.routes)
@@ -13,7 +12,7 @@ export function createRouter (ssrContext, createDefaultRouter, routerOptions) {
 }
 
 function fixRoutes (defaultRoutes) {
-  if (process.env.SINGLE_SHOP) {
+  if (process.env.singleShopId) {
     return shopRoutes(defaultRoutes)
   } else {
     return defaultRoutes
@@ -28,6 +27,5 @@ function shopRoutes (defaultRoutes) {
       newRoutes.push(defaultRoutes[i])
     }
   }
-  // console.log(newRoutes)
   return newRoutes
 }
