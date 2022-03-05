@@ -1,7 +1,6 @@
 
 import {
-  netlify,
-  vercel,
+  request,
   firebase,
   getNick,
   getShopId,
@@ -24,4 +23,4 @@ const handler = async (query) => {
   return url
 }
 
-exports.handler = netlify(handler)
+module.exports = request(handler, __filename)

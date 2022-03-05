@@ -9,8 +9,16 @@ app.use(cors())
 
 // REQUEST
 
-exports.netlify = (handler) => {
-  return async (event, context) => {
+exports.request = (handler, filename) => {
+  let path = filename.split('.')[0].split('/')
+  app.get(`/api/${path[path.length - 1]}`, (req, res) => {
+    handler(req.query).then((data) => {
+      res.json({success: true, data})
+    }).catch((error) => {
+      res.json({success: false, error})
+    })
+  })
+  app.handler = async (event, context) => {
     let query = JSON.stringify(event.queryStringParameters)
     return handler(query).then((data) => ({
       statusCode: 200,
@@ -20,17 +28,6 @@ exports.netlify = (handler) => {
       body: JSON.stringify({success: false, error})
     }))
   }
-}
-
-exports.vercel = (handler, filename) => {
-  let path = filename.split('.')[0].split('/')
-  app.get(`/api/${path[path.length - 1]}`, (req, res) => {
-    handler(req.query).then((data) => {
-      res.json({success: true, data})
-    }).catch((error) => {
-      res.json({success: false, error})
-    })
-  })
   return app
 }
 

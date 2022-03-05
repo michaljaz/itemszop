@@ -1,7 +1,6 @@
 
 import {
-  netlify,
-  vercel,
+  request,
   firebase,
   getNick,
   getShopId,
@@ -30,4 +29,4 @@ const handler = async (query) => {
   await sendRconCommands({commands: service.commands, nick, host: server.serverIp, port: server.serverPort, password: server.serverPassword})
 }
 
-exports.handler = netlify(handler)
+module.exports = request(handler, __filename)
