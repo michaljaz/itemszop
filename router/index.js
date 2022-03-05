@@ -5,6 +5,7 @@ Vue.use(Router)
 
 export function createRouter (ssrContext, createDefaultRouter, routerOptions) {
   const options = routerOptions || createDefaultRouter(ssrContext).options
+  // console.log(options.routes)
   return new Router({
     ...options,
     routes: fixRoutes(options.routes)
@@ -20,8 +21,13 @@ function fixRoutes (defaultRoutes) {
 }
 
 function shopRoutes (defaultRoutes) {
-  for (const i in defaultRoutes) {
-    defaultRoutes[i].path = defaultRoutes[i].path.replace('/shop/:shopid/', '/').replace('/shop/:shopid', '/')
+  const newRoutes = []
+  for (let i = 0; i < defaultRoutes.length; i++) {
+    if (i !== 10) {
+      defaultRoutes[i].path = defaultRoutes[i].path.replace('/shop/:shopid/', '/').replace('/shop/:shopid', '/')
+      newRoutes.push(defaultRoutes[i])
+    }
   }
-  return defaultRoutes
+  // console.log(newRoutes)
+  return newRoutes
 }
