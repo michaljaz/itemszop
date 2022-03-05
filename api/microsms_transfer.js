@@ -26,8 +26,4 @@ const handler = async (query) => {
   return url
 }
 
-if (process.env.NETLIFY || process.env.NETLIFY_DEV) {
-  exports.handler = netlify(handler)
-} else {
-  module.exports = vercel(handler, __filename)
-}
+exports.handler = netlify(handler)
