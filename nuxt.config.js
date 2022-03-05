@@ -1,17 +1,17 @@
 import colors from 'vuetify/es5/util/colors'
 
 const mainUrl = 'https://itemszop.tk'
-const baseUrl = process.env.NODE_ENV === 'production' ? process.env.BASE_URL : 'http://localhost:8080'
+
+let baseUrl = 'http://localhost:8080'
+if (process.env.NODE_ENV === 'production') {
+  baseUrl = process.env.VERCEL_URL ? process.env.VERCEL_URL : process.env.URL
+}
 
 let firebaseConfig
 try {
   firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG)
 } catch (e) {
   console.error('Klucze zostały źle skonfigurowane w zmiennej środowiskowej FIREBASE_CONFIG')
-  process.exit()
-}
-if (!process.env.BASE_URL) {
-  console.error('Nie ustawiono prawidłowo zmiennej środowiskowej BASE_URL')
   process.exit()
 }
 
