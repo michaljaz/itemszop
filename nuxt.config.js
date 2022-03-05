@@ -37,10 +37,6 @@ export default {
     ]
   },
 
-  dir: {
-    pages: process.env.SINGLE_SHOP ? 'pages/shop/_shopid' : 'pages'
-  },
-
   router: {
     middleware: [
       'auth'
@@ -74,7 +70,12 @@ export default {
       fix: true
     }],
     // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify'
+    '@nuxtjs/vuetify',
+    ['@nuxtjs/router', {
+      path: 'router',
+      fileName: 'index.js',
+      keepDefaultRouter: true
+    }]
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

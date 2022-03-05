@@ -1,0 +1,29 @@
+{
+	"rules": {
+		".write":"auth.uid == [OWNER_ID]",
+		".read": "auth.uid == [OWNER_ID]",
+		"shops":{
+			".read": true,
+		},
+		"servers":{
+			"$server_id":{
+				"serverName":{
+					".read":true
+				},
+			}
+		},
+		"payments":{
+			"$shop_id":{
+				"microsms_sms_text":{
+					".read":true
+				},
+				"lvlup":{
+					".read":true
+				},
+				"microsms":{
+					".read":true
+				},
+			}
+		}
+	}
+}

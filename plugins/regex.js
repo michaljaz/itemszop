@@ -14,6 +14,9 @@ const regex = {
   microsms_hash (v) {
     return /^[A-Za-z0-9$*@]+$/.test(v)
   },
+  lvlup_api (v) {
+    return /^[A-Za-z]+$/.test(v)
+  },
   sms_text (v) {
     return /^[A-Z.]+$/.test(v)
   },

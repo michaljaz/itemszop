@@ -132,7 +132,8 @@ export default {
     wrong_format_nick: 'Niepoprawny format nicka',
     wrong_format_shopid: 'Niepoprawny format id sklepu',
     wrong_format_serviceid: 'Niepoprawny format id usługi',
-    wrong_format_voucher: 'Niepoprawny format vouchera'
+    wrong_format_voucher: 'Niepoprawny format vouchera',
+    wrong_format_api_key: 'Niepoprawny format klucza api'
   },
 
   titles: {

@@ -169,6 +169,16 @@
                 <v-col>
                   <center>
                     <v-img
+                      src="/netlify.png"
+                      width="100"
+                      height="100"
+                    />
+                    Netlify
+                  </center>
+                </v-col>
+                <v-col>
+                  <center>
+                    <v-img
                       src="/nuxt.png"
                       width="100"
                       height="100"

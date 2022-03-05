@@ -9,10 +9,10 @@
           ref="form"
           v-model="valid"
         >
-          <v-switch v-model="fields.microsms" :label="$t('fields.microsms')" />
-          <div v-if="fields.microsms">
+          <v-switch v-model="microsms" :label="$t('fields.microsms')" />
+          <div v-if="microsms">
             <v-text-field
-              v-model="fields.microsms_user_id"
+              v-model="microsms_user_id"
               :label="$t('fields.user_id')"
               autocomplete="new-password"
               :rules="rules.microsms_user_id"
@@ -24,14 +24,14 @@
                   {{ $t('transfer') }}
                 </h1>
                 <v-text-field
-                  v-model="fields.microsms_transfer_id"
+                  v-model="microsms_transfer_id"
                   type="number"
                   :label="$t('fields.id_number')"
                   autocomplete="new-password"
                   :rules="rules.microsms_transfer_id"
                 />
                 <v-text-field
-                  v-model="fields.microsms_transfer_hash"
+                  v-model="microsms_transfer_hash"
                   :label="$t('fields.hash')"
                   autocomplete="new-password"
                   :rules="rules.microsms_transfer_hash"
@@ -42,14 +42,14 @@
                   SMS
                 </h1>
                 <v-text-field
-                  v-model="fields.microsms_sms_id"
+                  v-model="microsms_sms_id"
                   :label="$t('fields.id_number')"
                   autocomplete="new-password"
                   :rules="rules.microsms_sms_id"
                   type="number"
                 />
                 <v-text-field
-                  v-model="fields.microsms_sms_text"
+                  v-model="microsms_sms_text"
                   :label="$t('fields.sms_content')"
                   autocomplete="new-password"
                   :rules="rules.microsms_sms_text"
@@ -57,10 +57,10 @@
               </v-col>
             </v-row>
           </div>
-          <v-switch v-model="fields.lvlup" :label="$t('fields.lvlup')" />
-          <div v-if="fields.lvlup">
+          <v-switch v-model="lvlup" :label="$t('fields.lvlup')" />
+          <div v-if="lvlup">
             <v-text-field
-              v-model="fields.lvlup_api"
+              v-model="lvlup_api"
               :label="$t('fields.lvlup_api')"
               autocomplete="new-password"
               :rules="rules.lvlup_api"
@@ -95,16 +95,14 @@ export default {
       valid: false,
       select: 'MicroSMS',
       items: ['MicroSMS'],
-      fields: {
-        microsms: false,
-        microsms_user_id: '',
-        microsms_transfer_id: '',
-        microsms_transfer_hash: '',
-        microsms_sms_id: '',
-        microsms_sms_text: '',
-        lvlup: false,
-        lvlup_api: ''
-      },
+      microsms: this.payments.microsms,
+      microsms_user_id: this.payments.microsms_user_id,
+      microsms_transfer_id: this.payments.microsms_transfer_id,
+      microsms_transfer_hash: this.payments.microsms_transfer_hash,
+      microsms_sms_id: this.payments.microsms_sms_id,
+      microsms_sms_text: this.payments.microsms_sms_text,
+      lvlup: this.payments.lvlup,
+      lvlup_api: this.payments.lvlup_api,
       rules: {
         microsms_user_id: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
@@ -122,6 +120,10 @@ export default {
         microsms_sms_text: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
           v => this.$regex.sms_text(v) || this.$t('formats.sms_format')
+        ],
+        lvlup_api: [
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.lvlup_api(v) || this.$t('formats.wrong_format_api_key')
         ]
       }
     }
@@ -131,22 +133,21 @@ export default {
       title: this.$t('titles.payments')
     }
   },
-  mounted () {
-    this.fields.microsms = this.payments.microsms
-    this.fields.microsms_user_id = this.payments.microsms_user_id
-    this.fields.microsms_transfer_id = this.payments.microsms_transfer_id
-    this.fields.microsms_transfer_hash = this.payments.microsms_transfer_hash
-    this.fields.microsms_sms_id = this.payments.microsms_sms_id
-    this.fields.microsms_sms_text = this.payments.microsms_sms_text
-    this.fields.lvlup = this.payments.lvlup
-    this.fields.lvlup_api = this.payments.lvlup_api
-  },
   methods: {
     save () {
       this.$refs.form.validate()
       if (this.valid) {
         const { shopid } = this.$route.params
-        this.$fire.database.ref().child(`payments/${shopid}`).set(this.fields)
+        this.$fire.database.ref().child(`payments/${shopid}`).update({
+          microsms: !!this.microsms,
+          microsms_user_id: this.microsms ? this.microsms_user_id : '',
+          microsms_transfer_id: this.microsms ? this.microsms_transfer_id : '',
+          microsms_transfer_hash: this.microsms ? this.microsms_transfer_hash : '',
+          microsms_sms_id: this.microsms ? this.microsms_sms_id : '',
+          microsms_sms_text: this.microsms ? this.microsms_sms_text : '',
+          lvlup: !!this.lvlup,
+          lvlup_api: this.lvlup ? this.lvlup_api : ''
+        })
       }
     }
   }

@@ -1,7 +1,6 @@
 
 import {
-  netlify,
-  vercel,
+  request,
   sendRconCommands
 } from './lib/modules.js'
 
@@ -11,8 +10,4 @@ const handler = async (query) => {
   return response
 }
 
-if (process.env.NETLIFY || process.env.NETLIFY_DEV) {
-  exports.handler = netlify(handler)
-} else {
-  module.exports = vercel(handler, __filename)
-}
+module.exports = request(handler, __filename)
