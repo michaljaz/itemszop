@@ -19,8 +19,7 @@ exports.request = (handler, filename) => {
     })
   })
   app.handler = async (event, context) => {
-    let query = JSON.stringify(event.queryStringParameters)
-    return handler(query).then((data) => ({
+    return handler(event.queryStringParameters).then((data) => ({
       statusCode: 200,
       body: JSON.stringify({success: true, data})
     })).catch((error) => ({
