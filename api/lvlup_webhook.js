@@ -1,7 +1,11 @@
 
 import {
-  request,
+  netlify,
+  vercel,
   firebase,
+  getNick,
+  getShopId,
+  getServiceId,
   loadPayments,
   loadService,
   loadServer,
@@ -12,11 +16,11 @@ import {
   addMonthlyGoal
 } from './lib/modules.js'
 
-module.exports = request('/api/lvlup_webhook', async (req) => {
+const handler = async (query) => {
   const type = 'lvlup'
-  const nick = await getNick(req.query.nick)
-  const shopid = await getShopId(req.query.shopid)
-  const serviceid = await getServiceId(req.query.serviceid)
+  const nick = await getNick(query.nick)
+  const shopid = await getShopId(query.shopid)
+  const serviceid = await getServiceId(query.serviceid)
   const db = await firebase()
 
   const payments = await loadPayments({db, shopid})
@@ -28,4 +32,10 @@ module.exports = request('/api/lvlup_webhook', async (req) => {
   await addPaymentToHistory({db, shopid, nick, service: service.name, serviceid, type})
   await addMonthlyGoal({type, shopid, db, service})
   await sendDiscordWebhook({shopid, db, nick, serviceName: service.name})
-})
+}
+
+if (process.env.NETLIFY || process.env.NETLIFY_DEV) {
+  exports.handler = netlify(handler)
+} else {
+  module.exports = vercel(handler, __filename)
+}
