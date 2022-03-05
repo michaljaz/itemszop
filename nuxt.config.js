@@ -4,7 +4,7 @@ const mainUrl = 'https://itemszop.tk'
 
 let baseUrl = 'http://localhost:8080'
 if (process.env.NODE_ENV === 'production') {
-  baseUrl = process.env.VERCEL_URL ? process.env.VERCEL_URL : process.env.URL
+  baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : process.env.URL
 }
 
 let firebaseConfig
