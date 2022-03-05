@@ -70,12 +70,7 @@ export default {
       fix: true
     }],
     // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify',
-    ['@nuxtjs/router', {
-      path: 'router',
-      fileName: 'index.js',
-      keepDefaultRouter: true
-    }]
+    '@nuxtjs/vuetify'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -115,7 +110,12 @@ export default {
           families: ['Roboto:100,300,400,500,700,900&display=swap'] // Loads Roboto in all weights.
         }
       }
-    ]
+    ],
+    ['@nuxtjs/router', {
+      path: 'router',
+      fileName: 'index.js',
+      keepDefaultRouter: true
+    }]
   ],
 
   axios: {
