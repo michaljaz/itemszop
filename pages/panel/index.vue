@@ -16,7 +16,7 @@
           class="mb-2 pt-5 pb-5"
           elevation="10"
           :to="`/panel/shop/${shop}`"
-          :color="checkShop(shop) ? 'blue darken-4' : ''"
+          :color="checkShop(shop) ? 'primary' : ''"
         >
           <v-card-text class="headline">
             <center>

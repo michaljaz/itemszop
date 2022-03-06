@@ -57,7 +57,7 @@
                 <v-date-picker
                   v-model="date"
                   light
-                  color="blue"
+                  color="primary"
                   range
                   no-title
                   scrollable
@@ -87,7 +87,7 @@
       <v-card-actions>
         <v-spacer />
         <v-btn
-          color="green darken-1"
+          color="success"
           text
           rounded
           @click="create"
@@ -103,7 +103,7 @@
       <v-card-actions>
         <v-spacer />
         <v-btn
-          color="red"
+          color="error"
           text
           rounded
           @click="del"

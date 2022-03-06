@@ -47,7 +47,7 @@
             <v-card-actions>
               <v-spacer />
               <v-btn
-                color="green darken-1"
+                color="primary"
                 text
                 @click="dialog=false"
               >
@@ -55,7 +55,7 @@
               </v-btn>
               <v-btn
                 v-if="nextButton"
-                color="green darken-1"
+                color="success"
                 text
                 @click="$router.push('/auth/signin')"
               >
@@ -74,7 +74,7 @@
         </div>
         <v-spacer />
         <v-btn
-          class="indigo darken-4"
+          color="primary"
           large
           @click="submit"
         >

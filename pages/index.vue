@@ -52,13 +52,13 @@
                 {{ $t('homepage.subtitle') }}
                 <client-only>
                   <div class="mt-3">
-                    <v-btn v-if="!loggedIn" to="/auth/signin" large color="indigo" class="mt-1">
+                    <v-btn v-if="!loggedIn" to="/auth/signin" large color="primary" class="mt-1">
                       {{ $t('sign_in') }}
                     </v-btn>
                     <v-btn v-if="!loggedIn" to="/auth/signup" large color="info" class="mt-1">
                       {{ $t('sign_up') }}
                     </v-btn>
-                    <v-btn v-if="loggedIn" to="/panel" large color="indigo">
+                    <v-btn v-if="loggedIn" to="/panel" large color="primary">
                       {{ $t('actions.go_to_panel') }}
                     </v-btn>
                   </div>

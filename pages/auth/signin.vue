@@ -24,7 +24,7 @@
           />
           <v-btn
             text
-            color="indigo"
+            color="primary"
             small
             @click="reset_dialog=true"
           >
@@ -37,7 +37,7 @@
           {{ $t('misc.email_sent') }}
           <template #action="{ attrs }">
             <v-btn
-              color="pink"
+              color="error"
               text
               v-bind="attrs"
               @click="snackbar = false"
@@ -69,14 +69,14 @@
             <v-card-actions>
               <v-spacer />
               <v-btn
-                color="green darken-1"
+                color="primary"
                 text
                 @click="reset_dialog=false"
               >
                 {{ $t('actions.cancel') }}
               </v-btn>
               <v-btn
-                color="green darken-1"
+                color="success"
                 @click="resetPassword"
               >
                 {{ $t('actions.reset') }}
@@ -98,7 +98,7 @@
             <v-card-actions>
               <v-spacer />
               <v-btn
-                color="green darken-1"
+                color="primary"
                 text
                 @click="dialog=false"
               >
@@ -111,7 +111,7 @@
       <v-card-actions>
         <v-spacer />
         <v-btn
-          class="indigo darken-4"
+          class="primary"
           large
           @click="submit"
         >

@@ -45,4 +45,4 @@ Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację
 
 Nowo powstały projekt działa tak samo jak strona główna Itemszopu, ale już łączy się do Twojej własnej bazy i ma swoich własnych użytkowników.
 
-Jeśli chcesz, żeby twój sklep był tylko hostowany w 'roocie' projektu, to wystarczy dodać zmienną srodowiskową ```SINGLE_SHOP``` o wartości id sklepu.
+Jeśli chcesz, żeby twój sklep był tylko hostowany w 'roocie' projektu, to wystarczy dodać zmienną środowiskową ```SINGLE_SHOP``` o wartości id sklepu.
