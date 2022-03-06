@@ -9,7 +9,7 @@
       <div class="display-1 mt-7">
         {{ $t('titles.no_service_available') }}
       </div>
-      <v-btn :to="`${shopPath}/`" color="blue" class="mt-10" text>
+      <v-btn :to="`${shopPath}/`" color="primary" class="mt-10" text>
         {{ $t('actions.back_to_servers_list') }}
       </v-btn>
     </center>

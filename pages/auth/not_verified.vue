@@ -9,10 +9,10 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer />
-        <v-btn color="green" @click="reload">
+        <v-btn color="success" @click="reload">
           {{ $t('actions.reload') }}
         </v-btn>
-        <v-btn color="blue" @click="signOut">
+        <v-btn color="primary" @click="signOut">
           {{ $t('actions.logout') }}
         </v-btn>
       </v-card-actions>

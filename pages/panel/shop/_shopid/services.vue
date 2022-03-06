@@ -222,7 +222,7 @@
       large
       block
       text
-      color="blue"
+      color="primary"
       class="mt-5"
       @click="newService"
     >
@@ -242,14 +242,14 @@
         <v-card-actions>
           <v-spacer />
           <v-btn
-            color="green darken-1"
+            color="success"
             text
             @click="dialog2 = false"
           >
             {{ $t('actions.cancel') }}
           </v-btn>
           <v-btn
-            color="red"
+            color="error"
             text
             @click="removeService"
           >

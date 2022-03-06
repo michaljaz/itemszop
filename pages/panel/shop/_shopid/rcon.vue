@@ -23,7 +23,7 @@
           <v-alert
             v-if="rconResponse"
             border="left"
-            color="#2A3B4D"
+            color="info"
             dark
           >
             <!-- eslint-disable vue/no-v-html -->

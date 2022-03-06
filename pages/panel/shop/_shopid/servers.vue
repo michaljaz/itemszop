@@ -19,7 +19,7 @@
           <v-spacer />
           <v-btn
             dark
-            color="green"
+            color="success"
             @click="newServer"
           >
             {{ $t('actions.new_server') }}
@@ -71,14 +71,14 @@
             <v-card-actions>
               <v-spacer />
               <v-btn
-                color="green darken-1"
+                color="primary"
                 text
                 @click="dialog = false"
               >
                 {{ $t('actions.cancel') }}
               </v-btn>
               <v-btn
-                color="blue"
+                color="success"
                 text
                 @click="saveServer"
               >
@@ -101,14 +101,14 @@
             <v-card-actions>
               <v-spacer />
               <v-btn
-                color="green darken-1"
+                color="primary"
                 text
                 @click="dialog2 = false"
               >
                 {{ $t('actions.cancel') }}
               </v-btn>
               <v-btn
-                color="red"
+                color="error"
                 text
                 @click="removeServer(currentItem)"
               >

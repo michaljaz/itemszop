@@ -113,7 +113,7 @@
           />
         </v-card-text>
         <v-card-actions>
-          <v-btn color="green" outlined @click="save">
+          <v-btn color="success" outlined @click="save">
             {{ $t('actions.save') }}
           </v-btn>
         </v-card-actions>
@@ -124,11 +124,11 @@
         {{ $t('titles.advanced_settings') }}
       </v-card-title>
       <v-card-text>
-        <v-btn color="red" outlined class="mb-2" @click="removeHistory">
+        <v-btn color="error" outlined class="mb-2" @click="removeHistory">
           {{ $t('actions.remove_payment_history') }}
         </v-btn>
         <br>
-        <v-btn color="red" outlined class="mb-2" @click="removeDialog">
+        <v-btn color="error" outlined class="mb-2" @click="removeDialog">
           {{ $t('actions.remove_shop') }}
         </v-btn>
       </v-card-text>
@@ -144,7 +144,7 @@
         <v-card-text>
           <v-alert
             border="left"
-            color="red"
+            color="error"
             dark
           >
             {{ $t('misc.if_not_read') }}
@@ -165,12 +165,12 @@
         <v-card-actions>
           <v-row>
             <v-col>
-              <v-btn color="green" text block @click="dialog=false">
+              <v-btn color="primary" text block @click="dialog=false">
                 {{ $t('actions.cancel') }}
               </v-btn>
             </v-col>
             <v-col>
-              <v-btn color="red" :disabled="cdel===$route.params.shopid ? false : true" block @click="remove()">
+              <v-btn color="error" :disabled="cdel===$route.params.shopid ? false : true" block @click="remove()">
                 {{ $t('actions.remove_shop') }}
               </v-btn>
             </v-col>
