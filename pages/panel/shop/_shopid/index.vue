@@ -11,7 +11,7 @@
           type="info"
           elevation="2"
         >
-          {{ $t('misc.shop_url') }} <a :href="url">{{ url }}</a>
+          {{ $t('misc.shop_url') }} <a :href="url" target="_blank">{{ url }}</a>
         </v-alert>
         <v-textarea
           :label="$t('fields.shop_html')"
@@ -47,6 +47,10 @@ export default {
     shop: {
       type: Object,
       required: true
+    },
+    url: {
+      type: String,
+      required: true
     }
   },
   data () {
@@ -56,7 +60,6 @@ export default {
         { name: this.$t('titles.payment_methods'), id: 1 },
         { name: this.$t('titles.most_common_services'), id: 2 }
       ],
-      url: `${document.location.origin}/shop/${this.$route.params.shopid}`,
       pieChartData: this.getData1(),
       pieChartOptions: {}
     }

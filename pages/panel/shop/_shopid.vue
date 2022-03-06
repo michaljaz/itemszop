@@ -12,6 +12,9 @@
                 <v-list-item-title class="text-h5 mt-2">
                   {{ shop.name }}
                 </v-list-item-title>
+                <v-list-item-subtitle>
+                  <a :href="url" target="_blank">{{ url }}</a>
+                </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
 
@@ -136,6 +139,7 @@
           :shop="shop"
           :servers="servers"
           :payments="payments"
+          :url="url"
         />
         <div v-else class="d-flex mt-5 justify-center">
           <v-progress-circular
@@ -160,6 +164,15 @@ export default {
   head () {
     return {
       titleTemplate: `${this.$route.params.shopid}: %s`
+    }
+  },
+  computed: {
+    url () {
+      if (process.env.singleShopId) {
+        return `${document.location.origin}`
+      } else {
+        return `${document.location.origin}/shop/${this.$route.params.shopid}`
+      }
     }
   }
 }
