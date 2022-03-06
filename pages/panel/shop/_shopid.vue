@@ -12,7 +12,7 @@
                 <v-list-item-title class="text-h5 mt-2">
                   {{ shop.name }}
                 </v-list-item-title>
-                <v-list-item-subtitle>
+                <v-list-item-subtitle v-if="url">
                   <a :href="url" target="_blank">{{ url }}</a>
                 </v-list-item-subtitle>
               </v-list-item-content>
@@ -169,7 +169,11 @@ export default {
   computed: {
     url () {
       if (process.env.singleShopId) {
-        return `${document.location.origin}`
+        if (this.$route.params.shopid !== process.env.singleShopId) {
+          return ''
+        } else {
+          return `${document.location.origin}`
+        }
       } else {
         return `${document.location.origin}/shop/${this.$route.params.shopid}`
       }
