@@ -311,7 +311,8 @@ export default {
         if (data.success) {
           window.top.location.href = data.data
         } else {
-          console.log(data.error)
+          this.snackbarMessage = this.$t(`responses.${data.error}`)
+          this.snackbar = true
         }
       })
     },
@@ -323,7 +324,8 @@ export default {
         if (data.success) {
           window.top.location.href = data.data
         } else {
-          console.log(data.error)
+          this.snackbarMessage = this.$t(`responses.${data.error}`)
+          this.snackbar = true
         }
       })
     },
