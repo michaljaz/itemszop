@@ -21,7 +21,7 @@
 				".write":"(data.child('owner').val() == auth.uid || !data.exists()) && (newData.child('owner').val() == auth.uid || !newData.exists())",
 			}
 		},
-		"payments":{
+		"config":{
 			"$shop_id":{
 				"microsms_sms_text":{
 					".read":true

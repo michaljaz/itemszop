@@ -133,12 +133,12 @@
         </v-card>
       </v-col>
       <v-col cols="12" lg="9" md="8" sm="12">
-        <ShopListener @servers="servers=$event" @shop="shop=$event" @payments="payments=$event" />
+        <ShopListener @servers="servers=$event" @shop="shop=$event" @config="config=$event" />
         <nuxt-child
           v-if="shop.loaded"
           :shop="shop"
           :servers="servers"
-          :payments="payments"
+          :config="config"
           :url="url"
         />
         <div v-else class="d-flex mt-5 justify-center">
@@ -158,7 +158,7 @@ export default {
     return {
       shop: {},
       servers: {},
-      payments: {}
+      config: {}
     }
   },
   head () {

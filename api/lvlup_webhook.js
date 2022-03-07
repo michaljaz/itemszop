@@ -5,7 +5,6 @@ import {
   getNick,
   getShopId,
   getServiceId,
-  loadPayments,
   loadService,
   loadServer,
   checkServerOwner,
@@ -22,7 +21,6 @@ const handler = async (query) => {
   const serviceid = await getServiceId(query.serviceid)
   const db = await firebase()
 
-  const payments = await loadPayments({db, shopid})
   const service = await loadService({db, shopid, serviceid})
   const server = await loadServer({db, serverid: service.server})
 

@@ -79,7 +79,7 @@
                 <TiptapEditor :editorcontent="fields.description" @content="fields.description=$event" />
               </v-col>
               <v-col cols="12" xs="12" md="6">
-                <div v-if="payments.microsms">
+                <div v-if="config.microsms">
                   <v-switch
                     v-model="fields.microsms_sms"
                     :label="`${$t('fields.sms_payment')} (microsms.pl)`"
@@ -106,7 +106,7 @@
                     :rules="rules.microsms_transfer_cost"
                   />
                 </div>
-                <div v-if="payments.lvlup">
+                <div v-if="config.lvlup">
                   <v-switch
                     v-model="fields.lvlup"
                     :label="`${$t('transfer_psc')} (lvlup.pro)`"
@@ -190,13 +190,13 @@
                 </v-list-item-title>
                 <v-list-item-subtitle style="height:100px;">
                   <div v-if="service.sms || service.przelew">
-                    <v-chip v-if="service.microsms_sms && payments.microsms" small class="mb-1">
+                    <v-chip v-if="service.microsms_sms && config.microsms" small class="mb-1">
                       {{ $t('sms') }}: {{ smsCost[service.microsms_sms_type] }}
                     </v-chip>
-                    <v-chip v-if="service.microsms_transfer && payments.microsms" small class="mb-1">
+                    <v-chip v-if="service.microsms_transfer && config.microsms" small class="mb-1">
                       {{ $t('transfer') }}: {{ service.microsms_transfer_cost }}zł
                     </v-chip>
-                    <v-chip v-if="service.lvlup && payments.lvlup" small class="mb-1">
+                    <v-chip v-if="service.lvlup && config.lvlup" small class="mb-1">
                       {{ $t('transfer_psc') }}: {{ service.lvlup_cost }}zł
                     </v-chip>
                   </div>
@@ -272,7 +272,7 @@ export default {
       type: Object,
       required: true
     },
-    payments: {
+    config: {
       type: Object,
       required: true
     }

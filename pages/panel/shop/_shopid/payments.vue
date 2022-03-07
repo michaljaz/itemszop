@@ -85,7 +85,7 @@ export default {
       type: Object,
       required: true
     },
-    payments: {
+    config: {
       type: Object,
       required: true
     }
@@ -95,14 +95,14 @@ export default {
       valid: false,
       select: 'MicroSMS',
       items: ['MicroSMS'],
-      microsms: this.payments.microsms,
-      microsms_user_id: this.payments.microsms_user_id,
-      microsms_transfer_id: this.payments.microsms_transfer_id,
-      microsms_transfer_hash: this.payments.microsms_transfer_hash,
-      microsms_sms_id: this.payments.microsms_sms_id,
-      microsms_sms_text: this.payments.microsms_sms_text,
-      lvlup: this.payments.lvlup,
-      lvlup_api: this.payments.lvlup_api,
+      microsms: this.config.microsms,
+      microsms_user_id: this.config.microsms_user_id,
+      microsms_transfer_id: this.config.microsms_transfer_id,
+      microsms_transfer_hash: this.config.microsms_transfer_hash,
+      microsms_sms_id: this.config.microsms_sms_id,
+      microsms_sms_text: this.config.microsms_sms_text,
+      lvlup: this.config.lvlup,
+      lvlup_api: this.config.lvlup_api,
       rules: {
         microsms_user_id: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
@@ -138,7 +138,7 @@ export default {
       this.$refs.form.validate()
       if (this.valid) {
         const { shopid } = this.$route.params
-        this.$fire.database.ref().child(`payments/${shopid}`).update({
+        this.$fire.database.ref().child(`config/${shopid}`).update({
           microsms: !!this.microsms,
           microsms_user_id: this.microsms ? this.microsms_user_id : '',
           microsms_transfer_id: this.microsms ? this.microsms_transfer_id : '',

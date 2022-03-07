@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <v-col v-for="service in services" :key="service.serviceId" cols="12" md="6" xl="4">
-        <ServiceCard :service="service" :payments="payments" :shopid="shopId" :link="`${shopPath}/service/${service.serviceId}`" />
+        <ServiceCard :service="service" :config="config" :shopid="shopId" :link="`${shopPath}/service/${service.serviceId}`" />
       </v-col>
     </v-row>
     <center v-if="!services.length">
@@ -36,7 +36,7 @@ export default {
       type: Object,
       required: true
     },
-    payments: {
+    config: {
       type: Object,
       required: true
     }

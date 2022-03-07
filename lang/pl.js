@@ -174,7 +174,7 @@ export default {
 
   responses: {
     unable_to_connect: 'Nie udało się połączyć',
-    payments_not_exist: 'Płatność nie została skonfigurowana',
+    config_not_exist: 'Konfiguracja sklepu nie istnieje',
     service_not_exist: 'Usługa nie istnieje',
     server_not_exist: 'Serwer nie istnieje',
     wrong_code: 'Nieprawidłowy kod',

@@ -16,7 +16,7 @@ export default {
     return {
       shop: {},
       servers: {},
-      payments: {},
+      config: {},
       listeningServers: {},
       shopid: this.$route.params.shopid ? this.$route.params.shopid : process.env.singleShopId
     }
@@ -43,8 +43,8 @@ export default {
       this.updateServerListeners(this.shop.servers)
       this.$emit('shop', this.shop)
     },
-    payments () {
-      this.$emit('payments', this.payments)
+    config () {
+      this.$emit('config', this.config)
     }
   },
   mounted () {
@@ -87,7 +87,7 @@ export default {
         })
     },
     createShopListener (shopId) {
-      this.createPaymentsListener(shopId)
+      this.createConfigListener(shopId)
       this.$fire.database.ref().child(`shops/${shopId}`)
         .on('value', (snapshot) => {
           if (snapshot.exists()) {
@@ -102,40 +102,40 @@ export default {
           }
         })
     },
-    createPaymentsListener (shopId) {
+    createConfigListener (shopId) {
       if (!this.public) {
-        this.$fire.database.ref().child(`payments/${shopId}`)
+        this.$fire.database.ref().child(`config/${shopId}`)
           .on('value', (snapshot) => {
             if (snapshot.exists()) {
-              this.payments = snapshot.val() === null ? {} : snapshot.val()
+              this.config = snapshot.val() === null ? {} : snapshot.val()
             }
           })
       } else {
-        this.$fire.database.ref().child(`payments/${shopId}/microsms_sms_text`)
+        this.$fire.database.ref().child(`config/${shopId}/microsms_sms_text`)
           .on('value', (snapshot) => {
             if (snapshot.exists()) {
               const data = snapshot.val() === null ? {} : snapshot.val()
-              const newPayments = Object.assign({}, this.payments)
-              newPayments.microsms_sms_text = data
-              this.payments = newPayments
+              const newConfig = Object.assign({}, this.config)
+              newConfig.microsms_sms_text = data
+              this.config = newConfig
             }
           })
-        this.$fire.database.ref().child(`payments/${shopId}/lvlup`)
+        this.$fire.database.ref().child(`config/${shopId}/lvlup`)
           .on('value', (snapshot) => {
             if (snapshot.exists()) {
               const data = snapshot.val() === null ? {} : snapshot.val()
-              const newPayments = Object.assign({}, this.payments)
-              newPayments.lvlup = data
-              this.payments = newPayments
+              const newConfig = Object.assign({}, this.config)
+              newConfig.lvlup = data
+              this.config = newConfig
             }
           })
-        this.$fire.database.ref().child(`payments/${shopId}/microsms`)
+        this.$fire.database.ref().child(`config/${shopId}/microsms`)
           .on('value', (snapshot) => {
             if (snapshot.exists()) {
               const data = snapshot.val() === null ? {} : snapshot.val()
-              const newPayments = Object.assign({}, this.payments)
-              newPayments.microsms = data
-              this.payments = newPayments
+              const newConfig = Object.assign({}, this.config)
+              newConfig.microsms = data
+              this.config = newConfig
             }
           })
       }
@@ -145,10 +145,10 @@ export default {
         this.destroyServerListener(serverId)
       }
       this.$fire.database.ref().child(`shops/${shopId}`).off('value')
-      this.$fire.database.ref().child(`payments/${shopId}`).off('value')
-      this.$fire.database.ref().child(`payments/${shopId}/microsms_sms_text`).off('value')
-      this.$fire.database.ref().child(`payments/${shopId}/lvlup`).off('value')
-      this.$fire.database.ref().child(`payments/${shopId}/microsms`).off('value')
+      this.$fire.database.ref().child(`config/${shopId}`).off('value')
+      this.$fire.database.ref().child(`config/${shopId}/microsms_sms_text`).off('value')
+      this.$fire.database.ref().child(`config/${shopId}/lvlup`).off('value')
+      this.$fire.database.ref().child(`config/${shopId}/microsms`).off('value')
     }
   }
 }

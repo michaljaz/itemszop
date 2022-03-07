@@ -174,13 +174,13 @@ exports.getVoucherCode = (code) => {
 
 // LOADERS
 
-exports.loadPayments = ({db, shopid}) => {
+exports.loadConfig = ({db, shopid}) => {
   return new Promise((resolve, reject) => {
-    db.child(`payments/${shopid}`).once('value', (snapshot) => {
+    db.child(`config/${shopid}`).once('value', (snapshot) => {
       if (snapshot.exists()) {
         resolve(snapshot.val())
       } else {
-        reject('payments_not_exist')
+        reject('config_not_exist')
       }
     })
   })
@@ -212,11 +212,11 @@ exports.loadService = ({db, serviceid, shopid}) => {
 
 // GENERATORS
 
-exports.generateMicrosmsTransfer = ({payments, nick, shopid, serviceid, service}) => {
+exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service}) => {
   const params = new URLSearchParams({
-    shopid: payments.microsms_transfer_id,
+    shopid: config.microsms_transfer_id,
     amount: service.microsms_transfer_cost,
-    signature: md5(`${payments.microsms_transfer_id}${payments.microsms_transfer_hash}${service.microsms_transfer_cost}`),
+    signature: md5(`${config.microsms_transfer_id}${config.microsms_transfer_hash}${service.microsms_transfer_cost}`),
     description: `${service.name} dla ${nick}`,
     control: `${shopid}|${serviceid}|${nick}`,
     returl_url: `${baseUrl}/shop/${shopid}/payment_success`,
@@ -225,10 +225,10 @@ exports.generateMicrosmsTransfer = ({payments, nick, shopid, serviceid, service}
   return `https://microsms.pl/api/bankTransfer/?${params}`
 }
 
-exports.generateLvlup = ({payments, nick, shopid, serviceid, service}) => {
+exports.generateLvlup = ({config, nick, shopid, serviceid, service}) => {
   return new Promise((resolve, reject) => {
-    const lvlup = new LvlupApi(payments.lvlup_api)
-		// const lvlup = new LvlupApi(payments.lvlup_api, {env: 'sandbox'})
+    const lvlup = new LvlupApi(config.lvlup_api)
+		// const lvlup = new LvlupApi(config.lvlup_api, {env: 'sandbox'})
     lvlup.createPayment(service.lvlup_cost, `${baseUrl}`, `${baseUrl}/api/lvlup_webhook?nick=${nick}&shopid=${shopid}&serviceid=${serviceid}`).then(({url}) => {
       if (url) {
         resolve(url)
@@ -295,7 +295,7 @@ exports.checkVoucher = ({db, shopid, code}) => {
   })
 }
 
-exports.checkMicrosmsCode = ({service, payments, code}) => {
+exports.checkMicrosmsCode = ({service, config, code}) => {
   return new Promise((resolve, reject) => {
     const number = ({
       1: '71480',
@@ -310,7 +310,7 @@ exports.checkMicrosmsCode = ({service, payments, code}) => {
       10: '92022',
       11: '92550'
     })[service.microsms_sms_type]
-    axios.get(`https://microsms.pl/api/check.php?userid=${payments.microsms_user_id}&number=${number}&code=${code}&serviceid=${payments.microsms_sms_id}`).then(({data}) => {
+    axios.get(`https://microsms.pl/api/check.php?userid=${config.microsms_user_id}&number=${number}&code=${code}&serviceid=${config.microsms_sms_id}`).then(({data}) => {
       if (data.split(',')[0] === '1') {
         resolve()
       } else {
@@ -345,7 +345,7 @@ exports.checkMicrosmsTransferPrice = ({req, service}) => {
 
 exports.checkMicrosmsUserId = ({db, shopid, userid}) => {
   return new Promise((resolve, reject) => {
-    db.child(`payments/${shopid}/microsms_user_id`).once('value', (snapshot) => {
+    db.child(`config/${shopid}/microsms_user_id`).once('value', (snapshot) => {
       if (snapshot.exists() && snapshot.val() === userid) {
         resolve()
       } else {
