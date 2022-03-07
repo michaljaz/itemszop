@@ -26,7 +26,7 @@
               <v-list-item
                 link
                 :to="`/panel/shop/${$route.params.shopid}/`"
-                active-class="no-active"
+                :active-class="isDashboard ? '' : `no-active`"
               >
                 <v-list-item-icon>
                   <v-icon>mdi-view-dashboard</v-icon>
@@ -176,7 +176,13 @@ export default {
       } else {
         return `${document.location.origin}/shop/${this.$route.params.shopid}`
       }
+    },
+    isDashboard () {
+      return this.$route.path === `/panel/shop/${this.$route.params.shopid}/` || this.$route.path === `/panel/shop/${this.$route.params.shopid}`
     }
+  },
+  mounted () {
+    console.log(this.$route)
   }
 }
 </script>
