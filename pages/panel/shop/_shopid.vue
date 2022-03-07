@@ -80,7 +80,6 @@
                   <v-list-item-title>{{ $t('titles.settings') }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-divider class="mb-1" />
               <v-list-group
                 :value="true"
                 no-action

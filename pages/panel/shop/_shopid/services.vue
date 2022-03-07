@@ -221,7 +221,7 @@
     <v-btn
       large
       block
-      text
+      outlined
       color="primary"
       class="mt-5"
       @click="newService"

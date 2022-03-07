@@ -113,7 +113,8 @@
           />
         </v-card-text>
         <v-card-actions>
-          <v-btn color="success" outlined @click="save">
+          <v-spacer />
+          <v-btn color="success" @click="save">
             {{ $t('actions.save') }}
           </v-btn>
         </v-card-actions>
@@ -124,11 +125,11 @@
         {{ $t('titles.advanced_settings') }}
       </v-card-title>
       <v-card-text>
-        <v-btn color="error" outlined class="mb-2" @click="removeHistory">
+        <v-btn color="error" class="mb-2" @click="removeHistory">
           {{ $t('actions.remove_payment_history') }}
         </v-btn>
         <br>
-        <v-btn color="error" outlined class="mb-2" @click="removeDialog">
+        <v-btn color="error" class="mb-2" @click="removeDialog">
           {{ $t('actions.remove_shop') }}
         </v-btn>
       </v-card-text>

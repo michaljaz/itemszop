@@ -70,7 +70,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer />
-        <v-btn color="success" rounded text @click="save">
+        <v-btn color="success" @click="save">
           {{ $t('actions.save') }}
         </v-btn>
       </v-card-actions>
