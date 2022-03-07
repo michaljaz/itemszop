@@ -12,7 +12,7 @@
 				},
 			}
 		},
-		"payments":{
+		"config":{
 			"$shop_id":{
 				"microsms_sms_text":{
 					".read":true
