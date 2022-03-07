@@ -5,14 +5,8 @@
       elevation="4"
       fixed
       app
-      :color="$vuetify.theme.dark ? '' : 'light-blue darken-4'"
-      dark
     >
       <v-container class="pa-0 fill-height justify-space-between">
-        <v-toolbar-title style="cursor: pointer" class="hidden-sm-and-down mr-3" @click="$router.push('/panel')">
-          {{ $t('brand') }}
-        </v-toolbar-title>
-
         <v-menu
           offset-y
           right
@@ -58,15 +52,6 @@
             </v-list-item>
           </v-list>
         </v-menu>
-        <v-toolbar-items class="hidden-sm-and-down">
-          <v-btn text to="/panel/new_shop" color="blue">
-            {{ $t('actions.new_shop') }}
-          </v-btn>
-        </v-toolbar-items>
-        <v-toolbar-title style="cursor: pointer" class="hidden-md-and-up" @click="$router.push('/panel')">
-          {{ $t('brand') }}
-        </v-toolbar-title>
-        <v-spacer class="hidden-sm-and-down" />
         <v-btn icon @click="toggle_theme">
           <v-icon v-if="$vuetify.theme.dark">
             mdi-white-balance-sunny
@@ -75,7 +60,15 @@
             mdi-weather-night
           </v-icon>
         </v-btn>
+
+        <v-spacer class="hidden-sm-and-down" />
+
         <!-- <v-switch v-model="" class="mt-5" /> -->
+        <v-toolbar-items class="hidden-sm-and-down">
+          <v-btn text to="/panel/new_shop" color="blue">
+            {{ $t('actions.new_shop') }}
+          </v-btn>
+        </v-toolbar-items>
         <v-menu
           offset-y
           left
