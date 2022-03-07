@@ -88,8 +88,6 @@
         <v-spacer />
         <v-btn
           color="success"
-          text
-          rounded
           @click="create"
         >
           {{ $t('actions.create_and_download') }}
@@ -104,8 +102,6 @@
         <v-spacer />
         <v-btn
           color="error"
-          text
-          rounded
           @click="del"
         >
           {{ $t('actions.remove_all_vouchers') }}

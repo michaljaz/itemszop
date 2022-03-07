@@ -1,7 +1,7 @@
 <template>
   <default-layout>
     <div v-if="background" class="background_blur" :style="`background:url(${backgroundUrl}) no-repeat center center fixed;`" />
-    <ShopListener public @servers="servers=$event" @shop="shop=$event" @payments="payments=$event" />
+    <ShopListener public @servers="servers=$event" @shop="shop=$event" @config="config=$event" />
     <v-container v-if="shop.loaded">
       <div class="d-inline-flex mt-4 mb-5">
         <v-img
@@ -55,7 +55,7 @@
                   :shop="shop"
                   :servers="servers"
                   :shop-path="shopPath"
-                  :payments="payments"
+                  :config="config"
                   :shop-id="shopId"
                   @breadcrumb="breadCrumbs=$event"
                 />
@@ -156,7 +156,7 @@ export default {
       backgroundUrl: '',
       shop: {},
       servers: {},
-      payments: {},
+      config: {},
       breadCrumbs: []
     }
   },

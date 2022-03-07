@@ -6,7 +6,7 @@ import {
   getShopId,
   getServiceId,
   getSmsCode,
-  loadPayments,
+  loadConfig,
   loadService,
   generateMicrosmsTransfer
 } from './lib/modules.js'
@@ -18,10 +18,10 @@ const handler = async (query) => {
 
   const db = await firebase()
 
-  const payments = await loadPayments({db, shopid})
+  const config = await loadConfig({db, shopid})
   const service = await loadService({db, shopid, serviceid})
 
-  const url = await generateMicrosmsTransfer({payments, nick, shopid, serviceid, service})
+  const url = await generateMicrosmsTransfer({config, nick, shopid, serviceid, service})
   return url
 }
 

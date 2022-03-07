@@ -10,7 +10,7 @@
         </template>
       </center>
       <v-card-text>
-        <div v-if="payments.microsms" class="d-flex justify-center mb-1">
+        <div v-if="config.microsms" class="d-flex justify-center mb-1">
           {{ $t('sms') }}
           <v-spacer />
           <span v-if="service.microsms_sms">
@@ -20,7 +20,7 @@
             X
           </span>
         </div>
-        <div v-if="payments.microsms" class="d-flex justify-center mb-1">
+        <div v-if="config.microsms" class="d-flex justify-center mb-1">
           {{ $t('transfer') }}
           <v-spacer />
           <template v-if="service.microsms_transfer">
@@ -30,7 +30,7 @@
             X
           </template>
         </div>
-        <div v-if="payments.lvlup" class="d-flex justify-center mb-1">
+        <div v-if="config.lvlup" class="d-flex justify-center mb-1">
           {{ $t('transfer_psc') }}
           <v-spacer />
           <template v-if="service.lvlup">
@@ -64,7 +64,7 @@
         >
           <template #activator="{ on, attrs }">
             <v-btn
-              :disabled="!((payments.microsms && (service.microsms_sms || service.microsms_transfer)) || (service.lvlup && payments.lvlup))"
+              :disabled="!((config.microsms && (service.microsms_sms || service.microsms_transfer)) || (service.lvlup && config.lvlup))"
               color="green"
               large
               outlined
@@ -88,17 +88,17 @@
               >
                 <v-radio-group v-model="type" :rules="rules.type">
                   <v-radio
-                    v-if="service.microsms_sms && payments.microsms"
+                    v-if="service.microsms_sms && config.microsms"
                     :label="`${$t('sms')} (${smsCost[service.microsms_sms_type][1]} zł)`"
                     value="microsms_sms"
                   />
                   <v-radio
-                    v-if="service.microsms_transfer && payments.microsms"
+                    v-if="service.microsms_transfer && config.microsms"
                     :label="`${$t('transfer')} (${service.microsms_transfer_cost} zł)`"
                     value="microsms_transfer"
                   />
                   <v-radio
-                    v-if="service.lvlup && payments.lvlup"
+                    v-if="service.lvlup && config.lvlup"
                     :label="`${$t('transfer_psc')} (${service.lvlup_cost} zł)`"
                     value="lvlup"
                   />
@@ -171,7 +171,7 @@
                 {{ smsCost[service.microsms_sms_type][1] }}
               </template>
               <template #sms>
-                <b>{{ payments.microsms_sms_text }}</b>
+                <b>{{ config.microsms_sms_text }}</b>
               </template>
               <template #number>
                 <b>{{ smsCost[service.microsms_sms_type][2] }}</b>
@@ -229,7 +229,7 @@
 export default {
   name: 'ServiceCard',
   props: {
-    payments: {
+    config: {
       type: Object,
       default: () => ({})
     },
@@ -311,7 +311,8 @@ export default {
         if (data.success) {
           window.top.location.href = data.data
         } else {
-          console.log(data.error)
+          this.snackbarMessage = this.$t(`responses.${data.error}`)
+          this.snackbar = true
         }
       })
     },
@@ -323,7 +324,8 @@ export default {
         if (data.success) {
           window.top.location.href = data.data
         } else {
-          console.log(data.error)
+          this.snackbarMessage = this.$t(`responses.${data.error}`)
+          this.snackbar = true
         }
       })
     },

@@ -113,7 +113,8 @@
           />
         </v-card-text>
         <v-card-actions>
-          <v-btn color="success" outlined @click="save">
+          <v-spacer />
+          <v-btn color="success" @click="save">
             {{ $t('actions.save') }}
           </v-btn>
         </v-card-actions>
@@ -124,11 +125,11 @@
         {{ $t('titles.advanced_settings') }}
       </v-card-title>
       <v-card-text>
-        <v-btn color="error" outlined class="mb-2" @click="removeHistory">
+        <v-btn color="error" class="mb-2" @click="removeHistory">
           {{ $t('actions.remove_payment_history') }}
         </v-btn>
         <br>
-        <v-btn color="error" outlined class="mb-2" @click="removeDialog">
+        <v-btn color="error" class="mb-2" @click="removeDialog">
           {{ $t('actions.remove_shop') }}
         </v-btn>
       </v-card-text>
@@ -187,6 +188,10 @@ export default {
     shop: {
       type: Object,
       required: true
+    },
+    config: {
+      type: Object,
+      required: true
     }
   },
   data () {
@@ -207,8 +212,8 @@ export default {
       ],
       maxservices: this.shop.maxservices,
       valid: false,
-      webhook: this.shop.webhook,
-      webhookUrl: this.shop.webhook,
+      webhook: this.config.webhook,
+      webhookUrl: this.config.webhook,
       cdel: '',
       goal: this.shop.goal,
       name: this.shop.name,
@@ -242,13 +247,15 @@ export default {
         this.$fire.database.ref().child(`shops/${shopid}`).update({
           name: this.name,
           goal: this.enable_goal ? this.goal : '',
-          webhook: this.webhook ? this.webhookUrl : '',
           maxservices: this.maxservices,
           last_payments_type: this.last_payments_type,
           icon: this.shop_icon ? this.shop_icon_url : '',
           dsc_id: this.dsc ? this.dsc_id : '',
           background: this.shop_background ? this.shop_background_url : '',
           theme: this.enable_theme ? this.theme : ''
+        })
+        this.$fire.database.ref().child(`config/${shopid}`).update({
+          webhook: this.webhook ? this.webhookUrl : ''
         })
       }
     },

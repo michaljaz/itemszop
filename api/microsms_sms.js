@@ -6,7 +6,7 @@ import {
   getShopId,
   getServiceId,
   getSmsCode,
-  loadPayments,
+  loadConfig,
   loadService,
   loadServer,
   checkMicrosmsCode,
@@ -25,9 +25,9 @@ const handler = async (query) => {
   const code = await getSmsCode(query.code)
   const db = await firebase()
 
-  const payments = await loadPayments({db, shopid})
+  const config = await loadConfig({db, shopid})
   const service = await loadService({db, shopid, serviceid})
-  await checkMicrosmsCode({code, payments, service})
+  await checkMicrosmsCode({code, config, service})
 
   const server = await loadServer({db, serverid: service.server})
   await checkServerOwner({db, shopid, server})
