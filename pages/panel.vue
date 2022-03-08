@@ -1,5 +1,177 @@
 <template>
   <div>
+    <v-navigation-drawer
+      v-if="$route.params.shopid"
+      v-model="drawer"
+      :color="$vuetify.theme.dark ? `#272727`: ''"
+      fixed
+      app
+      width="270"
+    >
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title class="text-h5 mt-0">
+            <v-menu
+              offset-y
+              right
+            >
+              <template #activator="{ on, attrs }">
+                <v-toolbar-items>
+                  <v-btn
+                    large
+                    class="py-3"
+                    text
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <span v-if="!$route.params.shopid">
+                      {{ $t('titles.shops') }}
+                    </span>
+                    <span v-else>
+                      {{ $route.params.shopid }}
+                    </span>
+                    <v-icon>mdi-menu-down</v-icon>
+                  </v-btn>
+                </v-toolbar-items>
+              </template>
+
+              <v-list>
+                <v-list-item
+                  v-for="item in shops"
+                  :key="item"
+                  link
+                  :to="`/panel/shop/${item}`"
+                >
+                  <v-list-item-title>{{ item }}</v-list-item-title>
+                </v-list-item>
+                <v-divider />
+                <v-list-item
+                  link
+                  to="/panel/new_shop"
+                >
+                  <v-list-item-title>{{ $t('actions.new_shop') }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </v-list-item-title>
+          <v-list-item-subtitle v-if="url">
+            <a :href="url" target="_blank">{{ url }}</a>
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list
+        nav
+        dense
+      >
+        <v-divider class="mb-1" />
+        <v-list-item
+          link
+          :to="`/panel/shop/${$route.params.shopid}/`"
+          :active-class="isDashboard ? '' : `no-active`"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-view-dashboard</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ $t('titles.dashboard') }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          link
+          :to="`/panel/shop/${$route.params.shopid}/servers`"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-server</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ $t('titles.servers') }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          link
+          :to="`/panel/shop/${$route.params.shopid}/services`"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-cart</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ $t('titles.services') }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          link
+          :to="`/panel/shop/${$route.params.shopid}/payments`"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-credit-card-plus</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ $t('titles.payments') }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          link
+          :to="`/panel/shop/${$route.params.shopid}/settings`"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-cog</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ $t('titles.settings') }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-group
+          :value="true"
+          no-action
+        >
+          <template #activator>
+            <v-list-item-icon>
+              <v-icon>mdi-view-grid-plus</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ $t('titles.additional_modules') }}</v-list-item-title>
+            </v-list-item-content>
+          </template>
+
+          <v-list-item
+            link
+            :to="`/panel/shop/${$route.params.shopid}/vouchers`"
+          >
+            <v-list-item-icon>
+              <v-icon>mdi-ticket-percent</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ $t('titles.vouchers') }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item
+            link
+            :to="`/panel/shop/${$route.params.shopid}/pages`"
+          >
+            <v-list-item-icon>
+              <v-icon>mdi-file</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ $t('titles.pages') }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item
+            link
+            :to="`/panel/shop/${$route.params.shopid}/rcon`"
+          >
+            <v-list-item-icon>
+              <v-icon>mdi-lan-connect</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ $t('titles.rcon') }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+      </v-list>
+    </v-navigation-drawer>
+
     <v-app-bar
       height="70"
       elevation="4"
@@ -7,51 +179,12 @@
       app
     >
       <v-container class="pa-0 fill-height justify-space-between">
-        <v-menu
-          offset-y
-          right
-        >
-          <template #activator="{ on, attrs }">
-            <v-toolbar-items>
-              <v-btn
-                text
-                v-bind="attrs"
-                v-on="on"
-              >
-                <v-icon class="hidden-md-and-up">
-                  mdi-cart
-                </v-icon>
-                <span class="hidden-sm-and-down">
-                  <span v-if="!$route.params.shopid">
-                    {{ $t('titles.shops') }}
-                  </span>
-                  <span v-else>
-                    {{ $route.params.shopid }}
-                  </span>
-                </span>
-                <v-icon>mdi-menu-down</v-icon>
-              </v-btn>
-            </v-toolbar-items>
-          </template>
-
-          <v-list>
-            <v-list-item
-              v-for="item in shops"
-              :key="item"
-              link
-              :to="`/panel/shop/${item}`"
-            >
-              <v-list-item-title>{{ item }}</v-list-item-title>
-            </v-list-item>
-            <v-divider />
-            <v-list-item
-              link
-              to="/panel/new_shop"
-            >
-              <v-list-item-title>{{ $t('actions.new_shop') }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
+        <v-app-bar-nav-icon v-if="$route.params.shopid" class="hidden-lg-and-up" @click.stop="drawer = !drawer" />
+        <nuxt-link to="/panel" style="text-decoration: none; color: inherit;">
+          <v-toolbar-title class="mr-3 ml-3">
+            {{ $t('brand') }}
+          </v-toolbar-title>
+        </nuxt-link>
         <v-btn icon @click="toggle_theme">
           <v-icon v-if="$vuetify.theme.dark">
             mdi-white-balance-sunny
@@ -63,8 +196,7 @@
 
         <v-spacer class="hidden-sm-and-down" />
 
-        <!-- <v-switch v-model="" class="mt-5" /> -->
-        <v-toolbar-items class="hidden-sm-and-down">
+        <v-toolbar-items class="hidden-md-and-down">
           <v-btn text to="/panel/new_shop" color="blue">
             {{ $t('actions.new_shop') }}
           </v-btn>
@@ -80,7 +212,7 @@
                 v-bind="attrs"
                 v-on="on"
               >
-                <v-icon class="hidden-md-and-up">
+                <v-icon class="hidden-lg-and-up">
                   mdi-account
                 </v-icon>
                 <span class="hidden-sm-and-down">
@@ -120,7 +252,24 @@ export default {
   name: 'BasePanel',
   data () {
     return {
-      shops: []
+      shops: [],
+      drawer: true
+    }
+  },
+  computed: {
+    isDashboard () {
+      return this.$route.path === `/panel/shop/${this.$route.params.shopid}/` || this.$route.path === `/panel/shop/${this.$route.params.shopid}`
+    },
+    url () {
+      if (process.env.singleShopId) {
+        if (this.$route.params.shopid !== process.env.singleShopId) {
+          return ''
+        } else {
+          return `${document.location.origin}`
+        }
+      } else {
+        return `${document.location.origin}/shop/${this.$route.params.shopid}`
+      }
     }
   },
   mounted () {
