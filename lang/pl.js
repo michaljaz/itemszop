@@ -184,7 +184,8 @@ export default {
     discord_webhook_error: 'Nie udało się połączyć z webhookiem z discorda',
     voucher_not_exist: 'Voucher nie istnieje',
     voucher_expired: 'Voucher wygasł',
-    server_owner_error: 'Nieprawidłowy właściciel serwera'
+    server_owner_error: 'Nieprawidłowy właściciel serwera',
+    wrong_api_key: 'Nieprawidłowy klucz api'
   },
 
   firebase: {
