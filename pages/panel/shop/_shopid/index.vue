@@ -14,11 +14,6 @@
         >
           {{ $t('misc.shop_url') }} <a :href="url" target="_blank">{{ url }}</a>
         </v-alert>
-        <v-textarea
-          :label="$t('fields.shop_html')"
-          filled
-          :value="`<iframe style=&quot;z-index:99999999;border:0px;position:fixed;width:100%;height:100%;top:0px;left:0px;&quot; src=&quot;${url}&quot; />`"
-        />
       </v-col>
       <v-col cols="12" md="6">
         <v-card class="mb-3">
