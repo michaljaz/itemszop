@@ -94,7 +94,6 @@ export default {
     codes_amount: 'Liczba kodów',
     webhook_url: 'Adres URL webhooka',
     cost_slider: 'Suwak do wyboru ilości produktu (eksperymentalne)',
-    shop_html: 'Kod HTML, kóry wyświetla ramkę ze sklepem',
     discord_webhook: 'Webhook discordowy',
     choose_service_hint: 'Wybierz jaką usługę będzie można aktywować voucherem.',
     codes_amount_hint: 'Liczba kodów, które mają zostać wygenerowane. Ustawiając np. 20 stworzysz dwadzieścia różnych kodów na tę samą usługę.',
