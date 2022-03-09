@@ -71,7 +71,18 @@ export default {
     }],
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
-    '@nuxtjs/pwa'
+    ['@nuxtjs/pwa', {
+      meta: {
+        title: 'ItemSzop',
+        author: 'michaljaz'
+      },
+      manifest: {
+        name: 'ItemSzop',
+        short_name: 'ItemSzop',
+        description: 'Darmowy sklep serwera minecraftowego',
+        lang: 'pl'
+      }
+    }]
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
