@@ -79,6 +79,11 @@ export default {
       }
     }
   },
+  head () {
+    return {
+      title: this.$t('titles.redeem_voucher')
+    }
+  },
   mounted () {
     this.$emit('breadcrumb', [{
       text: this.$t('titles.shop'),

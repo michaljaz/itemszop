@@ -42,6 +42,11 @@ export default {
       required: true
     }
   },
+  head () {
+    return {
+      title: this.$t('actions.description')
+    }
+  },
   computed: {
     service () {
       const { serviceid } = this.$route.params
