@@ -168,7 +168,8 @@ export default {
     payment_methods: 'Metody płatności',
     shop_appearance: 'Wygląd sklepu',
     additional_settings: 'Dodatkowe opcje',
-    no_service_available: 'Nie dodano żadnej usługi :('
+    no_service_available: 'Nie dodano żadnej usługi :(',
+    loading: 'Ładowanie...'
   },
 
   responses: {

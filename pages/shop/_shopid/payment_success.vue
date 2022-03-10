@@ -22,6 +22,11 @@ export default {
       required: true
     }
   },
+  head () {
+    return {
+      title: this.$t('titles.payment_success')
+    }
+  },
   mounted () {
     this.$emit('breadcrumb', [{
       text: this.$t('titles.shop'),

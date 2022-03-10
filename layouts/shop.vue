@@ -160,7 +160,15 @@ export default {
       breadCrumbs: []
     }
   },
+  head () {
+    return {
+      titleTemplate: this.titleTemplate
+    }
+  },
   computed: {
+    titleTemplate () {
+      return this.shop.name ? `${this.shop.name}: %s` : this.$t('titles.loading')
+    },
     shopId () {
       return this.$route.params.shopid ? this.$route.params.shopid : process.env.singleShopId
     },

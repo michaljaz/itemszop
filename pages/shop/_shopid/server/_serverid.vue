@@ -41,6 +41,11 @@ export default {
       required: true
     }
   },
+  head () {
+    return {
+      title: this.$t('titles.services')
+    }
+  },
   computed: {
     services () {
       const result = []
