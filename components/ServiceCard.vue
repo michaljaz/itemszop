@@ -308,6 +308,7 @@ export default {
       this.$axios.get('/lvlup', {
         params: { nick, shopid, serviceid: this.service.serviceId }
       }).then(({ data }) => {
+        this.loading = null
         if (data.success) {
           window.top.location.href = data.data
         } else {
@@ -321,6 +322,7 @@ export default {
       this.$axios.get('/microsms_transfer', {
         params: { nick, shopid, serviceid: this.service.serviceId }
       }).then(({ data }) => {
+        this.loading = null
         if (data.success) {
           window.top.location.href = data.data
         } else {
