@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+import fs from 'fs'
 
 const mainUrl = 'https://itemszop.tk'
 
@@ -93,6 +94,11 @@ export default {
       {
         config: firebaseConfig.publicConfig,
         services: {
+          messaging: {
+            createServiceWorker: true,
+            fcmPublicVapidKey:"BLE3ZYv0CC7JZIuTKk2EhQcIPi4eSKcS1iqgpweC290f6e1aHsmPYdJwaZOIq1mVe9U6sNrYbx9a-E72jsJlgSI",
+            inject: fs.readFileSync('./static/fcmWorker.js')
+          },
           database: true,
           auth: {
             initialize: {
