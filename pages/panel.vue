@@ -272,7 +272,7 @@ export default {
       }
     }
   },
-  mounted () {
+  async mounted () {
     const theme = localStorage.getItem('dark')
     if (theme) {
       if (theme === 'true') {
@@ -304,6 +304,12 @@ export default {
         this.shops = shops
       }
     })
+    try {
+      this.idToken = await this.$fire.messaging.getToken({ vapidKey: 'BLE3ZYv0CC7JZIuTKk2EhQcIPi4eSKcS1iqgpweC290f6e1aHsmPYdJwaZOIq1mVe9U6sNrYbx9a-E72jsJlgSI' })
+      console.log(this.idToken)
+    } catch (e) {
+      console.error('Error : ', e)
+    }
   },
   methods: {
     signOut () {
