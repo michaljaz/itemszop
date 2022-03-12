@@ -14,7 +14,7 @@
         <v-card
           text
           class="mb-2 pt-5 pb-5"
-          elevation="10"
+          elevation="2"
           :to="`/panel/shop/${shop}`"
           :color="checkShop(shop) ? 'primary' : ''"
         >

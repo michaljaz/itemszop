@@ -182,7 +182,7 @@
           lg="4"
           md="6"
         >
-          <v-card elevation="10" min-height="170" @click="editService(service)">
+          <v-card elevation="2" min-height="170" @click="editService(service)">
             <v-list-item three-line>
               <v-list-item-content>
                 <v-list-item-title class="text-h4 mb-3">
