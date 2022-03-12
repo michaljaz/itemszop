@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="pt-1 pb-4" elevation="10">
+    <v-card class="pt-1 pb-4" elevation="2">
       <v-card-title class="headline">
         {{ $t('titles.payments_config') }}
       </v-card-title>

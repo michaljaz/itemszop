@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card elevation="10" class="pt-1">
+    <v-card elevation="2" class="pt-1">
       <v-card-title class="headline">
         <span class="text-h5">{{ $t('titles.adding_vouchers') }}</span>
       </v-card-title>
@@ -94,7 +94,7 @@
         </v-btn>
       </v-card-actions>
     </v-card>
-    <v-card elevation="10" class="pt-1 mt-5">
+    <v-card elevation="2" class="pt-1 mt-5">
       <v-card-title class="headline">
         <span class="text-h5">{{ $t('titles.removing_vouchers') }}</span>
       </v-card-title>

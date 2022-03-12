@@ -4,7 +4,7 @@
       ref="form"
       v-model="valid"
     >
-      <v-card class="pt-1 pb-4" elevation="10">
+      <v-card class="pt-1 pb-4" elevation="2">
         <v-card-title class="headline">
           {{ $t('titles.shop_appearance') }}
         </v-card-title>

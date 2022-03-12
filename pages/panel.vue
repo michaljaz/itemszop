@@ -3,6 +3,7 @@
     <v-navigation-drawer
       v-if="$route.params.shopid"
       v-model="drawer"
+      elevation="2"
       :color="$vuetify.theme.dark ? `#272727`: ''"
       fixed
       app
@@ -24,12 +25,7 @@
                     v-bind="attrs"
                     v-on="on"
                   >
-                    <span v-if="!$route.params.shopid">
-                      {{ $t('titles.shops') }}
-                    </span>
-                    <span v-else>
-                      {{ $route.params.shopid }}
-                    </span>
+                    {{ $route.params.shopid }}
                     <v-icon>mdi-menu-down</v-icon>
                   </v-btn>
                 </v-toolbar-items>
@@ -113,6 +109,17 @@
         </v-list-item>
         <v-list-item
           link
+          :to="`/panel/shop/${$route.params.shopid}/pages`"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-file</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ $t('titles.pages') }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          link
           :to="`/panel/shop/${$route.params.shopid}/settings`"
         >
           <v-list-item-icon>
@@ -148,17 +155,6 @@
           </v-list-item>
           <v-list-item
             link
-            :to="`/panel/shop/${$route.params.shopid}/pages`"
-          >
-            <v-list-item-icon>
-              <v-icon>mdi-file</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>{{ $t('titles.pages') }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item
-            link
             :to="`/panel/shop/${$route.params.shopid}/rcon`"
           >
             <v-list-item-icon>
@@ -174,7 +170,7 @@
 
     <v-app-bar
       height="70"
-      elevation="4"
+      elevation="2"
       fixed
       app
     >
@@ -272,7 +268,7 @@ export default {
       }
     }
   },
-  mounted () {
+  async mounted () {
     const theme = localStorage.getItem('dark')
     if (theme) {
       if (theme === 'true') {
@@ -304,6 +300,12 @@ export default {
         this.shops = shops
       }
     })
+    try {
+      this.idToken = await this.$fire.messaging.getToken({ vapidKey: 'BLE3ZYv0CC7JZIuTKk2EhQcIPi4eSKcS1iqgpweC290f6e1aHsmPYdJwaZOIq1mVe9U6sNrYbx9a-E72jsJlgSI' })
+      console.log(this.idToken)
+    } catch (e) {
+      console.error('Error : ', e)
+    }
   },
   methods: {
     signOut () {

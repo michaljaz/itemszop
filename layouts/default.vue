@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app dark :style="$vuetify.theme.dark ? '' : `background:#eee`">
     <v-main>
       <nuxt v-if="!$slots.default" />
       <slot />

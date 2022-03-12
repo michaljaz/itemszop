@@ -93,6 +93,7 @@ export default {
       {
         config: firebaseConfig.publicConfig,
         services: {
+          messaging: true,
           database: true,
           auth: {
             initialize: {
