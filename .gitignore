@@ -90,5 +90,3 @@ sw.*
 *.swp
 
 .netlify
-
-firebase-messaging-sw.js
