@@ -18,7 +18,9 @@
             v-model="command"
             :label="$t('fields.command')"
             autocomplete="new-password"
+            append-icon="mdi-send"
             @keydown.enter.prevent="submit"
+            @click:append="submit"
           />
           <v-alert
             v-if="rconResponse"
