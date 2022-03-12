@@ -50,6 +50,13 @@ export default {
     }
   },
   mounted () {
+    if (Object.keys(this.shop.servers).length === 1) {
+      if (process.env.singleShopId) {
+        this.$router.push(`/server/${Object.keys(this.shop.servers)[0]}`)
+      } else {
+        this.$router.push(`/shop/${this.$route.params.shopid}/server/${Object.keys(this.shop.servers)[0]}`)
+      }
+    }
     this.$emit('breadcrumb', [{
       text: this.$t('titles.shop'),
       disabled: false,
