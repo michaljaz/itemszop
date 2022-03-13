@@ -192,7 +192,7 @@
 
         <v-spacer class="hidden-sm-and-down" />
 
-        <v-toolbar-items class="hidden-md-and-down">
+        <v-toolbar-items class="hidden-sm-and-down">
           <v-btn text to="/panel/new_shop" color="blue">
             {{ $t('actions.new_shop') }}
           </v-btn>

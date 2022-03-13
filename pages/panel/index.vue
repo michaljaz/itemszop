@@ -26,6 +26,16 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-btn
+      large
+      block
+      text
+      color="primary"
+      class="mt-5"
+      to="/panel/new_shop"
+    >
+      {{ $t('actions.new_shop') }}
+    </v-btn>
   </div>
 </template>
 
