@@ -19,7 +19,7 @@
           <v-spacer />
           <v-dialog
             v-model="dialog"
-            max-width="500px"
+            max-width="700px"
           >
             <template #activator="{ on, attrs }">
               <v-btn
@@ -54,11 +54,7 @@
                       :label="$t('fields.page_id')"
                       :rules="rules.pageId"
                     />
-                    <v-textarea
-                      v-model="content"
-                      :label="$t('fields.page_content')"
-                      :rules="rules.content"
-                    />
+                    <TiptapEditor :editorcontent="content" @content="content=$event" />
                   </v-form>
                 </v-container>
               </v-card-text>
@@ -66,14 +62,14 @@
               <v-card-actions>
                 <v-spacer />
                 <v-btn
-                  color="blue darken-1"
+                  color="primary"
                   text
                   @click="dialog=false"
                 >
                   {{ $t('actions.cancel') }}
                 </v-btn>
                 <v-btn
-                  color="blue darken-1"
+                  color="success"
                   text
                   @click="savePage"
                 >
@@ -170,9 +166,6 @@ export default {
         ],
         name: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
-        ],
-        content: [
-          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ]
       }
     }
@@ -216,6 +209,7 @@ export default {
       const { pageId } = this.currentItem
       this.$fire.database.ref().child(`shops/${shopid}/pages/${pageId}`).remove()
       this.dialog = false
+      this.dialogDelete = false
     },
     newPage () {
       this.pageId = ''

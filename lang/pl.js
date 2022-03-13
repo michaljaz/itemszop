@@ -174,7 +174,8 @@ export default {
     additional_settings: 'Dodatkowe opcje',
     no_service_available: 'Nie dodano żadnej usługi :(',
     loading: 'Ładowanie...',
-    page_config: 'Konfiguracja strony'
+    page_config: 'Konfiguracja strony',
+    no_server_available: 'Nie dodano żadnego serwera :('
   },
 
   responses: {
