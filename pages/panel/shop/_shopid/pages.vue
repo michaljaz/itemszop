@@ -4,6 +4,7 @@
       :headers="headers"
       :items="pagesList"
       sort-by="name"
+      class="elevation-2"
     >
       <template #top>
         <v-toolbar
@@ -27,6 +28,7 @@
                 class="mb-2"
                 v-bind="attrs"
                 v-on="on"
+                @click="newPage"
               >
                 {{ $t('actions.new_page') }}
               </v-btn>
@@ -38,18 +40,26 @@
 
               <v-card-text>
                 <v-container>
-                  <v-text-field
-                    v-model="name"
-                    :label="$t('fields.page_name')"
-                  />
-                  <v-text-field
-                    v-model="pageId"
-                    :label="$t('fields.page_id')"
-                  />
-                  <v-textarea
-                    v-model="content"
-                    :label="$t('fields.page_content')"
-                  />
+                  <v-form
+                    ref="form"
+                    v-model="valid"
+                  >
+                    <v-text-field
+                      v-model="name"
+                      :label="$t('fields.page_name')"
+                      :rules="rules.name"
+                    />
+                    <v-text-field
+                      v-model="pageId"
+                      :label="$t('fields.page_id')"
+                      :rules="rules.pageId"
+                    />
+                    <v-textarea
+                      v-model="content"
+                      :label="$t('fields.page_content')"
+                      :rules="rules.content"
+                    />
+                  </v-form>
                 </v-container>
               </v-card-text>
 
@@ -131,6 +141,7 @@ export default {
   },
   data () {
     return {
+      valid: false,
       currentItem: null,
       dialog: false,
       dialogDelete: false,
@@ -152,7 +163,18 @@ export default {
           value: 'actions',
           sortable: false
         }
-      ]
+      ],
+      rules: {
+        pageId: [
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
+        ],
+        name: [
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
+        ],
+        content: [
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
+        ]
+      }
     }
   },
   head () {
@@ -178,19 +200,27 @@ export default {
       this.name = page.name
     },
     savePage () {
-      const { shopid } = this.$route.params
-      const { name, content, pageId } = this
-      this.$fire.database.ref().child(`shops/${shopid}/pages/${pageId}`).set({
-        name,
-        content
-      })
-      this.dialog = false
+      this.$refs.form.validate()
+      if (this.valid) {
+        const { shopid } = this.$route.params
+        const { name, content, pageId } = this
+        this.$fire.database.ref().child(`shops/${shopid}/pages/${pageId}`).set({
+          name,
+          content
+        })
+        this.dialog = false
+      }
     },
     deletePage () {
       const { shopid } = this.$route.params
       const { pageId } = this.currentItem
       this.$fire.database.ref().child(`shops/${shopid}/pages/${pageId}`).remove()
       this.dialog = false
+    },
+    newPage () {
+      this.pageId = ''
+      this.content = ''
+      this.name = ''
     }
   }
 }
