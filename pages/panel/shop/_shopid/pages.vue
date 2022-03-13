@@ -1,8 +1,122 @@
 <template>
   <div>
-    <h1 class="display-1 mt-3 mb-5">
-      {{ $t('titles.pages') }}
-    </h1>
+    <v-data-table
+      :headers="headers"
+      :items="pagesList"
+      sort-by="name"
+    >
+      <template #top>
+        <v-toolbar
+          flat
+        >
+          <v-toolbar-title>{{ $t('titles.pages') }}</v-toolbar-title>
+          <v-divider
+            class="mx-4"
+            inset
+            vertical
+          />
+          <v-spacer />
+          <v-dialog
+            v-model="dialog"
+            max-width="500px"
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                color="success"
+                dark
+                class="mb-2"
+                v-bind="attrs"
+                v-on="on"
+              >
+                {{ $t('actions.new_page') }}
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title>
+                <span class="text-h5">{{ $t('titles.page_config') }}</span>
+              </v-card-title>
+
+              <v-card-text>
+                <v-container>
+                  <v-text-field
+                    v-model="name"
+                    :label="$t('fields.page_name')"
+                  />
+                  <v-text-field
+                    v-model="pageId"
+                    :label="$t('fields.page_id')"
+                  />
+                  <v-textarea
+                    v-model="content"
+                    :label="$t('fields.page_content')"
+                  />
+                </v-container>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer />
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="dialog=false"
+                >
+                  {{ $t('actions.cancel') }}
+                </v-btn>
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="savePage"
+                >
+                  {{ $t('actions.save') }}
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <v-dialog v-model="dialogDelete" max-width="500px">
+            <v-card>
+              <v-card-title class="text-h5">
+                {{ $t('titles.are_you_sure') }}
+              </v-card-title>
+              <v-card-text>
+                {{ $t('misc.after_server_delete') }}
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer />
+                <v-btn
+                  color="primary"
+                  text
+                  @click="dialogDelete = false"
+                >
+                  {{ $t('actions.cancel') }}
+                </v-btn>
+                <v-btn
+                  color="error"
+                  text
+                  @click="deletePage"
+                >
+                  {{ $t('actions.remove') }}
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-toolbar>
+      </template>
+      <template #[`item.actions`]="{ item }">
+        <v-icon
+          small
+          class="mr-2"
+          @click="applyPage(item);dialog=true"
+        >
+          mdi-pencil
+        </v-icon>
+        <v-icon
+          small
+          @click="dialog=false;dialogDelete=true;currentItem=item"
+        >
+          mdi-delete
+        </v-icon>
+      </template>
+    </v-data-table>
   </div>
 </template>
 <script>
@@ -15,9 +129,68 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      currentItem: null,
+      dialog: false,
+      dialogDelete: false,
+      pageId: '',
+      name: '',
+      content: '',
+      headers: [
+        {
+          text: this.$t('fields.page_name'),
+          align: 'start',
+          value: 'name'
+        },
+        {
+          text: this.$t('fields.page_id'),
+          value: 'pageId'
+        },
+        {
+          text: this.$t('fields.actions'),
+          value: 'actions',
+          sortable: false
+        }
+      ]
+    }
+  },
   head () {
     return {
       title: this.$t('titles.pages')
+    }
+  },
+  computed: {
+    pagesList () {
+      const result = []
+      for (const pageId in this.shop.pages) {
+        const page = Object.assign({}, this.shop.pages[pageId])
+        page.pageId = pageId
+        result.push(page)
+      }
+      return result
+    }
+  },
+  methods: {
+    applyPage (page) {
+      this.pageId = page.pageId
+      this.content = page.content
+      this.name = page.name
+    },
+    savePage () {
+      const { shopid } = this.$route.params
+      const { name, content, pageId } = this
+      this.$fire.database.ref().child(`shops/${shopid}/pages/${pageId}`).set({
+        name,
+        content
+      })
+      this.dialog = false
+    },
+    deletePage () {
+      const { shopid } = this.$route.params
+      const { pageId } = this.currentItem
+      this.$fire.database.ref().child(`shops/${shopid}/pages/${pageId}`).remove()
+      this.dialog = false
     }
   }
 }

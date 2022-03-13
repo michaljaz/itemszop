@@ -1,7 +1,7 @@
 {
 	"rules": {
-		".write":"auth.uid == [OWNER_ID]",
-		".read": "auth.uid == [OWNER_ID]",
+		".write":"auth.uid == 'OWNER_ID'",
+		".read": "auth.uid == 'OWNER_ID'",
 		"shops":{
 			".read": true,
 		},

@@ -98,17 +98,6 @@
         </v-list-item>
         <v-list-item
           link
-          :to="`/panel/shop/${$route.params.shopid}/payments`"
-        >
-          <v-list-item-icon>
-            <v-icon>mdi-credit-card-plus</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ $t('titles.payments') }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
           :to="`/panel/shop/${$route.params.shopid}/pages`"
         >
           <v-list-item-icon>
@@ -116,6 +105,17 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>{{ $t('titles.pages') }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          link
+          :to="`/panel/shop/${$route.params.shopid}/payments`"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-credit-card-plus</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ $t('titles.payments') }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item
@@ -192,7 +192,7 @@
 
         <v-spacer class="hidden-sm-and-down" />
 
-        <v-toolbar-items class="hidden-md-and-down">
+        <v-toolbar-items class="hidden-sm-and-down">
           <v-btn text to="/panel/new_shop" color="blue">
             {{ $t('actions.new_shop') }}
           </v-btn>
