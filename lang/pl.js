@@ -59,7 +59,8 @@ export default {
     password_reset: 'Resetowanie hasła',
     reload: 'Odśwież stronę',
     description: 'Opis',
-    remove_payment_history: 'Usuń historię płatności'
+    remove_payment_history: 'Usuń historię płatności',
+    new_page: 'Nowa strona'
   },
 
   fields: {
@@ -113,7 +114,10 @@ export default {
     lvlup: 'Operator płatności lvlup.pro',
     lvlup_api: 'Klucz api z panelu lvlup.pro',
     actions: 'Akcje',
-    shop_theme: 'Własny motyw strony'
+    shop_theme: 'Własny motyw strony',
+    page_name: 'Nazwa strony',
+    page_id: 'Id strony',
+    page_content: 'Treść strony'
   },
 
   formats: {
@@ -169,7 +173,8 @@ export default {
     shop_appearance: 'Wygląd sklepu',
     additional_settings: 'Dodatkowe opcje',
     no_service_available: 'Nie dodano żadnej usługi :(',
-    loading: 'Ładowanie...'
+    loading: 'Ładowanie...',
+    page_config: 'Konfiguracja strony'
   },
 
   responses: {

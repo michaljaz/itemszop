@@ -31,6 +31,11 @@ dsc_id - id serwera discordowego (do widżetu)
 last_payments_type - rodzaj listy ostatnich płatności
 theme - motyw strony
 
+=== STRONY W SKLEPIE ===
+REF: /shops/[id sklepu]/pages/[id strony]
+name - nazwa strony
+content - treść strony
+
 === USŁUGA W SKLEPIE ===
 REF: /shops/[id sklepu]/service/[id usługi]
 commands - komendy wykonywane przez serwer

@@ -82,7 +82,7 @@ export default {
           name,
           pages: {
             page1: {
-              title: 'Regulamin',
+              name: 'Regulamin',
               content: '<h1>Treść</h1>'
             }
           },
