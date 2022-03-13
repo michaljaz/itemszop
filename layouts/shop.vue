@@ -26,6 +26,9 @@
           <v-btn text :to="`${shopPath}/`" active-class="no-active">
             {{ $t('titles.shop') }}
           </v-btn>
+          <v-btn v-for="k in pages" :key="k.pageId" text :to="`${shopPath}/page/${k.pageId}`">
+            {{ k.name }}
+          </v-btn>
         </v-toolbar-items>
         <v-spacer />
         <v-toolbar-items>
@@ -166,6 +169,15 @@ export default {
     }
   },
   computed: {
+    pages () {
+      const result = []
+      for (const pageId in this.shop.pages) {
+        const page = Object.assign({}, this.shop.pages[pageId])
+        page.pageId = pageId
+        result.push(page)
+      }
+      return result
+    },
     titleTemplate () {
       return this.shop.name ? `${this.shop.name}: %s` : this.$t('titles.loading')
     },
