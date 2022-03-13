@@ -180,7 +180,8 @@ export default {
     '~/api/lvlup_webhook.js'
   ],
   server: {
-    port: 8080
+    port: 8080,
+    host: '0.0.0.0'
   },
   generate: {
     fallback: true
