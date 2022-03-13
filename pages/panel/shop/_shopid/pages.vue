@@ -209,6 +209,7 @@ export default {
       const { pageId } = this.currentItem
       this.$fire.database.ref().child(`shops/${shopid}/pages/${pageId}`).remove()
       this.dialog = false
+      this.dialogDelete = false
     },
     newPage () {
       this.pageId = ''
