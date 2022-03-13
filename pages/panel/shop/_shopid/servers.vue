@@ -4,7 +4,7 @@
       :headers="data_headers"
       :items="serversList"
       :items-per-page="5"
-      class="elevation-1"
+      class="elevation-2"
     >
       <template #top>
         <v-toolbar
