@@ -32,6 +32,13 @@ $ npm run dev
 
 Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację](https://nuxtjs.org).
 
+## Docker
+
+```bash
+
+
+```
+
 ## Własne hostowanie (w razie pytań - dsc)
 
 1. Skonfiguruj własną bazę danych firebase
