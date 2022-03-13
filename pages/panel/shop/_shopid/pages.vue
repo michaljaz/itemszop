@@ -166,9 +166,6 @@ export default {
         ],
         name: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
-        ],
-        content: [
-          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ]
       }
     }

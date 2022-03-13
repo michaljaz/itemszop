@@ -11,6 +11,11 @@
         </v-card>
       </v-col>
     </v-row>
+    <center v-if="!serversList.length">
+      <div class="display-1 mt-7">
+        {{ $t('titles.no_server_available') }}
+      </div>
+    </center>
   </div>
 </template>
 
@@ -50,7 +55,7 @@ export default {
     }
   },
   mounted () {
-    if (Object.keys(this.shop.servers).length === 1) {
+    if (this.shop.servers && Object.keys(this.shop.servers).length === 1) {
       if (process.env.singleShopId) {
         this.$router.push(`/server/${Object.keys(this.shop.servers)[0]}`)
       } else {
