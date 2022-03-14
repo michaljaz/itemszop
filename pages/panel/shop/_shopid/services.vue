@@ -85,7 +85,7 @@
                     :label="`${$t('fields.sms_payment')} (microsms.pl)`"
                   />
                   <v-select
-                    v-if="fields.microsms_sms && fields.costSlider"
+                    v-if="fields.microsms_sms"
                     v-model="fields.microsms_sms_type"
                     item-text="name"
                     item-value="value"
@@ -94,7 +94,7 @@
                     :rules="rules.microsms_sms_type"
                   />
                   <v-select
-                    v-if="fields.microsms_sms"
+                    v-if="fields.microsms_sms && fields.costSlider"
                     v-model="multipleSMS"
                     item-text="name"
                     item-value="value"
@@ -103,12 +103,15 @@
                     multiple
                     persistent-hint
                   />
-                  <v-text-field
-                    v-for="k in multipleSMS"
-                    :key="k"
-                    type="number"
-                    :label="$t('fields.sms_service_amount').replace('{sms}',smsCost[k])"
-                  />
+                  <div v-if="fields.microsms_sms && fields.costSlider">
+                    <v-text-field
+                      v-for="k in multipleSMS"
+
+                      :key="k"
+                      type="number"
+                      :label="$t('fields.sms_service_amount').replace('{sms}',smsCost[k])"
+                    />
+                  </div>
                   <v-alert
                     v-if="fields.microsms_sms && fields.costSlider"
                     text
@@ -167,8 +170,7 @@
 
                 <div v-if="fields.costSlider">
                   <v-alert
-                    border="top"
-                    colored-border
+                    text
                     type="warning"
                     elevation="2"
                   >
