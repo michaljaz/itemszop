@@ -94,7 +94,7 @@ export default {
     voucher_deadline: 'Termin działania voucherów',
     codes_amount: 'Liczba kodów',
     webhook_url: 'Adres URL webhooka',
-    cost_slider: 'Suwak do wyboru ilości produktu (eksperymentalne)',
+    cost_slider: 'Suwak do wyboru ilości produktu',
     discord_webhook: 'Webhook discordowy',
     choose_service_hint: 'Wybierz jaką usługę będzie można aktywować voucherem.',
     codes_amount_hint: 'Liczba kodów, które mają zostać wygenerowane. Ustawiając np. 20 stworzysz dwadzieścia różnych kodów na tę samą usługę.',
@@ -223,10 +223,10 @@ export default {
     default_description: '<h1>Opis super usługi!</h1><p>Tutaj możesz zamieścić opis usługi używając super tagów!</p>',
     test_message: 'Testowa wiadomość',
     costslider_instruction_transfer: 'Przy płatnośći przelewem koszt liczony jest: ILOŚĆ * KOSZT SZTUKI.',
-    costslider_instruction_sms: "Przy płatności sms'em musisz wybrać w polach powyżej ile sztuk produktu będzie za dany sms.",
+    costslider_instruction_sms: "Przy płatności sms'em musisz wybrać w polach poniżej ile sztuk produktu będzie za dany sms.",
     costslider_instruction_placeholder: 'W komendach możesz użyć [n] jeśli chcesz użyć liczby wybranej na suwaku.',
     costslider_amount: 'Liczba produktów: {amount}',
-    bought: 'kupił',
+    bought: 'kupił(a)',
     privacy_policy_accept: 'Rejestrując się w serwisie automatycznie akceptujesz ',
     privacy_policy: 'Politykę prywatności'
   }

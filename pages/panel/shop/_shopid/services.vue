@@ -25,7 +25,7 @@
           </v-toolbar-title>
           <v-spacer />
           <v-toolbar-items>
-            <v-btn text dark @click="dialog2 = true">
+            <v-btn text dark @click="dialogDelete = true">
               {{ $t('actions.remove') }}
             </v-btn>
             <v-btn
@@ -79,13 +79,43 @@
                 <TiptapEditor :editorcontent="fields.description" @content="fields.description=$event" />
               </v-col>
               <v-col cols="12" xs="12" md="6">
+                <v-switch
+                  v-model="fields.costslider"
+                  :label="$t('fields.cost_slider')"
+                />
+
+                <div v-if="fields.costslider">
+                  <v-alert
+                    text
+                    type="warning"
+                    elevation="2"
+                  >
+                    {{ $t('misc.costslider_instruction_placeholder') }}
+                  </v-alert>
+                </div>
+                <v-alert
+                  v-if="fields.microsms_sms && fields.costslider"
+                  text
+                  type="info"
+                  elevation="2"
+                >
+                  {{ $t('misc.costslider_instruction_sms') }}
+                </v-alert>
+                <v-alert
+                  v-if="(fields.microsms_transfer || fields.lvlup) && fields.costslider"
+                  text
+                  type="info"
+                  elevation="2"
+                >
+                  {{ $t('misc.costslider_instruction_transfer') }}
+                </v-alert>
                 <div v-if="config.microsms">
                   <v-switch
                     v-model="fields.microsms_sms"
                     :label="`${$t('fields.sms_payment')} (microsms.pl)`"
                   />
                   <v-select
-                    v-if="fields.microsms_sms && !fields.costSlider"
+                    v-if="fields.microsms_sms && !fields.costslider"
                     v-model="fields.microsms_sms_type"
                     item-text="name"
                     item-value="value"
@@ -94,7 +124,7 @@
                     :rules="rules.microsms_sms_type"
                   />
                   <v-select
-                    v-if="fields.microsms_sms && fields.costSlider"
+                    v-if="fields.microsms_sms && fields.costslider"
                     v-model="multipleSMS"
                     item-text="name"
                     item-value="value"
@@ -103,7 +133,7 @@
                     multiple
                     persistent-hint
                   />
-                  <div v-if="fields.microsms_sms && fields.costSlider">
+                  <div v-if="fields.microsms_sms && fields.costslider">
                     <v-text-field
                       v-for="k in multipleSMS"
                       :key="k"
@@ -111,14 +141,6 @@
                       :label="$t('fields.sms_service_amount').replace('{sms}',smsCost[k])"
                     />
                   </div>
-                  <v-alert
-                    v-if="fields.microsms_sms && fields.costSlider"
-                    text
-                    type="info"
-                    elevation="2"
-                  >
-                    {{ $t('misc.costslider_instruction_sms') }}
-                  </v-alert>
                   <v-switch
                     v-model="fields.microsms_transfer"
                     :label="`${$t('fields.transfer_payment')} (microsms.pl)`"
@@ -131,14 +153,6 @@
                     autocomplete="new-password"
                     :rules="rules.microsms_transfer_cost"
                   />
-                  <v-alert
-                    v-if="fields.microsms_transfer && fields.costSlider"
-                    text
-                    type="info"
-                    elevation="2"
-                  >
-                    {{ $t('misc.costslider_instruction_transfer') }}
-                  </v-alert>
                 </div>
                 <div v-if="config.lvlup">
                   <v-switch
@@ -153,28 +167,6 @@
                     autocomplete="new-password"
                     :rules="rules.microsms_transfer_cost"
                   />
-                  <v-alert
-                    v-if="fields.lvlup && fields.costSlider"
-                    text
-                    type="info"
-                    elevation="2"
-                  >
-                    {{ $t('misc.costslider_instruction_transfer') }}
-                  </v-alert>
-                </div>
-                <v-switch
-                  v-model="fields.costSlider"
-                  :label="$t('fields.cost_slider')"
-                />
-
-                <div v-if="fields.costSlider">
-                  <v-alert
-                    text
-                    type="warning"
-                    elevation="2"
-                  >
-                    {{ $t('misc.costslider_instruction_placeholder') }}
-                  </v-alert>
                 </div>
               </v-col>
             </v-row>
@@ -249,7 +241,7 @@
       {{ $t('actions.new_service') }}
     </v-btn>
     <v-dialog
-      v-model="dialog2"
+      v-model="dialogDelete"
       max-width="400"
     >
       <v-card>
@@ -264,7 +256,7 @@
           <v-btn
             color="success"
             text
-            @click="dialog2 = false"
+            @click="dialogDelete = false"
           >
             {{ $t('actions.cancel') }}
           </v-btn>
@@ -300,8 +292,7 @@ export default {
   data () {
     return {
       multipleSMS: [],
-      dialog2: false,
-      enable_sms_1: false,
+      dialogDelete: false,
       serviceId: '',
       valid: false,
       fields: {
@@ -317,7 +308,7 @@ export default {
         server: '',
         commands: '',
         description: '',
-        costSlider: false
+        costslider: false
       },
       dialog: false,
       sms: false,
@@ -387,7 +378,6 @@ export default {
     },
     servicesList () {
       const result = []
-
       if (this.shop.services) {
         const servicesByServer = {}
         for (const serviceId in this.shop.services) {
@@ -409,6 +399,11 @@ export default {
       return result.slice().reverse()
     }
   },
+  watch: {
+    multipleSMS () {
+      console.log(this.multipleSMS)
+    }
+  },
   methods: {
     editService (service) {
       this.serviceId = service.serviceId
@@ -421,7 +416,7 @@ export default {
       const { shopid } = this.$route.params
       this.$fire.database.ref().child(`shops/${shopid}/services/${this.serviceId}`).remove()
       this.dialog = false
-      this.dialog2 = false
+      this.dialogDelete = false
     },
     newService () {
       this.serviceId = `${Math.random().toString(36).replace('0.', '')}`
@@ -429,8 +424,10 @@ export default {
         name: '',
         icon: false,
         iconUrl: '',
+        costslider: false,
         microsms_sms: false,
         microsms_sms_type: 0,
+        microsms_sms_list: '',
         microsms_transfer: false,
         microsms_transfer_cost: 0,
         lvlup: false,
