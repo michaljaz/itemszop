@@ -85,7 +85,7 @@
                     :label="`${$t('fields.sms_payment')} (microsms.pl)`"
                   />
                   <v-select
-                    v-if="fields.microsms_sms"
+                    v-if="fields.microsms_sms && !fields.costSlider"
                     v-model="fields.microsms_sms_type"
                     item-text="name"
                     item-value="value"
