@@ -7,8 +7,7 @@
       <v-col cols="12" md="6">
         <v-alert
           v-if="url"
-          border="top"
-          colored-border
+          text
           type="info"
           elevation="2"
         >

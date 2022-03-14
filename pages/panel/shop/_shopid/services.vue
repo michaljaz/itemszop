@@ -85,7 +85,7 @@
                     :label="`${$t('fields.sms_payment')} (microsms.pl)`"
                   />
                   <v-select
-                    v-if="fields.microsms_sms"
+                    v-if="fields.microsms_sms && !fields.costSlider"
                     v-model="fields.microsms_sms_type"
                     item-text="name"
                     item-value="value"
@@ -93,6 +93,32 @@
                     :label="$t('fields.choose_sms')"
                     :rules="rules.microsms_sms_type"
                   />
+                  <v-select
+                    v-if="fields.microsms_sms && fields.costSlider"
+                    v-model="multipleSMS"
+                    item-text="name"
+                    item-value="value"
+                    :items="smsTypes"
+                    :label="$t('fields.choose_smses')"
+                    multiple
+                    persistent-hint
+                  />
+                  <div v-if="fields.microsms_sms && fields.costSlider">
+                    <v-text-field
+                      v-for="k in multipleSMS"
+                      :key="k"
+                      type="number"
+                      :label="$t('fields.sms_service_amount').replace('{sms}',smsCost[k])"
+                    />
+                  </div>
+                  <v-alert
+                    v-if="fields.microsms_sms && fields.costSlider"
+                    text
+                    type="info"
+                    elevation="2"
+                  >
+                    {{ $t('misc.costslider_instruction_sms') }}
+                  </v-alert>
                   <v-switch
                     v-model="fields.microsms_transfer"
                     :label="`${$t('fields.transfer_payment')} (microsms.pl)`"
@@ -105,6 +131,14 @@
                     autocomplete="new-password"
                     :rules="rules.microsms_transfer_cost"
                   />
+                  <v-alert
+                    v-if="fields.microsms_transfer && fields.costSlider"
+                    text
+                    type="info"
+                    elevation="2"
+                  >
+                    {{ $t('misc.costslider_instruction_transfer') }}
+                  </v-alert>
                 </div>
                 <div v-if="config.lvlup">
                   <v-switch
@@ -119,6 +153,14 @@
                     autocomplete="new-password"
                     :rules="rules.microsms_transfer_cost"
                   />
+                  <v-alert
+                    v-if="fields.lvlup && fields.costSlider"
+                    text
+                    type="info"
+                    elevation="2"
+                  >
+                    {{ $t('misc.costslider_instruction_transfer') }}
+                  </v-alert>
                 </div>
                 <v-switch
                   v-model="fields.costSlider"
@@ -127,34 +169,12 @@
 
                 <div v-if="fields.costSlider">
                   <v-alert
-                    border="top"
-                    colored-border
-                    type="info"
+                    text
+                    type="warning"
                     elevation="2"
                   >
-                    <i18n
-                      path="misc.costslider_instruction"
-                    >
-                      <template #br>
-                    </br>
-                      </template>
-                    </i18n>
+                    {{ $t('misc.costslider_instruction_placeholder') }}
                   </v-alert>
-                  <v-select
-                    v-model="multipleSMS"
-                    item-text="name"
-                    item-value="value"
-                    :items="smsTypes"
-                    :label="$t('fields.choose_smses')"
-                    multiple
-                    persistent-hint
-                  />
-                  <v-text-field
-                    v-for="k in multipleSMS"
-                    :key="k"
-                    type="number"
-                    :label="$t('fields.sms_service_amount').replace('{sms}',smsCost[k])"
-                  />
                 </div>
               </v-col>
             </v-row>

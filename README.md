@@ -34,10 +34,7 @@ Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację
 
 ## Docker
 
-```bash
-
-
-```
+Skrypt, który uruchamia dockera z wersją produkcyjną itemszopu: https://github.com/michaljaz/itemszop/blob/master/misc/skrypt_docker.sh
 
 ## Własne hostowanie (w razie pytań - dsc)
 
