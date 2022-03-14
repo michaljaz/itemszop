@@ -44,10 +44,12 @@ icon - ikona usługi
 iconUrl - adres Url ikony
 name - nazwa usługi
 server - id serwera
+costslider - czy suwak do wyboru ilości jest włączony
 microsms_transfer - czy płatność przelewem włączona
 microsms_transfer_cost - koszt przelewu
 microsms_sms - czy płatność smsem włączona
 microsms_sms_type - typ smsa
+microsms_sms_list - lista z smsami i ilościami usług
 lvlup - czy płatność lvlup włączona
 lvlup_cost - koszt płatności lvlup
 
