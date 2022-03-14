@@ -222,7 +222,7 @@ export default {
     no_payment_enabled: 'Nie włączono żadnej płatności!',
     default_description: '<h1>Opis super usługi!</h1><p>Tutaj możesz zamieścić opis usługi używając super tagów!</p>',
     test_message: 'Testowa wiadomość',
-    costslider_instruction_transfer: 'Przy płatnośći przelewem koszt liczony jest: ILOŚĆ * KOSZT SZTUKI.',
+    costslider_instruction_transfer: 'Przy płatności przelewem koszt liczony jest: ILOŚĆ * KOSZT SZTUKI.',
     costslider_instruction_sms: "Przy płatności sms'em musisz wybrać w polach poniżej ile sztuk produktu będzie za dany sms.",
     costslider_instruction_placeholder: 'W komendach możesz użyć [n] jeśli chcesz użyć liczby wybranej na suwaku.',
     costslider_amount: 'Liczba produktów: {amount}',
