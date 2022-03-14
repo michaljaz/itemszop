@@ -106,7 +106,6 @@
                   <div v-if="fields.microsms_sms && fields.costSlider">
                     <v-text-field
                       v-for="k in multipleSMS"
-
                       :key="k"
                       type="number"
                       :label="$t('fields.sms_service_amount').replace('{sms}',smsCost[k])"
