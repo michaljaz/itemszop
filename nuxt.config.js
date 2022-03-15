@@ -17,7 +17,7 @@ try {
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
-  target: 'static',
+  target: 'server',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -171,7 +171,7 @@ export default {
     transpile: ['vuetify/lib', 'tiptap-vuetify'],
     extractCSS: true
   },
-  serverMiddleware: process.env.NODE_ENV === 'production' ? [] : [
+  serverMiddleware: process.env.VERCEL || process.env.NETLIFY ? [] : [
     '~/api/rcon.js',
     '~/api/voucher.js',
     '~/api/microsms_transfer.js',

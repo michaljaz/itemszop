@@ -32,16 +32,14 @@ $ npm run dev
 
 Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację](https://nuxtjs.org).
 
-## Docker
-
-Skrypt, który uruchamia dockera z wersją produkcyjną itemszopu: https://github.com/michaljaz/itemszop/blob/master/misc/skrypt_docker.sh
-
-## Własne hostowanie (w razie pytań - dsc)
+## Własne hostowanie - vercel lub netlify
 
 1. Skonfiguruj własną bazę danych firebase
 [(link do dokumentacji)](https://github.com/michaljaz/itemszop/wiki/Utworzenie-i-konfiguracja-sklepu-z-w%C5%82asn%C4%85-baz%C4%85-Firebase).
 2. Wygeneruj zmienną środowiskową wywołując plik ```misc/env_generator.js``` z podmienionymi wartościami z punktu 1.
-3. [Sklonuj projekt na vercelu](https://vercel.com/new/clone?repository-url=https://github.com/michaljaz/itemszop) / [Sklonuj projekt na netlify](https://app.netlify.com/start/deploy?repository=https://github.com/michaljaz/itemszop).
+3. Są dwie opcje:
+	- [Sklonuj projekt na vercelu](https://vercel.com/new/clone?repository-url=https://github.com/michaljaz/itemszop) / [Sklonuj projekt na netlify](https://app.netlify.com/start/deploy?repository=https://github.com/michaljaz/itemszop).
+	- Zrób forka na githubie i z niego skonfiguruj projekt na vercelu lub na netlify - opcja dla tych, którzy będą chcieli coś zmienić w swoim sklepie.
 4. Zapisz tą wartość punktu 2 w zmiennej środowiskowej projektu ```FIREBASE_CONFIG```.
 5. Gotowe!
 

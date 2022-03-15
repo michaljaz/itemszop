@@ -1,8 +1,8 @@
 
-const fs = require('fs');
 
-// YOU HAVE TO CHANGE THIS DATA TO YOUR FIREBASE DATA
-/*
+// Zmień te dane na dane ze swojej bazy firebase z dokumentacji
+// Rezultat zapisz w zmiennej środowiskowej
+
 const serviceAccount={
 	"type": "XXXXXXXXX",
 	"project_id": "XXXXXXXXX",
@@ -23,9 +23,10 @@ const publicConfig = {
   messagingSenderId: "XXXXXXXXX",
   appId: "XXXXXXXXX"
 };
-*/
+
 
 const config = {serviceAccount, databaseURL, publicConfig}
 const dotenv = `FIREBASE_CONFIG=${JSON.stringify(config)}`
 console.log(dotenv)
-fs.writeFileSync('.env', dotenv);
+// const fs = require('fs');
+// fs.writeFileSync('.env', dotenv);
