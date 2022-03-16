@@ -33,7 +33,12 @@
         <v-spacer />
         <v-toolbar-items>
           <v-btn text :to="`${shopPath}/voucher`">
-            {{ $t('titles.redeem_voucher') }}
+            <span class="hidden-sm-and-down">
+              {{ $t('titles.redeem_voucher') }}
+            </span>
+            <v-icon class="hidden-md-and-up">
+              mdi-ticket-percent
+            </v-icon>
           </v-btn>
         </v-toolbar-items>
       </v-app-bar>
