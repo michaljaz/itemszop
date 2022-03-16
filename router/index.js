@@ -22,7 +22,7 @@ function fixRoutes (defaultRoutes) {
 function shopRoutes (defaultRoutes) {
   const newRoutes = []
   for (let i = 0; i < defaultRoutes.length; i++) {
-    if (i !== 10) {
+    if ((defaultRoutes[i].name && !defaultRoutes[i].name.includes('index')) || !defaultRoutes[i].name) {
       defaultRoutes[i].path = defaultRoutes[i].path.replace('/shop/:shopid/', '/').replace('/shop/:shopid', '/')
       newRoutes.push(defaultRoutes[i])
     }
