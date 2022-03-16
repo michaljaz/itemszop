@@ -33,6 +33,21 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-snackbar
+      v-model="snackbar"
+    >
+      {{ $t('responses.shop_already_exist') }}
+      <template #action="{ attrs }">
+        <v-btn
+          color="error"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          {{ $t('actions.cancel') }}
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 <script>
@@ -40,6 +55,7 @@ export default {
   name: 'NewShop',
   data () {
     return {
+      snackbar: false,
       url: `${document.location.origin}/shop/`,
       name: '',
       shopid: '',
@@ -113,7 +129,7 @@ export default {
             })
         })
         .catch(() => {
-          // console.log('nie masz uprawnień')
+          this.snackbar = true
         })
     }
   }
