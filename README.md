@@ -19,20 +19,27 @@ Tu znajduje się link do wersji produkcyjnej na vercelu : https://itemszop.tk
 - [ ] cashbill.pl - [api](https://www.cashbill.pl/pobierz/api/)
 - [ ] paypal.com
 
-## Konfiguracja dewelopera
+## Konfiguracja budowania
 
 ```bash
 # Instalowanie bibliotek
 $ npm install
 
+############ KONFIGURACJA DEWELOPERA ############
 # serwowanie z hot reaload'em localhost:8080
 $ npm run dev
 
-```
+############ KONFIGURACJA PRODUKCYJNA ############
+# Budowanie aplikacji
+$ npm run build
 
+# Hostowanie na porcie 8080
+$ npm start
+
+```
 Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację](https://nuxtjs.org).
 
-## Własne hostowanie - vercel lub netlify
+## Vercel lub Netlify
 
 1. Skonfiguruj własną bazę danych firebase
 [(link do dokumentacji)](https://github.com/michaljaz/itemszop/wiki/Utworzenie-i-konfiguracja-sklepu-z-w%C5%82asn%C4%85-baz%C4%85-Firebase).

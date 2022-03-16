@@ -37,12 +37,6 @@ export default {
     ]
   },
 
-  router: {
-    middleware: [
-      'auth'
-    ]
-  },
-
   env: {
     mainUrl,
     baseUrl,
