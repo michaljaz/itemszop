@@ -244,10 +244,15 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   name: 'BasePanel',
+  middleware ({ store, redirect }) {
+    if (!store.getters.loggedIn) {
+      return redirect('/auth/signin')
+    } else if (!store.getters.emailVerified) {
+      return redirect('/auth/not_verified')
+    }
+  },
   data () {
     return {
       shops: [],
@@ -255,10 +260,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      'loggedIn',
-      'emailVerified'
-    ]),
     isDashboard () {
       return this.$route.path === `/panel/shop/${this.$route.params.shopid}/` || this.$route.path === `/panel/shop/${this.$route.params.shopid}`
     },
@@ -275,11 +276,6 @@ export default {
     }
   },
   async mounted () {
-    if (!this.loggedIn) {
-      this.$router.push('/auth/signin')
-    } else if (!this.emailVerified) {
-      this.$router.push('/auth/not_verified')
-    }
     const theme = localStorage.getItem('dark')
     if (theme) {
       if (theme === 'true') {
