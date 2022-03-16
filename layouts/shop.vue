@@ -3,18 +3,20 @@
     <div v-if="background" class="background_blur" :style="`background:url(${backgroundUrl}) no-repeat center center fixed;`" />
     <ShopListener public @servers="servers=$event" @shop="shop=$event" @config="config=$event" />
     <v-container v-if="shop.loaded">
-      <div class="d-inline-flex mt-4 mb-5">
-        <v-img
-          v-if="shop.icon"
-          contain
-          :src="shop.icon"
-          width="50"
-          height="50"
-          class="mr-2"
-        />
-        <h1 class="display-1 mt-2" style="z-index:10;">
-          {{ shop.name }}
-        </h1>
+      <div class="justify-center justify-md-start d-flex">
+        <div class="d-inline-flex mt-4 mb-5">
+          <v-img
+            v-if="shop.icon"
+            contain
+            :src="shop.icon"
+            width="50"
+            height="50"
+            class="mr-2"
+          />
+          <h1 class="display-1 mt-2" style="z-index:10;">
+            {{ shop.name }}
+          </h1>
+        </div>
       </div>
       <v-app-bar
         :color="shop.theme ? shop.theme : 'blue darken-4'"
