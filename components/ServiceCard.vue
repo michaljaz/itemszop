@@ -104,26 +104,28 @@
                   />
                 </v-radio-group>
                 <v-text-field v-model="nick" :label="$t('fields.nick')" :rules="rules.nick" />
-                <v-checkbox
-                  v-model="buy_more"
-                  :label="$t('fields.buy_more_once')"
-                />
-                <i18n
-                  v-if="buy_more"
-                  path="misc.costslider_amount"
-                >
-                  <template #amount>
-                    {{ costslider }}
-                  </template>
-                </i18n>
-                <v-slider
-                  v-if="buy_more"
-                  v-model="costslider"
-                  hint="Im a hint"
-                  min="1"
-                  max="50"
-                  thumb-label
-                />
+                <div v-if="type">
+                  <v-checkbox
+                    v-model="buy_more"
+                    :label="$t('fields.buy_more_once')"
+                  />
+                  <i18n
+                    v-if="buy_more"
+                    path="misc.costslider_amount"
+                  >
+                    <template #amount>
+                      {{ costslider }}
+                    </template>
+                  </i18n>
+                  <v-slider
+                    v-if="buy_more"
+                    v-model="costslider"
+                    hint="Im a hint"
+                    min="1"
+                    max="50"
+                    thumb-label
+                  />
+                </div>
               </v-form>
             </v-card-text>
 

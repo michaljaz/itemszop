@@ -192,7 +192,8 @@ export default {
     voucher_not_exist: 'Voucher nie istnieje',
     voucher_expired: 'Voucher wygasł',
     server_owner_error: 'Nieprawidłowy właściciel serwera',
-    wrong_api_key: 'Nieprawidłowy klucz api'
+    wrong_api_key: 'Nieprawidłowy klucz api',
+    shop_already_exist: 'Sklep z takim ID już istnieje'
   },
 
   firebase: {
