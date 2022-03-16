@@ -137,6 +137,7 @@
                     <v-text-field
                       v-for="k in multipleSMS"
                       :key="k"
+                      v-model="multipleSMSMap[`sms${k}`]"
                       type="number"
                       :label="$t('fields.sms_service_amount').replace('{sms}',smsCost[k])"
                     />
@@ -291,6 +292,19 @@ export default {
   },
   data () {
     return {
+      multipleSMSMap: {
+        sms1: 0,
+        sms2: 0,
+        sms3: 0,
+        sms4: 0,
+        sms5: 0,
+        sms6: 0,
+        sms7: 0,
+        sms8: 0,
+        sms9: 0,
+        sms10: 0,
+        sms11: 0
+      },
       multipleSMS: [],
       dialogDelete: false,
       serviceId: '',
@@ -401,7 +415,7 @@ export default {
   },
   watch: {
     multipleSMS () {
-      console.log(this.multipleSMS)
+      console.log(this.multipleSMSMap)
     }
   },
   methods: {
