@@ -426,7 +426,7 @@ export default {
     }
   },
   watch: {
-    multipleSMS () {
+    multipleSMSMap () {
       console.log(this.getSmsList)
     }
   },
@@ -468,6 +468,7 @@ export default {
       this.$refs.form.validate()
       if (this.valid) {
         const { shopid } = this.$route.params
+        this.fields.microsms_sms_list = this.getSmsList
         this.$fire.database.ref().child(`/shops/${shopid}/services/${this.serviceId}`).set(this.fields)
         this.dialog = false
       }
