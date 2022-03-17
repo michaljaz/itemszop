@@ -18,7 +18,15 @@ try {
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'server',
+
   ssr:false,
+
+  loadingIndicator: {
+    name: 'rotating-plane',
+    color: '#1976d2',
+    background: 'black'
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: 'ItemSzop - %s',
