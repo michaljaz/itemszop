@@ -140,6 +140,7 @@
                       v-model="multipleSMSMap[`sms${k}`]"
                       type="number"
                       :label="$t('fields.sms_service_amount').replace('{sms}',smsCost[k])"
+                      :rules="rules.sms_amount"
                     />
                   </div>
                   <v-switch
@@ -369,6 +370,10 @@ export default {
         ],
         server: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
+        ],
+        sms_amount: [
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.is_natural_number(v) || this.$t('formats.wrong_format')
         ]
       }
     }
@@ -411,11 +416,18 @@ export default {
         }
       }
       return result.slice().reverse()
+    },
+    getSmsList () {
+      let result = ''
+      for (const i in this.multipleSMS) {
+        result += `${this.multipleSMS[i]}=${this.multipleSMSMap[`sms${this.multipleSMS[i]}`]}|`
+      }
+      return result
     }
   },
   watch: {
     multipleSMS () {
-      console.log(this.multipleSMSMap)
+      console.log(this.getSmsList)
     }
   },
   methods: {
