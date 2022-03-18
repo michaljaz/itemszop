@@ -310,21 +310,7 @@ export default {
       dialogDelete: false,
       serviceId: '',
       valid: false,
-      fields: {
-        name: '',
-        icon: false,
-        iconUrl: '',
-        microsms_sms: false,
-        microsms_sms_type: 0,
-        microsms_transfer: false,
-        microsms_transfer_cost: 0,
-        lvlup: false,
-        lvlup_cost: 0,
-        server: '',
-        commands: '',
-        description: '',
-        costslider: false
-      },
+      fields: {},
       dialog: false,
       sms: false,
       przelew: false,
@@ -425,16 +411,26 @@ export default {
       return result
     }
   },
-  watch: {
-    multipleSMSMap () {
-      console.log(this.getSmsList)
-    }
-  },
   methods: {
     editService (service) {
       this.serviceId = service.serviceId
       const newService = Object.assign({}, service)
       delete newService.serviceId
+      if (service.microsms_sms_list) {
+        const l = service.microsms_sms_list.split('|')
+        l.pop()
+        this.multipleSMS = []
+        for (const i in l) {
+          const [type, amount] = l[i].split('=')
+          this.multipleSMS.push(type)
+          this.multipleSMSMap[`sms${type}`] = amount
+        }
+      } else {
+        this.multipleSMS = []
+        for (let i = 1; i <= 11; i++) {
+          this.multipleSMSMap[`sms${i}`] = '0'
+        }
+      }
       this.fields = newService
       this.dialog = true
     },
