@@ -96,27 +96,7 @@ export default {
           maxservices: 5,
           last_payments_type: 1,
           name,
-          pages: {
-            page1: {
-              name: 'Regulamin',
-              content: '<h1>Treść</h1>'
-            }
-          },
-          history: {},
-          services: {
-            vip: {
-              name: 'VIP',
-              microsms_sms: false,
-              microsms_sms_type: 0,
-              microsms_transfer: false,
-              microsms_transfer_cost: 0,
-              lvlup: false,
-              lvlup_cost: 0,
-              server: '1_17',
-              commands: 'say [nick] kupił VIP',
-              description: 'OPIS'
-            }
-          }
+          history: {}
         })
         .then(() => {
           this.$fire.database.ref().child(`users/${uid}`)

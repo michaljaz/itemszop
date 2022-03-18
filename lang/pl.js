@@ -117,7 +117,9 @@ export default {
     shop_theme: 'Własny motyw strony',
     page_name: 'Nazwa strony',
     page_id: 'Id strony',
-    page_content: 'Treść strony'
+    page_content: 'Treść strony',
+    min_amount: 'Minimalna ilość',
+    max_amount: 'Maksymalna ilość'
   },
 
   formats: {
@@ -136,7 +138,8 @@ export default {
     wrong_format_shopid: 'Niepoprawny format id sklepu',
     wrong_format_serviceid: 'Niepoprawny format id usługi',
     wrong_format_voucher: 'Niepoprawny format vouchera',
-    wrong_format_api_key: 'Niepoprawny format klucza api'
+    wrong_format_api_key: 'Niepoprawny format klucza api',
+    must_be_greater: 'Maksymalna ilość musi być większa od minimalnej'
   },
 
   titles: {

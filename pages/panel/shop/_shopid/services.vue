@@ -83,8 +83,25 @@
                   v-model="fields.costslider"
                   :label="$t('fields.cost_slider')"
                 />
-
                 <div v-if="fields.costslider">
+                  <v-row v-if="fields.microsms_transfer || fields.lvlup">
+                    <v-col>
+                      <v-text-field
+                        v-model="fields.min_amount"
+                        :label="$t('fields.min_amount')"
+                        type="number"
+                        :rules="rules.min_amount"
+                      />
+                    </v-col>
+                    <v-col>
+                      <v-text-field
+                        v-model="fields.max_amount"
+                        :label="$t('fields.max_amount')"
+                        type="number"
+                        :rules="rules.max_amount"
+                      />
+                    </v-col>
+                  </v-row>
                   <v-alert
                     text
                     type="warning"
@@ -92,23 +109,21 @@
                   >
                     {{ $t('misc.costslider_instruction_placeholder') }}
                   </v-alert>
+                  <v-alert
+                    v-if="fields.microsms_transfer || fields.lvlup || fields.microsms_sms"
+                    text
+                    type="info"
+                    elevation="2"
+                  >
+                    <div v-if="fields.microsms_sms">
+                      {{ $t('misc.costslider_instruction_sms') }}
+                    </div>
+                    <div v-if="fields.microsms_transfer || fields.lvlup">
+                      {{ $t('misc.costslider_instruction_transfer') }}
+                    </div>
+                  </v-alert>
                 </div>
-                <v-alert
-                  v-if="fields.microsms_sms && fields.costslider"
-                  text
-                  type="info"
-                  elevation="2"
-                >
-                  {{ $t('misc.costslider_instruction_sms') }}
-                </v-alert>
-                <v-alert
-                  v-if="(fields.microsms_transfer || fields.lvlup) && fields.costslider"
-                  text
-                  type="info"
-                  elevation="2"
-                >
-                  {{ $t('misc.costslider_instruction_transfer') }}
-                </v-alert>
+
                 <div v-if="config.microsms">
                   <v-switch
                     v-model="fields.microsms_sms"
@@ -314,6 +329,8 @@ export default {
         name: '',
         icon: false,
         iconUrl: '',
+        max_amount: 0,
+        min_amount: 0,
         microsms_sms: false,
         microsms_sms_type: 0,
         microsms_transfer: false,
@@ -374,6 +391,15 @@ export default {
         sms_amount: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
           v => this.$regex.is_natural_number(v) || this.$t('formats.wrong_format')
+        ],
+        min_amount: [
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.is_natural_number(v) || this.$t('formats.wrong_format')
+        ],
+        max_amount: [
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.is_natural_number(v) || this.$t('formats.wrong_format'),
+          v => parseFloat(this.fields.min_amount) <= parseFloat(v) || this.$t('formats.must_be_greater')
         ]
       }
     }
@@ -425,16 +451,27 @@ export default {
       return result
     }
   },
-  watch: {
-    multipleSMSMap () {
-      console.log(this.getSmsList)
-    }
-  },
   methods: {
     editService (service) {
       this.serviceId = service.serviceId
-      const newService = Object.assign({}, service)
+      const newService = Object.assign(this.fields, service)
       delete newService.serviceId
+      if (service.microsms_sms_list) {
+        const l = service.microsms_sms_list.split('|')
+        l.pop()
+        const result = []
+        for (const i in l) {
+          const [type, amount] = l[i].split('=')
+          result.push(parseFloat(type))
+          this.multipleSMSMap[`sms${type}`] = parseFloat(amount)
+        }
+        this.multipleSMS = result
+      } else {
+        this.multipleSMS = []
+        for (let i = 1; i <= 11; i++) {
+          this.multipleSMSMap[`sms${i}`] = '0'
+        }
+      }
       this.fields = newService
       this.dialog = true
     },
@@ -450,6 +487,8 @@ export default {
         name: '',
         icon: false,
         iconUrl: '',
+        min_amount: 1,
+        max_amount: 30,
         costslider: false,
         microsms_sms: false,
         microsms_sms_type: 0,
