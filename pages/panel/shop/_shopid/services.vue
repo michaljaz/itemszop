@@ -94,20 +94,17 @@
                   </v-alert>
                 </div>
                 <v-alert
-                  v-if="fields.microsms_sms && fields.costslider"
+                  v-if="fields.costslider && (fields.microsms_transfer || fields.lvlup || fields.microsms_sms)"
                   text
                   type="info"
                   elevation="2"
                 >
-                  {{ $t('misc.costslider_instruction_sms') }}
-                </v-alert>
-                <v-alert
-                  v-if="(fields.microsms_transfer || fields.lvlup) && fields.costslider"
-                  text
-                  type="info"
-                  elevation="2"
-                >
-                  {{ $t('misc.costslider_instruction_transfer') }}
+                  <div v-if="fields.microsms_sms">
+                    {{ $t('misc.costslider_instruction_sms') }}
+                  </div>
+                  <div v-if="fields.microsms_transfer || fields.lvlup">
+                    {{ $t('misc.costslider_instruction_transfer') }}
+                  </div>
                 </v-alert>
                 <div v-if="config.microsms">
                   <v-switch
@@ -419,12 +416,13 @@ export default {
       if (service.microsms_sms_list) {
         const l = service.microsms_sms_list.split('|')
         l.pop()
-        this.multipleSMS = []
+        const result = []
         for (const i in l) {
           const [type, amount] = l[i].split('=')
-          this.multipleSMS.push(type)
-          this.multipleSMSMap[`sms${type}`] = amount
+          result.push(parseFloat(type))
+          this.multipleSMSMap[`sms${type}`] = parseFloat(amount)
         }
+        this.multipleSMS = result
       } else {
         this.multipleSMS = []
         for (let i = 1; i <= 11; i++) {
