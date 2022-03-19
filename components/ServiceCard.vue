@@ -63,7 +63,7 @@
           <v-card elevation="2" outlined>
             <v-card-text>
               <v-row>
-                <v-col cols="12" lg="6" class="hidden-md-and-down">
+                <v-col cols="12" lg="6" class="hidden-md-and-down my-auto">
                   <v-img :src="service.icon ? service.iconUrl : `/item.png`" max-height="150" contain class="mb-2" />
                   <center>
                     <div class="headline font-weight-bold">
@@ -103,16 +103,13 @@
                       ref="form"
                       v-model="valid"
                     >
-                      <div class="hidden-lg-and-up">
-                        <!-- eslint-disable vue/no-v-html -->
-                        <div
-                          style="max-height: 200px"
-                          class="mt-2 overflow-y-auto"
-                          v-html="service.description"
-                        />
-                        <!--eslint-enable-->
-                        <v-divider />
-                      </div>
+                      <!-- eslint-disable vue/no-v-html -->
+                      <div
+                        style="max-height: 200px"
+                        class="mt-2 overflow-y-auto hidden-lg-and-up"
+                        v-html="service.description"
+                      />
+                      <!--eslint-enable-->
                       <v-text-field v-model="nick" :label="$t('fields.nick')" :rules="rules.nick" />
                       <v-radio-group v-model="type" :rules="rules.type">
                         <v-radio
@@ -170,9 +167,6 @@
                       </div>
                     </v-form>
                   </v-card-text>
-
-                  <v-divider />
-
                   <v-card-actions>
                     <span class="headline">
                       {{ $t('misc.price') }}: {{ price }}zł
