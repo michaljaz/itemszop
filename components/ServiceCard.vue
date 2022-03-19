@@ -78,7 +78,12 @@
 
           <v-card elevation="5" outlined>
             <v-card-title class="headline">
-              {{ service.name }}
+              <div class="d-inline-flex">
+                <v-img :src="service.icon ? service.iconUrl : `/item.png`" width="50" height="50" contain />
+                <span class="mt-3 ml-3">
+                  {{ service.name }}
+                </span>
+              </div>
               <v-spacer />
               <v-btn
                 icon
