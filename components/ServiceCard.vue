@@ -65,7 +65,7 @@
           <template #activator="{ on, attrs }">
             <v-btn
               :disabled="!((config.microsms && (service.microsms_sms || service.microsms_transfer)) || (service.lvlup && config.lvlup))"
-              color="green"
+              color="success"
               large
               outlined
               block
@@ -86,30 +86,26 @@
                 ref="form"
                 v-model="valid"
               >
+                <v-text-field v-model="nick" :label="$t('fields.nick')" :rules="rules.nick" />
                 <v-radio-group v-model="type" :rules="rules.type">
                   <v-radio
                     v-if="service.microsms_sms && config.microsms"
-                    :label="`${$t('sms')} (${smsCost[service.microsms_sms_type][1]} zł)`"
+                    :label="service.costslider ? `${$t('sms')}` : `${$t('sms')} (${smsCost[service.microsms_sms_type][1]} zł ${$t('misc.per_item')})`"
                     value="microsms_sms"
                   />
                   <v-radio
                     v-if="service.microsms_transfer && config.microsms"
-                    :label="`${$t('transfer')} (${service.microsms_transfer_cost} zł)`"
+                    :label="`${$t('transfer')} (${service.microsms_transfer_cost} zł ${$t('misc.per_item')})`"
                     value="microsms_transfer"
                   />
                   <v-radio
                     v-if="service.lvlup && config.lvlup"
-                    :label="`${$t('transfer_psc')} (${service.lvlup_cost} zł)`"
+                    :label="`${$t('transfer_psc')} (${service.lvlup_cost} zł ${$t('misc.per_item')})`"
                     value="lvlup"
                   />
                 </v-radio-group>
-                <v-text-field v-model="nick" :label="$t('fields.nick')" :rules="rules.nick" />
                 <div v-if="type && service.costslider">
-                  <v-checkbox
-                    v-model="buy_more"
-                    :label="$t('fields.buy_more_once')"
-                  />
-                  <div v-if="buy_more">
+                  <div v-if="(type == 'microsms_transfer' || type == 'lvlup')">
                     <i18n
                       path="misc.costslider_amount"
                     >
@@ -118,15 +114,31 @@
                       </template>
                     </i18n>
                     <v-slider
-                      v-if="(type == 'microsms_transfer' || type == 'lvlup')"
+
                       v-model="costslider"
                       :min="service.min_amount"
                       :max="service.max_amount"
                       thumb-label
                     />
-                    <div v-else>
-                      sms slider
-                    </div>
+                  </div>
+                  <div v-else>
+                    <i18n
+                      path="misc.costslider_amount"
+                    >
+                      <template #amount>
+                        {{ smsList[costslider_sms][1] }}
+                      </template>
+                    </i18n>
+                    <v-slider
+                      v-model="costslider_sms"
+                      :min="0"
+                      :max="smsList.length-1"
+                      thumb-label
+                    >
+                      <template #thumb-label="{ value }">
+                        {{ smsList[value][1] }}
+                      </template>
+                    </v-slider>
                   </div>
                 </div>
               </v-form>
@@ -135,15 +147,19 @@
             <v-divider />
 
             <v-card-actions>
+              <span class="headline">
+                {{ $t('misc.price') }}: {{ price }}zł
+              </span>
               <v-spacer />
               <v-btn
-                color="green"
+                text
+                color="primary"
                 @click="dialog=false"
               >
                 {{ $t('actions.cancel') }}
               </v-btn>
               <v-btn
-                color="primary"
+                color="success"
                 :loading="loading"
                 @click="next"
               >
@@ -204,8 +220,7 @@
             {{ $t('actions.cancel') }}
           </v-btn>
           <v-btn
-            color="green"
-            text
+            color="success"
             @click="checkSMS"
           >
             {{ $t('actions.next') }}
@@ -254,6 +269,7 @@ export default {
   data () {
     return {
       loading: null,
+      costslider_sms: 0,
       costslider: 1,
       buy_more: false,
       snackbar: false,
@@ -294,14 +310,47 @@ export default {
       }
     }
   },
+  computed: {
+    price () {
+      if (this.type === 'microsms_transfer') {
+        return this.service.microsms_transfer_cost * this.costslider
+      } else if (this.type === 'lvlup') {
+        return this.service.lvlup_cost * this.costslider
+      } else if (this.type === 'microsms_sms') {
+        if (this.service.costslider) {
+          return this.smsCost[this.smsList[this.costslider_sms][0]][1]
+        } else {
+          return this.smsCost[this.service.microsms_sms_type][1]
+        }
+      } else {
+        return 0
+      }
+    },
+    smsList () {
+      if (this.service.microsms_sms_list) {
+        const l = this.service.microsms_sms_list.split('|')
+        l.pop()
+        const result = []
+        for (const i in l) {
+          const [type, amount] = l[i].split('=')
+          result.push([parseFloat(type), parseFloat(amount)])
+        }
+        result.sort()
+        return result
+      } else {
+        return []
+      }
+    }
+  },
   methods: {
     next () {
       this.$refs.form.validate()
       if (this.valid) {
-        this.loading = 'loading'
         if (this.type === 'microsms_transfer') {
+          this.loading = 'loading'
           this.buyMicrosmsTransfer()
         } else if (this.type === 'lvlup') {
+          this.loading = 'loading'
           this.buyLvlup()
         } else {
           this.buyMicrosmsSms()

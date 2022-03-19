@@ -74,19 +74,19 @@
         </div>
         <v-spacer />
         <v-btn
-          color="primary"
-          large
-          @click="submit"
-        >
-          {{ $t('actions.next') }}
-        </v-btn>
-        <v-btn
           text
           color="info"
           to="/auth/signin"
           large
         >
           {{ $t('sign_in') }}
+        </v-btn>
+        <v-btn
+          color="primary"
+          large
+          @click="submit"
+        >
+          {{ $t('actions.next') }}
         </v-btn>
       </v-card-actions>
     </v-card>

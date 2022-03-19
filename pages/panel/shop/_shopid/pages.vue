@@ -33,7 +33,7 @@
                 {{ $t('actions.new_page') }}
               </v-btn>
             </template>
-            <v-card>
+            <v-card outlined>
               <v-card-title>
                 <span class="text-h5">{{ $t('titles.page_config') }}</span>
               </v-card-title>
@@ -79,7 +79,7 @@
             </v-card>
           </v-dialog>
           <v-dialog v-model="dialogDelete" max-width="500px">
-            <v-card>
+            <v-card outlined>
               <v-card-title class="text-h5">
                 {{ $t('titles.are_you_sure') }}
               </v-card-title>
