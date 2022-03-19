@@ -360,7 +360,12 @@ export default {
     buyLvlup () {
       const { nick, shopid } = this
       this.$axios.get('/lvlup', {
-        params: { nick, shopid, serviceid: this.service.serviceId }
+        params: {
+          nick,
+          shopid,
+          serviceid: this.service.serviceId,
+          amount: this.costslider
+        }
       }).then(({ data }) => {
         this.loading = null
         if (data.success) {
