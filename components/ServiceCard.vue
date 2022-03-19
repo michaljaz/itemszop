@@ -104,27 +104,30 @@
                   />
                 </v-radio-group>
                 <v-text-field v-model="nick" :label="$t('fields.nick')" :rules="rules.nick" />
-                <div v-if="type">
+                <div v-if="type && service.costslider">
                   <v-checkbox
                     v-model="buy_more"
                     :label="$t('fields.buy_more_once')"
                   />
-                  <i18n
-                    v-if="buy_more"
-                    path="misc.costslider_amount"
-                  >
-                    <template #amount>
-                      {{ costslider }}
-                    </template>
-                  </i18n>
-                  <v-slider
-                    v-if="buy_more"
-                    v-model="costslider"
-                    hint="Im a hint"
-                    min="1"
-                    max="50"
-                    thumb-label
-                  />
+                  <div v-if="buy_more">
+                    <i18n
+                      path="misc.costslider_amount"
+                    >
+                      <template #amount>
+                        {{ costslider }}
+                      </template>
+                    </i18n>
+                    <v-slider
+                      v-if="(type == 'microsms_transfer' || type == 'lvlup')"
+                      v-model="costslider"
+                      :min="service.min_amount"
+                      :max="service.max_amount"
+                      thumb-label
+                    />
+                    <div v-else>
+                      sms slider
+                    </div>
+                  </div>
                 </div>
               </v-form>
             </v-card-text>

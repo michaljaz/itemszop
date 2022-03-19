@@ -147,6 +147,7 @@
                     :label="$t('fields.choose_smses')"
                     multiple
                     persistent-hint
+                    :rules="rules.multiple_sms"
                   />
                   <div v-if="fields.microsms_sms && fields.costslider">
                     <v-text-field
@@ -325,23 +326,25 @@ export default {
       dialogDelete: false,
       serviceId: '',
       valid: false,
-      fields: {
+      defaultFields: {
         name: '',
         icon: false,
         iconUrl: '',
-        max_amount: 0,
-        min_amount: 0,
+        min_amount: 1,
+        max_amount: 30,
+        costslider: false,
         microsms_sms: false,
         microsms_sms_type: 0,
+        microsms_sms_list: '',
         microsms_transfer: false,
         microsms_transfer_cost: 0,
         lvlup: false,
         lvlup_cost: 0,
         server: '',
         commands: '',
-        description: '',
-        costslider: false
+        description: this.$t('misc.default_description')
       },
+      fields: {},
       dialog: false,
       sms: false,
       przelew: false,
@@ -400,6 +403,9 @@ export default {
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
           v => this.$regex.is_natural_number(v) || this.$t('formats.wrong_format'),
           v => parseFloat(this.fields.min_amount) <= parseFloat(v) || this.$t('formats.must_be_greater')
+        ],
+        multiple_sms: [
+          v => v.length > 0 || this.$t('formats.field_not_empty')
         ]
       }
     }
@@ -443,7 +449,7 @@ export default {
       }
       return result.slice().reverse()
     },
-    getSmsList () {
+    smsList () {
       let result = ''
       for (const i in this.multipleSMS) {
         result += `${this.multipleSMS[i]}=${this.multipleSMSMap[`sms${this.multipleSMS[i]}`]}|`
@@ -452,12 +458,9 @@ export default {
     }
   },
   methods: {
-    editService (service) {
-      this.serviceId = service.serviceId
-      const newService = Object.assign(this.fields, service)
-      delete newService.serviceId
-      if (service.microsms_sms_list) {
-        const l = service.microsms_sms_list.split('|')
+    initializeSmsList (microsmsSmsList) {
+      if (microsmsSmsList) {
+        const l = microsmsSmsList.split('|')
         l.pop()
         const result = []
         for (const i in l) {
@@ -472,6 +475,12 @@ export default {
           this.multipleSMSMap[`sms${i}`] = '0'
         }
       }
+    },
+    editService (service) {
+      this.serviceId = service.serviceId
+      const newService = Object.assign(Object.assign({}, this.defaultFields), service)
+      delete newService.serviceId
+      this.initializeSmsList(service.microsms_sms_list)
       this.fields = newService
       this.dialog = true
     },
@@ -483,31 +492,14 @@ export default {
     },
     newService () {
       this.serviceId = `${Math.random().toString(36).replace('0.', '')}`
-      this.fields = {
-        name: '',
-        icon: false,
-        iconUrl: '',
-        min_amount: 1,
-        max_amount: 30,
-        costslider: false,
-        microsms_sms: false,
-        microsms_sms_type: 0,
-        microsms_sms_list: '',
-        microsms_transfer: false,
-        microsms_transfer_cost: 0,
-        lvlup: false,
-        lvlup_cost: 0,
-        server: '',
-        commands: '',
-        description: this.$t('misc.default_description')
-      }
+      this.fields = Object.assign({}, this.defaultFields)
       this.dialog = true
     },
     saveService () {
       this.$refs.form.validate()
       if (this.valid) {
         const { shopid } = this.$route.params
-        this.fields.microsms_sms_list = this.getSmsList
+        this.fields.microsms_sms_list = this.smsList
         this.$fire.database.ref().child(`/shops/${shopid}/services/${this.serviceId}`).set(this.fields)
         this.dialog = false
       }
