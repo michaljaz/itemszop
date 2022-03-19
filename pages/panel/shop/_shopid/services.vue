@@ -468,6 +468,7 @@ export default {
           result.push(parseFloat(type))
           this.multipleSMSMap[`sms${type}`] = parseFloat(amount)
         }
+        result.sort()
         this.multipleSMS = result
       } else {
         this.multipleSMS = []

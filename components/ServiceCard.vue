@@ -105,11 +105,7 @@
                 </v-radio-group>
                 <v-text-field v-model="nick" :label="$t('fields.nick')" :rules="rules.nick" />
                 <div v-if="type && service.costslider">
-                  <v-checkbox
-                    v-model="buy_more"
-                    :label="$t('fields.buy_more_once')"
-                  />
-                  <div v-if="buy_more">
+                  <div v-if="(type == 'microsms_transfer' || type == 'lvlup')">
                     <i18n
                       path="misc.costslider_amount"
                     >
@@ -118,15 +114,31 @@
                       </template>
                     </i18n>
                     <v-slider
-                      v-if="(type == 'microsms_transfer' || type == 'lvlup')"
+
                       v-model="costslider"
                       :min="service.min_amount"
                       :max="service.max_amount"
                       thumb-label
                     />
-                    <div v-else>
-                      sms slider
-                    </div>
+                  </div>
+                  <div v-else>
+                    <i18n
+                      path="misc.costslider_amount"
+                    >
+                      <template #amount>
+                        {{ smsList[costslider][1] }}
+                      </template>
+                    </i18n>
+                    <v-slider
+                      v-model="costslider"
+                      :min="0"
+                      :max="smsList.length-1"
+                      thumb-label
+                    >
+                      <template #thumb-label="{ value }">
+                        {{ smsList[value][1] }}
+                      </template>
+                    </v-slider>
                   </div>
                 </div>
               </v-form>
@@ -293,6 +305,26 @@ export default {
         ]
       }
     }
+  },
+  computed: {
+    smsList () {
+      if (this.service.microsms_sms_list) {
+        const l = this.service.microsms_sms_list.split('|')
+        l.pop()
+        const result = []
+        for (const i in l) {
+          const [type, amount] = l[i].split('=')
+          result.push([parseFloat(type), parseFloat(amount)])
+        }
+        result.sort()
+        return result
+      } else {
+        return []
+      }
+    }
+  },
+  mounted () {
+    console.log(this.smsList)
   },
   methods: {
     next () {
