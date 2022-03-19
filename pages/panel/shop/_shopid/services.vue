@@ -147,6 +147,7 @@
                     :label="$t('fields.choose_smses')"
                     multiple
                     persistent-hint
+                    :rules="rules.multiple_sms"
                   />
                   <div v-if="fields.microsms_sms && fields.costslider">
                     <v-text-field
@@ -402,6 +403,9 @@ export default {
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
           v => this.$regex.is_natural_number(v) || this.$t('formats.wrong_format'),
           v => parseFloat(this.fields.min_amount) <= parseFloat(v) || this.$t('formats.must_be_greater')
+        ],
+        multiple_sms: [
+          v => v.length > 0 || this.$t('formats.field_not_empty')
         ]
       }
     }
@@ -445,7 +449,7 @@ export default {
       }
       return result.slice().reverse()
     },
-    getSmsList () {
+    smsList () {
       let result = ''
       for (const i in this.multipleSMS) {
         result += `${this.multipleSMS[i]}=${this.multipleSMSMap[`sms${this.multipleSMS[i]}`]}|`
@@ -454,7 +458,7 @@ export default {
     }
   },
   methods: {
-    prepareSmsList (microsmsSmsList) {
+    initializeSmsList (microsmsSmsList) {
       if (microsmsSmsList) {
         const l = microsmsSmsList.split('|')
         l.pop()
@@ -476,7 +480,7 @@ export default {
       this.serviceId = service.serviceId
       const newService = Object.assign(Object.assign({}, this.defaultFields), service)
       delete newService.serviceId
-      this.prepareSmsList(service.microsms_sms_list)
+      this.initializeSmsList(service.microsms_sms_list)
       this.fields = newService
       this.dialog = true
     },
@@ -495,7 +499,7 @@ export default {
       this.$refs.form.validate()
       if (this.valid) {
         const { shopid } = this.$route.params
-        this.fields.microsms_sms_list = this.getSmsList
+        this.fields.microsms_sms_list = this.smsList
         this.$fire.database.ref().child(`/shops/${shopid}/services/${this.serviceId}`).set(this.fields)
         this.dialog = false
       }
