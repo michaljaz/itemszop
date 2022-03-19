@@ -45,17 +45,6 @@
       <v-card-title class="justify-center">
         {{ service.name }}
       </v-card-title>
-      <v-card-actions v-if="link">
-        <v-btn
-          color="info"
-          large
-          outlined
-          block
-          :to="link"
-        >
-          {{ $t('actions.description') }}
-        </v-btn>
-      </v-card-actions>
       <v-card-actions>
         <v-dialog
           v-model="dialog"
@@ -78,7 +67,12 @@
 
           <v-card elevation="5" outlined>
             <v-card-title class="headline">
-              {{ service.name }}
+              <div class="d-inline-flex">
+                <v-img :src="service.icon ? service.iconUrl : `/item.png`" width="50" height="50" contain />
+                <span class="mt-3 ml-3">
+                  {{ service.name }}
+                </span>
+              </div>
               <v-spacer />
               <v-btn
                 icon
@@ -94,6 +88,10 @@
                 ref="form"
                 v-model="valid"
               >
+                <!-- eslint-disable vue/no-v-html -->
+                <div v-html="service.description" />
+                <!--eslint-enable-->
+                <v-divider />
                 <v-text-field v-model="nick" :label="$t('fields.nick')" :rules="rules.nick" />
                 <v-radio-group v-model="type" :rules="rules.type">
                   <v-radio
