@@ -25,7 +25,7 @@
         filled
       >
         <v-toolbar-items>
-          <v-btn text :to="`${shopPath}/`" active-class="no-active">
+          <v-btn text :to="`${shopUrl}/`" active-class="no-active">
             {{ $t('titles.shop') }}
           </v-btn>
           <v-btn v-for="k in pages" :key="k.pageId" text :to="`${shopPath}/page/${k.pageId}`">
@@ -176,6 +176,13 @@ export default {
     }
   },
   computed: {
+    shopUrl () {
+      if (this.shop.servers && Object.keys(this.shop.servers).length === 1) {
+        return `${this.shopPath}/server/${Object.keys(this.shop.servers)[0]}`
+      } else {
+        return this.shopPath
+      }
+    },
     pages () {
       const result = []
       for (const pageId in this.shop.pages) {

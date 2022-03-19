@@ -56,11 +56,8 @@ export default {
   },
   mounted () {
     if (this.shop.servers && Object.keys(this.shop.servers).length === 1) {
-      if (process.env.singleShopId) {
-        this.$router.push(`/server/${Object.keys(this.shop.servers)[0]}`)
-      } else {
-        this.$router.push(`/shop/${this.$route.params.shopid}/server/${Object.keys(this.shop.servers)[0]}`)
-      }
+      const path = process.env.singleShopId ? `/server/${Object.keys(this.shop.servers)[0]}` : `/shop/${this.$route.params.shopid}/server/${Object.keys(this.shop.servers)[0]}`
+      this.$router.push(path)
     }
     this.$emit('breadcrumb', [{
       text: this.$t('titles.shop'),
