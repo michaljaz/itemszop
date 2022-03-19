@@ -374,7 +374,12 @@ export default {
     buyMicrosmsTransfer () {
       const { nick, shopid } = this
       this.$axios.get('/microsms_transfer', {
-        params: { nick, shopid, serviceid: this.service.serviceId }
+        params: {
+          nick,
+          shopid,
+          serviceid: this.service.serviceId,
+          amount: this.costslider
+        }
       }).then(({ data }) => {
         this.loading = null
         if (data.success) {

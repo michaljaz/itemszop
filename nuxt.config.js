@@ -19,7 +19,7 @@ export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: (process.env.VERCEL || process.env.NETLIFY) ? 'static' : 'server',
 
-  ssr:false,
+  ssr: false,
 
   loadingIndicator: {
     name: 'rotating-plane',

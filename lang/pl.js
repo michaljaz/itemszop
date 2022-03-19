@@ -139,6 +139,7 @@ export default {
     wrong_format_serviceid: 'Niepoprawny format id usługi',
     wrong_format_voucher: 'Niepoprawny format vouchera',
     wrong_format_api_key: 'Niepoprawny format klucza api',
+    wrong_format_amount: 'Niepoprawny format ilości produktu',
     must_be_greater: 'Maksymalna ilość musi być większa od minimalnej'
   },
 

@@ -172,6 +172,16 @@ exports.getVoucherCode = (code) => {
   })
 }
 
+exports.getAmount = (amount) => {
+  return new Promise((resolve, reject) => {
+    if (!/^[1-9][0-9]*$/.test(amount) || typeof (amount) !== 'string') {
+      reject('wrong_format_amount')
+    } else {
+      resolve(amount)
+    }
+  })
+}
+
 // LOADERS
 
 exports.loadConfig = ({db, shopid}) => {
@@ -212,11 +222,12 @@ exports.loadService = ({db, serviceid, shopid}) => {
 
 // GENERATORS
 
-exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service}) => {
+exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service, amount}) => {
+  const cost = service.microsms_transfer_cost * amount
   const params = new URLSearchParams({
     shopid: config.microsms_transfer_id,
-    amount: service.microsms_transfer_cost,
-    signature: md5(`${config.microsms_transfer_id}${config.microsms_transfer_hash}${service.microsms_transfer_cost}`),
+    amount: cost,
+    signature: md5(`${config.microsms_transfer_id}${config.microsms_transfer_hash}${cost}`),
     description: `${service.name} dla ${nick}`,
     control: `${shopid}|${serviceid}|${nick}`,
     returl_url: `${baseUrl}/shop/${shopid}/payment_success`,
