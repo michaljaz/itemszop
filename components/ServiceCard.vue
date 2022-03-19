@@ -79,6 +79,14 @@
           <v-card elevation="5" outlined>
             <v-card-title class="headline">
               {{ service.name }}
+              <v-spacer />
+              <v-btn
+                icon
+                dark
+                @click="dialog = false"
+              >
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
             </v-card-title>
 
             <v-card-text>
@@ -152,13 +160,6 @@
               </span>
               <v-spacer />
               <v-btn
-                text
-                color="primary"
-                @click="dialog=false"
-              >
-                {{ $t('actions.cancel') }}
-              </v-btn>
-              <v-btn
                 color="success"
                 :loading="loading"
                 @click="next"
@@ -178,6 +179,14 @@
       <v-card elevation="5" outlined>
         <v-card-title class="headline">
           {{ service.name }}
+          <v-spacer />
+          <v-btn
+            icon
+            dark
+            @click="dialogSMS = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
         </v-card-title>
 
         <v-card-text>
@@ -212,13 +221,6 @@
         <v-divider />
         <v-card-actions>
           <v-spacer />
-          <v-btn
-            color="primary"
-            text
-            @click="dialogSMS=false"
-          >
-            {{ $t('actions.cancel') }}
-          </v-btn>
           <v-btn
             color="success"
             @click="checkSMS"
