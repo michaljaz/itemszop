@@ -86,24 +86,24 @@
                 ref="form"
                 v-model="valid"
               >
+                <v-text-field v-model="nick" :label="$t('fields.nick')" :rules="rules.nick" />
                 <v-radio-group v-model="type" :rules="rules.type">
                   <v-radio
                     v-if="service.microsms_sms && config.microsms"
-                    :label="`${$t('sms')} (${smsCost[service.microsms_sms_type][1]} zł)`"
+                    :label="service.costslider ? `${$t('sms')}` : `${$t('sms')} (${smsCost[service.microsms_sms_type][1]} zł ${$t('misc.per_item')})`"
                     value="microsms_sms"
                   />
                   <v-radio
                     v-if="service.microsms_transfer && config.microsms"
-                    :label="`${$t('transfer')} (${service.microsms_transfer_cost} zł)`"
+                    :label="`${$t('transfer')} (${service.microsms_transfer_cost} zł ${$t('misc.per_item')})`"
                     value="microsms_transfer"
                   />
                   <v-radio
                     v-if="service.lvlup && config.lvlup"
-                    :label="`${$t('transfer_psc')} (${service.lvlup_cost} zł)`"
+                    :label="`${$t('transfer_psc')} (${service.lvlup_cost} zł ${$t('misc.per_item')})`"
                     value="lvlup"
                   />
                 </v-radio-group>
-                <v-text-field v-model="nick" :label="$t('fields.nick')" :rules="rules.nick" />
                 <div v-if="type && service.costslider">
                   <div v-if="(type == 'microsms_transfer' || type == 'lvlup')">
                     <i18n
@@ -126,11 +126,11 @@
                       path="misc.costslider_amount"
                     >
                       <template #amount>
-                        {{ smsList[costslider][1] }}
+                        {{ smsList[costslider_sms][1] }}
                       </template>
                     </i18n>
                     <v-slider
-                      v-model="costslider"
+                      v-model="costslider_sms"
                       :min="0"
                       :max="smsList.length-1"
                       thumb-label
@@ -147,6 +147,9 @@
             <v-divider />
 
             <v-card-actions>
+              <span class="headline">
+                {{ $t('misc.price') }}: {{ price }}zł
+              </span>
               <v-spacer />
               <v-btn
                 color="green"
@@ -266,6 +269,7 @@ export default {
   data () {
     return {
       loading: null,
+      costslider_sms: 0,
       costslider: 1,
       buy_more: false,
       snackbar: false,
@@ -307,6 +311,21 @@ export default {
     }
   },
   computed: {
+    price () {
+      if (this.type === 'microsms_transfer') {
+        return this.service.microsms_transfer_cost * this.costslider
+      } else if (this.type === 'lvlup') {
+        return this.service.lvlup_cost * this.costslider
+      } else if (this.type === 'microsms_sms') {
+        if (this.service.costslider) {
+          return this.smsCost[this.smsList[this.costslider_sms][0]][1]
+        } else {
+          return this.smsCost[this.service.microsms_sms_type][1]
+        }
+      } else {
+        return 0
+      }
+    },
     smsList () {
       if (this.service.microsms_sms_list) {
         const l = this.service.microsms_sms_list.split('|')
@@ -322,9 +341,6 @@ export default {
         return []
       }
     }
-  },
-  mounted () {
-    console.log(this.smsList)
   },
   methods: {
     next () {

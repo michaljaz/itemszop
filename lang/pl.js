@@ -229,9 +229,12 @@ export default {
     costslider_instruction_transfer: 'Przy płatności przelewem koszt liczony jest: ILOŚĆ * KOSZT SZTUKI.',
     costslider_instruction_sms: "Przy płatności sms'em musisz wybrać w polach poniżej ile sztuk produktu będzie za dany sms.",
     costslider_instruction_placeholder: 'W komendach możesz użyć [n] jeśli chcesz użyć liczby wybranej na suwaku.',
-    costslider_amount: 'Liczba produktów: {amount}',
+    costslider_amount: 'Ilość produktów: {amount}',
     bought: 'kupił(a)',
     privacy_policy_accept: 'Rejestrując się w serwisie automatycznie akceptujesz ',
-    privacy_policy: 'Politykę prywatności'
+    privacy_policy: 'Politykę prywatności',
+    per_item: 'za sztukę',
+    price: 'Cena'
+
   }
 }
