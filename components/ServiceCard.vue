@@ -65,7 +65,7 @@
           <template #activator="{ on, attrs }">
             <v-btn
               :disabled="!((config.microsms && (service.microsms_sms || service.microsms_transfer)) || (service.lvlup && config.lvlup))"
-              color="green"
+              color="success"
               large
               outlined
               block
@@ -152,13 +152,14 @@
               </span>
               <v-spacer />
               <v-btn
-                color="green"
+                text
+                color="primary"
                 @click="dialog=false"
               >
                 {{ $t('actions.cancel') }}
               </v-btn>
               <v-btn
-                color="primary"
+                color="success"
                 :loading="loading"
                 @click="next"
               >
@@ -219,8 +220,7 @@
             {{ $t('actions.cancel') }}
           </v-btn>
           <v-btn
-            color="green"
-            text
+            color="success"
             @click="checkSMS"
           >
             {{ $t('actions.next') }}
@@ -346,10 +346,11 @@ export default {
     next () {
       this.$refs.form.validate()
       if (this.valid) {
-        this.loading = 'loading'
         if (this.type === 'microsms_transfer') {
+          this.loading = 'loading'
           this.buyMicrosmsTransfer()
         } else if (this.type === 'lvlup') {
+          this.loading = 'loading'
           this.buyLvlup()
         } else {
           this.buyMicrosmsSms()

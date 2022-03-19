@@ -50,7 +50,7 @@
           v-model="reset_dialog"
           max-width="400"
         >
-          <v-card>
+          <v-card outlined>
             <v-card-title class="text-h5">
               {{ $t('actions.password_reset') }}
             </v-card-title>
@@ -88,7 +88,7 @@
           v-model="dialog"
           max-width="400"
         >
-          <v-card>
+          <v-card outlined>
             <v-card-title class="text-h5">
               {{ $t('titles.error') }}
             </v-card-title>
@@ -111,19 +111,19 @@
       <v-card-actions>
         <v-spacer />
         <v-btn
-          class="primary"
-          large
-          @click="submit"
-        >
-          {{ $t('actions.next') }}
-        </v-btn>
-        <v-btn
           text
           color="info"
           to="/auth/signup"
           large
         >
           {{ $t('sign_up') }}
+        </v-btn>
+        <v-btn
+          class="primary"
+          large
+          @click="submit"
+        >
+          {{ $t('actions.next') }}
         </v-btn>
       </v-card-actions>
     </v-card>

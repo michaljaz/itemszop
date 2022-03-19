@@ -29,7 +29,7 @@
           v-model="dialog"
           max-width="500"
         >
-          <v-card tile flat>
+          <v-card tile flat outlined>
             <v-card-title class="text-h5">
               {{ $t('titles.server_config') }}
             </v-card-title>
