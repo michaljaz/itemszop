@@ -17,7 +17,7 @@ try {
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
-  target: 'server',
+  target: (process.env.VERCEL || process.env.NETLIFY) ? 'static' : 'server',
 
   ssr:false,
 
