@@ -177,7 +177,7 @@ exports.getAmount = (amount) => {
     if (!/^[1-9][0-9]*$/.test(amount) || typeof (amount) !== 'string') {
       reject('wrong_format_amount')
     } else {
-      resolve(amount)
+      resolve(parseFloat(amount))
     }
   })
 }
@@ -236,11 +236,13 @@ exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service, a
   return `https://microsms.pl/api/bankTransfer/?${params}`
 }
 
-exports.generateLvlup = ({config, nick, shopid, serviceid, service}) => {
+exports.generateLvlup = ({config, nick, shopid, serviceid, service, amount}) => {
+  console.log(service.lvlup_cost)
+  const cost = String(parseFloat(service.lvlup_cost) * amount)
   return new Promise((resolve, reject) => {
     const lvlup = new LvlupApi(config.lvlup_api)
 		// const lvlup = new LvlupApi(config.lvlup_api, {env: 'sandbox'})
-    lvlup.createPayment(service.lvlup_cost, `${baseUrl}`, `${baseUrl}/api/lvlup_webhook?nick=${nick}&shopid=${shopid}&serviceid=${serviceid}`).then(({url}) => {
+    lvlup.createPayment(cost, `${baseUrl}`, `${baseUrl}/api/lvlup_webhook?nick=${nick}&shopid=${shopid}&serviceid=${serviceid}`).then(({url}) => {
       if (url) {
         resolve(url)
       } else {
