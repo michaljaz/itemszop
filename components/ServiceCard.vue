@@ -195,16 +195,16 @@
               path="misc.sms_send_instruction"
             >
               <template #netto>
-                {{ smsCost[service.microsms_sms_type][0] }}
+                {{ smsCost[smsType][0] }}
               </template>
               <template #brutto>
-                {{ smsCost[service.microsms_sms_type][1] }}
+                {{ smsCost[smsType][1] }}
               </template>
               <template #sms>
                 <b>{{ config.microsms_sms_text }}</b>
               </template>
               <template #number>
-                <b>{{ smsCost[service.microsms_sms_type][2] }}</b>
+                <b>{{ smsCost[smsType][2] }}</b>
               </template>
               <template #br>
               </br>
@@ -341,6 +341,13 @@ export default {
         return result
       } else {
         return []
+      }
+    },
+    smsType () {
+      if (this.service.costslider) {
+        return this.smsList[this.costslider_sms][0]
+      } else {
+        return this.service.microsms_sms_type
       }
     }
   },
