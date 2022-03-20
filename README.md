@@ -30,7 +30,7 @@ $ npm install
 $ npm run dev
 
 # OPCJA 2 - używając netlify (szybciej się reloadują serverlessowe funkcje)
-$ npm run dev:netlify
+$ netlify dev
 
 
 ############ KONFIGURACJA PRODUKCYJNA ############
