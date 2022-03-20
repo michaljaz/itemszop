@@ -7,7 +7,7 @@
       :color="$vuetify.theme.dark ? `#272727`: ''"
       fixed
       app
-      width="270"
+      width="300"
     >
       <v-list-item>
         <v-list-item-content>
@@ -51,6 +51,9 @@
             </v-menu>
           </v-list-item-title>
           <v-list-item-subtitle v-if="url">
+            <v-icon dense>
+              mdi-link-variant
+            </v-icon>
             <a :href="url" target="_blank">{{ url }}</a>
           </v-list-item-subtitle>
         </v-list-item-content>

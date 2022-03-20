@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card elevation="5" height="100%">
+    <v-card elevation="5" height="100%" @click="dialog=true">
       <center>
         <v-img :src="service.icon ? service.iconUrl : `/item.png`" max-height="120" contain />
       </center>
@@ -37,156 +37,140 @@
         </div>
       </v-card-text>
       <v-divider class="mx-4" />
-      <v-card-title class="justify-center">
+      <v-card-title class="justify-center text-no-wrap">
         {{ service.name }}
       </v-card-title>
-      <v-card-actions>
-        <v-dialog
-          v-model="dialog"
-          persistent
-          max-width="800"
-        >
-          <template #activator="{ on, attrs }">
-            <v-btn
-              :disabled="!((config.microsms && (service.microsms_sms || service.microsms_transfer)) || (service.lvlup && config.lvlup))"
-              color="success"
-              large
-              outlined
-              block
-              v-bind="attrs"
-              v-on="on"
-            >
-              {{ $t('actions.buy') }}
-            </v-btn>
-          </template>
-
-          <v-card elevation="2" outlined>
-            <v-card-text>
-              <v-row>
-                <v-col cols="12" lg="6" class="hidden-md-and-down my-auto">
-                  <v-img :src="service.icon ? service.iconUrl : `/item.png`" max-height="150" contain class="mb-2" />
-                  <center>
-                    <div class="headline font-weight-bold">
+    </v-card>
+    <v-dialog
+      v-model="dialog"
+      persistent
+      max-width="800"
+    >
+      <v-card elevation="2" outlined>
+        <v-card-text>
+          <v-row>
+            <v-col cols="12" lg="6" class="hidden-md-and-down my-auto">
+              <v-img :src="service.icon ? service.iconUrl : `/item.png`" max-height="150" contain class="mb-2" />
+              <center>
+                <div class="headline font-weight-bold">
+                  {{ service.name }}
+                </div>
+              </center>
+              <!-- eslint-disable vue/no-v-html -->
+              <div
+                style="max-height: 200px"
+                class="mt-2 overflow-y-auto"
+                v-html="service.description"
+              />
+              <!--eslint-enable-->
+            </v-col>
+            <v-col cols="12" lg="6">
+              <v-card-title class="headline">
+                <div class="hidden-lg-and-up">
+                  <div class="d-inline-flex">
+                    <v-img :src="service.icon ? service.iconUrl : `/item.png`" width="50" height="50" contain />
+                    <span class="mt-3 ml-3">
                       {{ service.name }}
-                    </div>
-                  </center>
+                    </span>
+                  </div>
+                </div>
+                <v-spacer />
+                <v-btn
+                  icon
+                  dark
+                  @click="dialog = false"
+                >
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+              </v-card-title>
+
+              <v-card-text>
+                <v-form
+                  ref="form"
+                  v-model="valid"
+                >
                   <!-- eslint-disable vue/no-v-html -->
                   <div
                     style="max-height: 200px"
-                    class="mt-2 overflow-y-auto"
+                    class="mt-2 overflow-y-auto hidden-lg-and-up"
                     v-html="service.description"
                   />
                   <!--eslint-enable-->
-                </v-col>
-                <v-col cols="12" lg="6">
-                  <v-card-title class="headline">
-                    <div class="hidden-lg-and-up">
-                      <div class="d-inline-flex">
-                        <v-img :src="service.icon ? service.iconUrl : `/item.png`" width="50" height="50" contain />
-                        <span class="mt-3 ml-3">
-                          {{ service.name }}
-                        </span>
-                      </div>
-                    </div>
-                    <v-spacer />
-                    <v-btn
-                      icon
-                      dark
-                      @click="dialog = false"
-                    >
-                      <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                  </v-card-title>
+                  <v-text-field v-model="nick" :label="$t('fields.nick')" :rules="rules.nick" />
+                  <v-radio-group v-model="type" :rules="rules.type">
+                    <v-radio
+                      v-if="service.microsms_sms && config.microsms"
+                      :label="service.costslider ? `${$t('sms')}` : `${$t('sms')} (${smsCost[service.microsms_sms_type][1]} zł ${$t('misc.per_item')})`"
+                      value="microsms_sms"
+                    />
+                    <v-radio
+                      v-if="service.microsms_transfer && config.microsms"
+                      :label="`${$t('transfer')} (${service.microsms_transfer_cost} zł ${$t('misc.per_item')})`"
+                      value="microsms_transfer"
+                    />
+                    <v-radio
+                      v-if="service.lvlup && config.lvlup"
+                      :label="`${$t('transfer_psc')} (${service.lvlup_cost} zł ${$t('misc.per_item')})`"
+                      value="lvlup"
+                    />
+                  </v-radio-group>
+                  <div v-if="type && service.costslider">
+                    <div v-if="(type == 'microsms_transfer' || type == 'lvlup')">
+                      <i18n
+                        path="misc.costslider_amount"
+                      >
+                        <template #amount>
+                          {{ costslider }}
+                        </template>
+                      </i18n>
+                      <v-slider
 
-                  <v-card-text>
-                    <v-form
-                      ref="form"
-                      v-model="valid"
-                    >
-                      <!-- eslint-disable vue/no-v-html -->
-                      <div
-                        style="max-height: 200px"
-                        class="mt-2 overflow-y-auto hidden-lg-and-up"
-                        v-html="service.description"
+                        v-model="costslider"
+                        :min="service.min_amount"
+                        :max="service.max_amount"
+                        thumb-label
                       />
-                      <!--eslint-enable-->
-                      <v-text-field v-model="nick" :label="$t('fields.nick')" :rules="rules.nick" />
-                      <v-radio-group v-model="type" :rules="rules.type">
-                        <v-radio
-                          v-if="service.microsms_sms && config.microsms"
-                          :label="service.costslider ? `${$t('sms')}` : `${$t('sms')} (${smsCost[service.microsms_sms_type][1]} zł ${$t('misc.per_item')})`"
-                          value="microsms_sms"
-                        />
-                        <v-radio
-                          v-if="service.microsms_transfer && config.microsms"
-                          :label="`${$t('transfer')} (${service.microsms_transfer_cost} zł ${$t('misc.per_item')})`"
-                          value="microsms_transfer"
-                        />
-                        <v-radio
-                          v-if="service.lvlup && config.lvlup"
-                          :label="`${$t('transfer_psc')} (${service.lvlup_cost} zł ${$t('misc.per_item')})`"
-                          value="lvlup"
-                        />
-                      </v-radio-group>
-                      <div v-if="type && service.costslider">
-                        <div v-if="(type == 'microsms_transfer' || type == 'lvlup')">
-                          <i18n
-                            path="misc.costslider_amount"
-                          >
-                            <template #amount>
-                              {{ costslider }}
-                            </template>
-                          </i18n>
-                          <v-slider
-
-                            v-model="costslider"
-                            :min="service.min_amount"
-                            :max="service.max_amount"
-                            thumb-label
-                          />
-                        </div>
-                        <div v-else>
-                          <i18n
-                            path="misc.costslider_amount"
-                          >
-                            <template #amount>
-                              {{ smsList[costslider_sms][1] }}
-                            </template>
-                          </i18n>
-                          <v-slider
-                            v-model="costslider_sms"
-                            :min="0"
-                            :max="smsList.length-1"
-                            thumb-label
-                          >
-                            <template #thumb-label="{ value }">
-                              {{ smsList[value][1] }}
-                            </template>
-                          </v-slider>
-                        </div>
-                      </div>
-                    </v-form>
-                  </v-card-text>
-                  <v-card-actions>
-                    <span class="headline">
-                      {{ $t('misc.price') }}: {{ price }}zł
-                    </span>
-                    <v-spacer />
-                    <v-btn
-                      color="success"
-                      :loading="loading"
-                      @click="next"
-                    >
-                      {{ $t('actions.next') }}
-                    </v-btn>
-                  </v-card-actions>
-                </v-col>
-              </v-row>
-            </v-card-text>
-          </v-card>
-        </v-dialog>
-      </v-card-actions>
-    </v-card>
+                    </div>
+                    <div v-else>
+                      <i18n
+                        path="misc.costslider_amount"
+                      >
+                        <template #amount>
+                          {{ smsList[costslider_sms][1] }}
+                        </template>
+                      </i18n>
+                      <v-slider
+                        v-model="costslider_sms"
+                        :min="0"
+                        :max="smsList.length-1"
+                        thumb-label
+                      >
+                        <template #thumb-label="{ value }">
+                          {{ smsList[value][1] }}
+                        </template>
+                      </v-slider>
+                    </div>
+                  </div>
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <span class="headline">
+                  {{ $t('misc.price') }}: {{ price }}zł
+                </span>
+                <v-spacer />
+                <v-btn
+                  color="success"
+                  :loading="loading"
+                  @click="next"
+                >
+                  {{ $t('actions.next') }}
+                </v-btn>
+              </v-card-actions>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
     <v-dialog
       v-model="dialogSMS"
       persistent
@@ -211,16 +195,16 @@
               path="misc.sms_send_instruction"
             >
               <template #netto>
-                {{ smsCost[service.microsms_sms_type][0] }}
+                {{ smsCost[smsType][0] }}
               </template>
               <template #brutto>
-                {{ smsCost[service.microsms_sms_type][1] }}
+                {{ smsCost[smsType][1] }}
               </template>
               <template #sms>
                 <b>{{ config.microsms_sms_text }}</b>
               </template>
               <template #number>
-                <b>{{ smsCost[service.microsms_sms_type][2] }}</b>
+                <b>{{ smsCost[smsType][2] }}</b>
               </template>
               <template #br>
               </br>
@@ -357,6 +341,13 @@ export default {
         return result
       } else {
         return []
+      }
+    },
+    smsType () {
+      if (this.service.costslider) {
+        return this.smsList[this.costslider_sms][0]
+      } else {
+        return this.service.microsms_sms_type
       }
     }
   },
