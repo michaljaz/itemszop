@@ -134,7 +134,7 @@ export default {
   ],
 
   axios: {
-    baseURL: (process.env.NETLIFY && process.env.NODE_ENV === 'production') ? `${baseUrl}/.netlify/functions` : `${baseUrl}/api`
+    baseURL: (process.env.NETLIFY && process.env.NETLIFY_DEV) ? `${baseUrl}/.netlify/functions` : `${baseUrl}/api`
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
@@ -172,7 +172,7 @@ export default {
     transpile: ['vuetify/lib', 'tiptap-vuetify'],
     extractCSS: true
   },
-  serverMiddleware: process.env.VERCEL || process.env.NETLIFY ? [] : [
+  serverMiddleware: process.env.VERCEL || process.env.NETLIFY || process.env.NETLIFY_DEV ? [] : [
     '~/api/rcon.js',
     '~/api/voucher.js',
     '~/api/microsms_transfer.js',
