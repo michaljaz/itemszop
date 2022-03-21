@@ -8,6 +8,7 @@ const cors = require('cors')
 app.use(cors())
 
 const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : process.env.URL
+const apiUrl = (process.env.NETLIFY && process.env.NETLIFY_DEV) ? `${baseUrl}/.netlify/functions` : `${baseUrl}/api`
 
 // REQUEST
 
@@ -231,7 +232,7 @@ exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service, a
     description: `${service.name} dla ${nick}`,
     control: `${shopid}|${serviceid}|${nick}`,
     returl_url: `${baseUrl}/shop/${shopid}/payment_success`,
-    returl_urlc: `${baseUrl}/api/microsms_transfer_webhook`
+    returl_urlc: `${apiUrl}/microsms_transfer_webhook`
   })
   return `https://microsms.pl/api/bankTransfer/?${params}`
 }
@@ -242,7 +243,7 @@ exports.generateLvlup = ({config, nick, shopid, serviceid, service, amount}) => 
   return new Promise((resolve, reject) => {
     const lvlup = new LvlupApi(config.lvlup_api)
 		// const lvlup = new LvlupApi(config.lvlup_api, {env: 'sandbox'})
-    lvlup.createPayment(cost, `${baseUrl}`, `${baseUrl}/api/lvlup_webhook?nick=${nick}&shopid=${shopid}&serviceid=${serviceid}`).then(({url}) => {
+    lvlup.createPayment(cost, `${baseUrl}`, `${apiUrl}/lvlup_webhook?nick=${nick}&shopid=${shopid}&serviceid=${serviceid}`).then(({url}) => {
       if (url) {
         resolve(url)
       } else {
