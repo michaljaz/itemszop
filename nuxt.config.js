@@ -84,6 +84,9 @@ export default {
         description: 'Darmowy sklep serwera minecraftowego',
         lang: 'pl'
       }
+    }],
+    ['@nuxtjs/google-analytics',{
+      id: 'G-QR5TMVEPEV'
     }]
   ],
 
