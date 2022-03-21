@@ -49,7 +49,7 @@
       <v-card elevation="2" outlined>
         <v-card-text>
           <v-row>
-            <v-col cols="12" lg="6" class="hidden-md-and-down my-auto">
+            <v-col cols="12" lg="6" class="hidden-md-and-down my-auto py-8">
               <v-img :src="service.icon ? service.iconUrl : `/item.png`" max-height="150" contain class="mb-2" />
               <center>
                 <div class="headline font-weight-bold">
@@ -258,10 +258,6 @@ export default {
     service: {
       type: Object,
       required: true
-    },
-    link: {
-      type: String,
-      default: () => ('')
     },
     shopid: {
       type: String,
