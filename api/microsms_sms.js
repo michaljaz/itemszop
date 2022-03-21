@@ -23,6 +23,7 @@ const handler = async (query) => {
   const shopid = await getShopId(query.shopid)
   const serviceid = await getServiceId(query.serviceid)
   const code = await getSmsCode(query.code)
+  
   const db = await firebase()
 
   const config = await loadConfig({db, shopid})

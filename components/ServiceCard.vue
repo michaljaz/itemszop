@@ -160,7 +160,7 @@
                 <v-spacer />
                 <v-btn
                   color="success"
-                  :loading="loading"
+                  :loading="loadingButton"
                   @click="next"
                 >
                   {{ $t('actions.next') }}
@@ -176,7 +176,7 @@
       persistent
       width="500"
     >
-      <v-card elevation="5" outlined>
+      <v-card elevation="2" outlined>
         <v-card-title class="headline">
           {{ service.name }}
           <v-spacer />
@@ -270,7 +270,7 @@ export default {
   },
   data () {
     return {
-      loading: null,
+      loadingButton: null,
       costslider_sms: 0,
       costslider: 1,
       buy_more: false,
@@ -355,20 +355,18 @@ export default {
     next () {
       this.$refs.form.validate()
       if (this.valid) {
-        if (this.type === 'microsms_transfer') {
-          this.loading = 'loading'
-          this.buyMicrosmsTransfer()
-        } else if (this.type === 'lvlup') {
-          this.loading = 'loading'
-          this.buyLvlup()
+        if (this.type === 'microsms_sms') {
+          this.dialog = false
+          this.dialogSMS = true
         } else {
-          this.buyMicrosmsSms()
+          this.loadingButton = 'loading'
+          this.redirectLink(this.type)
         }
       }
     },
-    buyLvlup () {
+    redirectLink (path) {
       const { nick, shopid } = this
-      this.$axios.get('/lvlup', {
+      this.$axios.get(`/${path}`, {
         params: {
           nick,
           shopid,
@@ -376,7 +374,7 @@ export default {
           amount: this.costslider
         }
       }).then(({ data }) => {
-        this.loading = null
+        this.loadingButton = null
         if (data.success) {
           window.top.location.href = data.data
         } else {
@@ -384,29 +382,6 @@ export default {
           this.snackbar = true
         }
       })
-    },
-    buyMicrosmsTransfer () {
-      const { nick, shopid } = this
-      this.$axios.get('/microsms_transfer', {
-        params: {
-          nick,
-          shopid,
-          serviceid: this.service.serviceId,
-          amount: this.costslider
-        }
-      }).then(({ data }) => {
-        this.loading = null
-        if (data.success) {
-          window.top.location.href = data.data
-        } else {
-          this.snackbarMessage = this.$t(`responses.${data.error}`)
-          this.snackbar = true
-        }
-      })
-    },
-    buyMicrosmsSms () {
-      this.dialog = false
-      this.dialogSMS = true
     },
     checkSMS () {
       this.$refs.form2.validate()

@@ -12,7 +12,6 @@ import {
 } from './lib/modules.js'
 
 const handler = async (query) => {
-  console.log(query.nick)
   const nick = await getNick(query.nick)
   const shopid = await getShopId(query.shopid)
   const serviceid = await getServiceId(query.serviceid)
