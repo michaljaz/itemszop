@@ -40,16 +40,16 @@
           </div>
         </v-container>
       </v-app-bar>
-      <v-parallax src="/bg.webp" jumbotron height="550">
+      <v-parallax src="/bg.webp" height="550">
         <v-container>
           <v-row>
             <v-col md="1" />
             <v-col md="6">
-              <h1 class="display-2 font-weight-thick mb-4">
-                {{ $t('homepage.title') }}
+              <h1 class="display-3 font-weight-regular mb-4">
+                {{ $t('brand') }}
               </h1>
               <h4 class="headline">
-                {{ $t('homepage.subtitle') }}
+                {{ $t('homepage.title') }}
                 <client-only>
                   <div class="mt-3">
                     <v-btn v-if="!loggedIn" to="/auth/signin" large color="primary" class="mt-1">
@@ -77,6 +77,9 @@
           <v-col cols="12" md="4" sm="6">
             <v-card height="100%">
               <v-card-title>
+                <v-icon class="mr-4">
+                  mdi-cash
+                </v-icon>
                 {{ $t("homepage.card1_title") }}
               </v-card-title>
               <v-card-text>
@@ -87,6 +90,9 @@
           <v-col cols="12" md="4" sm="6">
             <v-card height="100%">
               <v-card-title>
+                <v-icon class="mr-4">
+                  mdi-book-open-variant
+                </v-icon>
                 {{ $t("homepage.card2_title") }}
               </v-card-title>
               <v-card-text>
@@ -103,6 +109,9 @@
           <v-col cols="12" md="4" sm="6">
             <v-card height="100%">
               <v-card-title>
+                <v-icon class="mr-4">
+                  mdi-airplane-cog
+                </v-icon>
                 {{ $t('homepage.card3_title') }}
               </v-card-title>
               <v-card-text>
@@ -113,6 +122,9 @@
           <v-col cols="12" md="4" sm="6">
             <v-card height="100%">
               <v-card-title>
+                <v-icon class="mr-4">
+                  mdi-account-group
+                </v-icon>
                 {{ $t('homepage.card4_title') }}
               </v-card-title>
               <v-card-text>
@@ -129,6 +141,9 @@
           <v-col cols="12" md="4" sm="6">
             <v-card height="100%">
               <v-card-title>
+                <v-icon class="mr-4">
+                  mdi-shield-check
+                </v-icon>
                 {{ $t('homepage.card5_title') }}
               </v-card-title>
               <v-card-text>
@@ -139,6 +154,9 @@
           <v-col cols="12" md="4" sm="6">
             <v-card height="100%">
               <v-card-title>
+                <v-icon class="mr-4">
+                  mdi-server-network
+                </v-icon>
                 {{ $t('homepage.card6_title') }}
               </v-card-title>
               <v-card-text>
