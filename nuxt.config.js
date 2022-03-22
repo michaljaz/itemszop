@@ -57,6 +57,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/gtag.js', mode: 'client' },
     { src: '~/plugins/TiptapVuetify.js', mode: 'client' },
     { src: '~/plugins/regex.js' }
   ],
@@ -84,9 +85,6 @@ export default {
         description: 'Darmowy sklep serwera minecraftowego',
         lang: 'pl'
       }
-    }],
-    ['@nuxtjs/google-analytics',{
-      id: 'G-QR5TMVEPEV'
     }]
   ],
 
