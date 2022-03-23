@@ -340,10 +340,14 @@ export default {
       }
     },
     smsType () {
-      if (this.service.costslider) {
-        return this.smsList[this.costslider_sms][0]
-      } else {
-        return this.service.microsms_sms_type
+      if(this.service.microsms_sms){
+        if (this.service.costslider) {
+          return this.smsList[this.costslider_sms][0]
+        } else {
+          return this.service.microsms_sms_type
+        }
+      }else{
+        return 1
       }
     }
   },
