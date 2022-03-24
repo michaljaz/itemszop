@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card elevation="5" height="100%" @click="dialog=true">
+    <v-card elevation="5" height="100%" @click="dialog=true;$emit('blur', true)">
       <center>
         <v-img :src="service.icon ? service.iconUrl : `/item.png`" max-height="120" contain />
       </center>
@@ -78,7 +78,7 @@
                 <v-btn
                   icon
                   dark
-                  @click="dialog = false"
+                  @click="dialog=false;$emit('blur', false)"
                 >
                   <v-icon>mdi-close</v-icon>
                 </v-btn>
@@ -183,7 +183,7 @@
           <v-btn
             icon
             dark
-            @click="dialogSMS = false"
+            @click="dialogSMS = false;$emit('blur', false)"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -340,13 +340,13 @@ export default {
       }
     },
     smsType () {
-      if(this.service.microsms_sms){
+      if (this.service.microsms_sms) {
         if (this.service.costslider) {
           return this.smsList[this.costslider_sms][0]
         } else {
           return this.service.microsms_sms_type
         }
-      }else{
+      } else {
         return 1
       }
     }

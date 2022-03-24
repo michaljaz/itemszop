@@ -10,7 +10,14 @@
         lg="4"
         xl="4"
       >
-        <ServiceCard :service="service" :config="config" :shopid="shopId" :link="`${shopPath}/service/${service.serviceId}`" style="height:100%;" />
+        <ServiceCard
+          :service="service"
+          :config="config"
+          :shopid="shopId"
+          :link="`${shopPath}/service/${service.serviceId}`"
+          style="height:100%;"
+          @blur="$emit('blur',$event)"
+        />
       </v-col>
     </v-row>
     <center v-if="!services.length">
