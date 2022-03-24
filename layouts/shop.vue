@@ -68,6 +68,7 @@
                   :config="config"
                   :shop-id="shopId"
                   @breadcrumb="breadCrumbs=$event"
+                  @blur="blur=$event"
                 />
               </v-card-text>
             </v-card>
@@ -162,6 +163,7 @@ export default {
   },
   data () {
     return {
+      blur: false,
       background: false,
       backgroundUrl: '',
       shop: {},
@@ -223,6 +225,13 @@ export default {
     }
   },
   watch: {
+    blur () {
+      const main = document.querySelector('.v-main__wrap')
+      const state = this.blur ? 'blur(3px)' : ''
+      main.style.filter = state
+      main.style['-webkit-filter'] = state
+      main.style['-ms-filter'] = state
+    },
     shop () {
       const favicon = document.querySelector("link[rel~='icon']")
       if (this.shop.icon) {
@@ -260,4 +269,5 @@ export default {
   -ms-filter: blur(5px);
   filter: blur(5px);
 }
+
 </style>
