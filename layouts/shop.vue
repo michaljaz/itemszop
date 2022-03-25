@@ -245,6 +245,19 @@ export default {
       } else {
         this.background = false
       }
+      if (this.shop.gid) {
+        const { gid } = this.shop
+        const script = document.createElement('script')
+        script.onload = function () {
+          window.dataLayer = window.dataLayer || []
+          function gtag () { window.dataLayer.push(arguments) }
+          gtag('js', new Date())
+
+          gtag('config', gid)
+        }
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${gid}`
+        document.head.appendChild(script)
+      }
     }
   }
 }
