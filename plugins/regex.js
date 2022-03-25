@@ -58,6 +58,9 @@ const regex = {
   },
   sms_code (v) {
     return /^[A-Za-z0-9]{8}$/.test(v)
+  },
+  gid (v) {
+    return /^G-[A-Z0-9]+$/.test(v)
   }
 }
 

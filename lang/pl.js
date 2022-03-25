@@ -119,7 +119,9 @@ export default {
     page_id: 'Id strony',
     page_content: 'Treść strony',
     min_amount: 'Minimalna ilość',
-    max_amount: 'Maksymalna ilość'
+    max_amount: 'Maksymalna ilość',
+    google_analytics: 'Google Analytics',
+    gid: 'ID Google analytics'
   },
 
   formats: {
@@ -140,7 +142,8 @@ export default {
     wrong_format_voucher: 'Niepoprawny format vouchera',
     wrong_format_api_key: 'Niepoprawny format klucza api',
     wrong_format_amount: 'Niepoprawny format ilości produktu',
-    must_be_greater: 'Maksymalna ilość musi być większa od minimalnej'
+    must_be_greater: 'Maksymalna ilość musi być większa od minimalnej',
+    wrong_format_gid: 'Google Analytics ID musi mieć format G-XXXXXXXXXX'
   },
 
   titles: {

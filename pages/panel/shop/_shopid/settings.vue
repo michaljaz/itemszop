@@ -111,6 +111,19 @@
             :items="last_payments_type_list"
             label="Widżet ostatnich zakupów"
           />
+          <v-switch
+            v-model="gid_enabled"
+            class="mt-0"
+            :label="$t('fields.google_analytics')"
+          />
+
+          <v-text-field
+            v-if="gid_enabled"
+            v-model="gid"
+            :label="$t('fields.gid')"
+            autocomplete="new-password"
+            :rules="rules.gid"
+          />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -196,6 +209,8 @@ export default {
   },
   data () {
     return {
+      gid: this.shop.gid,
+      gid_enabled: this.shop.gid,
       theme: this.shop.theme,
       enable_theme: this.shop.theme,
       enable_goal: this.shop.goal,
@@ -230,6 +245,10 @@ export default {
         dsc_id: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
           v => this.$regex.digits(v) || this.$t('formats.wrong_format')
+        ],
+        gid: [
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.gid(v) || this.$t('formats.wrong_format_gid')
         ]
       }
     }
@@ -252,7 +271,8 @@ export default {
           icon: this.shop_icon ? this.shop_icon_url : '',
           dsc_id: this.dsc ? this.dsc_id : '',
           background: this.shop_background ? this.shop_background_url : '',
-          theme: this.enable_theme ? this.theme : ''
+          theme: this.enable_theme ? this.theme : '',
+          gid: this.gid_enabled ? this.gid : ''
         })
         this.$fire.database.ref().child(`config/${shopid}`).update({
           webhook: this.webhook ? this.webhookUrl : ''
