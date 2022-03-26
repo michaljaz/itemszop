@@ -1,5 +1,18 @@
 import colors from 'vuetify/es5/util/colors'
-import inject from './static/firebase-messaging-inject.js'
+
+const main = (() => {
+  messaging.onBackgroundMessage(function (payload) {
+    console.log('Received background message ', payload)
+
+    const notificationTitle = payload.notification.title
+    const notificationOptions = {
+      body: payload.notification.body
+    }
+
+    self.registration.showNotification(notificationTitle,
+  notificationOptions)
+  })
+}).toString()
 
 const mainUrl = 'https://itemszop.tk'
 
@@ -99,7 +112,7 @@ export default {
         services: {
           messaging: {
             createServiceWorker: true,
-            inject,
+            inject: main.substring(8, main.length - 1)
           },
           database: true,
           auth: {
