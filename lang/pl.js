@@ -182,7 +182,8 @@ export default {
     no_service_available: 'Nie dodano żadnej usługi :(',
     loading: 'Ładowanie...',
     page_config: 'Konfiguracja strony',
-    no_server_available: 'Nie dodano żadnego serwera :('
+    no_server_available: 'Nie dodano żadnego serwera :(',
+    temp_announcements: 'Czasowe ogłoszenia'
   },
 
   responses: {
