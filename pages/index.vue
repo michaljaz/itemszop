@@ -4,7 +4,7 @@
       <v-app-bar height="70" elevation="4" fixed>
         <v-container class="pa-0 fill-height justify-space-between">
           <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer" />
-          <v-toolbar-title style="cursor: pointer" @click="$router.push('/')">
+          <v-toolbar-title style="cursor: pointer">
             {{ $t('brand') }}
           </v-toolbar-title>
           <v-toolbar-items class="hidden-sm-and-down">
