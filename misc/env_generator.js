@@ -28,5 +28,7 @@ const publicConfig = {
 const config = {serviceAccount, databaseURL, publicConfig}
 const dotenv = `FIREBASE_CONFIG=${JSON.stringify(config)}`
 console.log(dotenv)
+
+// NODE.JS
 // const fs = require('fs');
 // fs.writeFileSync('.env', dotenv);

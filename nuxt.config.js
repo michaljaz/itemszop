@@ -1,19 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
 
-const main = (() => {
-  messaging.onBackgroundMessage(function (payload) {
-    console.log('Received background message ', payload)
-
-    const notificationTitle = payload.notification.title
-    const notificationOptions = {
-      body: payload.notification.body
-    }
-
-    self.registration.showNotification(notificationTitle,
-  notificationOptions)
-  })
-}).toString()
-
 const mainUrl = 'https://itemszop.tk'
 
 let baseUrl = process.env.NETLIFY_DEV ? 'http://localhost:8888' : 'http://localhost:8080'
@@ -28,6 +14,21 @@ try {
   console.error('Klucze zostały źle skonfigurowane w zmiennej środowiskowej FIREBASE_CONFIG')
   process.exit()
 }
+
+let inject = (() => {
+  messaging.onBackgroundMessage(function (payload) {
+    console.log('Received background message ', payload)
+
+    const notificationTitle = payload.notification.title
+    const notificationOptions = {
+      body: payload.notification.body
+    }
+
+    self.registration.showNotification(notificationTitle,
+  notificationOptions)
+  })
+}).toString()
+inject = inject.substring(8, inject.length - 1)
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
@@ -112,7 +113,7 @@ export default {
         services: {
           messaging: {
             createServiceWorker: true,
-            inject: main.substring(8, main.length - 1)
+            inject
           },
           database: true,
           auth: {
