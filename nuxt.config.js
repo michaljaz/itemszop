@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+import fs from 'fs'
 
 const mainUrl = 'https://itemszop.tk'
 
@@ -96,7 +97,10 @@ export default {
       {
         config: firebaseConfig.publicConfig,
         services: {
-          messaging: true,
+          messaging: {
+            createServiceWorker: true,
+            inject: fs.readFileSync('./static/firebase-messaging-sw-inject.js', 'utf8'),
+          },
           database: true,
           auth: {
             initialize: {
