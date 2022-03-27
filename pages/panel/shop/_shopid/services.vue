@@ -52,7 +52,7 @@
                   :rules="rules.name"
                 />
                 <v-text-field
-                  v-model="fields.serviceId"
+                  v-model="serviceId"
                   :label="$t('fields.service_id')"
                   autocomplete="new-password"
                   :rules="rules.service_id"
