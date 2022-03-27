@@ -175,7 +175,7 @@
               <v-icon>mdi-bullhorn</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title>{{ $t('titles.temp_announcements') }}</v-list-item-title>
+              <v-list-item-title>{{ $t('titles.temp_announcement') }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-group>
