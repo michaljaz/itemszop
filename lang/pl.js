@@ -75,6 +75,7 @@ export default {
     command: 'Komenda',
     service_name: 'Nazwa usługi',
     service_icon: 'Ikona usługi',
+    service_id: 'ID usługi',
     icon_url: 'Adres URL do ikony',
     sms_payment: "Płatność SMS'em",
     choose_sms: 'Wybierz sms (za sztukę)',
@@ -121,7 +122,8 @@ export default {
     min_amount: 'Minimalna ilość',
     max_amount: 'Maksymalna ilość',
     google_analytics: 'Google Analytics',
-    gid: 'ID Google analytics'
+    gid: 'ID Google analytics',
+    module_enabled: 'Moduł włączony'
   },
 
   formats: {
@@ -183,7 +185,7 @@ export default {
     loading: 'Ładowanie...',
     page_config: 'Konfiguracja strony',
     no_server_available: 'Nie dodano żadnego serwera :(',
-    temp_announcements: 'Czasowe ogłoszenia'
+    temp_announcement: 'Czasowe ogłoszenie'
   },
 
   responses: {

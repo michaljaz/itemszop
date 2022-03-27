@@ -15,6 +15,21 @@ try {
   process.exit()
 }
 
+let inject = (() => {
+  messaging.onBackgroundMessage(function (payload) {
+    console.log('Received background message ', payload)
+
+    const notificationTitle = payload.notification.title
+    const notificationOptions = {
+      body: payload.notification.body
+    }
+
+    self.registration.showNotification(notificationTitle,
+  notificationOptions)
+  })
+}).toString()
+inject = inject.substring(8, inject.length - 1)
+
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: (process.env.VERCEL || process.env.NETLIFY) ? 'static' : 'server',
@@ -58,8 +73,9 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/gtag.js', mode: 'client' },
-    { src: '~/plugins/TiptapVuetify.js', mode: 'client' },
-    { src: '~/plugins/regex.js' }
+    { src: '~/plugins/tiptapvuetify.js', mode: 'client' },
+    { src: '~/plugins/regex.js' },
+    { src: '~/plugins/vuedraggable.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -96,7 +112,10 @@ export default {
       {
         config: firebaseConfig.publicConfig,
         services: {
-          messaging: true,
+          messaging: {
+            createServiceWorker: true,
+            inject
+          },
           database: true,
           auth: {
             initialize: {

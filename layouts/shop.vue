@@ -47,6 +47,15 @@
       <div class="mt-3">
         <v-row>
           <v-col md="8" sm="12" xs="12" cols="12">
+            <v-alert v-if="shop.announcement" border="left" colored-border :color="shop.theme ? shop.theme : 'blue darken-4'">
+              <!-- eslint-disable vue/no-v-html -->
+              <div
+                style="max-height: 200px"
+                class="mt-2 overflow-y-auto"
+                v-html="shop.announcement"
+              />
+              <!--eslint-enable-->
+            </v-alert>
             <v-card>
               <v-card-text>
                 <v-breadcrumbs :items="breadCrumbs" class="pt-2 pl-2">
