@@ -51,6 +51,12 @@
                   autocomplete="new-password"
                   :rules="rules.name"
                 />
+                <v-text-field
+                  v-model="fields.serviceId"
+                  :label="$t('fields.service_id')"
+                  autocomplete="new-password"
+                  :rules="rules.service_id"
+                />
                 <v-switch
                   v-model="fields.icon"
                   :label="$t('fields.service_icon')"
@@ -406,6 +412,10 @@ export default {
         ],
         multiple_sms: [
           v => v.length > 0 || this.$t('formats.field_not_empty')
+        ],
+        service_id: [
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
+          v => this.$regex.normal_string(v) || this.$t('formats.wrong_format_serviceid')
         ]
       }
     }
@@ -480,7 +490,6 @@ export default {
     editService (service) {
       this.serviceId = service.serviceId
       const newService = Object.assign(Object.assign({}, this.defaultFields), service)
-      delete newService.serviceId
       this.initializeSmsList(service.microsms_sms_list)
       this.fields = newService
       this.dialog = true

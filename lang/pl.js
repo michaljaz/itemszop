@@ -75,6 +75,7 @@ export default {
     command: 'Komenda',
     service_name: 'Nazwa usługi',
     service_icon: 'Ikona usługi',
+    service_id: 'ID usługi',
     icon_url: 'Adres URL do ikony',
     sms_payment: "Płatność SMS'em",
     choose_sms: 'Wybierz sms (za sztukę)',
