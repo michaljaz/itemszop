@@ -26,19 +26,21 @@ Tu znajduje się link do wersji produkcyjnej na vercelu : https://itemszop.tk
 $ npm install
 
 ############ KONFIGURACJA DEWELOPERA ############
-# OPCJA 1 - używając po prostu nuxta
+# używając po prostu nuxta
 $ npm run dev
 
-# OPCJA 2 - używając netlify (szybciej się reloadują serverlessowe funkcje)
+# używając netlify (szybciej się reloadują serverlessowe funkcje)
 $ netlify dev
-
 
 ############ KONFIGURACJA PRODUKCYJNA ############
 # Budowanie aplikacji
 $ npm run build
 
-# Hostowanie na porcie 8080
+# Hostowanie na domyślnym porcie 8080
 $ npm start
+
+# Hostowanie na własnym porcie
+$ PORT=1234 npm start
 
 ```
 Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację](https://nuxtjs.org).

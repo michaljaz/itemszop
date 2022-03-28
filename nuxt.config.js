@@ -1,8 +1,11 @@
 import colors from 'vuetify/es5/util/colors'
 
 const mainUrl = 'https://itemszop.tk'
+const host = process.env.HOST || '0.0.0.0'
+const port = process.env.PORT || 8080
+const netlifyPort = 8888
 
-let baseUrl = process.env.NETLIFY_DEV ? 'http://localhost:8888' : 'http://localhost:8080'
+let baseUrl = process.env.NETLIFY_DEV ? `http://localhost:${netlifyPort}` : `http://localhost:${port}`
 if (process.env.NODE_ENV === 'production') {
   baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : process.env.URL
 }
@@ -75,7 +78,7 @@ export default {
     { src: '~/plugins/gtag.js', mode: 'client' },
     { src: '~/plugins/tiptapvuetify.js', mode: 'client' },
     { src: '~/plugins/regex.js' },
-    { src: '~/plugins/vuedraggable.js', mode: 'client' },
+    { src: '~/plugins/vuedraggable.js', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -201,8 +204,8 @@ export default {
     '~/api/lvlup_webhook.js'
   ],
   server: {
-    port: 8080,
-    host: '0.0.0.0'
+    port,
+    host
   },
   generate: {
     fallback: true
