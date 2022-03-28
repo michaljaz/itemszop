@@ -271,7 +271,7 @@
       v-model="dialogDelete"
       max-width="400"
     >
-      <v-card>
+      <v-card outlined>
         <v-card-title class="text-h5">
           {{ $t('titles.are_you_sure') }}
         </v-card-title>
@@ -495,6 +495,7 @@ export default {
       const newService = Object.assign(Object.assign({}, this.defaultFields), service)
       this.initializeSmsList(service.microsms_sms_list)
       this.fields = newService
+      this.fields.server = this.servers[this.fields.server] ? this.fields.server : ''
       this.dialog = true
     },
     removeService () {
