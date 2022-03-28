@@ -7,194 +7,197 @@
       scrollable
     >
       <v-card tile flat>
-        <v-toolbar
-          max-height="80"
+        <v-app-bar
+          max-height="70"
           dark
           color="primary"
           class="mb-4"
         >
-          <v-btn
-            icon
-            dark
-            @click="dialog = false"
-          >
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-          <v-toolbar-title>
-            <span class="text-h5">{{ $t('titles.service_config') }}</span>
-          </v-toolbar-title>
-          <v-spacer />
-          <v-toolbar-items>
-            <v-btn text dark @click="dialogDelete = true">
-              {{ $t('actions.remove') }}
-            </v-btn>
-            <v-btn
-              large
-              dark
-              text
-              @click="saveService"
-            >
-              {{ $t('actions.save') }}
-            </v-btn>
-          </v-toolbar-items>
-        </v-toolbar>
+          <v-container class="d-flex justify-space-between">
+            <v-toolbar-title>
+              <v-btn
+                icon
+                dark
+                @click="dialog = false"
+              >
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+              <span class="text-h5">{{ $t('titles.service_config') }}</span>
+            </v-toolbar-title>
+            <v-toolbar-items>
+              <v-btn text dark @click="dialogDelete = true">
+                {{ $t('actions.remove') }}
+              </v-btn>
+              <v-btn
+                large
+                dark
+                text
+                @click="saveService"
+              >
+                {{ $t('actions.save') }}
+              </v-btn>
+            </v-toolbar-items>
+          </v-container>
+        </v-app-bar>
         <v-card-text>
-          <v-form
-            ref="form"
-            v-model="valid"
-          >
-            <v-row>
-              <v-col cols="12" xs="12" md="6">
-                <v-text-field
-                  v-model="fields.name"
-                  :label="$t('fields.service_name')"
-                  autocomplete="new-password"
-                  :rules="rules.name"
-                />
-                <v-text-field
-                  v-model="serviceId"
-                  :label="$t('fields.service_id')"
-                  autocomplete="new-password"
-                  :rules="rules.service_id"
-                />
-                <v-switch
-                  v-model="fields.icon"
-                  :label="$t('fields.service_icon')"
-                />
-                <v-text-field
-                  v-if="fields.icon"
-                  v-model="fields.iconUrl"
-                  type="text"
-                  :label="$t('fields.icon_url')"
-                  autocomplete="new-password"
-                  :rules="rules.iconUrl"
-                />
-                <v-select
-                  v-model="fields.server"
-                  item-text="serverName"
-                  item-value="serverId"
-                  :items="serversList"
-                  :label="$t('fields.choose_server')"
-                  :rules="rules.server"
-                />
-                <v-textarea
-                  v-model="fields.commands"
-                  :label="$t('fields.server_command_info')"
-                  class="mb-2"
-                />
-                <TiptapEditor :editorcontent="fields.description" @content="fields.description=$event" />
-              </v-col>
-              <v-col cols="12" xs="12" md="6">
-                <v-switch
-                  v-model="fields.costslider"
-                  :label="$t('fields.cost_slider')"
-                />
-                <div v-if="fields.costslider">
-                  <v-row v-if="fields.microsms_transfer || fields.lvlup">
-                    <v-col>
-                      <v-text-field
-                        v-model="fields.min_amount"
-                        :label="$t('fields.min_amount')"
-                        type="number"
-                        :rules="rules.min_amount"
-                      />
-                    </v-col>
-                    <v-col>
-                      <v-text-field
-                        v-model="fields.max_amount"
-                        :label="$t('fields.max_amount')"
-                        type="number"
-                        :rules="rules.max_amount"
-                      />
-                    </v-col>
-                  </v-row>
-                  <v-alert
-                    text
-                    type="warning"
-                    elevation="2"
-                  >
-                    {{ $t('misc.costslider_instruction_placeholder') }}
-                  </v-alert>
-                  <v-alert
-                    v-if="fields.microsms_transfer || fields.lvlup || fields.microsms_sms"
-                    text
-                    type="info"
-                    elevation="2"
-                  >
-                    <div v-if="fields.microsms_sms">
-                      {{ $t('misc.costslider_instruction_sms') }}
-                    </div>
-                    <div v-if="fields.microsms_transfer || fields.lvlup">
-                      {{ $t('misc.costslider_instruction_transfer') }}
-                    </div>
-                  </v-alert>
-                </div>
-
-                <div v-if="config.microsms">
+          <v-container>
+            <v-form
+              ref="form"
+              v-model="valid"
+            >
+              <v-row>
+                <v-col cols="12" xs="12" md="6">
+                  <v-text-field
+                    v-model="fields.name"
+                    :label="$t('fields.service_name')"
+                    autocomplete="new-password"
+                    :rules="rules.name"
+                  />
+                  <v-text-field
+                    v-model="serviceId"
+                    :label="$t('fields.service_id')"
+                    autocomplete="new-password"
+                    :rules="rules.service_id"
+                  />
                   <v-switch
-                    v-model="fields.microsms_sms"
-                    :label="`${$t('fields.sms_payment')} (microsms.pl)`"
+                    v-model="fields.icon"
+                    :label="$t('fields.service_icon')"
+                  />
+                  <v-text-field
+                    v-if="fields.icon"
+                    v-model="fields.iconUrl"
+                    type="text"
+                    :label="$t('fields.icon_url')"
+                    autocomplete="new-password"
+                    :rules="rules.iconUrl"
                   />
                   <v-select
-                    v-if="fields.microsms_sms && !fields.costslider"
-                    v-model="fields.microsms_sms_type"
-                    item-text="name"
-                    item-value="value"
-                    :items="smsTypes"
-                    :label="$t('fields.choose_sms')"
-                    :rules="rules.microsms_sms_type"
+                    v-model="fields.server"
+                    item-text="serverName"
+                    item-value="serverId"
+                    :items="serversList"
+                    :label="$t('fields.choose_server')"
+                    :rules="rules.server"
                   />
-                  <v-select
-                    v-if="fields.microsms_sms && fields.costslider"
-                    v-model="multipleSMS"
-                    item-text="name"
-                    item-value="value"
-                    :items="smsTypes"
-                    :label="$t('fields.choose_smses')"
-                    multiple
-                    persistent-hint
-                    :rules="rules.multiple_sms"
+                  <v-textarea
+                    v-model="fields.commands"
+                    :label="$t('fields.server_command_info')"
+                    class="mb-2"
                   />
-                  <div v-if="fields.microsms_sms && fields.costslider">
+                  <TiptapEditor :editorcontent="fields.description" @content="fields.description=$event" />
+                </v-col>
+                <v-col cols="12" xs="12" md="6">
+                  <v-switch
+                    v-model="fields.costslider"
+                    :label="$t('fields.cost_slider')"
+                  />
+                  <div v-if="fields.costslider">
+                    <v-row v-if="fields.microsms_transfer || fields.lvlup">
+                      <v-col>
+                        <v-text-field
+                          v-model="fields.min_amount"
+                          :label="$t('fields.min_amount')"
+                          type="number"
+                          :rules="rules.min_amount"
+                        />
+                      </v-col>
+                      <v-col>
+                        <v-text-field
+                          v-model="fields.max_amount"
+                          :label="$t('fields.max_amount')"
+                          type="number"
+                          :rules="rules.max_amount"
+                        />
+                      </v-col>
+                    </v-row>
+                    <v-alert
+                      text
+                      type="warning"
+                      elevation="2"
+                    >
+                      {{ $t('misc.costslider_instruction_placeholder') }}
+                    </v-alert>
+                    <v-alert
+                      v-if="fields.microsms_transfer || fields.lvlup || fields.microsms_sms"
+                      text
+                      type="info"
+                      elevation="2"
+                    >
+                      <div v-if="fields.microsms_sms">
+                        {{ $t('misc.costslider_instruction_sms') }}
+                      </div>
+                      <div v-if="fields.microsms_transfer || fields.lvlup">
+                        {{ $t('misc.costslider_instruction_transfer') }}
+                      </div>
+                    </v-alert>
+                  </div>
+
+                  <div v-if="config.microsms">
+                    <v-switch
+                      v-model="fields.microsms_sms"
+                      :label="`${$t('fields.sms_payment')} (microsms.pl)`"
+                    />
+                    <v-select
+                      v-if="fields.microsms_sms && !fields.costslider"
+                      v-model="fields.microsms_sms_type"
+                      item-text="name"
+                      item-value="value"
+                      :items="smsTypes"
+                      :label="$t('fields.choose_sms')"
+                      :rules="rules.microsms_sms_type"
+                    />
+                    <v-select
+                      v-if="fields.microsms_sms && fields.costslider"
+                      v-model="multipleSMS"
+                      item-text="name"
+                      item-value="value"
+                      :items="smsTypes"
+                      :label="$t('fields.choose_smses')"
+                      multiple
+                      persistent-hint
+                      :rules="rules.multiple_sms"
+                    />
+                    <div v-if="fields.microsms_sms && fields.costslider">
+                      <v-text-field
+                        v-for="k in multipleSMS"
+                        :key="k"
+                        v-model="multipleSMSMap[`sms${k}`]"
+                        type="number"
+                        :label="$t('fields.sms_service_amount').replace('{sms}',smsCost[k])"
+                        :rules="rules.sms_amount"
+                      />
+                    </div>
+                    <v-switch
+                      v-model="fields.microsms_transfer"
+                      :label="`${$t('fields.transfer_payment')} (microsms.pl)`"
+                    />
                     <v-text-field
-                      v-for="k in multipleSMS"
-                      :key="k"
-                      v-model="multipleSMSMap[`sms${k}`]"
+                      v-if="fields.microsms_transfer"
+                      v-model="fields.microsms_transfer_cost"
                       type="number"
-                      :label="$t('fields.sms_service_amount').replace('{sms}',smsCost[k])"
-                      :rules="rules.sms_amount"
+                      :label="$t('fields.transfer_cost')"
+                      autocomplete="new-password"
+                      :rules="rules.microsms_transfer_cost"
                     />
                   </div>
-                  <v-switch
-                    v-model="fields.microsms_transfer"
-                    :label="`${$t('fields.transfer_payment')} (microsms.pl)`"
-                  />
-                  <v-text-field
-                    v-if="fields.microsms_transfer"
-                    v-model="fields.microsms_transfer_cost"
-                    type="number"
-                    :label="$t('fields.transfer_cost')"
-                    autocomplete="new-password"
-                    :rules="rules.microsms_transfer_cost"
-                  />
-                </div>
-                <div v-if="config.lvlup">
-                  <v-switch
-                    v-model="fields.lvlup"
-                    :label="`${$t('transfer_psc')} (lvlup.pro)`"
-                  />
-                  <v-text-field
-                    v-if="fields.lvlup"
-                    v-model="fields.lvlup_cost"
-                    type="number"
-                    :label="$t('fields.transfer_cost')"
-                    autocomplete="new-password"
-                    :rules="rules.microsms_transfer_cost"
-                  />
-                </div>
-              </v-col>
-            </v-row>
-          </v-form>
+                  <div v-if="config.lvlup">
+                    <v-switch
+                      v-model="fields.lvlup"
+                      :label="`${$t('transfer_psc')} (lvlup.pro)`"
+                    />
+                    <v-text-field
+                      v-if="fields.lvlup"
+                      v-model="fields.lvlup_cost"
+                      type="number"
+                      :label="$t('fields.transfer_cost')"
+                      autocomplete="new-password"
+                      :rules="rules.microsms_transfer_cost"
+                    />
+                  </div>
+                </v-col>
+              </v-row>
+            </v-form>
+          </v-container>
         </v-card-text>
       </v-card>
     </v-dialog>
