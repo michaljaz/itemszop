@@ -1,15 +1,19 @@
 import colors from 'vuetify/es5/util/colors'
+import fs from 'fs'
+import * as admin from 'firebase-admin'
 
 const mainUrl = 'https://itemszop.tk'
 const host = process.env.HOST || '0.0.0.0'
 const port = process.env.PORT || 8080
 const netlifyPort = 8888
 
+// project url
 let baseUrl = process.env.NETLIFY_DEV ? `http://localhost:${netlifyPort}` : `http://localhost:${port}`
 if (process.env.NODE_ENV === 'production') {
   baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : process.env.URL
 }
 
+// firebase config
 let firebaseConfig
 try {
   firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG)
@@ -18,20 +22,21 @@ try {
   process.exit()
 }
 
-let inject = (() => {
-  messaging.onBackgroundMessage(function (payload) {
-    console.log('Received background message ', payload)
-
-    const notificationTitle = payload.notification.title
-    const notificationOptions = {
-      body: payload.notification.body
-    }
-
-    self.registration.showNotification(notificationTitle,
-  notificationOptions)
+// update firebase rules
+const {serviceAccount, databaseURL} = firebaseConfig
+if (admin.apps.length === 0) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL
   })
-}).toString()
-inject = inject.substring(8, inject.length - 1)
+  let rules
+  if(process.env.OWNER_ID){
+    rules = fs.readFileSync('./misc/one_owner_firebase.rules.json', 'utf-8').replace(/'OWNER_ID'/g,`'${process.env.OWNER_ID}'`)
+  }else{
+    rules = fs.readFileSync('./misc/firebase.rules.json', 'utf-8')
+  }
+  admin.database().setRules(rules)
+}
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
@@ -117,7 +122,7 @@ export default {
         services: {
           messaging: {
             createServiceWorker: true,
-            inject
+            inject: fs.readFileSync('./misc/firebase-messaging-sw-inject.js', 'utf-8')
           },
           database: true,
           auth: {

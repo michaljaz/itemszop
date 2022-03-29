@@ -9,6 +9,9 @@ microsms_transfer_id - id przelewu z microsms
 microsms_transfer_hash - hash przelewu z microsms
 microsms_sms_id - id smsa z microsms
 microsms_sms_text - treść smsa z microsms
+paypal - czy płatność paypal włączona
+paypal_id - klucz client id paypal
+paypal_secret - klucz client secret paypal
 webhook - url do discordowego webhooka
 
 === SERWER ===

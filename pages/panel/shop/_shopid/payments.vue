@@ -66,6 +66,21 @@
               :rules="rules.lvlup_api"
             />
           </div>
+          <v-switch v-model="paypal" :label="$t('fields.paypal')" />
+          <div v-if="paypal">
+            <v-text-field
+              v-model="paypal_id"
+              :label="$t('fields.paypal_id')"
+              autocomplete="new-password"
+              :rules="rules.paypal_id"
+            />
+            <v-text-field
+              v-model="paypal_secret"
+              :label="$t('fields.paypal_secret')"
+              autocomplete="new-password"
+              :rules="rules.paypal_secret"
+            />
+          </div>
         </v-form>
       </v-card-text>
       <v-card-actions>
@@ -103,6 +118,9 @@ export default {
       microsms_sms_text: this.config.microsms_sms_text,
       lvlup: this.config.lvlup,
       lvlup_api: this.config.lvlup_api,
+      paypal: this.config.paypal,
+      paypal_id: this.config.paypal_id,
+      paypal_secret: this.config.paypal_secret,
       rules: {
         microsms_user_id: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
@@ -124,6 +142,12 @@ export default {
         lvlup_api: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
           v => this.$regex.lvlup_api(v) || this.$t('formats.wrong_format_api_key')
+        ],
+        paypal_id: [
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
+        ],
+        paypal_secret: [
+          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ]
       }
     }
@@ -146,7 +170,10 @@ export default {
           microsms_sms_id: this.microsms ? this.microsms_sms_id : '',
           microsms_sms_text: this.microsms ? this.microsms_sms_text : '',
           lvlup: !!this.lvlup,
-          lvlup_api: this.lvlup ? this.lvlup_api : ''
+          lvlup_api: this.lvlup ? this.lvlup_api : '',
+          paypal: !!this.paypal,
+          paypal_id: this.paypal ? this.paypal_id : '',
+          paypal_secret: this.paypal ? this.paypal_secret : ''
         })
       }
     }
