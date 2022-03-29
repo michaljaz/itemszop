@@ -1,5 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
 import fs from 'fs'
+import * as admin from 'firebase-admin'
 
 const mainUrl = 'https://itemszop.tk'
 const host = process.env.HOST || '0.0.0.0'
@@ -19,6 +20,27 @@ try {
 } catch (e) {
   console.error('Klucze zostały źle skonfigurowane w zmiennej środowiskowej FIREBASE_CONFIG')
   process.exit()
+}
+
+// update firebase rules
+const {serviceAccount, databaseURL} = firebaseConfig
+if (admin.apps.length === 0) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL
+  })
+  let rules
+  if(process.env.OWNER_ID){
+    rules = fs.readFileSync('./misc/one_owner_firebase.rules.json', 'utf-8').replace(/'OWNER_ID'/g,`'${process.env.OWNER_ID}'`)
+  }else{
+    rules = fs.readFileSync('./misc/firebase.rules.json', 'utf-8')
+  }
+  console.log(rules)
+  admin.database().setRules(rules).then(()=>{
+    console.log("SAVED!")
+  }).catch((e)=>{
+    console.log(e)
+  })
 }
 
 export default {
@@ -105,7 +127,7 @@ export default {
         services: {
           messaging: {
             createServiceWorker: true,
-            inject: fs.readFileSync('./misc/firebase-messaging-sw-inject.js')
+            inject: fs.readFileSync('./misc/firebase-messaging-sw-inject.js', 'utf-8')
           },
           database: true,
           auth: {
