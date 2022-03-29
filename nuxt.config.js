@@ -1,15 +1,18 @@
 import colors from 'vuetify/es5/util/colors'
+import fs from 'fs'
 
 const mainUrl = 'https://itemszop.tk'
 const host = process.env.HOST || '0.0.0.0'
 const port = process.env.PORT || 8080
 const netlifyPort = 8888
 
+// project url
 let baseUrl = process.env.NETLIFY_DEV ? `http://localhost:${netlifyPort}` : `http://localhost:${port}`
 if (process.env.NODE_ENV === 'production') {
   baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : process.env.URL
 }
 
+// firebase config
 let firebaseConfig
 try {
   firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG)
@@ -17,21 +20,6 @@ try {
   console.error('Klucze zostały źle skonfigurowane w zmiennej środowiskowej FIREBASE_CONFIG')
   process.exit()
 }
-
-let inject = (() => {
-  messaging.onBackgroundMessage(function (payload) {
-    console.log('Received background message ', payload)
-
-    const notificationTitle = payload.notification.title
-    const notificationOptions = {
-      body: payload.notification.body
-    }
-
-    self.registration.showNotification(notificationTitle,
-  notificationOptions)
-  })
-}).toString()
-inject = inject.substring(8, inject.length - 1)
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
@@ -117,7 +105,7 @@ export default {
         services: {
           messaging: {
             createServiceWorker: true,
-            inject
+            inject: fs.readFileSync('./misc/firebase-messaging-sw-inject.js')
           },
           database: true,
           auth: {
@@ -193,7 +181,12 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ['vuetify/lib', 'tiptap-vuetify'],
-    extractCSS: true
+    extractCSS: true,
+    extend (config, {}) {
+      config.node = {
+        fs: 'empty'
+      }
+    }
   },
   serverMiddleware: process.env.VERCEL || process.env.NETLIFY || process.env.NETLIFY_DEV ? [] : [
     '~/api/rcon.js',
