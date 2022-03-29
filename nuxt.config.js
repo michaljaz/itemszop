@@ -35,12 +35,7 @@ if (admin.apps.length === 0) {
   }else{
     rules = fs.readFileSync('./misc/firebase.rules.json', 'utf-8')
   }
-  console.log(rules)
-  admin.database().setRules(rules).then(()=>{
-    console.log("SAVED!")
-  }).catch((e)=>{
-    console.log(e)
-  })
+  admin.database().setRules(rules)
 }
 
 export default {
