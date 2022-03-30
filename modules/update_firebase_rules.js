@@ -19,7 +19,9 @@ export default function () {
 	  admin.database().setRules(rules).then(() => {
 	    console.log('Rules updated successfully')
 	  }).catch((e) => {
-	    console.log(e)
-	  })
+	    console.error(e)
+	  }).finally(()=>{
+      admin.database().goOffline()
+    })
   }
 }
