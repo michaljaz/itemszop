@@ -258,8 +258,8 @@ exports.generateLvlup = ({config, nick, shopid, serviceid, service, amount}) => 
 // FIREBASE
 
 exports.firebase = () => {
-  const firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG)
-  const {serviceAccount, databaseURL} = firebaseConfig
+  const {serviceAccount, publicConfig} = JSON.parse(process.env.FIREBASE_CONFIG)
+  const {databaseURL} = publicConfig
   if (admin.apps.length === 0) {
 	  admin.initializeApp({
 	    credential: admin.credential.cert(serviceAccount),

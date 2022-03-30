@@ -13,7 +13,6 @@ const serviceAccount={
 	"auth_provider_x509_cert_url": "XXXXXXXXX",
 	"client_x509_cert_url": "XXXXXXXXX"
 }
-const databaseURL="XXXXXXXXX"
 const publicConfig = {
   apiKey: "XXXXXXXXX",
   authDomain: "XXXXXXXXX",
@@ -25,7 +24,7 @@ const publicConfig = {
 };
 
 
-const config = {serviceAccount, databaseURL, publicConfig}
+const config = {serviceAccount, publicConfig}
 const dotenv = `FIREBASE_CONFIG=${JSON.stringify(config)}`
 console.log(dotenv)
 
