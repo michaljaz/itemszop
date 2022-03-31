@@ -24,6 +24,10 @@
 		{
       "src": "/api/lvlup_webhook",
       "dest": "/api/lvlup_webhook.js"
+    },
+		{
+      "src": "/api/verify_fcm_token",
+      "dest": "/api/verify_fcm_token.js"
     }
   ],
   "builds": [

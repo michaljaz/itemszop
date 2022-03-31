@@ -257,7 +257,7 @@ exports.generateLvlup = ({config, nick, shopid, serviceid, service, amount}) => 
 
 // FIREBASE
 
-exports.firebase = () => {
+function firebase_init () {
   const {serviceAccount, publicConfig} = JSON.parse(process.env.FIREBASE_CONFIG)
   const {databaseURL} = publicConfig
   if (admin.apps.length === 0) {
@@ -266,7 +266,16 @@ exports.firebase = () => {
 	    databaseURL
 	  })
   }
+}
+
+exports.firebase = () => {
+  firebase_init()
   return admin.database().ref()
+}
+
+exports.verifyIdToken = ({idToken}) => {
+  firebase_init()
+  return admin.messaging().send({token: idToken}, true)
 }
 
 // CHECKERS
