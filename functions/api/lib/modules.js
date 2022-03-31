@@ -8,7 +8,7 @@ const cors = require('cors')
 app.use(cors())
 
 const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : process.env.URL
-const apiUrl = (process.env.NETLIFY && process.env.NETLIFY_DEV) ? `${baseUrl}/.netlify/functions` : `${baseUrl}/api`
+const apiUrl = (process.env.NETLIFY || process.env.NETLIFY_DEV) ? `${baseUrl}/.netlify/functions` : `${baseUrl}/api`
 
 // REQUEST
 

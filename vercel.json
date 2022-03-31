@@ -3,36 +3,36 @@
 	"routes": [
     {
       "src": "/api/rcon",
-      "dest": "/api/rcon.js"
+      "dest": "/functions/api/rcon.js"
     },
 		{
       "src": "/api/voucher",
-      "dest": "/api/voucher.js"
+      "dest": "/functions/api/voucher.js"
     },
 		{
       "src": "/api/microsms_transfer",
-      "dest": "/api/microsms_transfer.js"
+      "dest": "/functions/api/microsms_transfer.js"
     },
 		{
       "src": "/api/microsms_sms",
-      "dest": "/api/microsms_sms.js"
+      "dest": "/functions/api/microsms_sms.js"
     },
 		{
       "src": "/api/lvlup",
-      "dest": "/api/lvlup.js"
+      "dest": "/functions/api/lvlup.js"
     },
 		{
       "src": "/api/lvlup_webhook",
-      "dest": "/api/lvlup_webhook.js"
+      "dest": "/functions/api/lvlup_webhook.js"
     },
 		{
       "src": "/api/verify_fcm_token",
-      "dest": "/api/verify_fcm_token.js"
+      "dest": "/functions/api/verify_fcm_token.js"
     }
   ],
   "builds": [
 		{
-		 "src": "api/**/*.js",
+		 "src": "functions/api/**/*.js",
 		 "use": "@vercel/node"
 	 	},
     {
@@ -40,7 +40,7 @@
       "use": "@nuxtjs/vercel-builder",
 			"config": {
         "serverFiles": [
-					"api/**",
+					"functions/**",
 					"misc/**"
 				]
       }

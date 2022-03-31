@@ -8,5 +8,5 @@
   targetPort = 8080
   port = 8888
 [functions]
-  directory = "api"
+  directory = "functions/api"
   node_bundler = "esbuild"

@@ -185,13 +185,13 @@ export default {
     extractCSS: true
   },
   serverMiddleware: process.env.VERCEL || process.env.NETLIFY || process.env.NETLIFY_DEV ? [] : [
-    '~/api/rcon.js',
-    '~/api/voucher.js',
-    '~/api/microsms_transfer.js',
-    '~/api/microsms_sms.js',
-    '~/api/lvlup.js',
-    '~/api/lvlup_webhook.js',
-    '~/api/verify_fcm_token.js'
+    '~/functions/api/rcon.js',
+    '~/functions/api/voucher.js',
+    '~/functions/api/microsms_transfer.js',
+    '~/functions/api/microsms_sms.js',
+    '~/functions/api/lvlup.js',
+    '~/functions/api/lvlup_webhook.js',
+    '~/functions/api/verify_fcm_token.js'
   ],
   server: {
     port,
