@@ -190,7 +190,8 @@ export default {
     '~/api/microsms_transfer.js',
     '~/api/microsms_sms.js',
     '~/api/lvlup.js',
-    '~/api/lvlup_webhook.js'
+    '~/api/lvlup_webhook.js',
+    '~/api/verify_fcm_token.js'
   ],
   server: {
     port,
