@@ -1,4 +1,3 @@
-import test from './lib/test.js'
 
 export async function onRequest(context) {
   // Contents of context object
@@ -11,5 +10,5 @@ export async function onRequest(context) {
     data, // arbitrary space for passing data between middlewares
   } = context;
 
-  return new Response(test);
+  return new Response('ABC');
 }
