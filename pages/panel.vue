@@ -305,6 +305,7 @@ export default {
     } else {
       this.tabs = false
     }
+    this.loadShops()
     this.getCurrentToken()
   },
   methods: {
