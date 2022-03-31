@@ -289,7 +289,7 @@ export default {
       }
     }
   },
-  async mounted () {
+  mounted () {
     const theme = localStorage.getItem('dark')
     if (theme) {
       if (theme === 'true') {
@@ -321,12 +321,18 @@ export default {
         this.shops = shops
       }
     })
-    try {
-      this.idToken = await this.$fire.messaging.getToken({ vapidKey: 'BLE3ZYv0CC7JZIuTKk2EhQcIPi4eSKcS1iqgpweC290f6e1aHsmPYdJwaZOIq1mVe9U6sNrYbx9a-E72jsJlgSI' })
-      console.log(this.idToken)
-    } catch (e) {
-      console.error('Error : ', e)
-    }
+    this.$fire.messaging.getToken().then((currentToken) => {
+      if (currentToken) {
+        const { uid } = this.$fire.auth.currentUser
+        this.$fire.database.ref().child(`tokens/${uid}/${currentToken}`).set(true)
+        console.log('TOKEN:', currentToken)
+      } else {
+        // Show permission request UI
+        console.log('No registration token available. Request permission to generate one.')
+      }
+    }).catch((err) => {
+      console.log('An error occurred while retrieving token. ', err)
+    })
   },
   methods: {
     signOut () {
