@@ -32,7 +32,7 @@
   ],
   "builds": [
 		{
-		 "src": "api/**/*.js",
+		 "src": "functions/api/**/*.js",
 		 "use": "@vercel/node"
 	 	},
     {
