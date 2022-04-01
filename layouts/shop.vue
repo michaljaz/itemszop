@@ -60,8 +60,8 @@
         <div
             class="mt-2 overflow-y-auto"
             v-html="shop.announcement"
+        />
         <!--eslint-enable-->
-         />
             </v-alert>
             <v-card>
               <v-card-text>
