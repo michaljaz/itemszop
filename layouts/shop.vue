@@ -55,10 +55,12 @@
               prominent
               text
               type="info"
-              >
+              > 
+        <!-- eslint-disable vue/no-v-html -->
         <div
             class="mt-2 overflow-y-auto"
             v-html="shop.announcement"
+        <!--eslint-enable-->
          />
             </v-alert>
             <v-card>
