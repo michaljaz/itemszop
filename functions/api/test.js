@@ -1,3 +1,4 @@
+const { getTokenFromGCPServiceAccount } = require('@sagi.io/workers-jwt')
 
 export async function onRequest(context) {
   // Contents of context object
@@ -10,5 +11,7 @@ export async function onRequest(context) {
     data, // arbitrary space for passing data between middlewares
   } = context;
 
-  return new Response('ABC');
+  const {publicConfig} = JSON.parse(env.FIREBASE_CONFIG)
+
+  return new Response(JSON.stringify(publicConfig))
 }
