@@ -7,9 +7,18 @@ const port = process.env.PORT || 8080
 const netlifyPort = 8888
 
 // project url
-let baseUrl = process.env.NETLIFY_DEV ? `http://localhost:${netlifyPort}` : `http://localhost:${port}`
+
+let baseUrl
 if (process.env.NODE_ENV === 'production') {
-  baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : process.env.URL
+  if (process.env.URL) {
+    baseUrl = process.env.URL
+  } else if (process.env.VERCEL_URL) {
+    baseUrl = `https://${process.env.VERCEL_URL}`
+  } else if (process.env.CF_PAGES_URL) {
+    baseUrl = process.env.CF_PAGES_URL
+  }
+} else {
+  baseUrl = process.env.NETLIFY_DEV ? `http://localhost:${netlifyPort}` : `http://localhost:${port}`
 }
 
 // firebase config

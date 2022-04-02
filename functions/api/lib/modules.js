@@ -7,7 +7,15 @@ const app = require('express')()
 const cors = require('cors')
 app.use(cors())
 
-const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : process.env.URL
+let baseUrl
+if (process.env.URL) {
+  baseUrl = process.env.URL
+} else if (process.env.VERCEL_URL) {
+  baseUrl = `https://${process.env.VERCEL_URL}`
+} else if (process.env.CF_PAGES_URL) {
+  baseUrl = process.env.CF_PAGES_URL
+}
+
 const apiUrl = (process.env.NETLIFY || process.env.NETLIFY_DEV) ? `${baseUrl}/.netlify/functions` : `${baseUrl}/api`
 
 // REQUEST
