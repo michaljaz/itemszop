@@ -16,7 +16,7 @@ if (process.env.URL) {
   baseUrl = process.env.CF_PAGES_URL
 }
 
-const apiUrl = (process.env.NETLIFY || process.env.NETLIFY_DEV) ? `${baseUrl}/.netlify/functions` : `${baseUrl}/api`
+const apiUrl = ((process.env.NETLIFY || process.env.NETLIFY_DEV) && !process.env.CF_PAGES) ? `${baseUrl}/.netlify/functions` : `${baseUrl}/api`
 
 // REQUEST
 

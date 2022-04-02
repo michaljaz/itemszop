@@ -7,7 +7,6 @@ const port = process.env.PORT || 8080
 const netlifyPort = 8888
 
 // project url
-
 let baseUrl
 if (process.env.NODE_ENV === 'production') {
   if (process.env.URL) {
@@ -20,6 +19,7 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   baseUrl = process.env.NETLIFY_DEV ? `http://localhost:${netlifyPort}` : `http://localhost:${port}`
 }
+const apiUrl = ((process.env.NETLIFY || process.env.NETLIFY_DEV) && !process.env.CF_PAGES) ? `${baseUrl}/.netlify/functions` : `${baseUrl}/api`
 
 // firebase config
 let firebaseConfig
@@ -155,7 +155,7 @@ export default {
   ],
 
   axios: {
-    baseURL: (process.env.NETLIFY || process.env.NETLIFY_DEV) ? `${baseUrl}/.netlify/functions` : `${baseUrl}/api`
+    baseURL: apiUrl
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
