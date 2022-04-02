@@ -1,7 +1,6 @@
 import axios from 'axios'
 import * as admin from 'firebase-admin'
 import md5 from 'md5'
-import LvlupApi from 'lvlup-js'
 import { Rcon } from 'rcon-client'
 const app = require('express')()
 const cors = require('cors')
@@ -246,20 +245,28 @@ exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service, a
 }
 
 exports.generateLvlup = ({config, nick, shopid, serviceid, service, amount}) => {
-  console.log(service.lvlup_cost)
-  const cost = String(parseFloat(service.lvlup_cost) * amount)
-  return new Promise((resolve, reject) => {
-    const lvlup = new LvlupApi(config.lvlup_api)
-		// const lvlup = new LvlupApi(config.lvlup_api, {env: 'sandbox'})
-    lvlup.createPayment(cost, `${baseUrl}`, `${apiUrl}/lvlup_webhook?nick=${nick}&shopid=${shopid}&serviceid=${serviceid}`).then(({url}) => {
-      if (url) {
-        resolve(url)
+  let cost = String(parseFloat(service.lvlup_cost) * amount)
+  cost = (+(Math.round(cost + "e+2")  + "e-2")).toFixed(2)
+  return new Promise(async (resolve, reject) => {
+    try {
+      const res = await axios.post('https://api.lvlup.pro/v4/wallet/up', {
+        amount: cost,
+        redirectUrl: `${baseUrl}`,
+        webhookUrl: `${apiUrl}/lvlup_webhook?nick=${nick}&shopid=${shopid}&serviceid=${serviceid}`
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${config.lvlup_api}`
+        }
+      })
+      if (res.status === 200) {
+        resolve(res.data.url)
       } else {
-        reject('wrong_api_key')
+        reject('lvlup_error')
       }
-    }).catch(() => {
+    } catch (e) {
       reject('lvlup_error')
-    })
+    }
   })
 }
 
