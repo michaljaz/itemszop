@@ -2,9 +2,6 @@ import axios from 'axios'
 import * as admin from 'firebase-admin'
 import md5 from 'md5'
 import { Rcon } from 'rcon-client'
-const app = require('express')()
-const cors = require('cors')
-app.use(cors())
 
 let baseUrl
 if (process.env.URL) {
@@ -20,24 +17,51 @@ const apiUrl = ((process.env.NETLIFY || process.env.NETLIFY_DEV) && !process.env
 // REQUEST
 
 exports.request = (handler, filename) => {
-  let path = filename.split('.')[0].split('/')
-  app.get(`/api/${path[path.length - 1]}`, (req, res) => {
-    handler(req.query).then((data) => {
-      res.json({success: true, data})
-    }).catch((error) => {
-      res.json({success: false, error})
+  if (process.env.NETLIFY || process.env.NETLIFY_DEV) {
+    // NETLIFY request
+    return {
+      async handler (event, context) {
+        return handler(event.queryStringParameters).then((data) => ({
+          statusCode: 200,
+          body: JSON.stringify({success: true, data})
+        })).catch((error) => ({
+          statusCode: 200,
+          body: JSON.stringify({success: false, error})
+        }))
+      }
+    }
+  } else if (process.env.CF_PAGES) {
+    // CLOUDFLARE request
+    return {
+      async onRequest (context) {
+        // Contents of context object
+        const {
+          request, // same as existing Worker API
+          env, // same as existing Worker API
+          params, // if filename includes [id] or [[path]]
+          waitUntil, // same as ctx.waitUntil in existing Worker API
+          next, // used for middleware or to fetch assets
+          data // arbitrary space for passing data between middlewares
+        } = context
+
+        return new Response('ABC')
+      }
+    }
+  } else {
+    // VERCEL REQUEST
+    const app = require('express')()
+    const cors = require('cors')
+    app.use(cors())
+    let path = filename.split('.')[0].split('/')
+    app.get(`/api/${path[path.length - 1]}`, (req, res) => {
+      handler(req.query).then((data) => {
+        res.json({success: true, data})
+      }).catch((error) => {
+        res.json({success: false, error})
+      })
     })
-  })
-  app.handler = async (event, context) => {
-    return handler(event.queryStringParameters).then((data) => ({
-      statusCode: 200,
-      body: JSON.stringify({success: true, data})
-    })).catch((error) => ({
-      statusCode: 200,
-      body: JSON.stringify({success: false, error})
-    }))
+    return app
   }
-  return app
 }
 
 // SENDERS
@@ -246,7 +270,7 @@ exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service, a
 
 exports.generateLvlup = ({config, nick, shopid, serviceid, service, amount}) => {
   let cost = String(parseFloat(service.lvlup_cost) * amount)
-  cost = (+(Math.round(cost + "e+2")  + "e-2")).toFixed(2)
+  cost = (+(Math.round(cost + 'e+2') + 'e-2')).toFixed(2)
   return new Promise(async (resolve, reject) => {
     try {
       const res = await axios.post('https://api.lvlup.pro/v4/wallet/up', {
