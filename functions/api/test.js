@@ -43,6 +43,8 @@ export async function onRequest (context) {
   } = context
 
   const rcon = new RCON()
+  await rcon.connect('4.tcp.ngrok.io', 14804, 'password');
+  await rcon.send('say hello', 'COMMAND');
   // const {databaseURL} = JSON.parse(env.FIREBASE_CONFIG).publicConfig
   // const token = await getAccessToken(env.FIREBASE_CONFIG)
   //
