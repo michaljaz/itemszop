@@ -1,36 +1,67 @@
 import axios from 'axios'
 import * as admin from 'firebase-admin'
 import md5 from 'md5'
-import LvlupApi from 'lvlup-js'
 import { Rcon } from 'rcon-client'
-const app = require('express')()
-const cors = require('cors')
-app.use(cors())
 
-const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : process.env.URL
-const apiUrl = (process.env.NETLIFY || process.env.NETLIFY_DEV) ? `${baseUrl}/.netlify/functions` : `${baseUrl}/api`
+let baseUrl
+if (process.env.URL) {
+  baseUrl = process.env.URL
+} else if (process.env.VERCEL_URL) {
+  baseUrl = `https://${process.env.VERCEL_URL}`
+} else if (process.env.CF_PAGES_URL) {
+  baseUrl = process.env.CF_PAGES_URL
+}
+
+const apiUrl = ((process.env.NETLIFY || process.env.NETLIFY_DEV) && !process.env.CF_PAGES) ? `${baseUrl}/.netlify/functions` : `${baseUrl}/api`
 
 // REQUEST
 
 exports.request = (handler, filename) => {
-  let path = filename.split('.')[0].split('/')
-  app.get(`/api/${path[path.length - 1]}`, (req, res) => {
-    handler(req.query).then((data) => {
-      res.json({success: true, data})
-    }).catch((error) => {
-      res.json({success: false, error})
+  if (process.env.NETLIFY || process.env.NETLIFY_DEV) {
+    // NETLIFY request
+    return {
+      async handler (event, context) {
+        return handler(event.queryStringParameters).then((data) => ({
+          statusCode: 200,
+          body: JSON.stringify({success: true, data})
+        })).catch((error) => ({
+          statusCode: 200,
+          body: JSON.stringify({success: false, error})
+        }))
+      }
+    }
+  } else if (process.env.CF_PAGES) {
+    // CLOUDFLARE request
+    return {
+      async onRequest (context) {
+        // Contents of context object
+        const {
+          request, // same as existing Worker API
+          env, // same as existing Worker API
+          params, // if filename includes [id] or [[path]]
+          waitUntil, // same as ctx.waitUntil in existing Worker API
+          next, // used for middleware or to fetch assets
+          data // arbitrary space for passing data between middlewares
+        } = context
+
+        return new Response('ABC')
+      }
+    }
+  } else {
+    // VERCEL REQUEST
+    const app = require('express')()
+    const cors = require('cors')
+    app.use(cors())
+    let path = filename.split('.')[0].split('/')
+    app.get(`/api/${path[path.length - 1]}`, (req, res) => {
+      handler(req.query).then((data) => {
+        res.json({success: true, data})
+      }).catch((error) => {
+        res.json({success: false, error})
+      })
     })
-  })
-  app.handler = async (event, context) => {
-    return handler(event.queryStringParameters).then((data) => ({
-      statusCode: 200,
-      body: JSON.stringify({success: true, data})
-    })).catch((error) => ({
-      statusCode: 200,
-      body: JSON.stringify({success: false, error})
-    }))
+    return app
   }
-  return app
 }
 
 // SENDERS
@@ -238,20 +269,28 @@ exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service, a
 }
 
 exports.generateLvlup = ({config, nick, shopid, serviceid, service, amount}) => {
-  console.log(service.lvlup_cost)
-  const cost = String(parseFloat(service.lvlup_cost) * amount)
-  return new Promise((resolve, reject) => {
-    const lvlup = new LvlupApi(config.lvlup_api)
-		// const lvlup = new LvlupApi(config.lvlup_api, {env: 'sandbox'})
-    lvlup.createPayment(cost, `${baseUrl}`, `${apiUrl}/lvlup_webhook?nick=${nick}&shopid=${shopid}&serviceid=${serviceid}`).then(({url}) => {
-      if (url) {
-        resolve(url)
+  let cost = String(parseFloat(service.lvlup_cost) * amount)
+  cost = (+(Math.round(cost + 'e+2') + 'e-2')).toFixed(2)
+  return new Promise(async (resolve, reject) => {
+    try {
+      const res = await axios.post('https://api.lvlup.pro/v4/wallet/up', {
+        amount: cost,
+        redirectUrl: `${baseUrl}`,
+        webhookUrl: `${apiUrl}/lvlup_webhook?nick=${nick}&shopid=${shopid}&serviceid=${serviceid}`
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${config.lvlup_api}`
+        }
+      })
+      if (res.status === 200) {
+        resolve(res.data.url)
       } else {
-        reject('wrong_api_key')
+        reject('lvlup_error')
       }
-    }).catch(() => {
+    } catch (e) {
       reject('lvlup_error')
-    })
+    }
   })
 }
 

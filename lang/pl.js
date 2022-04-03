@@ -206,7 +206,8 @@ export default {
     voucher_expired: 'Voucher wygasł',
     server_owner_error: 'Nieprawidłowy właściciel serwera',
     wrong_api_key: 'Nieprawidłowy klucz api',
-    shop_already_exist: 'Sklep z takim ID już istnieje'
+    shop_already_exist: 'Sklep z takim ID już istnieje',
+    lvlup_error: 'Błąd w konfiguracji lvlup'
   },
 
   firebase: {
