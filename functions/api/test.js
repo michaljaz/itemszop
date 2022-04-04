@@ -6,8 +6,6 @@ async function getAccessToken (firebaseConfig) {
     aud: 'https://oauth2.googleapis.com/token',
     payloadAdditions: {
       scope: [
-        // scope required for firestore
-        'https://www.googleapis.com/auth/datastore',
         // The following scopes are required only for realtime database
         'https://www.googleapis.com/auth/userinfo.email',
         'https://www.googleapis.com/auth/firebase.database'

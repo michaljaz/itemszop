@@ -5,7 +5,7 @@
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/michaljaz/itemszop)
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/michaljaz/itemszop)
 
-**ItemSzop to sklep twojego serwera minecraftowego za darmo!** Działa dzięki złożeniu serverless'owych funkcji z hostowaniem statycznych plików co umożliwia [Vercel](https://vercel.com/) i [Netlify](https://www.netlify.com/). Nie wymaga żadnej instalacji - model SaaS. Serwis jest zrobiony we frameworku [Nuxt.js](https://nuxtjs.org/). Uwierzytelnianie użytkowników i zapisywanie konfiguracji sklepów odbywa się za pośrednictwem bazy danych [Firebase](https://firebase.google.com/). Dodatkowo użyty jest framework [Vuetify](https://vuetifyjs.com/) do ładnych stylów strony.
+**ItemSzop to sklep twojego serwera minecraftowego za darmo!** Działa dzięki złożeniu serverless'owych funkcji z hostowaniem statycznych plików. Nie wymaga żadnej instalacji - model SaaS. Serwis jest zrobiony we frameworku [Nuxt.js](https://nuxtjs.org/). Uwierzytelnianie użytkowników i zapisywanie konfiguracji sklepów odbywa się za pośrednictwem bazy danych [Firebase](https://firebase.google.com/). Dodatkowo użyty jest framework [Vuetify](https://vuetifyjs.com/) do ładnych stylów strony.
 
 ## Wersja produkcyjna
 
@@ -18,6 +18,16 @@ Tu znajduje się link do wersji produkcyjnej na vercelu : https://itemszop.tk
 - [ ] hotpay.pl - [api](https://hotpay.pl/dokumentacja-api/)
 - [ ] cashbill.pl - [api](https://www.cashbill.pl/pobierz/api/)
 - [ ] paypal.com
+
+## Limity i serverlessowe funkcje
+
+ItemSzop działa jako statyczna strona. Dzięki temu hostowanie sklepu jest praktycznie dostępne za darmo na serwisach takich jak Cloudflare. Jednak wszystkie operacje nie mogą być wykonywane po stronie klienta. W tym momencie można skorzystać z serverlessowych funkcji, które umożliwią nam wykonywanie takich operacji jak np. księgowanie płatności, lub wywoływanie komend na serwerze mc.
+
+| Serverlessowe funkcje | Vercel | Netlify | Cloudflare |
+| --- | --- | --- | --- |
+| Limit wysyłanych requestów | 100k / dzień | 125k / miesiąc | 100k / dzień |
+
+
 
 ## Konfiguracja budowania
 
@@ -45,7 +55,7 @@ $ PORT=1234 npm start
 ```
 Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację](https://nuxtjs.org).
 
-## Vercel lub Netlify
+## Vercel i Netlify
 
 1. Skonfiguruj własną bazę danych firebase
 [(link do dokumentacji)](https://github.com/michaljaz/itemszop/wiki/Utworzenie-i-konfiguracja-sklepu-z-w%C5%82asn%C4%85-baz%C4%85-Firebase).
