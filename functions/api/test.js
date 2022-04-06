@@ -1,11 +1,11 @@
 import {request} from './lib/modules.js'
 
 const req = request(async (params, baseUrl) => {
-  return baseUrl
+  return "TEST"
 })
 
-export const onRequest = req
-export default req
+export const onRequest = req.cloudflare
+export default req.vercel()
 try {
-  module.exports.handler = req
+  exports.handler = req.netlify
 }catch(e){}

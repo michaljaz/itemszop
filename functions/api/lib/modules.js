@@ -12,9 +12,8 @@ if (typeof (fetch) !== 'function') {
 }
 
 exports.request = (handler) => {
-  if (!globalThis.process) {
-    // CLOUDFLARE
-    return async({request, env}) => {
+  return {
+    async cloudflare ({request, env}) {
       const params = {}
       const url = new URL(request.url)
       const queryString = url.search.slice(1).split('&')
@@ -36,10 +35,8 @@ exports.request = (handler) => {
           }
         })
       ))
-    }
-  } else if (process.env.NETLIFY || process.env.NETLIFY_DEV) {
-    // NETLIFY
-    return async (event, context) => {
+    },
+    async netlify (event, context) {
       return handler(event.queryStringParameters, process.env.URL).then((data) => ({
         statusCode: 200,
         body: JSON.stringify({success: true, data})
@@ -47,21 +44,22 @@ exports.request = (handler) => {
         statusCode: 200,
         body: JSON.stringify({success: false, error})
       }))
-    }
-  } else {
-    // VERCEL
-    try {
-      const a = 'express'
-      const app = require(a)()
-      app.get(`/api/test`, (req, res) => {
-        handler(req.query, `https://${process.env.VERCEL_URL}`).then((data) => {
-          res.json({success: true, data})
-        }).catch((error) => {
-          res.json({success: false, error})
+    },
+    vercel(){
+      try{
+        const a = 'express'
+        const app = require(a)()
+        app.get(`/api/test`, (req, res) => {
+          handler(req.query, `https://${process.env.VERCEL_URL}`).then((data) => {
+            res.json({success: true, data})
+          }).catch((error) => {
+            res.json({success: false, error})
+          })
         })
-      })
-      return app
-    } catch (e) {}
+        return app
+      }catch(e){}
+
+    }
   }
 }
 //
