@@ -14,7 +14,7 @@ if (typeof (fetch) !== 'function') {
 exports.request = (handler) => {
   if (!globalThis.process) {
     // CLOUDFLARE
-    return async({request}) => {
+    return async({request, env}) => {
       const params = {}
       const url = new URL(request.url)
       const queryString = url.search.slice(1).split('&')
@@ -23,7 +23,7 @@ exports.request = (handler) => {
         const kv = item.split('=')
         if (kv[0]) params[kv[0]] = kv[1] || true
       })
-      return handler(params).then((data) => (
+      return handler(params, env.CF_PAGES_URL).then((data) => (
         new Response(JSON.stringify({success: true, data}), {
           headers: {
             'content-type': 'application/json'
@@ -40,7 +40,7 @@ exports.request = (handler) => {
   } else if (process.env.NETLIFY || process.env.NETLIFY_DEV) {
     // NETLIFY
     return (event, context) => {
-      return handler(event.queryStringParameters).then((data) => ({
+      return handler(event.queryStringParameters, process.env.URL).then((data) => ({
         statusCode: 200,
         body: JSON.stringify({success: true, data})
       })).catch((error) => ({
@@ -53,7 +53,7 @@ exports.request = (handler) => {
     const a = 'express'
     const app = require(a)()
     app.get(`/api/test`, (req, res) => {
-      handler(req.query).then((data) => {
+      handler(req.query, `https://${process.env.VERCEL_URL}`).then((data) => {
         res.json({success: true, data})
       }).catch((error) => {
         res.json({success: false, error})
@@ -62,7 +62,7 @@ exports.request = (handler) => {
     return app
   }
 }
-
+//
 // let baseUrl
 // if (process.env.URL) {
 //   baseUrl = process.env.URL

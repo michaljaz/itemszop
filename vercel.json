@@ -2,32 +2,8 @@
 	"version": 2,
 	"routes": [
     {
-      "src": "/api/rcon",
-      "dest": "/functions/api/rcon.js"
-    },
-		{
-      "src": "/api/voucher",
-      "dest": "/functions/api/voucher.js"
-    },
-		{
-      "src": "/api/microsms_transfer",
-      "dest": "/functions/api/microsms_transfer.js"
-    },
-		{
-      "src": "/api/microsms_sms",
-      "dest": "/functions/api/microsms_sms.js"
-    },
-		{
-      "src": "/api/lvlup",
-      "dest": "/functions/api/lvlup.js"
-    },
-		{
-      "src": "/api/lvlup_webhook",
-      "dest": "/functions/api/lvlup_webhook.js"
-    },
-		{
-      "src": "/api/verify_fcm_token",
-      "dest": "/functions/api/verify_fcm_token.js"
+      "src": "/api/test",
+      "dest": "/functions/api/test.js"
     }
   ],
   "builds": [
