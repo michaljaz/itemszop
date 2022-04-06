@@ -5,5 +5,7 @@ const req = request(async (params, baseUrl) => {
 })
 
 export const onRequest = req
-export const handler = req
 export default req
+try {
+  module.exports.handler = req
+}catch(e){}

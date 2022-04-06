@@ -39,7 +39,7 @@ exports.request = (handler) => {
     }
   } else if (process.env.NETLIFY || process.env.NETLIFY_DEV) {
     // NETLIFY
-    return (event, context) => {
+    return async (event, context) => {
       return handler(event.queryStringParameters, process.env.URL).then((data) => ({
         statusCode: 200,
         body: JSON.stringify({success: true, data})
@@ -50,16 +50,18 @@ exports.request = (handler) => {
     }
   } else {
     // VERCEL
-    const a = 'express'
-    const app = require(a)()
-    app.get(`/api/test`, (req, res) => {
-      handler(req.query, `https://${process.env.VERCEL_URL}`).then((data) => {
-        res.json({success: true, data})
-      }).catch((error) => {
-        res.json({success: false, error})
+    try {
+      const a = 'express'
+      const app = require(a)()
+      app.get(`/api/test`, (req, res) => {
+        handler(req.query, `https://${process.env.VERCEL_URL}`).then((data) => {
+          res.json({success: true, data})
+        }).catch((error) => {
+          res.json({success: false, error})
+        })
       })
-    })
-    return app
+      return app
+    } catch (e) {}
   }
 }
 //
