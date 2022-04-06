@@ -2,8 +2,9 @@
 const { getTokenFromGCPServiceAccount } = require('@sagi.io/workers-jwt')
 const md5 = require('md5')
 
-let fetch = globalThis.fetch
+// FETCH
 
+let fetch = globalThis.fetch
 if (typeof (fetch) !== 'function') {
   try {
     const a = 'node-fetch'
@@ -11,9 +12,11 @@ if (typeof (fetch) !== 'function') {
   } catch (e) {}
 }
 
+// REQUEST
+
 exports.request = (handler) => {
   return {
-    async cloudflare ({request, env}) {
+    async cloudflare ({request}) {
       const params = {}
       const url = new URL(request.url)
       const queryString = url.search.slice(1).split('&')
@@ -22,7 +25,7 @@ exports.request = (handler) => {
         const kv = item.split('=')
         if (kv[0]) params[kv[0]] = kv[1] || true
       })
-      return handler(params, env.CF_PAGES_URL).then((data) => (
+      return handler(params, request.url).then((data) => (
         new Response(JSON.stringify({success: true, data}), {
           headers: {
             'content-type': 'application/json'
@@ -38,95 +41,34 @@ exports.request = (handler) => {
     },
     async netlify (event, context) {
       try {
-        return handler(event.queryStringParameters, process.env.URL).then((data) => ({
+        return handler(event.queryStringParameters, event.rawUrl).then((data) => ({
           statusCode: 200,
           body: JSON.stringify({success: true, data})
         })).catch((error) => ({
           statusCode: 200,
           body: JSON.stringify({success: false, error})
         }))
-      }catch(e){}
+      } catch (e) {}
     },
-    vercel(){
-      try{
+    vercel () {
+      try {
         const a = 'express'
         const app = require(a)()
-        app.get(`/api/test`, (req, res) => {
-          handler(req.query, `https://${process.env.VERCEL_URL}`).then((data) => {
+        app.get(`/api/:name`, (req, res) => {
+          handler(req.query, req.protocol + '://' + req.get('host') + req.originalUrl).then((data) => {
             res.json({success: true, data})
           }).catch((error) => {
             res.json({success: false, error})
           })
         })
         return app
-      }catch(e){}
+      } catch (e) {}
     }
   }
 }
-//
-// let baseUrl
-// if (process.env.URL) {
-//   baseUrl = process.env.URL
-// } else if (process.env.VERCEL_URL) {
-//   baseUrl = `https://${process.env.VERCEL_URL}`
-// } else if (process.env.CF_PAGES_URL) {
-//   baseUrl = process.env.CF_PAGES_URL
-// }
-//
-// const apiUrl = ((process.env.NETLIFY || process.env.NETLIFY_DEV) && !process.env.CF_PAGES) ? `${baseUrl}/.netlify/functions` : `${baseUrl}/api`
 
-// REQUEST
+// FIREBASE
 
-// exports.request = (handler, filename) => {
-//   if (process.env.NETLIFY || process.env.NETLIFY_DEV) {
-//     // NETLIFY request
-//     return {
-//       async handler (event, context) {
-//         return handler(event.queryStringParameters).then((data) => ({
-//           statusCode: 200,
-//           body: JSON.stringify({success: true, data})
-//         })).catch((error) => ({
-//           statusCode: 200,
-//           body: JSON.stringify({success: false, error})
-//         }))
-//       }
-//     }
-//   } else if (process.env.CF_PAGES) {
-//     // CLOUDFLARE request
-//     return {
-//       async onRequest (context) {
-//         // Contents of context object
-//         const {
-//           request, // same as existing Worker API
-//           env, // same as existing Worker API
-//           params, // if filename includes [id] or [[path]]
-//           waitUntil, // same as ctx.waitUntil in existing Worker API
-//           next, // used for middleware or to fetch assets
-//           data // arbitrary space for passing data between middlewares
-//         } = context
-//
-//         return new Response('ABC')
-//       }
-//     }
-//   } else {
-//     // VERCEL REQUEST
-//     const app = require('express')()
-//     const cors = require('cors')
-//     app.use(cors())
-//     let path = filename.split('.')[0].split('/')
-//     app.get(`/api/${path[path.length - 1]}`, (req, res) => {
-//       handler(req.query).then((data) => {
-//         res.json({success: true, data})
-//       }).catch((error) => {
-//         res.json({success: false, error})
-//       })
-//     })
-//     return app
-//   }
-// }
-//
-// // FIREBASE
-//
 // async function getAccessToken (firebaseConfig) {
 //   const jwtToken = await getTokenFromGCPServiceAccount({
 //     serviceAccountJSON: JSON.parse(firebaseConfig).serviceAccount,
@@ -155,17 +97,7 @@ exports.request = (handler) => {
 //
 //   return accessToken.access_token
 // }
-//
-// function firebase_init () {
-//   const {serviceAccount, publicConfig} = JSON.parse(process.env.FIREBASE_CONFIG)
-//   const {databaseURL} = publicConfig
-//   if (admin.apps.length === 0) {
-// 	  admin.initializeApp({
-// 	    credential: admin.credential.cert(serviceAccount),
-// 	    databaseURL
-// 	  })
-//   }
-// }
+
 //
 // exports.firebase = () => {
 //   firebase_init()

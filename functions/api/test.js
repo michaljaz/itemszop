@@ -1,7 +1,7 @@
 import {request} from './lib/modules.js'
 
 const req = request(async (params, baseUrl) => {
-  return "TEST"
+  return baseUrl
 })
 
 export const onRequest = req.cloudflare
