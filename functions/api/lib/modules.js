@@ -37,13 +37,15 @@ exports.request = (handler) => {
       ))
     },
     async netlify (event, context) {
-      return handler(event.queryStringParameters, process.env.URL).then((data) => ({
-        statusCode: 200,
-        body: JSON.stringify({success: true, data})
-      })).catch((error) => ({
-        statusCode: 200,
-        body: JSON.stringify({success: false, error})
-      }))
+      try {
+        return handler(event.queryStringParameters, process.env.URL).then((data) => ({
+          statusCode: 200,
+          body: JSON.stringify({success: true, data})
+        })).catch((error) => ({
+          statusCode: 200,
+          body: JSON.stringify({success: false, error})
+        }))
+      }catch(e){}
     },
     vercel(){
       try{
@@ -58,7 +60,6 @@ exports.request = (handler) => {
         })
         return app
       }catch(e){}
-
     }
   }
 }

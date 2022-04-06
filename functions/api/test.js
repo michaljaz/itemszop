@@ -5,7 +5,5 @@ const req = request(async (params, baseUrl) => {
 })
 
 export const onRequest = req.cloudflare
+export const handler = req.netlify
 export default req.vercel()
-try {
-  exports.handler = req.netlify
-}catch(e){}
