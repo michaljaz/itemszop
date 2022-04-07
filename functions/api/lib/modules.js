@@ -1,22 +1,22 @@
 
-const { getTokenFromGCPServiceAccount } = require('@sagi.io/workers-jwt')
+import { getTokenFromGCPServiceAccount } from '@sagi.io/workers-jwt'
 const md5 = require('md5')
 
-// FETCH
+// NODE MODULES
 
-let fetch = globalThis.fetch
-if (typeof (fetch) !== 'function') {
-  try {
-    const a = 'node-fetch'
-    fetch = require(a)
-  } catch (e) {}
-}
+let google
+try {
+  const a = 'googleapis'
+  google = require(a).google
+} catch (e) {}
+
+let fetch
 
 // REQUEST
 
 exports.request = (handler) => {
   return {
-    async cloudflare ({request}) {
+    async cloudflare ({request, env}) {
       const params = {}
       const url = new URL(request.url)
       const queryString = url.search.slice(1).split('&')
@@ -25,7 +25,11 @@ exports.request = (handler) => {
         const kv = item.split('=')
         if (kv[0]) params[kv[0]] = kv[1] || true
       })
-      return handler(params, request.url).then((data) => (
+
+      const firebase = new Firebase(env.FIREBASE_CONFIG)
+      await firebase.init_cloudflare()
+
+      return handler(params, request.url, firebase).then((data) => (
         new Response(JSON.stringify({success: true, data}), {
           headers: {
             'content-type': 'application/json'
@@ -41,7 +45,12 @@ exports.request = (handler) => {
     },
     async netlify (event, context) {
       try {
-        return handler(event.queryStringParameters, event.rawUrl).then((data) => ({
+        fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+
+        const firebase = new Firebase(process.env.FIREBASE_CONFIG)
+        await firebase.init()
+
+        return handler(event.queryStringParameters, event.rawUrl, firebase).then((data) => ({
           statusCode: 200,
           body: JSON.stringify({success: true, data})
         })).catch((error) => ({
@@ -52,10 +61,13 @@ exports.request = (handler) => {
     },
     vercel () {
       try {
+        fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
         const a = 'express'
         const app = require(a)()
-        app.get(`/api/:name`, (req, res) => {
-          handler(req.query, req.protocol + '://' + req.get('host') + req.originalUrl).then((data) => {
+        app.get(`/api/:name`, async (req, res) => {
+          const firebase = new Firebase(process.env.FIREBASE_CONFIG)
+          await firebase.init()
+          handler(req.query, req.protocol + '://' + req.get('host') + req.originalUrl, firebase).then((data) => {
             res.json({success: true, data})
           }).catch((error) => {
             res.json({success: false, error})
@@ -69,34 +81,71 @@ exports.request = (handler) => {
 
 // FIREBASE
 
-// async function getAccessToken (firebaseConfig) {
-//   const jwtToken = await getTokenFromGCPServiceAccount({
-//     serviceAccountJSON: JSON.parse(firebaseConfig).serviceAccount,
-//     aud: 'https://oauth2.googleapis.com/token',
-//     payloadAdditions: {
-//       scope: [
-//         // The following scopes are required only for realtime database
-//         'https://www.googleapis.com/auth/userinfo.email',
-//         'https://www.googleapis.com/auth/firebase.database'
-//       ].join(' ')
-//     }
-//   })
-//
-//   const accessToken = await (
-//     await fetch('https://oauth2.googleapis.com/token', {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/x-www-form-urlencoded'
-//       },
-//       body: new URLSearchParams({
-//         grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-//         assertion: jwtToken // the JWT token generated in the previous step
-//       })
-//     })
-//   ).json()
-//
-//   return accessToken.access_token
-// }
+class Firebase {
+  constructor (firebaseConfig) {
+    const {publicConfig, serviceAccount} = JSON.parse(firebaseConfig)
+    this.publicConfig = publicConfig
+    this.serviceAccount = serviceAccount
+  }
+  async init_cloudflare () {
+    const jwtToken = await getTokenFromGCPServiceAccount({
+      serviceAccountJSON: this.serviceAccount,
+      aud: 'https://oauth2.googleapis.com/token',
+      payloadAdditions: {
+        scope: [
+          'https://www.googleapis.com/auth/userinfo.email',
+          'https://www.googleapis.com/auth/firebase.database'
+        ].join(' ')
+      }
+    })
+
+    const {access_token} = await (
+      await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+          grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+          assertion: jwtToken // the JWT token generated in the previous step
+        })
+      })
+    ).json()
+    this.access_token = access_token
+  }
+  async init () {
+    this.access_token = await new Promise((resolve, reject) => {
+      var scopes = [
+        'https://www.googleapis.com/auth/userinfo.email',
+        'https://www.googleapis.com/auth/firebase.database'
+      ]
+      var jwtClient = new google.auth.JWT(
+        this.serviceAccount.client_email,
+        null,
+        this.serviceAccount.private_key,
+        scopes
+      )
+      jwtClient.authorize(function (error, tokens) {
+        if (error) {
+          reject(`Error making request to generate access token: ${error}`)
+        } else if (tokens.access_token === null) {
+          reject('Provided service account does not have permission to generate access tokens')
+        } else {
+          resolve(tokens.access_token)
+        }
+      })
+    })
+  }
+  async get (path) {
+    const response = await fetch(`${this.publicConfig.databaseURL}/shops.json`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${this.access_token}`
+      }
+    })
+    return await response.json()
+  }
+}
 
 //
 // exports.firebase = () => {
