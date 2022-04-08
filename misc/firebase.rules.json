@@ -6,12 +6,6 @@
 				".write":"auth.uid == $user_id"
 			}
 		},
-		"tokens":{
-			"$user_id":{
-				".read": "auth.uid == $user_id",
-				".write":"auth.uid == $user_id"
-			}
-		},
 		"shops":{
 			".read": true,
 			"$shop_id":{

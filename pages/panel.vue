@@ -306,7 +306,6 @@ export default {
       this.tabs = false
     }
     this.loadShops()
-    this.getCurrentToken()
   },
   methods: {
     signOut () {
@@ -317,20 +316,6 @@ export default {
     toggle_theme () {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark
       localStorage.setItem('dark', this.$vuetify.theme.dark.toString())
-    },
-    getCurrentToken () {
-      this.$fire.messaging.getToken().then((currentToken) => {
-        if (currentToken) {
-          const { uid } = this.$fire.auth.currentUser
-          this.$fire.database.ref().child(`tokens/${uid}/${currentToken}`).set(true)
-          console.log('CURRENT TOKEN:', currentToken)
-          this.updateTokens()
-        } else {
-          console.error('No registration token available. Request permission to generate one.')
-        }
-      }).catch((err) => {
-        console.error('An error occurred while retrieving token. ', err)
-      })
     },
     loadShops () {
       const { uid } = this.$fire.auth.currentUser
@@ -347,24 +332,6 @@ export default {
             this.$router.push('/panel')
           }
           this.shops = shops
-        }
-      })
-    },
-    updateTokens () {
-      const { uid } = this.$fire.auth.currentUser
-      this.$fire.database.ref(`tokens/${uid}`).on('value', (s) => {
-        if (s.val() != null) {
-          for (const idToken in s.val()) {
-            this.$axios.get('/verify_fcm_token', {
-              params: {
-                idToken
-              }
-            }).then(({ data }) => {
-              if (!data.success) {
-                this.$fire.database.ref().child(`tokens/${uid}/${idToken}`).remove()
-              }
-            })
-          }
         }
       })
     }

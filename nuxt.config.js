@@ -113,10 +113,6 @@ export default {
       {
         config: firebaseConfig.publicConfig,
         services: {
-          messaging: {
-            createServiceWorker: true,
-            inject: fs.readFileSync('./misc/firebase-messaging-sw-inject.js', 'utf-8')
-          },
           database: true,
           auth: {
             initialize: {
