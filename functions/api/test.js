@@ -1,7 +1,10 @@
-import {request} from './lib/modules.js'
+import {
+  request,
+  getBaseUrl
+} from './lib/modules.js'
 
-const req = request(async (params, baseUrl, firebase) => {
-  return await firebase.get('shops')
+const req = request(async ({url}) => {
+  return getBaseUrl(url)
 })
 
 export const onRequest = req.cloudflare

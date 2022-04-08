@@ -1,9 +1,14 @@
 
-import { getTokenFromGCPServiceAccount } from '@sagi.io/workers-jwt'
+const { getTokenFromGCPServiceAccount } = require('@sagi.io/workers-jwt')
 const md5 = require('md5')
 let fetch
 
 // REQUEST
+
+exports.getBaseUrl = (url) => {
+  const l = url.split('/')
+  return `${l[0]}//${l[2]}`
+}
 
 exports.request = (handler) => {
   return {
@@ -19,10 +24,13 @@ exports.request = (handler) => {
         if (kv[0]) params[kv[0]] = kv[1] || true
       })
 
-      const firebase = new Firebase(env.FIREBASE_CONFIG)
-      await firebase.init_cloudflare()
+      const firebase = await new Firebase(env.FIREBASE_CONFIG).init_cloudflare()
 
-      return handler(params, request.url, firebase).then((data) => (
+      return handler({
+        params,
+        url: request.url,
+        firebase
+      }).then((data) => (
         new Response(JSON.stringify({success: true, data}), {
           headers: {
             'content-type': 'application/json'
@@ -39,10 +47,13 @@ exports.request = (handler) => {
     async netlify (event, context) {
       const a = 'node-fetch'
       fetch = require(a)
-      const firebase = new Firebase(process.env.FIREBASE_CONFIG)
-      await firebase.init()
+      const firebase = await new Firebase(process.env.FIREBASE_CONFIG).init()
 
-      return handler(event.queryStringParameters, event.rawUrl, firebase).then((data) => ({
+      return handler({
+        params: event.queryStringParameters,
+        url: event.rawUrl,
+        firebase
+      }).then((data) => ({
         statusCode: 200,
         body: JSON.stringify({success: true, data})
       })).catch((error) => ({
@@ -57,9 +68,12 @@ exports.request = (handler) => {
         const b = 'express'
         const app = require(b)()
         app.get(`/api/:name`, async (req, res) => {
-          const firebase = new Firebase(process.env.FIREBASE_CONFIG)
-          await firebase.init()
-          handler(req.query, req.protocol + '://' + req.get('host') + req.originalUrl, firebase).then((data) => {
+          const firebase = await new Firebase(process.env.FIREBASE_CONFIG).init()
+          handler({
+            params: req.query,
+            url: req.protocol + '://' + req.get('host') + req.originalUrl,
+            firebase
+          }).then((data) => {
             res.json({success: true, data})
           }).catch((error) => {
             res.json({success: false, error})
@@ -102,6 +116,7 @@ class Firebase {
         }
       })
     })
+    return this
   }
   async init_cloudflare () {
     const jwtToken = await getTokenFromGCPServiceAccount({
@@ -122,11 +137,12 @@ class Firebase {
         },
         body: new URLSearchParams({
           grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-          assertion: jwtToken // the JWT token generated in the previous step
+          assertion: jwtToken
         })
       })
     ).json()
     this.access_token = access_token
+    return this
   }
   async get (path) {
     const response = await fetch(`${this.publicConfig.databaseURL}/shops.json`, {
@@ -139,12 +155,6 @@ class Firebase {
   }
 }
 
-//
-// exports.firebase = () => {
-//   firebase_init()
-//   return admin.database().ref()
-// }
-//
 // exports.verifyIdToken = ({idToken}) => {
 //   firebase_init()
 //   return admin.messaging().send({token: idToken}, true)
