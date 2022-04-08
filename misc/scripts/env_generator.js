@@ -11,7 +11,8 @@ const serviceAccount={
 	"auth_uri": "XXXXXXXXX",
 	"token_uri": "XXXXXXXXX",
 	"auth_provider_x509_cert_url": "XXXXXXXXX",
-	"client_x509_cert_url": "XXXXXXXXX"
+	"client_x509_cert_url": "XXXXXXXXX",
+	"client_email": "XXXXXXXXX"
 }
 const publicConfig = {
   apiKey: "XXXXXXXXX",

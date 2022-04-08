@@ -1,15 +1,6 @@
 
 import { getTokenFromGCPServiceAccount } from '@sagi.io/workers-jwt'
 const md5 = require('md5')
-
-// NODE MODULES
-
-let google
-try {
-  const a = 'googleapis'
-  google = require(a).google
-} catch (e) {}
-
 let fetch
 
 // REQUEST
@@ -17,6 +8,8 @@ let fetch
 exports.request = (handler) => {
   return {
     async cloudflare ({request, env}) {
+      fetch = globalThis.fetch
+
       const params = {}
       const url = new URL(request.url)
       const queryString = url.search.slice(1).split('&')
@@ -44,26 +37,25 @@ exports.request = (handler) => {
       ))
     },
     async netlify (event, context) {
-      try {
-        fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+      const a = 'node-fetch'
+      fetch = require(a)
+      const firebase = new Firebase(process.env.FIREBASE_CONFIG)
+      await firebase.init()
 
-        const firebase = new Firebase(process.env.FIREBASE_CONFIG)
-        await firebase.init()
-
-        return handler(event.queryStringParameters, event.rawUrl, firebase).then((data) => ({
-          statusCode: 200,
-          body: JSON.stringify({success: true, data})
-        })).catch((error) => ({
-          statusCode: 200,
-          body: JSON.stringify({success: false, error})
-        }))
-      } catch (e) {}
+      return handler(event.queryStringParameters, event.rawUrl, firebase).then((data) => ({
+        statusCode: 200,
+        body: JSON.stringify({success: true, data})
+      })).catch((error) => ({
+        statusCode: 200,
+        body: JSON.stringify({success: false, error})
+      }))
     },
     vercel () {
       try {
-        fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
-        const a = 'express'
-        const app = require(a)()
+        const a = 'node-fetch'
+        fetch = require(a)
+        const b = 'express'
+        const app = require(b)()
         app.get(`/api/:name`, async (req, res) => {
           const firebase = new Firebase(process.env.FIREBASE_CONFIG)
           await firebase.init()
@@ -87,6 +79,30 @@ class Firebase {
     this.publicConfig = publicConfig
     this.serviceAccount = serviceAccount
   }
+  async init () {
+    this.access_token = await new Promise((resolve, reject) => {
+      const a = 'googleapis'
+      const {google} = require(a)
+      var jwtClient = new google.auth.JWT(
+        this.serviceAccount.client_email,
+        null,
+        this.serviceAccount.private_key,
+        [
+          'https://www.googleapis.com/auth/userinfo.email',
+          'https://www.googleapis.com/auth/firebase.database'
+        ]
+      )
+      jwtClient.authorize(function (error, tokens) {
+        if (error) {
+          reject(`Error making request to generate access token: ${error}`)
+        } else if (tokens.access_token === null) {
+          reject('Provided service account does not have permission to generate access tokens')
+        } else {
+          resolve(tokens.access_token)
+        }
+      })
+    })
+  }
   async init_cloudflare () {
     const jwtToken = await getTokenFromGCPServiceAccount({
       serviceAccountJSON: this.serviceAccount,
@@ -98,7 +114,6 @@ class Firebase {
         ].join(' ')
       }
     })
-
     const {access_token} = await (
       await fetch('https://oauth2.googleapis.com/token', {
         method: 'POST',
@@ -112,29 +127,6 @@ class Firebase {
       })
     ).json()
     this.access_token = access_token
-  }
-  async init () {
-    this.access_token = await new Promise((resolve, reject) => {
-      var scopes = [
-        'https://www.googleapis.com/auth/userinfo.email',
-        'https://www.googleapis.com/auth/firebase.database'
-      ]
-      var jwtClient = new google.auth.JWT(
-        this.serviceAccount.client_email,
-        null,
-        this.serviceAccount.private_key,
-        scopes
-      )
-      jwtClient.authorize(function (error, tokens) {
-        if (error) {
-          reject(`Error making request to generate access token: ${error}`)
-        } else if (tokens.access_token === null) {
-          reject('Provided service account does not have permission to generate access tokens')
-        } else {
-          resolve(tokens.access_token)
-        }
-      })
-    })
   }
   async get (path) {
     const response = await fetch(`${this.publicConfig.databaseURL}/shops.json`, {

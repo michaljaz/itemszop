@@ -10,3 +10,4 @@
 [functions]
   directory = "functions/api"
   node_bundler = "esbuild"
+  external_node_modules = ["googleapis","node-fetch"]
