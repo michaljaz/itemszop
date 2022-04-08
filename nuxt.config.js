@@ -190,7 +190,7 @@ export default {
     extractCSS: true
   },
   serverMiddleware: process.env.VERCEL || process.env.NETLIFY || process.env.NETLIFY_DEV ? [] : [
-    '~/functions/api/test.js'
+    '~/functions/api/lvlup.js'
   ],
   server: {
     port,

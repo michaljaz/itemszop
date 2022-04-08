@@ -5,7 +5,7 @@ let fetch
 
 // REQUEST
 
-exports.getBaseUrl = (url) => {
+function getBaseUrl (url) {
   const l = url.split('/')
   return `${l[0]}//${l[2]}`
 }
@@ -16,19 +16,20 @@ exports.request = (handler) => {
       fetch = globalThis.fetch
 
       const params = {}
-      const url = new URL(request.url)
-      const queryString = url.search.slice(1).split('&')
-
+      const queryString = new URL(request.url).search.slice(1).split('&')
       queryString.forEach(item => {
         const kv = item.split('=')
         if (kv[0]) params[kv[0]] = kv[1] || true
       })
 
       const firebase = await new Firebase(env.FIREBASE_CONFIG).init_cloudflare()
+      const url = request.url
 
       return handler({
         params,
-        url: request.url,
+        url,
+        baseUrl: getBaseUrl(url),
+        apiBaseUrl: `${getBaseUrl(url)}/api`,
         firebase
       }).then((data) => (
         new Response(JSON.stringify({success: true, data}), {
@@ -47,11 +48,15 @@ exports.request = (handler) => {
     async netlify (event, context) {
       const a = 'node-fetch'
       fetch = require(a)
+
       const firebase = await new Firebase(process.env.FIREBASE_CONFIG).init()
+      const url = event.rawUrl
 
       return handler({
         params: event.queryStringParameters,
-        url: event.rawUrl,
+        url,
+        baseUrl: getBaseUrl(url),
+        apiBaseUrl: `${getBaseUrl(url)}/.netlify/functions`,
         firebase
       }).then((data) => ({
         statusCode: 200,
@@ -69,9 +74,13 @@ exports.request = (handler) => {
         const app = require(b)()
         app.get(`/api/:name`, async (req, res) => {
           const firebase = await new Firebase(process.env.FIREBASE_CONFIG).init()
+          const url = req.protocol + '://' + req.get('host') + req.originalUrl
+
           handler({
             params: req.query,
-            url: req.protocol + '://' + req.get('host') + req.originalUrl,
+            url,
+            baseUrl: getBaseUrl(url),
+            apiBaseUrl: `${getBaseUrl(url)}/api`,
             firebase
           }).then((data) => {
             res.json({success: true, data})
@@ -144,22 +153,106 @@ class Firebase {
     this.access_token = access_token
     return this
   }
-  async get (path) {
-    const response = await fetch(`${this.publicConfig.databaseURL}/shops.json`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${this.access_token}`
+  get (path) {
+    return new Promise(async (resolve, reject) => {
+      const response = await fetch(`${this.publicConfig.databaseURL}/${path}.json`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${this.access_token}`
+        }
+      })
+      const result = await response.json()
+      if (result) {
+        resolve(result)
+      } else {
+        reject(`reference_not_found`)
       }
     })
-    return await response.json()
   }
 }
 
-// exports.verifyIdToken = ({idToken}) => {
-//   firebase_init()
-//   return admin.messaging().send({token: idToken}, true)
-// }
-//
+// PARAMS
+
+exports.getNick = (nick) => {
+  return new Promise((resolve, reject) => {
+    if (!/^[a-zA-Z0-9_]{2,16}$/.test(nick) || typeof (nick) !== 'string') {
+      reject('wrong_format_nick')
+    } else {
+      resolve(nick)
+    }
+  })
+}
+
+exports.getShopId = (shopid) => {
+  return new Promise((resolve, reject) => {
+    if (!/^[A-Za-z0-9_]{4,}$/.test(shopid) || typeof (shopid) !== 'string') {
+      reject('wrong_format_shopid')
+    } else {
+      resolve(shopid)
+    }
+  })
+}
+
+exports.getServiceId = (serviceid) => {
+  return new Promise((resolve, reject) => {
+    if (!/^[A-Za-z0-9_]{3,}$/.test(serviceid) || typeof (serviceid) !== 'string') {
+      reject('wrong_format_serviceid')
+    } else {
+      resolve(serviceid)
+    }
+  })
+}
+
+exports.getSmsCode = (code) => {
+  return new Promise((resolve, reject) => {
+    if (!/^[A-Za-z0-9]{8}$/.test(code) || typeof (code) !== 'string') {
+      reject('wrong_format_code')
+    } else {
+      resolve(code)
+    }
+  })
+}
+
+exports.getVoucherCode = (code) => {
+  return new Promise((resolve, reject) => {
+    if (!/^[a-z0-9]{6,}$/.test(code) || typeof (code) !== 'string') {
+      reject('wrong_format_voucher')
+    } else {
+      resolve(code)
+    }
+  })
+}
+
+exports.getAmount = (amount) => {
+  return new Promise((resolve, reject) => {
+    if (!/^[1-9][0-9]*$/.test(amount) || typeof (amount) !== 'string') {
+      reject('wrong_format_amount')
+    } else {
+      resolve(parseFloat(amount))
+    }
+  })
+}
+
+// GENERATORS
+
+exports.generateLvlup = async({config, nick, shopid, serviceid, service, amount, apiBaseUrl, baseUrl}) => {
+  let cost = String(parseFloat(service.lvlup_cost) * amount)
+  cost = (+(Math.round(cost + 'e+2') + 'e-2')).toFixed(2)
+  const response = await fetch('https://api.lvlup.pro/v4/wallet/up', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${config.lvlup_api}`
+    },
+    body: JSON.stringify({
+      amount: cost,
+      redirectUrl: baseUrl,
+      webhookUrl: `${apiBaseUrl}/api/lvlup_webhook?nick=${nick}&shopid=${shopid}&serviceid=${serviceid}`
+    })
+  })
+  return await response.json()
+}
+
 // // SENDERS
 //
 // exports.sendDiscordWebhook = ({shopid, db, nick, serviceName}) => {
@@ -248,67 +341,7 @@ class Firebase {
 //   })
 // }
 //
-// // PARAMS
-//
-// exports.getNick = (nick) => {
-//   return new Promise((resolve, reject) => {
-//     if (!/^[a-zA-Z0-9_]{2,16}$/.test(nick) || typeof (nick) !== 'string') {
-//       reject('wrong_format_nick')
-//     } else {
-//       resolve(nick)
-//     }
-//   })
-// }
-//
-// exports.getShopId = (shopid) => {
-//   return new Promise((resolve, reject) => {
-//     if (!/^[A-Za-z0-9_]{4,}$/.test(shopid) || typeof (shopid) !== 'string') {
-//       reject('wrong_format_shopid')
-//     } else {
-//       resolve(shopid)
-//     }
-//   })
-// }
-//
-// exports.getServiceId = (serviceid) => {
-//   return new Promise((resolve, reject) => {
-//     if (!/^[A-Za-z0-9_]{3,}$/.test(serviceid) || typeof (serviceid) !== 'string') {
-//       reject('wrong_format_serviceid')
-//     } else {
-//       resolve(serviceid)
-//     }
-//   })
-// }
-//
-// exports.getSmsCode = (code) => {
-//   return new Promise((resolve, reject) => {
-//     if (!/^[A-Za-z0-9]{8}$/.test(code) || typeof (code) !== 'string') {
-//       reject('wrong_format_code')
-//     } else {
-//       resolve(code)
-//     }
-//   })
-// }
-//
-// exports.getVoucherCode = (code) => {
-//   return new Promise((resolve, reject) => {
-//     if (!/^[a-z0-9]{6,}$/.test(code) || typeof (code) !== 'string') {
-//       reject('wrong_format_voucher')
-//     } else {
-//       resolve(code)
-//     }
-//   })
-// }
-//
-// exports.getAmount = (amount) => {
-//   return new Promise((resolve, reject) => {
-//     if (!/^[1-9][0-9]*$/.test(amount) || typeof (amount) !== 'string') {
-//       reject('wrong_format_amount')
-//     } else {
-//       resolve(parseFloat(amount))
-//     }
-//   })
-// }
+
 //
 // // LOADERS
 //

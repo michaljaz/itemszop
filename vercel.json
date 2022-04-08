@@ -2,8 +2,8 @@
 	"version": 2,
 	"routes": [
     {
-      "src": "/api/test",
-      "dest": "/functions/api/test.js"
+      "src": "/api/lvlup",
+      "dest": "/functions/api/lvlup.js"
     }
   ],
   "builds": [
