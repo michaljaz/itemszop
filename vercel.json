@@ -6,12 +6,12 @@
       "dest": "/functions/api/lvlup.js"
     },
 		{
-      "src": "/api/voucher",
-      "dest": "/functions/api/voucher.js"
+      "src": "/api/payment_link",
+      "dest": "/functions/api/payment_link.js"
     },
 		{
-      "src": "/api/microsms_transfer",
-      "dest": "/functions/api/microsms_transfer.js"
+      "src": "/api/microsms_sms",
+      "dest": "/functions/api/microsms_sms.js"
     }
   ],
   "builds": [
