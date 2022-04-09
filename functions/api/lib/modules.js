@@ -261,6 +261,20 @@ exports.generateLvlup = async({config, nick, shopid, serviceid, service, amount,
   return await response.json()
 }
 
+exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service, amount, apiBaseUrl, baseUrl}) => {
+  const cost = service.microsms_transfer_cost * amount
+  const params = new URLSearchParams({
+    shopid: config.microsms_transfer_id,
+    amount: cost,
+    signature: md5(`${config.microsms_transfer_id}${config.microsms_transfer_hash}${cost}`),
+    description: `${service.name} dla ${nick}`,
+    control: `${shopid}|${serviceid}|${nick}`,
+    returl_url: `${baseUrl}/shop/${shopid}/payment_success`,
+    returl_urlc: `${apiBaseUrl}/microsms_transfer_webhook`
+  })
+  return `https://microsms.pl/api/bankTransfer/?${params}`
+}
+
 const getDate = () => {
   let d = new Date()
   let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d)
@@ -463,31 +477,6 @@ exports.checkIfVoucherExpired = (voucher) => {
 //   })
 // }
 //
-// const getDate = () => {
-//   let d = new Date()
-//   let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d)
-//   let mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(d)
-//   let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d)
-//   return `${ye}-${mo}-${da}`
-// }
-//
-// exports.checkVoucher = ({db, shopid, code}) => {
-//   return new Promise((resolve, reject) => {
-//     db.child(`vouchers/${shopid}/${code}`).once('value', (snapshot) => {
-//       if (snapshot.exists()) {
-//         db.child(`vouchers/${shopid}/${code}`).remove()
-//         const voucher = snapshot.val()
-//         if (((voucher.end && voucher.start <= getDate()) || (!voucher.end && voucher.start === getDate())) && ((voucher.end && voucher.end >= getDate()) || !voucher.end)) {
-//           resolve(voucher)
-//         } else {
-//           reject('voucher_expired')
-//         }
-//       } else {
-//         reject('voucher_not_exist')
-//       }
-//     })
-//   })
-// }
 //
 // exports.checkMicrosmsCode = ({service, config, code}) => {
 //   return new Promise((resolve, reject) => {
