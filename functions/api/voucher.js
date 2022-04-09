@@ -1,15 +1,13 @@
 import {
   request,
-	getNick,
-	getShopId,
-	getVoucherCode,
+	validate,
 	checkIfVoucherExpired
 } from './lib/modules.js'
 
 const req = request(async ({params, firebase}) => {
-  const nick = await getNick(params.nick)
-  const shopid = await getShopId(params.shopid)
-  const code = await getVoucherCode(params.code)
+  const nick = await validate.nick(params.nick)
+  const shopid = await validate.shopid(params.shopid)
+  const code = await validate.vouchercode(params.vouchercode)
 
   const voucher = await firebase.get(`vouchers/${shopid}/${code}`)
   await firebase.remove(`vouchers/${shopid}/${code}`)

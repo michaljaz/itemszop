@@ -181,64 +181,61 @@ class Firebase {
 
 // PARAMS
 
-exports.getNick = (nick) => {
-  return new Promise((resolve, reject) => {
-    if (!/^[a-zA-Z0-9_]{2,16}$/.test(nick) || typeof (nick) !== 'string') {
-      reject('wrong_format_nick')
-    } else {
-      resolve(nick)
-    }
-  })
-}
-
-exports.getShopId = (shopid) => {
-  return new Promise((resolve, reject) => {
-    if (!/^[A-Za-z0-9_]{4,}$/.test(shopid) || typeof (shopid) !== 'string') {
-      reject('wrong_format_shopid')
-    } else {
-      resolve(shopid)
-    }
-  })
-}
-
-exports.getServiceId = (serviceid) => {
-  return new Promise((resolve, reject) => {
-    if (!/^[A-Za-z0-9_]{3,}$/.test(serviceid) || typeof (serviceid) !== 'string') {
-      reject('wrong_format_serviceid')
-    } else {
-      resolve(serviceid)
-    }
-  })
-}
-
-exports.getSmsCode = (code) => {
-  return new Promise((resolve, reject) => {
-    if (!/^[A-Za-z0-9]{8}$/.test(code) || typeof (code) !== 'string') {
-      reject('wrong_format_code')
-    } else {
-      resolve(code)
-    }
-  })
-}
-
-exports.getVoucherCode = (code) => {
-  return new Promise((resolve, reject) => {
-    if (!/^[a-z0-9]{6,}$/.test(code) || typeof (code) !== 'string') {
-      reject('wrong_format_voucher')
-    } else {
-      resolve(code)
-    }
-  })
-}
-
-exports.getAmount = (amount) => {
-  return new Promise((resolve, reject) => {
-    if (!/^[1-9][0-9]*$/.test(amount) || typeof (amount) !== 'string') {
-      reject('wrong_format_amount')
-    } else {
-      resolve(parseFloat(amount))
-    }
-  })
+exports.validate = {
+  nick (nick) {
+    return new Promise((resolve, reject) => {
+      if (!/^[a-zA-Z0-9_]{2,16}$/.test(nick) || typeof (nick) !== 'string') {
+        reject('wrong_format_nick')
+      } else {
+        resolve(nick)
+      }
+    })
+  },
+  shopid (shopid) {
+    return new Promise((resolve, reject) => {
+      if (!/^[A-Za-z0-9_]{4,}$/.test(shopid) || typeof (shopid) !== 'string') {
+        reject('wrong_format_shopid')
+      } else {
+        resolve(shopid)
+      }
+    })
+  },
+  serviceid (serviceid) {
+    return new Promise((resolve, reject) => {
+      if (!/^[A-Za-z0-9_]{3,}$/.test(serviceid) || typeof (serviceid) !== 'string') {
+        reject('wrong_format_serviceid')
+      } else {
+        resolve(serviceid)
+      }
+    })
+  },
+  smscode (code) {
+    return new Promise((resolve, reject) => {
+      if (!/^[A-Za-z0-9]{8}$/.test(code) || typeof (code) !== 'string') {
+        reject('wrong_format_code')
+      } else {
+        resolve(code)
+      }
+    })
+  },
+  vouchercode (code) {
+    return new Promise((resolve, reject) => {
+      if (!/^[a-z0-9]{6,}$/.test(code) || typeof (code) !== 'string') {
+        reject('wrong_format_voucher')
+      } else {
+        resolve(code)
+      }
+    })
+  },
+  amount (amount) {
+    return new Promise((resolve, reject) => {
+      if (!/^[1-9][0-9]*$/.test(amount) || typeof (amount) !== 'string') {
+        reject('wrong_format_amount')
+      } else {
+        resolve(parseFloat(amount))
+      }
+    })
+  }
 }
 
 // GENERATORS

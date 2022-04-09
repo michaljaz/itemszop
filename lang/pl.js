@@ -194,9 +194,6 @@ export default {
   responses: {
     unable_to_connect: 'Nie udało się połączyć',
     config_not_exist: 'Konfiguracja sklepu nie istnieje',
-    service_not_exist: 'Usługa nie istnieje',
-    server_not_exist: 'Serwer nie istnieje',
-    wrong_code: 'Nieprawidłowy kod',
     command_error: 'Nie udało się wywołać komendy na serwerze minecraftowym',
     auth_error: 'Nie udało się połączyć z serwerem minecraftowym',
     history_error: 'Nie można zapisać płatności w historii',
@@ -207,7 +204,8 @@ export default {
     server_owner_error: 'Nieprawidłowy właściciel serwera',
     wrong_api_key: 'Nieprawidłowy klucz api',
     shop_already_exist: 'Sklep z takim ID już istnieje',
-    lvlup_error: 'Błąd w konfiguracji lvlup'
+    lvlup_error: 'Błąd w konfiguracji lvlup',
+    reference_not_found: 'Nie znaleziono odwołania w bazie danych'
   },
 
   firebase: {

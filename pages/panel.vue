@@ -158,17 +158,6 @@
           </v-list-item>
           <v-list-item
             link
-            :to="`/panel/shop/${$route.params.shopid}/rcon`"
-          >
-            <v-list-item-icon>
-              <v-icon>mdi-lan-connect</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>{{ $t('titles.rcon') }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item
-            link
             :to="`/panel/shop/${$route.params.shopid}/temp`"
           >
             <v-list-item-icon>

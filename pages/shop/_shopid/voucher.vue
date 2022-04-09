@@ -100,9 +100,9 @@ export default {
       this.$refs.form.validate()
       if (this.valid) {
         const { code, nick } = this
-        const { shopid } = this.$route.params
+        const shopid = this.$route.params.shopid ? this.$route.params.shopid : process.env.singleShopId
         this.$axios.get('/voucher', {
-          params: { code, nick, shopid }
+          params: { vouchercode: code, nick, shopid }
         }).then(({ data }) => {
           if (data.success) {
             this.snackbarMessage = 'Pomyślnie użyto vouchera'

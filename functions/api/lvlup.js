@@ -1,17 +1,14 @@
 import {
   request,
-	getNick,
-	getShopId,
-	getServiceId,
-	getAmount,
+	validate,
 	generateLvlup
 } from './lib/modules.js'
 
 const req = request(async ({params, apiBaseUrl, baseUrl, firebase}) => {
-  const nick = await getNick(params.nick)
-  const shopid = await getShopId(params.shopid)
-  const serviceid = await getServiceId(params.serviceid)
-  const amount = await getAmount(params.amount)
+  const nick = await validate.nick(params.nick)
+  const shopid = await validate.shopid(params.shopid)
+  const serviceid = await validate.serviceid(params.serviceid)
+  const amount = await validate.amount(params.amount)
 
   const config = await firebase.get(`config/${shopid}`)
   const service = await firebase.get(`shops/${shopid}/services/${serviceid}`)
