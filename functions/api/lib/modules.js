@@ -169,6 +169,14 @@ class Firebase {
       }
     })
   }
+  async remove (path) {
+    const response = await fetch(`${this.publicConfig.databaseURL}/${path}.json`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${this.access_token}`
+      }
+    })
+  }
 }
 
 // PARAMS
@@ -251,6 +259,24 @@ exports.generateLvlup = async({config, nick, shopid, serviceid, service, amount,
     })
   })
   return await response.json()
+}
+
+const getDate = () => {
+  let d = new Date()
+  let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d)
+  let mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(d)
+  let da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d)
+  return `${ye}-${mo}-${da}`
+}
+
+exports.checkIfVoucherExpired = (voucher) => {
+  return new Promise((resolve, reject) => {
+    if (((voucher.end && voucher.start <= getDate()) || (!voucher.end && voucher.start === getDate())) && ((voucher.end && voucher.end >= getDate()) || !voucher.end)) {
+      resolve(voucher)
+    } else {
+      reject('voucher_expired')
+    }
+  })
 }
 
 // // SENDERS
