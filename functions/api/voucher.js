@@ -7,10 +7,10 @@ import {
 const req = request(async ({params, firebase}) => {
   const nick = await validate.nick(params.nick)
   const shopid = await validate.shopid(params.shopid)
-  const code = await validate.vouchercode(params.vouchercode)
+  const vouchercode = await validate.vouchercode(params.vouchercode)
 
-  const voucher = await firebase.get(`vouchers/${shopid}/${code}`)
-  await firebase.remove(`vouchers/${shopid}/${code}`)
+  const voucher = await firebase.get(`vouchers/${shopid}/${vouchercode}`)
+  await firebase.remove(`vouchers/${shopid}/${vouchercode}`)
   await checkIfVoucherExpired(voucher)
 
   const service = await firebase.get(`shops/${shopid}/services/${voucher.service}`)

@@ -194,6 +194,20 @@
                       :rules="rules.microsms_transfer_cost"
                     />
                   </div>
+                  <div v-if="config.paypal">
+                    <v-switch
+                      v-model="fields.paypal"
+                      :label="`${$t('paypal')}/${$t('przelewy24')} (paypal.com)`"
+                    />
+                    <v-text-field
+                      v-if="fields.paypal"
+                      v-model="fields.paypal_cost"
+                      type="number"
+                      :label="$t('fields.transfer_cost')"
+                      autocomplete="new-password"
+                      :rules="rules.microsms_transfer_cost"
+                    />
+                  </div>
                 </v-col>
               </v-row>
             </v-form>
@@ -349,6 +363,8 @@ export default {
         microsms_transfer_cost: 0,
         lvlup: false,
         lvlup_cost: 0,
+        paypal: false,
+        paypal_cost: 0,
         server: '',
         commands: '',
         description: this.$t('misc.default_description')

@@ -8,6 +8,8 @@ export default {
   transfer: 'Przelew',
   sms: 'SMS',
   transfer_psc: 'Przelew/PSC',
+  przelewy24: 'Przelewy24',
+  paypal: 'Paypal',
 
   page_not_found: '404 - Nie znaleziono strony',
   error_occurred: 'Nastąpił Błąd',
