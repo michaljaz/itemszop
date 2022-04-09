@@ -23,9 +23,9 @@ Tu znajduje się link do wersji produkcyjnej na vercelu : https://itemszop.tk
 
 ItemSzop działa jako statyczna strona. Dzięki temu hostowanie sklepu jest praktycznie dostępne za darmo na serwisach takich jak Cloudflare. Jednak wszystkie operacje nie mogą być wykonywane po stronie klienta. W tym momencie można skorzystać z serverlessowych funkcji, które umożliwią nam wykonywanie takich operacji jak np. księgowanie płatności, lub wywoływanie komend na serwerze mc.
 
-| Serverlessowe funkcje | Vercel | Netlify | Cloudflare |
+| Serverlessowe funkcje | Cloudflare | Vercel | Netlify |
 | --- | --- | --- | --- |
-| Limit wysyłanych requestów | 100k / dzień | 125k / miesiąc | 100k / dzień |
+| Limit wysyłanych requestów | 100k / dzień | 100k / dzień | 125k / miesiąc |
 
 
 
@@ -36,10 +36,10 @@ ItemSzop działa jako statyczna strona. Dzięki temu hostowanie sklepu jest prak
 $ npm install
 
 ############ KONFIGURACJA DEWELOPERA ############
-# używając po prostu nuxta
+# używając nuxta
 $ npm run dev
 
-# używając netlify (szybciej się reloadują serverlessowe funkcje)
+# używając netlify
 $ netlify dev
 
 ############ KONFIGURACJA PRODUKCYJNA ############
