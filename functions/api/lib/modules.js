@@ -14,50 +14,37 @@ exports.request = (handler) => {
   return {
     async cloudflare ({request, env}) {
       fetch = globalThis.fetch
-
       const params = {}
       const queryString = new URL(request.url).search.slice(1).split('&')
       queryString.forEach(item => {
         const kv = item.split('=')
         if (kv[0]) params[kv[0]] = kv[1] || true
       })
-
-      const firebase = await new Firebase(env.FIREBASE_CONFIG).init_cloudflare()
       const url = request.url
-
       return handler({
         params,
         url,
         baseUrl: getBaseUrl(url),
         apiBaseUrl: `${getBaseUrl(url)}/api`,
-        firebase
+        firebase: await new Firebase(env.FIREBASE_CONFIG).init_cloudflare(),
+        fetch
       }).then((data) => (
-        new Response(JSON.stringify({success: true, data}), {
-          headers: {
-            'content-type': 'application/json'
-          }
-        })
+        new Response(JSON.stringify({success: true, data}), {headers: {'content-type': 'application/json'}})
       )).catch((error) => (
-        new Response(JSON.stringify({success: false, error}), {
-          headers: {
-            'content-type': 'application/json'
-          }
-        })
+        new Response(JSON.stringify({success: false, error}), {headers: {'content-type': 'application/json'}})
       ))
     },
     async netlify (event, context) {
       const a = 'node-fetch'
       fetch = require(a)
-
-      const firebase = await new Firebase(process.env.FIREBASE_CONFIG).init()
       const url = event.rawUrl
-
       return handler({
         params: event.queryStringParameters,
         url,
         baseUrl: getBaseUrl(url),
         apiBaseUrl: `${getBaseUrl(url)}/.netlify/functions`,
-        firebase
+        firebase: await new Firebase(process.env.FIREBASE_CONFIG).init(),
+        fetch
       }).then((data) => ({
         statusCode: 200,
         body: JSON.stringify({success: true, data})
@@ -73,15 +60,14 @@ exports.request = (handler) => {
         const b = 'express'
         const app = require(b)()
         app.get(`/api/:name`, async (req, res) => {
-          const firebase = await new Firebase(process.env.FIREBASE_CONFIG).init()
           const url = req.protocol + '://' + req.get('host') + req.originalUrl
-
           handler({
             params: req.query,
             url,
             baseUrl: getBaseUrl(url),
             apiBaseUrl: `${getBaseUrl(url)}/api`,
-            firebase
+            firebase: await new Firebase(process.env.FIREBASE_CONFIG).init(),
+            fetch
           }).then((data) => {
             res.json({success: true, data})
           }).catch((error) => {
@@ -281,6 +267,8 @@ exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service, a
   return `https://microsms.pl/api/bankTransfer/?${params}`
 }
 
+// CHECKERS
+
 const getDate = () => {
   let d = new Date()
   let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d)
@@ -295,6 +283,31 @@ exports.checkIfVoucherExpired = (voucher) => {
       resolve(voucher)
     } else {
       reject('voucher_expired')
+    }
+  })
+}
+
+exports.checkMicrosmsCode = ({service, config, smscode}) => {
+  return new Promise(async (resolve, reject) => {
+    const number = ({
+      1: '71480',
+      2: '72480',
+      3: '73480',
+      4: '74480',
+      5: '75480',
+      6: '76480',
+      7: '79480',
+      8: '91400',
+      9: '91900',
+      10: '92022',
+      11: '92550'
+    })[service.microsms_sms_type]
+    const response = await fetch(`https://microsms.pl/api/check.php?userid=${config.microsms_user_id}&number=${number}&code=${smscode}&serviceid=${config.microsms_sms_id}`)
+    const data = await response.text()
+    if (data.split(',')[0] === '1') {
+      resolve()
+    } else {
+      reject('wrong_code')
     }
   })
 }

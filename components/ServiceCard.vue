@@ -389,10 +389,15 @@ export default {
       if (this.valid2) {
         const { code, nick, shopid } = this
         this.$axios.get('/microsms_sms', {
-          params: { code, nick, shopid, serviceid: this.service.serviceId }
+          params: { smscode: code, nick, shopid, serviceid: this.service.serviceId }
         }).then(({ data }) => {
           if (data.success) {
-            this.$router.push(`/shop/${shopid}/payment_success`)
+            this.$emit('blur', false)
+            if (this.$route.params.shopid) {
+              this.$router.push(`/shop/${shopid}/payment_success`)
+            } else {
+              this.$router.push('/payment_success')
+            }
           } else {
             this.snackbarMessage = this.$t(`responses.${data.error}`)
             this.snackbar = true
