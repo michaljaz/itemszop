@@ -182,57 +182,66 @@ class Firebase {
 // PARAMS
 
 exports.validate = {
-  nick (nick) {
+  nick (text) {
     return new Promise((resolve, reject) => {
-      if (!/^[a-zA-Z0-9_]{2,16}$/.test(nick) || typeof (nick) !== 'string') {
+      if (!/^[a-zA-Z0-9_]{2,16}$/.test(text) || typeof (text) !== 'string') {
         reject('wrong_format_nick')
       } else {
-        resolve(nick)
+        resolve(text)
       }
     })
   },
-  shopid (shopid) {
+  shopid (text) {
     return new Promise((resolve, reject) => {
-      if (!/^[A-Za-z0-9_]{4,}$/.test(shopid) || typeof (shopid) !== 'string') {
+      if (!/^[A-Za-z0-9_]{4,}$/.test(text) || typeof (text) !== 'string') {
         reject('wrong_format_shopid')
       } else {
-        resolve(shopid)
+        resolve(text)
       }
     })
   },
-  serviceid (serviceid) {
+  serviceid (text) {
     return new Promise((resolve, reject) => {
-      if (!/^[A-Za-z0-9_]{3,}$/.test(serviceid) || typeof (serviceid) !== 'string') {
+      if (!/^[A-Za-z0-9_]{3,}$/.test(text) || typeof (text) !== 'string') {
         reject('wrong_format_serviceid')
       } else {
-        resolve(serviceid)
+        resolve(text)
       }
     })
   },
-  smscode (code) {
+  smscode (text) {
     return new Promise((resolve, reject) => {
-      if (!/^[A-Za-z0-9]{8}$/.test(code) || typeof (code) !== 'string') {
+      if (!/^[A-Za-z0-9]{8}$/.test(text) || typeof (text) !== 'string') {
         reject('wrong_format_code')
       } else {
-        resolve(code)
+        resolve(text)
       }
     })
   },
-  vouchercode (code) {
+  vouchercode (text) {
     return new Promise((resolve, reject) => {
-      if (!/^[a-z0-9]{6,}$/.test(code) || typeof (code) !== 'string') {
-        reject('wrong_format_voucher')
+      if (!/^[a-z0-9]{6,}$/.test(text) || typeof (text) !== 'string') {
+        reject('wrong_format_vouchercode')
       } else {
-        resolve(code)
+        resolve(text)
       }
     })
   },
-  amount (amount) {
+  amount (text) {
     return new Promise((resolve, reject) => {
-      if (!/^[1-9][0-9]*$/.test(amount) || typeof (amount) !== 'string') {
+      if (!/^[1-9][0-9]*$/.test(text) || typeof (text) !== 'string') {
         reject('wrong_format_amount')
       } else {
-        resolve(parseFloat(amount))
+        resolve(parseFloat(text))
+      }
+    })
+  },
+  paymenttype (text) {
+    return new Promise((resolve, reject) => {
+      if (!/^[a-z_]{4,}$/.test(text) || typeof (text) !== 'string') {
+        reject('wrong_format_paymenttype')
+      } else {
+        resolve(text)
       }
     })
   }
@@ -255,7 +264,7 @@ exports.generateLvlup = async({config, nick, shopid, serviceid, service, amount,
       webhookUrl: `${apiBaseUrl}/api/lvlup_webhook?nick=${nick}&shopid=${shopid}&serviceid=${serviceid}`
     })
   })
-  return await response.json()
+  return (await response.json()).url
 }
 
 exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service, amount, apiBaseUrl, baseUrl}) => {

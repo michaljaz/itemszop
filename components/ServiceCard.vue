@@ -364,14 +364,15 @@ export default {
         }
       }
     },
-    redirectLink (path) {
+    redirectLink (paymenttype) {
       const { nick, shopid } = this
-      this.$axios.get(`/${path}`, {
+      this.$axios.get('/payment_link', {
         params: {
           nick,
           shopid,
           serviceid: this.service.serviceId,
-          amount: this.costslider
+          amount: this.costslider,
+          paymenttype
         }
       }).then(({ data }) => {
         this.loadingButton = null
