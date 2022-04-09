@@ -4,6 +4,14 @@
     {
       "src": "/api/lvlup",
       "dest": "/functions/api/lvlup.js"
+    },
+		{
+      "src": "/api/voucher",
+      "dest": "/functions/api/voucher.js"
+    },
+		{
+      "src": "/api/microsms_transfer",
+      "dest": "/functions/api/microsms_transfer.js"
     }
   ],
   "builds": [
