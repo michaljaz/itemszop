@@ -251,6 +251,10 @@
 export default {
   name: 'ServiceCard',
   props: {
+    paypalLoaded: {
+      type: Boolean,
+      default: () => (false)
+    },
     config: {
       type: Object,
       default: () => ({})
@@ -350,6 +354,39 @@ export default {
         return 1
       }
     }
+  },
+  watch: {
+    paypalLoaded () {
+      console.log(window.paypal)
+    }
+  },
+  mounted () {
+    console.log(window.paypal)
+    // window.paypal.Buttons({
+    //   fundingSource: window.paypal.FUNDING.P24,
+    //   style: {
+    //     label: 'pay'
+    //   },
+    //   createOrder (data, actions) {
+    //     return actions.order.create({
+    //       purchase_units: [{
+    //         amount: {
+    //           currency: 'PLN',
+    //           value: '10.00'
+    //         }
+    //       }]
+    //     })
+    //   },
+    //   onApprove (data, actions) {
+    //     // see #5. Capture the transaction
+    //   },
+    //   onCancel (data, actions) {
+    //     console.log(`Order Canceled - ID: ${data.orderID}`)
+    //   },
+    //   onError (err) {
+    //     console.error(err)
+    //   }
+    // }).render('#p24-btn')
   },
   methods: {
     next () {
