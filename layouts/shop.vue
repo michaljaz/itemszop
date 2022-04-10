@@ -47,21 +47,21 @@
       <div class="mt-3">
         <v-row>
           <v-col md="8" sm="12" xs="12" cols="12">
-          <v-alert
-             v-if="shop.announcement"
+            <v-alert
+              v-if="shop.announcement"
               color="green"
               dismissible
               outlined
               prominent
               text
               type="info"
-              > 
-        <!-- eslint-disable vue/no-v-html -->
-        <div
-            class="mt-2 overflow-y-auto"
-            v-html="shop.announcement"
-        />
-        <!--eslint-enable-->
+            >
+              <!-- eslint-disable vue/no-v-html -->
+              <div
+                class="mt-2 overflow-y-auto"
+                v-html="shop.announcement"
+              />
+              <!--eslint-enable-->
             </v-alert>
             <v-card>
               <v-card-text>
@@ -167,6 +167,7 @@
         color="primary"
       />
     </div>
+    <div id="p24-btn" />
   </default-layout>
 </template>
 <script>
@@ -272,6 +273,38 @@ export default {
           gtag('config', gid)
         }
         script.src = `https://www.googletagmanager.com/gtag/js?id=${gid}`
+        document.head.appendChild(script)
+      }
+      if (this.config.paypal) {
+        const script = document.createElement('script')
+        script.onload = function () {
+          window.paypal.Buttons({
+            fundingSource: window.paypal.FUNDING.P24,
+            style: {
+              label: 'pay'
+            },
+            createOrder (data, actions) {
+              return actions.order.create({
+                purchase_units: [{
+                  amount: {
+                    currency: 'PLN',
+                    value: '10.00'
+                  }
+                }]
+              })
+            },
+            onApprove (data, actions) {
+              // see #5. Capture the transaction
+            },
+            onCancel (data, actions) {
+              console.log(`Order Canceled - ID: ${data.orderID}`)
+            },
+            onError (err) {
+              console.error(err)
+            }
+          }).render('#p24-btn')
+        }
+        script.src = `https://www.paypal.com/sdk/js?client-id=${this.config.paypal_id}&components=buttons,marks&enable-funding=p24&currency=PLN`
         document.head.appendChild(script)
       }
     }

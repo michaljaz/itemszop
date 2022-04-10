@@ -32,6 +32,12 @@
 				"microsms":{
 					".read":true
 				},
+				"paypal":{
+					".read":true
+				},
+				"paypal_id":{
+					".read":true
+				},
 				".read":"root.child('shops').child($shop_id).child('owner').val() == auth.uid",
 				".write":"root.child('shops').child($shop_id).child('owner').val() == auth.uid"
 			}

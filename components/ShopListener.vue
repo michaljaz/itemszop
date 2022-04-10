@@ -138,6 +138,24 @@ export default {
               this.config = newConfig
             }
           })
+        this.$fire.database.ref().child(`config/${shopId}/paypal`)
+          .on('value', (snapshot) => {
+            if (snapshot.exists()) {
+              const data = snapshot.val() === null ? {} : snapshot.val()
+              const newConfig = Object.assign({}, this.config)
+              newConfig.paypal = data
+              this.config = newConfig
+            }
+          })
+        this.$fire.database.ref().child(`config/${shopId}/paypal_id`)
+          .on('value', (snapshot) => {
+            if (snapshot.exists()) {
+              const data = snapshot.val() === null ? {} : snapshot.val()
+              const newConfig = Object.assign({}, this.config)
+              newConfig.paypal_id = data
+              this.config = newConfig
+            }
+          })
       }
     },
     destroyListeners (shopId) {

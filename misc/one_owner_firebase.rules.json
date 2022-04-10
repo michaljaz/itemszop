@@ -23,6 +23,9 @@
 				"microsms":{
 					".read":true
 				},
+				"paypal":{
+					".read":true
+				},
 			}
 		}
 	}

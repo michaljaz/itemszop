@@ -1,5 +1,4 @@
 import colors from 'vuetify/es5/util/colors'
-import fs from 'fs'
 
 const mainUrl = 'https://itemszop.tk'
 const host = process.env.HOST || '0.0.0.0'
