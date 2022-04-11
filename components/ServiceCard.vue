@@ -139,6 +139,7 @@
                 </span>
                 <v-spacer />
                 <v-btn
+                  :disabled="!type"
                   color="success"
                   :loading="loadingButton"
                   @click="next"
