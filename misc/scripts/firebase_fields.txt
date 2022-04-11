@@ -57,6 +57,8 @@ microsms_sms_type - typ smsa
 microsms_sms_list - lista z smsami i ilościami usług
 lvlup - czy płatność lvlup włączona
 lvlup_cost - koszt płatności lvlup
+paypal_p24 - czy płatność paypal przelewy 24 włączona
+paypal_p24_cost - korzy płatności przelewy 24 paypal
 
 === PŁATNOŚĆ W SKLEPIE ===
 REF: /shops/[id sklepu]/history

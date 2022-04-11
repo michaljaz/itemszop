@@ -196,12 +196,12 @@
                   </div>
                   <div v-if="config.paypal">
                     <v-switch
-                      v-model="fields.paypal"
-                      :label="`${$t('paypal')}/${$t('przelewy24')} (paypal.com)`"
+                      v-model="fields.paypal_p24"
+                      :label="`${$t('przelewy24')} (paypal.com)`"
                     />
                     <v-text-field
-                      v-if="fields.paypal"
-                      v-model="fields.paypal_cost"
+                      v-if="fields.paypal_p24"
+                      v-model="fields.paypal_p24_cost"
                       type="number"
                       :label="$t('fields.transfer_cost')"
                       autocomplete="new-password"
@@ -363,8 +363,8 @@ export default {
         microsms_transfer_cost: 0,
         lvlup: false,
         lvlup_cost: 0,
-        paypal: false,
-        paypal_cost: 0,
+        paypal_p24: false,
+        paypal_p24_cost: 0,
         server: '',
         commands: '',
         description: this.$t('misc.default_description')

@@ -93,6 +93,11 @@
                       :label="`${$t('transfer_psc')} (${service.lvlup_cost} zł ${$t('misc.per_item')})`"
                       value="lvlup"
                     />
+                    <v-radio
+                      v-if="service.paypal_p24 && config.paypal"
+                      :label="`${$t('przelewy24')} (${service.paypal_p24_cost} zł ${$t('misc.per_item')})`"
+                      value="paypal_p24"
+                    />
                   </v-radio-group>
                   <div v-if="type && service.costslider">
                     <div v-if="(type == 'microsms_transfer' || type == 'lvlup')">
@@ -305,6 +310,8 @@ export default {
         } else {
           return this.smsCost[this.service.microsms_sms_type][1]
         }
+      } else if (this.type === 'paypal_p24') {
+        return this.service.paypal_p24_cost * this.costslider
       } else {
         return 0
       }
@@ -321,6 +328,9 @@ export default {
       }
       if (this.config.lvlup && this.service.lvlup) {
         price = Math.min(price, this.service.lvlup_cost)
+      }
+      if (this.config.paypal && this.service.paypal_p24) {
+        price = Math.min(price, this.service.paypal_p24_cost)
       }
       return price
     },
