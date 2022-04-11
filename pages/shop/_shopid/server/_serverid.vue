@@ -15,7 +15,6 @@
           :service="service"
           :config="config"
           :shopid="shopId"
-          :link="`${shopPath}/service/${service.serviceId}`"
           style="height:100%;"
           @blur="$emit('blur',$event)"
         />

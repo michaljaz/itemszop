@@ -1,17 +1,26 @@
 <template>
   <div>
-    <v-card elevation="5" height="100%" @click="dialog=true;$emit('blur', true)">
-      <center>
-        <v-img :src="service.icon ? service.iconUrl : `/item.png`" max-height="120" contain />
-      </center>
-      <v-card-title class="justify-center text-no-wrap">
-        {{ service.name }}
-      </v-card-title>
-      <v-divider class="mx-4" />
-      <v-card-text>
-        <center><h1>{{ miniPrice }} zł</h1></center>
-      </v-card-text>
-    </v-card>
+    <v-hover v-slot="{ hover }">
+      <v-card :elevation="hover ? 15 : 5" height="100%">
+        <center>
+          <v-img :src="service.icon ? service.iconUrl : `/item.png`" max-height="120" contain />
+        </center>
+        <v-card-title class="justify-center text-no-wrap">
+          {{ service.name }}
+        </v-card-title>
+        <v-divider class="mx-4" />
+        <v-card-text>
+          <center>
+            <h1>{{ miniPrice }} zł</h1>
+          </center>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn block color="success" outlined @click="dialog=true;$emit('blur', true)">
+            {{ $t('actions.buy_now') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-hover>
     <v-dialog
       v-model="dialog"
       persistent

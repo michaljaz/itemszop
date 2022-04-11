@@ -47,7 +47,7 @@ export default {
     back_to_homepage: 'Powrót do strony głównej',
     logout: 'Wyloguj się',
     new_shop: 'Nowy sklep',
-    buy: 'Kupuję',
+    buy_now: 'Kup teraz',
     check_voucher: 'Sprawdź voucher',
     back_to_services: 'Powrót do usług',
     send_to_server: 'Wyślij do serwera',
