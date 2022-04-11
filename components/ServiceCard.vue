@@ -4,42 +4,13 @@
       <center>
         <v-img :src="service.icon ? service.iconUrl : `/item.png`" max-height="120" contain />
       </center>
-      <v-card-text>
-        <div v-if="config.microsms" class="d-flex justify-center mb-1">
-          {{ $t('sms') }}
-          <v-spacer />
-          <span v-if="service.microsms_sms">
-            {{ smsCost[service.microsms_sms_type][1] }} zł
-          </span>
-          <span v-else>
-            X
-          </span>
-        </div>
-        <div v-if="config.microsms" class="d-flex justify-center mb-1">
-          {{ $t('transfer') }}
-          <v-spacer />
-          <template v-if="service.microsms_transfer">
-            {{ service.microsms_transfer_cost }} zł
-          </template>
-          <template v-else>
-            X
-          </template>
-        </div>
-        <div v-if="config.lvlup" class="d-flex justify-center mb-1">
-          {{ $t('transfer_psc') }}
-          <v-spacer />
-          <template v-if="service.lvlup">
-            {{ service.lvlup_cost }} zł
-          </template>
-          <template v-else>
-            X
-          </template>
-        </div>
-      </v-card-text>
-      <v-divider class="mx-4" />
       <v-card-title class="justify-center text-no-wrap">
         {{ service.name }}
       </v-card-title>
+      <v-divider class="mx-4" />
+      <v-card-text>
+        <center><h1>{{ miniPrice }} zł</h1></center>
+      </v-card-text>
     </v-card>
     <v-dialog
       v-model="dialog"
@@ -285,17 +256,17 @@ export default {
       dialog: false,
       smsCost: {
         0: ['', '', ''],
-        1: ['1', '1.23', '71480'],
-        2: ['2', '2.46', '72480'],
-        3: ['3', '3.69', '73480'],
-        4: ['4', '4.92', '74480'],
-        5: ['5', '6.15', '75480'],
-        6: ['6', '7.38', '76480'],
-        7: ['9', '11.07', '79480'],
-        8: ['14', '17.22', '91400'],
-        9: ['19', '23.37', '91900'],
-        10: ['20', '24.60', '92022'],
-        11: ['25', '30.75', '92550']
+        1: ['1', 1.23, '71480'],
+        2: ['2', 2.46, '72480'],
+        3: ['3', 3.69, '73480'],
+        4: ['4', 4.92, '74480'],
+        5: ['5', 6.15, '75480'],
+        6: ['6', 7.38, '76480'],
+        7: ['9', 11.07, '79480'],
+        8: ['14', 17.22, '91400'],
+        9: ['19', 23.37, '91900'],
+        10: ['20', 24.60, '92022'],
+        11: ['25', 30.75, '92550']
       },
       rules: {
         type: [
@@ -327,6 +298,21 @@ export default {
       } else {
         return 0
       }
+    },
+    miniPrice () {
+      let price = Infinity
+      if (this.config.microsms) {
+        if (this.service.microsms_sms) {
+          price = Math.min(price, this.smsCost[this.service.microsms_sms_type][1])
+        }
+        if (this.service.microsms_transfer) {
+          price = Math.min(price, this.service.microsms_transfer_cost)
+        }
+      }
+      if (this.config.lvlup && this.service.lvlup) {
+        price = Math.min(price, this.service.lvlup_cost)
+      }
+      return price
     },
     smsList () {
       if (this.service.microsms_sms_list) {
@@ -362,6 +348,7 @@ export default {
   },
   mounted () {
     console.log(window.paypal)
+    console.log(this.miniPrice)
     // window.paypal.Buttons({
     //   fundingSource: window.paypal.FUNDING.P24,
     //   style: {
