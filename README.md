@@ -14,18 +14,11 @@ Tu znajduje się link do wersji produkcyjnej na cloudflare : https://itemszop.tk
 ## Wspierani operatorzy płatności
 
 - [x] microsms.pl - [api przelew](https://microsms.pl/documents/przelewy_online.pdf), [api sms](https://microsms.pl/kernel/Mails/files/dokumentacja_techniczna_mirosms.pdf)
+- [X] paypal.com - [api p24](https://developer.paypal.com/docs/checkout/apm/przelewy24/)
 - [x] lvlup.pro - [api](https://api.lvlup.pro/v4/redoc)
 - [ ] hotpay.pl - [api](https://hotpay.pl/dokumentacja-api/)
 - [ ] cashbill.pl - [api](https://www.cashbill.pl/pobierz/api/)
-- [ ] paypal.com
 
-## Limity
-
-ItemSzop działa jako statyczna strona. Dzięki temu hostowanie sklepu jest praktycznie dostępne za darmo na serwisach takich jak Cloudflare. Jednak wszystkie operacje nie mogą być wykonywane po stronie klienta. W tym momencie można skorzystać z serverlessowych funkcji, które umożliwią nam wykonywanie takich operacji jak np. księgowanie płatności, lub wywoływanie komend na serwerze mc.
-
-| Serverlessowe funkcje | Cloudflare | Vercel | Netlify |
-| --- | --- | --- | --- |
-| Limit wysyłanych requestów | 100k / dzień | 100k / dzień | 125k / miesiąc |
 
 ## Konfiguracja budowania
 
@@ -44,11 +37,8 @@ $ netlify dev
 # Budowanie aplikacji
 $ npm run build
 
-# Hostowanie na domyślnym porcie 8080
+# Hostowanie na porcie 8080
 $ npm start
-
-# Hostowanie na własnym porcie
-$ PORT=1234 npm start
 
 ```
 Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację](https://nuxtjs.org).
@@ -70,3 +60,11 @@ Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację
 - Jeśli chcesz, żeby twój sklep był tylko hostowany w 'roocie' projektu, to wystarczy dodać zmienną środowiskową ```SINGLE_SHOP``` o wartości id sklepu.
 
 - Istnieje również możliwość zablokowania możliwości tworzenia sklepów wszystkim użytkownikom, oprócz jednego. Wówczas trzeba zapisać zmienną środowiskową ```OWNER_ID``` o wartości id użytkownika (wziętym z bazy firebase).
+
+## Limity
+
+ItemSzop działa jako statyczna strona. Dzięki temu hostowanie sklepu jest praktycznie dostępne za darmo na serwisach takich jak Cloudflare. Jednak wszystkie operacje nie mogą być wykonywane po stronie klienta. W tym momencie można skorzystać z serverlessowych funkcji, które umożliwią nam wykonywanie takich operacji jak np. księgowanie płatności, lub wywoływanie komend na serwerze mc.
+
+| Serverlessowe funkcje | Cloudflare | Vercel | Netlify |
+| --- | --- | --- | --- |
+| Limit wysyłanych requestów | 100k / dzień | 100k / dzień | 125k / miesiąc |
