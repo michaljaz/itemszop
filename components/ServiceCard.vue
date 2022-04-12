@@ -15,7 +15,7 @@
           </center>
         </v-card-text>
         <v-card-actions>
-          <v-btn block color="success" outlined @click="dialog=true;$emit('blur', true)">
+          <v-btn block color="success" outlined @click="dialog=true;$emit('blur', true);initPaypal()">
             {{ $t('actions.buy_now') }}
           </v-btn>
         </v-card-actions>
@@ -139,18 +139,30 @@
                 </v-form>
               </v-card-text>
               <v-card-actions>
-                <span class="headline">
-                  {{ $t('misc.price') }}: {{ price }}zł
-                </span>
-                <v-spacer />
-                <v-btn
-                  :disabled="!type"
-                  color="success"
-                  :loading="loadingButton"
-                  @click="next"
-                >
-                  {{ $t('actions.next') }}
-                </v-btn>
+                <v-row>
+                  <v-col>
+                    <span class="headline">
+                      {{ $t('misc.price') }}: {{ price }}zł
+                    </span>
+                  </v-col>
+                  <v-col>
+                    <div
+                      v-show="type==='paypal_p24'"
+                      :id="`p24-${service.serviceId}`"
+                      style="width:100%"
+                    />
+                    <v-btn
+                      v-show="type!=='paypal_p24'"
+                      :disabled="!type"
+                      color="success"
+                      block
+                      :loading="loadingButton"
+                      @click="next"
+                    >
+                      {{ $t('actions.next') }}
+                    </v-btn>
+                  </v-col>
+                </v-row>
               </v-card-actions>
             </v-col>
           </v-row>
@@ -256,6 +268,7 @@ export default {
   },
   data () {
     return {
+      p24: false,
       loadingButton: null,
       costslider_sms: 0,
       costslider: 1,
@@ -363,45 +376,51 @@ export default {
   },
   watch: {
     paypalLoaded () {
-      console.log(window.paypal)
+      console.log('paypal loaded')
     }
   },
-  mounted () {
-    console.log(window.paypal)
-    console.log(this.miniPrice)
-    // window.paypal.Buttons({
-    //   fundingSource: window.paypal.FUNDING.P24,
-    //   style: {
-    //     label: 'pay'
-    //   },
-    //   createOrder (data, actions) {
-    //     return actions.order.create({
-    //       purchase_units: [{
-    //         amount: {
-    //           currency: 'PLN',
-    //           value: '10.00'
-    //         }
-    //       }]
-    //     })
-    //   },
-    //   onApprove (data, actions) {
-    //     // see #5. Capture the transaction
-    //   },
-    //   onCancel (data, actions) {
-    //     console.log(`Order Canceled - ID: ${data.orderID}`)
-    //   },
-    //   onError (err) {
-    //     console.error(err)
-    //   }
-    // }).render('#p24-btn')
-  },
   methods: {
+    initPaypal () {
+      if (!this.p24 && this.service.paypal_p24 && this.config.paypal) {
+        setTimeout(() => {
+          window.paypal.Buttons({
+            fundingSource: window.paypal.FUNDING.P24,
+            style: {
+              label: 'pay'
+            },
+            createOrder: (data, actions) => {
+              return actions.order.create({
+                purchase_units: [{
+                  amount: {
+                    currency: 'PLN',
+                    value: (+(Math.round(this.service.paypal_p24_cost + 'e+2') + 'e-2')).toFixed(2)
+                  }
+                }]
+              })
+            },
+            onApprove (data, actions) {
+              // see #5. Capture the transaction
+            },
+            onCancel (data, actions) {
+              console.log(`Order Canceled - ID: ${data.orderID}`)
+            },
+            onError (err) {
+              console.error(err)
+            }
+          }).render(`#p24-${this.service.serviceId}`)
+        }, 1000)
+        this.p24 = true
+      }
+    },
     next () {
       this.$refs.form.validate()
       if (this.valid) {
         if (this.type === 'microsms_sms') {
           this.dialog = false
           this.dialogSMS = true
+        } else if (this.type === 'paypal_p24') {
+          console.log(document.getElementById(`p24-btn-${this.hash}`).querySelector('iframe').contentWindow.document.querySelector('#buttons-container > div > div > div > div.paypal-button-label-container > img'))
+          document.getElementById(`p24-btn-${this.hash}`).click()
         } else {
           this.loadingButton = 'loading'
           this.redirectLink(this.type)
