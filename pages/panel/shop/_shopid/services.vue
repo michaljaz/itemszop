@@ -347,6 +347,7 @@ export default {
       },
       multipleSMS: [],
       dialogDelete: false,
+      oldServiceId: '',
       serviceId: '',
       valid: false,
       defaultFields: {
@@ -508,6 +509,7 @@ export default {
     },
     editService (service) {
       this.serviceId = service.serviceId
+      this.oldServiceId = service.serviceId
       const newService = Object.assign(Object.assign({}, this.defaultFields), service)
       this.initializeSmsList(service.microsms_sms_list)
       this.fields = newService
@@ -531,6 +533,9 @@ export default {
         const { shopid } = this.$route.params
         this.fields.microsms_sms_list = this.smsList
         this.$fire.database.ref().child(`/shops/${shopid}/services/${this.serviceId}`).set(this.fields)
+        if (this.serviceId !== this.oldServiceId) {
+          this.$fire.database.ref().child(`/shops/${shopid}/services/${this.oldServiceId}`).remove()
+        }
         this.dialog = false
       }
     }
