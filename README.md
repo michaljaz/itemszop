@@ -9,7 +9,7 @@
 
 ## Wersja produkcyjna
 
-Tu znajduje się link do wersji produkcyjnej na vercelu : https://itemszop.tk
+Tu znajduje się link do wersji produkcyjnej na cloudflare : https://itemszop.tk.
 
 ## Wspierani operatorzy płatności
 
@@ -19,15 +19,13 @@ Tu znajduje się link do wersji produkcyjnej na vercelu : https://itemszop.tk
 - [ ] cashbill.pl - [api](https://www.cashbill.pl/pobierz/api/)
 - [ ] paypal.com
 
-## Limity i serverlessowe funkcje
+## Limity
 
 ItemSzop działa jako statyczna strona. Dzięki temu hostowanie sklepu jest praktycznie dostępne za darmo na serwisach takich jak Cloudflare. Jednak wszystkie operacje nie mogą być wykonywane po stronie klienta. W tym momencie można skorzystać z serverlessowych funkcji, które umożliwią nam wykonywanie takich operacji jak np. księgowanie płatności, lub wywoływanie komend na serwerze mc.
 
 | Serverlessowe funkcje | Cloudflare | Vercel | Netlify |
 | --- | --- | --- | --- |
 | Limit wysyłanych requestów | 100k / dzień | 100k / dzień | 125k / miesiąc |
-
-
 
 ## Konfiguracja budowania
 
@@ -55,19 +53,20 @@ $ PORT=1234 npm start
 ```
 Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację](https://nuxtjs.org).
 
-## Vercel i Netlify
+## Własne hostowanie - Cloudflare, Vercel, Netlify
+
+> **_Ważne:_**  Pamiętaj, że nie potrzebujesz stawiać własnego sklepu. Możesz po prostu skorzystać z modelu SaaS
 
 1. Skonfiguruj własną bazę danych firebase
 [(link do dokumentacji)](https://github.com/michaljaz/itemszop/wiki/Utworzenie-i-konfiguracja-sklepu-z-w%C5%82asn%C4%85-baz%C4%85-Firebase).
 2. Wygeneruj zmienną środowiskową wywołując plik ```misc/scripts/env_generator.js``` z podmienionymi wartościami z punktu 1.
-3. Są dwie opcje:
-	- [Sklonuj projekt na vercelu](https://vercel.com/new/clone?repository-url=https://github.com/michaljaz/itemszop) / [Sklonuj projekt na netlify](https://app.netlify.com/start/deploy?repository=https://github.com/michaljaz/itemszop).
-	- Zrób forka na githubie i z niego skonfiguruj projekt na vercelu lub na netlify - opcja dla tych, którzy będą chcieli coś zmienić w swoim sklepie.
-4. Zapisz tą wartość punktu 2 w zmiennej środowiskowej projektu ```FIREBASE_CONFIG```.
-5. Gotowe!
+3. Zrób forka głównego repozytorium
+4. Połącz swoje repozytorium z panelem na cloudflare, vercelu lub netlify.
+5. Podczas konfiguracji, zapisz wartość punktu 2 w zmiennej środowiskowej projektu ```FIREBASE_CONFIG```.
+6. Gotowe!
 
-**Jak to działa?**
+- Nowo powstały projekt działa tak samo jak strona główna Itemszopu, ale już łączy się do Twojej własnej bazy i ma swoich własnych użytkowników.
 
-Nowo powstały projekt działa tak samo jak strona główna Itemszopu, ale już łączy się do Twojej własnej bazy i ma swoich własnych użytkowników.
+- Jeśli chcesz, żeby twój sklep był tylko hostowany w 'roocie' projektu, to wystarczy dodać zmienną środowiskową ```SINGLE_SHOP``` o wartości id sklepu.
 
-Jeśli chcesz, żeby twój sklep był tylko hostowany w 'roocie' projektu, to wystarczy dodać zmienną środowiskową ```SINGLE_SHOP``` o wartości id sklepu.
+- Istnieje również możliwość zablokowania możliwości tworzenia sklepów wszystkim użytkownikom, oprócz jednego. Wówczas trzeba zapisać zmienną środowiskową ```OWNER_ID``` o wartości id użytkownika (wziętym z bazy firebase).
