@@ -52,7 +52,7 @@ Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację
 [(link do dokumentacji)](https://github.com/michaljaz/itemszop/wiki/Utworzenie-i-konfiguracja-sklepu-z-w%C5%82asn%C4%85-baz%C4%85-Firebase).
 2. Wygeneruj zmienną środowiskową wywołując plik ```misc/scripts/env_generator.js``` z podmienionymi wartościami z punktu 1.
 3. Zrób forka głównego repozytorium
-4. Połącz swoje repozytorium z panelem na cloudflare, vercelu lub netlify.
+4. Połącz swoje repozytorium z panelem na danym serwisie.
 5. Podczas konfiguracji, zapisz wartość punktu 2 w zmiennej środowiskowej projektu ```FIREBASE_CONFIG```.
 6. Gotowe!
 
