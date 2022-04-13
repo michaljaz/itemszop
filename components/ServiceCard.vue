@@ -147,13 +147,13 @@
                   </v-col>
                   <v-col>
                     <div
-                      v-show="type==='paypal_p24'"
+                      v-show="type==='paypal_p24' && valid"
                       :id="`p24-${service.serviceId}`"
                       style="width:100%"
                     />
                     <v-btn
-                      v-show="type!=='paypal_p24'"
-                      :disabled="!type"
+                      v-show="type!=='paypal_p24' || !valid"
+                      :disabled="!valid"
                       color="success"
                       block
                       :loading="loadingButton"
@@ -418,9 +418,6 @@ export default {
         if (this.type === 'microsms_sms') {
           this.dialog = false
           this.dialogSMS = true
-        } else if (this.type === 'paypal_p24') {
-          console.log(document.getElementById(`p24-btn-${this.hash}`).querySelector('iframe').contentWindow.document.querySelector('#buttons-container > div > div > div > div.paypal-button-label-container > img'))
-          document.getElementById(`p24-btn-${this.hash}`).click()
         } else {
           this.loadingButton = 'loading'
           this.redirectLink(this.type)
