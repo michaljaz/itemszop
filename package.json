@@ -10,13 +10,13 @@
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "npm run lint:js",
     "lintfix": "npm run lint:js -- --fix",
-    "wrangler": "wrangler pages dev ./dist/"
+    "wrangler": "wrangler pages dev ./dist/",
+    "heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=; NPM_CONFIG_PRODUCTION=false NODE_ENV=development npm install --only=dev --dev",
+    "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production;"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/firebase": "^8.1.1",
-    "@nuxtjs/i18n": "^7.2.0",
-    "@nuxtjs/router": "^1.7.0",
     "@sagi.io/workers-jwt": "^0.0.22",
     "core-js": "^3.19.3",
     "esm": "^3.2.25",
@@ -30,6 +30,9 @@
     "vuetify": "^2.6.1"
   },
   "devDependencies": {
+    "@nuxtjs/i18n": "^7.2.0",
+    "@nuxtjs/router": "^1.7.0",
+    "nuxt-webfontloader": "^1.1.0",
     "@babel/eslint-parser": "^7.16.3",
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/eslint-config": "^8.0.0",
@@ -46,7 +49,6 @@
     "jquery": "^3.6.0",
     "md5": "^2.3.0",
     "minecraft-text-js": "^1.1.3",
-    "nuxt-webfontloader": "^1.1.0",
     "rcon-client": "^4.2.3",
     "tiptap-vuetify": "^2.24.0",
     "vue-chartjs": "^3.5.1",
