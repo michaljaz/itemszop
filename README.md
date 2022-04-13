@@ -44,7 +44,7 @@ $ npm start
 ```
 Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację](https://nuxtjs.org).
 
-## Własne hostowanie - Cloudflare, Vercel, Netlify
+## Własne hostowanie - Cloudflare, Vercel, Netlify, Heroku
 
 > **_Ważne:_**  Pamiętaj, że nie potrzebujesz stawiać własnego sklepu. Możesz po prostu skorzystać z modelu SaaS
 
