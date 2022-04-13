@@ -9,11 +9,14 @@
     "generate": "nuxt generate",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "npm run lint:js",
-    "lintfix": "npm run lint:js -- --fix"
+    "lintfix": "npm run lint:js -- --fix",
+    "wrangler": "wrangler pages dev ./dist/"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/firebase": "^8.1.1",
+    "@nuxtjs/i18n": "^7.2.0",
+    "@nuxtjs/router": "^1.7.0",
     "@sagi.io/workers-jwt": "^0.0.22",
     "core-js": "^3.19.3",
     "esm": "^3.2.25",
@@ -31,9 +34,7 @@
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/eslint-config": "^8.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
-    "@nuxtjs/i18n": "^7.2.0",
     "@nuxtjs/pwa": "^3.3.5",
-    "@nuxtjs/router": "^1.7.0",
     "@nuxtjs/vuetify": "^1.12.3",
     "chart.js": "^2.9.4",
     "cors": "^2.8.5",
