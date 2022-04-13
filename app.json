@@ -1,0 +1,7 @@
+{
+  "name": "ItemSzop",
+  "description": "Sklep twojego serwera minecraftowego za darmo!",
+  "repository": "https://github.com/michaljaz/itemszop",
+  "logo": "https://itemszop.tk/icon.png",
+  "keywords": ["itemshop","itemszop"]
+}
