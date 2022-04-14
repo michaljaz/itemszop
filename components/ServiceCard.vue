@@ -26,10 +26,46 @@
       persistent
       max-width="800"
     >
-      <v-card elevation="2" outlined>
-        <v-card-text>
-          <v-row>
-            <v-col cols="12" lg="6" class="hidden-md-and-down my-auto py-8">
+      <v-stepper v-model="e1">
+        <v-stepper-header class="elevation-0">
+          <div class="headline font-weight-bold mt-5 ml-4">
+            {{ service.name }}
+          </div>
+          <v-btn
+            class="float-right mt-5 mr-4"
+            icon
+            dark
+            @click="dialog=false;$emit('blur', false)"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-stepper-header>
+        <v-stepper-header class="elevation-0">
+          <v-stepper-step
+            :complete="e1 > 1"
+            step="1"
+          >
+            {{ $t('titles.buy_service_1') }}
+          </v-stepper-step>
+
+          <v-divider />
+
+          <v-stepper-step
+            :complete="e1 > 2"
+            step="2"
+          >
+            {{ $t('titles.buy_service_2') }}
+          </v-stepper-step>
+
+          <v-divider />
+
+          <v-stepper-step step="3">
+            {{ $t('titles.buy_service_3') }}
+          </v-stepper-step>
+        </v-stepper-header>
+        <v-stepper-items>
+          <v-stepper-content step="1">
+            <div class="ma-2">
               <v-img :src="service.icon ? service.iconUrl : `/item.png`" max-height="150" contain class="mb-2" />
               <center>
                 <div class="headline font-weight-bold">
@@ -39,210 +75,177 @@
               <!-- eslint-disable vue/no-v-html -->
               <div
                 style="max-height: 200px"
-                class="mt-2 overflow-y-auto"
+                class="mt-2 overflow-y-auto mx-auto"
                 v-html="service.description"
               />
               <!--eslint-enable-->
-            </v-col>
-            <v-col cols="12" lg="6">
-              <v-card-title class="headline">
-                <div class="hidden-lg-and-up">
-                  <div class="d-inline-flex">
-                    <v-img :src="service.icon ? service.iconUrl : `/item.png`" width="50" height="50" contain />
-                    <span class="mt-3 ml-3">
-                      {{ service.name }}
-                    </span>
+              <span class="headline">
+                {{ $t('misc.price_from') }} {{ miniPrice }}zł
+              </span>
+              <span class="float-right">
+                <v-btn
+                  color="success"
+                  @click="e1 = 2"
+                >
+                  {{ $t('actions.next') }}
+                </v-btn>
+              </span>
+            </div>
+          </v-stepper-content>
+
+          <v-stepper-content step="2">
+            <div class="ma-2">
+              <v-form
+                ref="form"
+                v-model="valid"
+              >
+                <v-text-field v-model="nick" :label="$t('fields.nick')" :rules="rules.nick" />
+                <v-radio-group v-model="type" :rules="rules.type">
+                  <v-radio
+                    v-if="service.microsms_sms && config.microsms"
+                    :label="service.costslider ? `${$t('sms')}` : `${$t('sms')} (${smsCost[service.microsms_sms_type][1]} zł ${$t('misc.per_item')})`"
+                    value="microsms_sms"
+                  />
+                  <v-radio
+                    v-if="service.microsms_transfer && config.microsms"
+                    :label="`${$t('transfer')} (${service.microsms_transfer_cost} zł ${$t('misc.per_item')})`"
+                    value="microsms_transfer"
+                  />
+                  <v-radio
+                    v-if="service.lvlup && config.lvlup"
+                    :label="`${$t('transfer_psc')} (${service.lvlup_cost} zł ${$t('misc.per_item')})`"
+                    value="lvlup"
+                  />
+                  <v-radio
+                    v-if="service.paypal_p24 && config.paypal"
+                    :label="`${$t('przelewy24')} (${service.paypal_p24_cost} zł ${$t('misc.per_item')})`"
+                    value="paypal_p24"
+                  />
+                </v-radio-group>
+                <div v-if="type && service.costslider">
+                  <div v-if="type == 'microsms_transfer' || type == 'lvlup' || type=='paypal_p24'">
+                    <i18n
+                      path="misc.costslider_amount"
+                    >
+                      <template #amount>
+                        {{ costslider }}
+                      </template>
+                    </i18n>
+                    <v-slider
+                      v-model="costslider"
+                      :min="service.min_amount"
+                      :max="service.max_amount"
+                      thumb-label
+                    />
+                  </div>
+                  <div v-else>
+                    <i18n
+                      path="misc.costslider_amount"
+                    >
+                      <template #amount>
+                        {{ smsList[costslider_sms][1] }}
+                      </template>
+                    </i18n>
+                    <v-slider
+                      v-model="costslider_sms"
+                      :min="0"
+                      :max="smsList.length-1"
+                      thumb-label
+                    >
+                      <template #thumb-label="{ value }">
+                        {{ smsList[value][1] }}
+                      </template>
+                    </v-slider>
                   </div>
                 </div>
-                <v-spacer />
-                <v-btn
-                  icon
-                  dark
-                  @click="dialog=false;$emit('blur', false)"
-                >
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
-              </v-card-title>
+                <span class="headline">
+                  {{ $t('misc.price') }}: {{ price }}zł
+                </span>
+                <span class="float-right">
+                  <v-btn text @click="e1 = 1">
+                    {{ $t('actions.go_back') }}
+                  </v-btn>
+                  <v-btn
+                    :disabled="!valid"
+                    color="success"
+                    @click="e1 = 3"
+                  >
+                    {{ $t('actions.next') }}
+                  </v-btn>
+                </span>
+              </v-form>
+            </div>
+          </v-stepper-content>
 
-              <v-card-text>
+          <v-stepper-content step="3">
+            <div class="ma-2">
+              <div v-if="type=='microsms_sms'">
+                <center>
+                  <i18n
+                    path="misc.sms_send_instruction"
+                  >
+                    <template #netto>
+                      {{ smsCost[smsType][0] }}
+                    </template>
+                    <template #brutto>
+                      {{ smsCost[smsType][1] }}
+                    </template>
+                    <template #sms>
+                      <b>{{ config.microsms_sms_text }}</b>
+                    </template>
+                    <template #number>
+                      <b>{{ smsCost[smsType][2] }}</b>
+                    </template>
+                    <template #br>
+                  </br>
+                    </template>
+                  </i18n>
+                </center>
                 <v-form
-                  ref="form"
-                  v-model="valid"
+                  ref="form2"
+                  v-model="valid2"
                 >
-                  <!-- eslint-disable vue/no-v-html -->
-                  <div
-                    style="max-height: 200px"
-                    class="mt-2 overflow-y-auto hidden-lg-and-up"
-                    v-html="service.description"
-                  />
-                  <!--eslint-enable-->
-                  <v-text-field v-model="nick" :label="$t('fields.nick')" :rules="rules.nick" />
-                  <v-radio-group v-model="type" :rules="rules.type">
-                    <v-radio
-                      v-if="service.microsms_sms && config.microsms"
-                      :label="service.costslider ? `${$t('sms')}` : `${$t('sms')} (${smsCost[service.microsms_sms_type][1]} zł ${$t('misc.per_item')})`"
-                      value="microsms_sms"
-                    />
-                    <v-radio
-                      v-if="service.microsms_transfer && config.microsms"
-                      :label="`${$t('transfer')} (${service.microsms_transfer_cost} zł ${$t('misc.per_item')})`"
-                      value="microsms_transfer"
-                    />
-                    <v-radio
-                      v-if="service.lvlup && config.lvlup"
-                      :label="`${$t('transfer_psc')} (${service.lvlup_cost} zł ${$t('misc.per_item')})`"
-                      value="lvlup"
-                    />
-                    <v-radio
-                      v-if="service.paypal_p24 && config.paypal"
-                      :label="`${$t('przelewy24')} (${service.paypal_p24_cost} zł ${$t('misc.per_item')})`"
-                      value="paypal_p24"
-                    />
-                  </v-radio-group>
-                  <div v-if="type && service.costslider">
-                    <div v-if="(type == 'microsms_transfer' || type == 'lvlup')">
-                      <i18n
-                        path="misc.costslider_amount"
-                      >
-                        <template #amount>
-                          {{ costslider }}
-                        </template>
-                      </i18n>
-                      <v-slider
-
-                        v-model="costslider"
-                        :min="service.min_amount"
-                        :max="service.max_amount"
-                        thumb-label
-                      />
-                    </div>
-                    <div v-else>
-                      <i18n
-                        path="misc.costslider_amount"
-                      >
-                        <template #amount>
-                          {{ smsList[costslider_sms][1] }}
-                        </template>
-                      </i18n>
-                      <v-slider
-                        v-model="costslider_sms"
-                        :min="0"
-                        :max="smsList.length-1"
-                        thumb-label
-                      >
-                        <template #thumb-label="{ value }">
-                          {{ smsList[value][1] }}
-                        </template>
-                      </v-slider>
-                    </div>
-                  </div>
+                  <v-text-field v-model="code" label="Wpisz kod z sms'a" :rules="rules.code" />
                 </v-form>
-              </v-card-text>
-              <v-card-actions>
-                <v-row>
-                  <v-col>
-                    <span class="headline">
-                      {{ $t('misc.price') }}: {{ price }}zł
-                    </span>
-                  </v-col>
-                  <v-col>
-                    <div
-                      v-show="type==='paypal_p24' && valid"
-                      :id="`p24-${service.serviceId}`"
-                      style="width:100%"
-                    />
-                    <v-btn
-                      v-show="type!=='paypal_p24' || !valid"
-                      :disabled="!valid"
-                      color="success"
-                      block
-                      :loading="loadingButton"
-                      @click="next"
-                    >
-                      {{ $t('actions.next') }}
-                    </v-btn>
-                  </v-col>
-                </v-row>
-              </v-card-actions>
-            </v-col>
-          </v-row>
-        </v-card-text>
-      </v-card>
+                <span class="float-right">
+                  <v-btn text @click="e1 = 2">
+                    {{ $t('actions.go_back') }}
+                  </v-btn>
+                  <v-btn
+                    :disabled="!valid2"
+                    color="success"
+                    @click="checkSMS"
+                  >
+                    {{ $t('actions.next') }}
+                  </v-btn>
+                </span>
+              </div>
+              <div v-else-if="type=='microsms_transfer' || type=='lvlup'">
+                <span class="float-right">
+                  <v-btn text @click="e1 = 2">
+                    {{ $t('actions.go_back') }}
+                  </v-btn>
+                  <v-btn
+                    color="success"
+                    :loading="loadingButton"
+                    @click="next"
+                  >
+                    {{ $t('actions.next') }}
+                  </v-btn>
+                </span>
+              </div>
+              <div v-else>
+                <span class="float-right">
+                  <v-btn text @click="e1 = 2">
+                    {{ $t('actions.go_back') }}
+                  </v-btn>
+                </span>
+              </div>
+            </div>
+          </v-stepper-content>
+        </v-stepper-items>
+      </v-stepper>
     </v-dialog>
-    <v-dialog
-      v-model="dialogSMS"
-      persistent
-      width="500"
-    >
-      <v-card elevation="2" outlined>
-        <v-card-title class="headline">
-          {{ service.name }}
-          <v-spacer />
-          <v-btn
-            icon
-            dark
-            @click="dialogSMS = false;$emit('blur', false)"
-          >
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-card-title>
-
-        <v-card-text>
-          <center>
-            <i18n
-              path="misc.sms_send_instruction"
-            >
-              <template #netto>
-                {{ smsCost[smsType][0] }}
-              </template>
-              <template #brutto>
-                {{ smsCost[smsType][1] }}
-              </template>
-              <template #sms>
-                <b>{{ config.microsms_sms_text }}</b>
-              </template>
-              <template #number>
-                <b>{{ smsCost[smsType][2] }}</b>
-              </template>
-              <template #br>
-              </br>
-              </template>
-            </i18n>
-          </center>
-          <v-form
-            ref="form2"
-            v-model="valid2"
-          >
-            <v-text-field v-model="code" label="Wpisz kod z sms'a" :rules="rules.code" />
-          </v-form>
-        </v-card-text>
-        <v-divider />
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="success"
-            @click="checkSMS"
-          >
-            {{ $t('actions.next') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    <v-snackbar
-      v-model="snackbar"
-    >
-      {{ snackbarMessage }}
-      <template #action="{ attrs }">
-        <v-btn
-          color="pink"
-          text
-          v-bind="attrs"
-          @click="snackbar = false"
-        >
-          {{ $t('actions.cancel') }}
-        </v-btn>
-      </template>
-    </v-snackbar>
   </div>
 </template>
 <script>
@@ -268,6 +271,7 @@ export default {
   },
   data () {
     return {
+      e1: 1,
       p24: false,
       loadingButton: null,
       costslider_sms: 0,
@@ -276,7 +280,6 @@ export default {
       snackbar: false,
       snackbarMessage: '',
       code: '',
-      dialogSMS: false,
       valid2: false,
       valid: false,
       nick: '',
@@ -374,54 +377,44 @@ export default {
       }
     }
   },
-  watch: {
-    paypalLoaded () {
-      console.log('paypal loaded')
-    }
-  },
   methods: {
     initPaypal () {
-      if (!this.p24 && this.service.paypal_p24 && this.config.paypal) {
-        setTimeout(() => {
-          window.paypal.Buttons({
-            fundingSource: window.paypal.FUNDING.P24,
-            style: {
-              label: 'pay'
-            },
-            createOrder: (data, actions) => {
-              return actions.order.create({
-                purchase_units: [{
-                  amount: {
-                    currency: 'PLN',
-                    value: (+(Math.round(this.service.paypal_p24_cost + 'e+2') + 'e-2')).toFixed(2)
-                  }
-                }]
-              })
-            },
-            onApprove (data, actions) {
-              // see #5. Capture the transaction
-            },
-            onCancel (data, actions) {
-              console.log(`Order Canceled - ID: ${data.orderID}`)
-            },
-            onError (err) {
-              console.error(err)
-            }
-          }).render(`#p24-${this.service.serviceId}`)
-        }, 1000)
-        this.p24 = true
-      }
+      // if (!this.p24 && this.service.paypal_p24 && this.config.paypal) {
+      //   setTimeout(() => {
+      //     window.paypal.Buttons({
+      //       fundingSource: window.paypal.FUNDING.P24,
+      //       style: {
+      //         label: 'pay'
+      //       },
+      //       createOrder: (data, actions) => {
+      //         return actions.order.create({
+      //           purchase_units: [{
+      //             amount: {
+      //               currency: 'PLN',
+      //               value: (+(Math.round(this.service.paypal_p24_cost + 'e+2') + 'e-2')).toFixed(2)
+      //             }
+      //           }]
+      //         })
+      //       },
+      //       onApprove (data, actions) {
+      //         // see #5. Capture the transaction
+      //       },
+      //       onCancel (data, actions) {
+      //         console.log(`Order Canceled - ID: ${data.orderID}`)
+      //       },
+      //       onError (err) {
+      //         console.error(err)
+      //       }
+      //     }).render(`#p24-${this.service.serviceId}`)
+      //   }, 1000)
+      //   this.p24 = true
+      // }
     },
     next () {
       this.$refs.form.validate()
       if (this.valid) {
-        if (this.type === 'microsms_sms') {
-          this.dialog = false
-          this.dialogSMS = true
-        } else {
-          this.loadingButton = 'loading'
-          this.redirectLink(this.type)
-        }
+        this.loadingButton = 'loading'
+        this.redirectLink(this.type)
       }
     },
     redirectLink (paymenttype) {

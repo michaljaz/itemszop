@@ -62,7 +62,8 @@ export default {
     reload: 'Odśwież stronę',
     description: 'Opis',
     remove_payment_history: 'Usuń historię płatności',
-    new_page: 'Nowa strona'
+    new_page: 'Nowa strona',
+    go_back: 'Cofnij się'
   },
 
   fields: {
@@ -190,7 +191,10 @@ export default {
     loading: 'Ładowanie...',
     page_config: 'Konfiguracja strony',
     no_server_available: 'Nie dodano żadnego serwera :(',
-    temp_announcement: 'Czasowe ogłoszenie'
+    temp_announcement: 'Czasowe ogłoszenie',
+    buy_service_1: 'Zapoznanie się z usługą',
+    buy_service_2: 'Wybranie formy płatności',
+    buy_service_3: 'Realizacja płatności'
   },
 
   responses: {
@@ -245,7 +249,7 @@ export default {
     privacy_policy_accept: 'Rejestrując się w serwisie automatycznie akceptujesz ',
     privacy_policy: 'Politykę prywatności',
     per_item: 'za sztukę',
-    price: 'Cena'
-
+    price: 'Cena',
+    price_from: 'Cena od'
   }
 }
