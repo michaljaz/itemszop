@@ -79,9 +79,6 @@
                 v-html="service.description"
               />
               <!--eslint-enable-->
-              <span class="headline">
-                {{ $t('misc.price_from') }} {{ miniPrice }}zł
-              </span>
               <span class="float-right">
                 <v-btn
                   color="success"

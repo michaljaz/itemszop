@@ -275,6 +275,9 @@ export default {
         document.head.appendChild(script)
       }
     }
+  },
+  beforeCreate () {
+    this.blur = false
   }
 }
 </script>
