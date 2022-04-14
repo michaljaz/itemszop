@@ -250,6 +250,7 @@ export default {
     privacy_policy: 'Politykę prywatności',
     per_item: 'za sztukę',
     price: 'Cena',
-    price_from: 'Cena od'
+    price_from: 'Cena od',
+    click_to_pay_by_link: 'Kliknij przycisk "Dalej", aby przejść do płatności.'
   }
 }

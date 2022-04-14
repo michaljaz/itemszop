@@ -66,27 +66,33 @@
         <v-stepper-items>
           <v-stepper-content step="1">
             <div class="ma-2">
-              <v-img :src="service.icon ? service.iconUrl : `/item.png`" max-height="150" contain class="mb-2" />
-              <center>
-                <div class="headline font-weight-bold">
-                  {{ service.name }}
-                </div>
-              </center>
-              <!-- eslint-disable vue/no-v-html -->
-              <div
-                style="max-height: 200px"
-                class="mt-2 overflow-y-auto mx-auto"
-                v-html="service.description"
-              />
-              <!--eslint-enable-->
-              <span class="float-right">
-                <v-btn
-                  color="success"
-                  @click="e1 = 2"
-                >
-                  {{ $t('actions.next') }}
-                </v-btn>
-              </span>
+              <v-row>
+                <v-col cols="12" class="my-auto" sm="5">
+                  <v-img :src="service.icon ? service.iconUrl : `/item.png`" max-height="150" contain class="mb-2" />
+                </v-col>
+
+                <v-col cols="12" sm="7">
+                  <center>
+                    <div class="headline font-weight-bold">
+                      {{ service.name }}
+                    </div>
+                  </center>
+                  <!-- eslint-disable vue/no-v-html -->
+                  <div
+                    class="mt-2 mx-auto mb-3"
+                    v-html="service.description"
+                  />
+                  <!--eslint-enable-->
+                  <span class="float-right">
+                    <v-btn
+                      color="success"
+                      @click="e1 = 2"
+                    >
+                      {{ $t('actions.next') }}
+                    </v-btn>
+                  </span>
+                </v-col>
+              </v-row>
             </div>
           </v-stepper-content>
 
@@ -218,6 +224,9 @@
                 </span>
               </div>
               <div v-else-if="type=='microsms_transfer' || type=='lvlup'">
+                <h1 class="h1 mb-5">
+                  {{ $t('misc.click_to_pay_by_link') }}
+                </h1>
                 <span class="float-right">
                   <v-btn text @click="e1 = 2">
                     {{ $t('actions.go_back') }}
@@ -226,6 +235,20 @@
                     color="success"
                     :loading="loadingButton"
                     @click="next"
+                  >
+                    {{ $t('actions.next') }}
+                  </v-btn>
+                </span>
+              </div>
+              <div v-else-if="type=='paypal_p24'">
+                <div id="p24_container" />
+                <span class="float-right">
+                  <v-btn text @click="e1 = 2">
+                    {{ $t('actions.go_back') }}
+                  </v-btn>
+                  <v-btn
+                    color="success"
+                    :loading="loadingButton"
                   >
                     {{ $t('actions.next') }}
                   </v-btn>
@@ -402,7 +425,7 @@ export default {
       //       onError (err) {
       //         console.error(err)
       //       }
-      //     }).render(`#p24-${this.service.serviceId}`)
+      //     }).render(`#p24_container`)
       //   }, 1000)
       //   this.p24 = true
       // }
