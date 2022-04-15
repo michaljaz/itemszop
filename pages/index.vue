@@ -39,35 +39,31 @@
         </div>
       </v-container>
     </v-app-bar>
-    <v-parallax src="/bg.webp" height="550">
+    <div class="intro">
       <v-container>
-        <v-row>
-          <v-col md="1" />
-          <v-col md="6">
-            <h1 class="display-3 font-weight-regular mb-4">
-              {{ $t('brand') }}
-            </h1>
-            <h4 class="headline">
-              {{ $t('homepage.title') }}
-              <client-only>
-                <div class="mt-3">
-                  <v-btn v-if="!loggedIn" to="/auth/signin" large color="primary" class="mt-1">
-                    {{ $t('sign_in') }}
-                  </v-btn>
-                  <v-btn v-if="!loggedIn" to="/auth/signup" large color="info" class="mt-1">
-                    {{ $t('sign_up') }}
-                  </v-btn>
-                  <v-btn v-if="loggedIn" to="/panel" large color="primary">
-                    {{ $t('actions.go_to_panel') }}
-                  </v-btn>
-                </div>
-              </client-only>
-            </h4>
-          </v-col>
-          <v-col md="5" />
-        </v-row>
+        <div style="margin-top:200px;margin-left:60px;">
+          <h1 class="display-3 font-weight-regular mb-4">
+            {{ $t('brand') }}
+          </h1>
+          <h4 class="headline">
+            {{ $t('homepage.title') }}
+            <client-only>
+              <div class="mt-3">
+                <v-btn v-if="!loggedIn" to="/auth/signin" large color="primary" class="mt-1">
+                  {{ $t('sign_in') }}
+                </v-btn>
+                <v-btn v-if="!loggedIn" to="/auth/signup" large color="info" class="mt-1">
+                  {{ $t('sign_up') }}
+                </v-btn>
+                <v-btn v-if="loggedIn" to="/panel" large color="primary">
+                  {{ $t('actions.go_to_panel') }}
+                </v-btn>
+              </div>
+            </client-only>
+          </h4>
+        </div>
       </v-container>
-    </v-parallax>
+    </div>
     <v-container>
       <h1 class="display-1 mt-10 mb-7">
         {{ $t('homepage.why_best') }}
@@ -164,51 +160,6 @@
           </v-card>
         </v-col>
       </v-row>
-    </v-container>
-    <v-parallax src="/footerbg.webp" jumbotron height="500" class="mt-7">
-      <v-row align="center" justify="center">
-        <v-col class="text-center" cols="12">
-          <h1 class="text-h4 font-weight-thick mb-4">
-            {{ $t('homepage.used_services') }}
-          </h1>
-          <v-container>
-            <v-row class="ma-2">
-              <v-col>
-                <center>
-                  <v-img
-                    src="/nuxt.png"
-                    width="100"
-                    height="100"
-                  />
-                  Nuxt
-                </center>
-              </v-col>
-              <v-col>
-                <center>
-                  <v-img
-                    src="/vuetify.png"
-                    width="100"
-                    height="100"
-                  />
-                  Vuetify
-                </center>
-              </v-col>
-              <v-col>
-                <center>
-                  <v-img
-                    src="/firebase.png"
-                    width="100"
-                    height="100"
-                  />
-                  Firebase
-                </center>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-col>
-      </v-row>
-    </v-parallax>
-    <v-container class="mb-10">
       <center>
         <h1 class="display-1 mt-15 mb-7">
           {{ $t('homepage.supported_operators') }}
@@ -221,6 +172,11 @@
         <v-img
           class="mt-4"
           src="/lvlup.png"
+          width="300"
+        />
+        <v-img
+          class="mt-4"
+          src="/paypal.webp"
           width="300"
         />
       </center>
@@ -278,8 +234,8 @@ export default {
   methods: {
     changeColor () {
       if (
-        document.body.scrollTop > 100 ||
-        document.documentElement.scrollTop > 100
+        document.body.scrollTop > 0 ||
+        document.documentElement.scrollTop > 0
       ) {
         this.bg = ''
         this.el = '5'
@@ -291,3 +247,9 @@ export default {
   }
 }
 </script>
+<style>
+.intro{
+  background: url('/bg.webp') no-repeat center center fixed;
+  height:550px;
+}
+</style>

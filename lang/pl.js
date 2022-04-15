@@ -32,7 +32,6 @@ export default {
     card5_content: 'Wszystkie dane dotyczące sklepu znajdują się w bazie danych w chmurze. Żadna osoba niepowołana nie posiada dostępu do bazy.',
     card6_title: 'Architektura SaaS',
     card6_content: 'Cały sklep jest hostowany u nas. Nie musisz się martwić o stronę techniczną. Istnieje również możliwość własnego hostowania.',
-    used_services: 'Użyte serwisy i frameworki',
     supported_operators: 'Wspierani operatorzy płatności'
   },
 
