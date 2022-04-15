@@ -1,6 +1,6 @@
 <template>
   <default-layout>
-    <div v-if="background" class="background_blur" :style="`background:url(${backgroundUrl}) no-repeat center center fixed;`" />
+    <div v-if="background" class="background" :style="`background:url(${backgroundUrl}) no-repeat top center fixed;`" />
     <ShopListener public @servers="servers=$event" @shop="shop=$event" @config="config=$event" />
     <v-container v-if="shop.loaded">
       <div class="justify-center justify-md-start d-flex">
@@ -49,11 +49,11 @@
           <v-col md="8" sm="12" xs="12" cols="12">
             <v-alert
               v-if="shop.announcement"
-              color="green"
+              :color="shop.theme ? shop.theme : 'blue darken-4'"
               dismissible
-              outlined
+              colored-border
+              border="left"
               prominent
-              text
               type="info"
             >
               <!-- eslint-disable vue/no-v-html -->
@@ -286,20 +286,17 @@ export default {
 {
   opacity: 0 !important;
 }
-.background_blur {
+.background {
   position:fixed;
   z-index:0;
   top:0px;
   left:0px;
-  width:100%;
-  height:100%;
+  width:100vw;
+  height:100vh;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  -webkit-filter: blur(5px);
-  -ms-filter: blur(5px);
-  filter: blur(5px);
 }
 
 </style>
