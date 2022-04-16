@@ -237,7 +237,7 @@ export default {
         document.body.scrollTop > 0 ||
         document.documentElement.scrollTop > 0
       ) {
-        this.bg = 'rgba(5,19,34,1)'
+        this.bg = ''
         this.el = '5'
       } else {
         this.bg = 'transparent'
