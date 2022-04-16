@@ -83,8 +83,8 @@
                     v-html="service.description"
                   />
                   <!--eslint-enable-->
-                  <span class="float-right">
-                    <v-btn text @click="dialog=false">
+                  <span class="float-right mt-10">
+                    <v-btn text @click="dialog=false;$emit('blur', false)">
                       {{ $t('actions.cancel') }}
                     </v-btn>
                     <v-btn
