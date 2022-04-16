@@ -63,7 +63,6 @@
         nav
         dense
       >
-        <v-divider class="mb-1" />
         <v-list-item
           link
           :to="`/panel/shop/${$route.params.shopid}/`"

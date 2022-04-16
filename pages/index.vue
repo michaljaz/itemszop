@@ -52,7 +52,14 @@
                 <v-btn v-if="!loggedIn" to="/auth/signin" large color="primary" class="mt-1">
                   {{ $t('sign_in') }}
                 </v-btn>
-                <v-btn v-if="!loggedIn" to="/auth/signup" large color="info" class="mt-1">
+                <v-btn
+                  v-if="!loggedIn"
+                  to="/auth/signup"
+                  large
+                  color="primary"
+                  outlined
+                  class="mt-1"
+                >
                   {{ $t('sign_up') }}
                 </v-btn>
                 <v-btn v-if="loggedIn" to="/panel" large color="primary">
