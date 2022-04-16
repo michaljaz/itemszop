@@ -62,10 +62,17 @@ Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację
 
 - Istnieje również możliwość zablokowania możliwości tworzenia sklepów wszystkim użytkownikom, oprócz jednego. Wówczas trzeba zapisać zmienną środowiskową ```OWNER_ID``` o wartości id użytkownika (wziętym z bazy firebase).
 
-## Limity
+## Limity na darmowych hostingach
 
-ItemSzop działa jako statyczna strona. Dzięki temu hostowanie sklepu jest praktycznie dostępne za darmo na serwisach takich jak Cloudflare. Jednak wszystkie operacje nie mogą być wykonywane po stronie klienta. W tym momencie można skorzystać z serverlessowych funkcji, które umożliwią nam wykonywanie takich operacji jak np. księgowanie płatności, lub wywoływanie komend na serwerze mc.
+### statyczna strona + serverlessowe funkcje
 
-| Serverlessowe funkcje | Cloudflare | Vercel | Netlify |
+| Limit wysyłanych requestów | Cloudflare | Vercel | Netlify |
 | --- | --- | --- | --- |
-| Limit wysyłanych requestów | 100k / dzień | 100k / dzień | 125k / miesiąc |
+| Serverlessowe funkcje | 100k / dzień | 100k / dzień | 125k / miesiąc |
+| Statyczna strona | bez limitu | bez limitu | bez limitu |
+
+### serwer node.js
+
+|| Heroku | Glitch |
+| --- | --- | --- |
+| Maksymalny czas działania | 550h / miesiąc | 1000h / miesiąc |
