@@ -84,6 +84,9 @@
                   />
                   <!--eslint-enable-->
                   <span class="float-right">
+                    <v-btn text @click="dialog=false">
+                      {{ $t('actions.cancel') }}
+                    </v-btn>
                     <v-btn
                       color="success"
                       @click="e1 = 2"
@@ -171,7 +174,7 @@
                   <v-btn
                     :disabled="!valid"
                     color="success"
-                    @click="e1 = 3"
+                    @click="e1=3;initPaypal()"
                   >
                     {{ $t('actions.next') }}
                   </v-btn>
@@ -245,12 +248,6 @@
                 <span class="float-right">
                   <v-btn text @click="e1 = 2">
                     {{ $t('actions.go_back') }}
-                  </v-btn>
-                  <v-btn
-                    color="success"
-                    :loading="loadingButton"
-                  >
-                    {{ $t('actions.next') }}
                   </v-btn>
                 </span>
               </div>
@@ -399,36 +396,34 @@ export default {
   },
   methods: {
     initPaypal () {
-      // if (!this.p24 && this.service.paypal_p24 && this.config.paypal) {
-      //   setTimeout(() => {
-      //     window.paypal.Buttons({
-      //       fundingSource: window.paypal.FUNDING.P24,
-      //       style: {
-      //         label: 'pay'
-      //       },
-      //       createOrder: (data, actions) => {
-      //         return actions.order.create({
-      //           purchase_units: [{
-      //             amount: {
-      //               currency: 'PLN',
-      //               value: (+(Math.round(this.service.paypal_p24_cost + 'e+2') + 'e-2')).toFixed(2)
-      //             }
-      //           }]
-      //         })
-      //       },
-      //       onApprove (data, actions) {
-      //         // see #5. Capture the transaction
-      //       },
-      //       onCancel (data, actions) {
-      //         console.log(`Order Canceled - ID: ${data.orderID}`)
-      //       },
-      //       onError (err) {
-      //         console.error(err)
-      //       }
-      //     }).render(`#p24_container`)
-      //   }, 1000)
-      //   this.p24 = true
-      // }
+      if (this.type === 'paypal_p24') {
+        document.querySelector('#p24_container').innerHTML = ''
+        window.paypal.Buttons({
+          fundingSource: window.paypal.FUNDING.P24,
+          style: {
+            label: 'pay'
+          },
+          createOrder: (data, actions) => {
+            return actions.order.create({
+              purchase_units: [{
+                amount: {
+                  currency: 'PLN',
+                  value: (+(Math.round(this.price + 'e+2') + 'e-2')).toFixed(2)
+                }
+              }]
+            })
+          },
+          onApprove (data, actions) {
+            // see #5. Capture the transaction
+          },
+          onCancel (data, actions) {
+            console.log(`Order Canceled - ID: ${data.orderID}`)
+          },
+          onError (err) {
+            console.error(err)
+          }
+        }).render('#p24_container')
+      }
     },
     next () {
       this.$refs.form.validate()
