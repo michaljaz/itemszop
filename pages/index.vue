@@ -256,7 +256,7 @@ export default {
 </script>
 <style>
 .intro{
-  background: url('/bg.webp') no-repeat center center fixed;
+  background: url('/bg.webp') no-repeat top center fixed;
   height:550px;
 }
 </style>
