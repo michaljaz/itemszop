@@ -45,26 +45,10 @@
                   autocomplete="new-password"
                 />
                 <v-text-field
-                  v-model="serverIp"
-                  :label="$t('fields.server_ip')"
-                  :rules="rules.ip"
+                  v-model="serverId"
+                  :label="$t('fields.server_id')"
+                  :rules="rules.name"
                   autocomplete="new-password"
-                />
-                <v-text-field
-                  v-model="serverPort"
-                  :label="$t('fields.rcon_port')"
-                  :rules="rules.port"
-                  autocomplete="new-password"
-                  type="number"
-                />
-                <v-text-field
-                  v-model="serverPassword"
-                  autocomplete="new-password"
-                  :label="$t('fields.rcon_password')"
-                  :rules="rules.password"
-                  :type="showPassword ? 'text' : 'password'"
-                  :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                  @click:append="showPassword = !showPassword"
                 />
               </v-form>
             </v-card-text>
@@ -154,8 +138,9 @@ export default {
           value: 'serverName'
         },
         {
-          text: this.$t('fields.server_ip'),
-          value: 'serverIp'
+          text: this.$t('fields.server_id'),
+          align: 'start',
+          value: 'serverId'
         },
         {
           text: this.$t('fields.actions'),
@@ -167,11 +152,8 @@ export default {
       dialog2: false,
       dialog: false,
       valid: false,
-      serverPort: '',
       serverName: '',
       serverId: '',
-      serverIp: '',
-      serverPassword: '',
       showPassword: false,
       rules: {
         port: [
@@ -212,22 +194,16 @@ export default {
   methods: {
     applyServer (server) {
       this.serverId = server.serverId
-      this.serverPort = server.serverPort
       this.serverName = server.serverName
-      this.serverIp = server.serverIp
-      this.serverPassword = server.serverPassword
     },
     saveServer () {
       this.$refs.form.validate()
       if (this.valid) {
         const { shopid } = this.$route.params
-        const { serverId, serverName, serverIp, serverPassword, serverPort } = this
+        const { serverId, serverName } = this
         this.$fire.database.ref().child(`servers/${serverId}`).set({
           owner: this.$fire.auth.currentUser.uid,
-          serverName,
-          serverIp,
-          serverPassword,
-          serverPort
+          serverName
         })
         this.$fire.database.ref().child(`shops/${shopid}/servers`).update({ [serverId]: true })
         this.dialog = false
@@ -243,9 +219,6 @@ export default {
     },
     newServer () {
       this.serverName = 'A Minecraft Server'
-      this.serverIp = 'localhost'
-      this.serverPassword = 'password'
-      this.serverPort = '25575'
       this.serverId = `${Math.random().toString(36).replace('0.', '')}`
       this.dialog = true
     }

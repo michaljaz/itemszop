@@ -78,6 +78,17 @@
         </v-list-item>
         <v-list-item
           link
+          :to="`/panel/shop/${$route.params.shopid}/pages`"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-file</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ $t('titles.pages') }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          link
           :to="`/panel/shop/${$route.params.shopid}/servers`"
         >
           <v-list-item-icon>
@@ -96,17 +107,6 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>{{ $t('titles.services') }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
-          :to="`/panel/shop/${$route.params.shopid}/pages`"
-        >
-          <v-list-item-icon>
-            <v-icon>mdi-file</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ $t('titles.pages') }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item
