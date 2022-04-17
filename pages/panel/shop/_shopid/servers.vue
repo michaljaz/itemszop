@@ -47,7 +47,7 @@
                 <v-text-field
                   v-model="serverId"
                   :label="$t('fields.server_id')"
-                  :rules="rules.name"
+                  :rules="rules.server_id"
                   autocomplete="new-password"
                 />
               </v-form>
@@ -154,6 +154,7 @@ export default {
       valid: false,
       serverName: '',
       serverId: '',
+      oldServerId: '',
       showPassword: false,
       rules: {
         port: [
@@ -162,13 +163,9 @@ export default {
         name: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
-        ip: [
+        server_id: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
-          v => this.$regex.ip(v) || this.$t('formats.wrong_format')
-        ],
-        password: [
-          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
-          v => this.$regex.min_6_chars(v) || this.$t('formats.min_6_chars')
+          v => this.$regex.normal_string(v) || this.$t('formats.wrong_format_serviceid')
         ]
       }
     }
@@ -195,6 +192,7 @@ export default {
     applyServer (server) {
       this.serverId = server.serverId
       this.serverName = server.serverName
+      this.oldServerId = server.serverId
     },
     saveServer () {
       this.$refs.form.validate()
@@ -206,6 +204,10 @@ export default {
           serverName
         })
         this.$fire.database.ref().child(`shops/${shopid}/servers`).update({ [serverId]: true })
+        if (this.serverId !== this.oldServerId) {
+          this.$fire.database.ref().child(`servers/${this.oldServerId}`).remove()
+          this.$fire.database.ref().child(`shops/${shopid}/servers/${this.oldServerId}`).remove()
+        }
         this.dialog = false
       }
     },
@@ -220,6 +222,7 @@ export default {
     newServer () {
       this.serverName = 'A Minecraft Server'
       this.serverId = `${Math.random().toString(36).replace('0.', '')}`
+      this.oldServerId = this.serverId
       this.dialog = true
     }
   }
