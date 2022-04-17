@@ -50,6 +50,15 @@
                   :rules="rules.server_id"
                   autocomplete="new-password"
                 />
+                <v-alert
+                  v-model="error"
+                  color="red"
+                  type="error"
+                  dismissible
+                  outlined
+                >
+                  {{ $t('responses.server_already_exist') }}
+                </v-alert>
               </v-form>
             </v-card-text>
             <v-card-actions>
@@ -155,7 +164,7 @@ export default {
       serverName: '',
       serverId: '',
       oldServerId: '',
-      showPassword: false,
+      error: false,
       rules: {
         port: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
@@ -202,13 +211,16 @@ export default {
         this.$fire.database.ref().child(`servers/${serverId}`).set({
           owner: this.$fire.auth.currentUser.uid,
           serverName
+        }).then(() => {
+          this.$fire.database.ref().child(`shops/${shopid}/servers`).update({ [serverId]: true })
+          if (this.serverId !== this.oldServerId) {
+            this.$fire.database.ref().child(`servers/${this.oldServerId}`).remove()
+            this.$fire.database.ref().child(`shops/${shopid}/servers/${this.oldServerId}`).remove()
+          }
+          this.dialog = false
+        }).catch((e) => {
+          this.error = true
         })
-        this.$fire.database.ref().child(`shops/${shopid}/servers`).update({ [serverId]: true })
-        if (this.serverId !== this.oldServerId) {
-          this.$fire.database.ref().child(`servers/${this.oldServerId}`).remove()
-          this.$fire.database.ref().child(`shops/${shopid}/servers/${this.oldServerId}`).remove()
-        }
-        this.dialog = false
       }
     },
     removeServer (server) {

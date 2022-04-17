@@ -209,7 +209,8 @@ export default {
     wrong_api_key: 'Nieprawidłowy klucz api',
     shop_already_exist: 'Sklep z takim ID już istnieje',
     lvlup_error: 'Błąd w konfiguracji lvlup',
-    reference_not_found: 'Nie znaleziono odwołania w bazie danych'
+    reference_not_found: 'Nie znaleziono odwołania w bazie danych',
+    server_already_exist: 'Serwer z takim ID już istnieje'
   },
 
   firebase: {

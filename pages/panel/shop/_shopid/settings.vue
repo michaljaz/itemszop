@@ -160,6 +160,7 @@
             border="left"
             color="error"
             dark
+            text
           >
             {{ $t('misc.if_not_read') }}
           </v-alert>

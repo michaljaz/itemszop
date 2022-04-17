@@ -22,6 +22,15 @@
                 :label="$t('fields.shop_id')"
                 :prefix="url"
               />
+              <v-alert
+                v-model="error"
+                color="red"
+                type="error"
+                dismissible
+                outlined
+              >
+                {{ $t('responses.shop_already_exist') }}
+              </v-alert>
             </v-card-text>
             <v-card-actions>
               <v-spacer />
@@ -33,21 +42,6 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-snackbar
-      v-model="snackbar"
-    >
-      {{ $t('responses.shop_already_exist') }}
-      <template #action="{ attrs }">
-        <v-btn
-          color="error"
-          text
-          v-bind="attrs"
-          @click="snackbar = false"
-        >
-          {{ $t('actions.cancel') }}
-        </v-btn>
-      </template>
-    </v-snackbar>
   </div>
 </template>
 <script>
@@ -60,6 +54,7 @@ export default {
       name: '',
       shopid: '',
       valid: false,
+      error: false,
       rules: {
         name: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
@@ -109,7 +104,7 @@ export default {
             })
         })
         .catch(() => {
-          this.snackbar = true
+          this.error = true
         })
     }
   }
