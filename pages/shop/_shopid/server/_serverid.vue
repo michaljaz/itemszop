@@ -98,7 +98,7 @@ export default {
     updateBreadCrumb () {
       this.$emit('breadcrumb', [{
         text: this.$t('titles.shop'),
-        disabled: false,
+        disabled: Object.keys(this.servers).length === 1,
         href: `${this.shopPath}/`
       },
       {

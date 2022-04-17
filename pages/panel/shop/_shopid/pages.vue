@@ -17,94 +17,13 @@
             vertical
           />
           <v-spacer />
-          <v-dialog
-            v-model="dialog"
-            max-width="700px"
+          <v-btn
+            color="success"
+            dark
+            @click="newPage"
           >
-            <template #activator="{ on, attrs }">
-              <v-btn
-                color="success"
-                dark
-                class="mb-2"
-                v-bind="attrs"
-                v-on="on"
-                @click="newPage"
-              >
-                {{ $t('actions.new_page') }}
-              </v-btn>
-            </template>
-            <v-card outlined>
-              <v-card-title>
-                <span class="text-h5">{{ $t('titles.page_config') }}</span>
-              </v-card-title>
-
-              <v-card-text>
-                <v-container>
-                  <v-form
-                    ref="form"
-                    v-model="valid"
-                  >
-                    <v-text-field
-                      v-model="name"
-                      :label="$t('fields.page_name')"
-                      :rules="rules.name"
-                    />
-                    <v-text-field
-                      v-model="pageId"
-                      :label="$t('fields.page_id')"
-                      :rules="rules.pageId"
-                    />
-                    <TiptapEditor :editorcontent="content" @content="content=$event" />
-                  </v-form>
-                </v-container>
-              </v-card-text>
-
-              <v-card-actions>
-                <v-spacer />
-                <v-btn
-                  color="primary"
-                  text
-                  @click="dialog=false"
-                >
-                  {{ $t('actions.cancel') }}
-                </v-btn>
-                <v-btn
-                  color="success"
-                  text
-                  @click="savePage"
-                >
-                  {{ $t('actions.save') }}
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-          <v-dialog v-model="dialogDelete" max-width="500px">
-            <v-card outlined>
-              <v-card-title class="text-h5">
-                {{ $t('titles.are_you_sure') }}
-              </v-card-title>
-              <v-card-text>
-                {{ $t('misc.after_server_delete') }}
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer />
-                <v-btn
-                  color="primary"
-                  text
-                  @click="dialogDelete = false"
-                >
-                  {{ $t('actions.cancel') }}
-                </v-btn>
-                <v-btn
-                  color="error"
-                  text
-                  @click="deletePage"
-                >
-                  {{ $t('actions.remove') }}
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
+            {{ $t('actions.new_page') }}
+          </v-btn>
         </v-toolbar>
       </template>
       <template #[`item.actions`]="{ item }">
@@ -123,6 +42,82 @@
         </v-icon>
       </template>
     </v-data-table>
+    <v-dialog
+      v-model="dialog"
+      max-width="700px"
+    >
+      <v-card outlined>
+        <v-card-title>
+          <span class="text-h5">{{ $t('titles.page_config') }}</span>
+        </v-card-title>
+
+        <v-card-text>
+          <v-container>
+            <v-form
+              ref="form"
+              v-model="valid"
+            >
+              <v-text-field
+                v-model="name"
+                :label="$t('fields.page_name')"
+                :rules="rules.name"
+              />
+              <v-text-field
+                v-model="pageId"
+                :label="$t('fields.page_id')"
+                :rules="rules.pageId"
+              />
+              <TiptapEditor :editorcontent="content" @content="content=$event" />
+            </v-form>
+          </v-container>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            color="primary"
+            text
+            @click="dialog=false"
+          >
+            {{ $t('actions.cancel') }}
+          </v-btn>
+          <v-btn
+            color="success"
+            text
+            @click="savePage"
+          >
+            {{ $t('actions.save') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="dialogDelete" max-width="500px">
+      <v-card outlined>
+        <v-card-title class="text-h5">
+          {{ $t('titles.are_you_sure') }}
+        </v-card-title>
+        <v-card-text>
+          {{ $t('misc.after_server_delete') }}
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            color="primary"
+            text
+            @click="dialogDelete = false"
+          >
+            {{ $t('actions.cancel') }}
+          </v-btn>
+          <v-btn
+            color="error"
+            text
+            @click="deletePage"
+          >
+            {{ $t('actions.remove') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -212,6 +207,7 @@ export default {
       this.dialogDelete = false
     },
     newPage () {
+      this.dialog = true
       this.pageId = ''
       this.content = ''
       this.name = ''

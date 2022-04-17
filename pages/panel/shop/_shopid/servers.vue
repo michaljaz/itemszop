@@ -25,91 +25,6 @@
             {{ $t('actions.new_server') }}
           </v-btn>
         </v-toolbar>
-        <v-dialog
-          v-model="dialog"
-          max-width="500"
-        >
-          <v-card tile flat outlined>
-            <v-card-title class="text-h5">
-              {{ $t('titles.server_config') }}
-            </v-card-title>
-            <v-card-text>
-              <v-form
-                ref="form"
-                v-model="valid"
-              >
-                <v-text-field
-                  v-model="serverName"
-                  :label="$t('fields.server_name')"
-                  :rules="rules.name"
-                  autocomplete="new-password"
-                />
-                <v-text-field
-                  v-model="serverId"
-                  :label="$t('fields.server_id')"
-                  :rules="rules.server_id"
-                  autocomplete="new-password"
-                />
-                <v-alert
-                  v-model="error"
-                  color="red"
-                  type="error"
-                  dismissible
-                  outlined
-                >
-                  {{ $t('responses.server_already_exist') }}
-                </v-alert>
-              </v-form>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer />
-              <v-btn
-                color="primary"
-                text
-                @click="dialog = false"
-              >
-                {{ $t('actions.cancel') }}
-              </v-btn>
-              <v-btn
-                color="success"
-                text
-                @click="saveServer"
-              >
-                {{ $t('actions.save') }}
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-        <v-dialog
-          v-model="dialog2"
-          max-width="400"
-        >
-          <v-card>
-            <v-card-title class="text-h5">
-              {{ $t('titles.are_you_sure') }}
-            </v-card-title>
-            <v-card-text>
-              {{ $t('misc.after_server_delete') }}
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer />
-              <v-btn
-                color="primary"
-                text
-                @click="dialog2 = false"
-              >
-                {{ $t('actions.cancel') }}
-              </v-btn>
-              <v-btn
-                color="error"
-                text
-                @click="removeServer(currentItem)"
-              >
-                {{ $t('actions.remove') }}
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
       </template>
       <template #[`item.actions`]="{ item }">
         <v-icon
@@ -121,12 +36,97 @@
         </v-icon>
         <v-icon
           small
-          @click="dialog2=true;currentItem=item"
+          @click="dialogDelete=true;currentItem=item"
         >
           mdi-delete
         </v-icon>
       </template>
     </v-data-table>
+    <v-dialog
+      v-model="dialog"
+      max-width="500"
+    >
+      <v-card tile flat outlined>
+        <v-card-title class="text-h5">
+          {{ $t('titles.server_config') }}
+        </v-card-title>
+        <v-card-text>
+          <v-form
+            ref="form"
+            v-model="valid"
+          >
+            <v-text-field
+              v-model="serverName"
+              :label="$t('fields.server_name')"
+              :rules="rules.name"
+              autocomplete="new-password"
+            />
+            <v-text-field
+              v-model="serverId"
+              :label="$t('fields.server_id')"
+              :rules="rules.server_id"
+              autocomplete="new-password"
+            />
+            <v-alert
+              v-model="error"
+              color="red"
+              type="error"
+              dismissible
+              outlined
+            >
+              {{ $t('responses.server_already_exist') }}
+            </v-alert>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            color="primary"
+            text
+            @click="dialog = false"
+          >
+            {{ $t('actions.cancel') }}
+          </v-btn>
+          <v-btn
+            color="success"
+            text
+            @click="saveServer"
+          >
+            {{ $t('actions.save') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog
+      v-model="dialogDelete"
+      max-width="400"
+    >
+      <v-card>
+        <v-card-title class="text-h5">
+          {{ $t('titles.are_you_sure') }}
+        </v-card-title>
+        <v-card-text>
+          {{ $t('misc.after_server_delete') }}
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            color="primary"
+            text
+            @click="dialogDelete=false"
+          >
+            {{ $t('actions.cancel') }}
+          </v-btn>
+          <v-btn
+            color="error"
+            text
+            @click="removeServer(currentItem)"
+          >
+            {{ $t('actions.remove') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -158,7 +158,7 @@ export default {
         }
       ],
       currentItem: null,
-      dialog2: false,
+      dialogDelete: false,
       dialog: false,
       valid: false,
       serverName: '',
@@ -166,9 +166,6 @@ export default {
       oldServerId: '',
       error: false,
       rules: {
-        port: [
-          v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
-        ],
         name: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
         ],
@@ -200,8 +197,8 @@ export default {
   methods: {
     applyServer (server) {
       this.serverId = server.serverId
-      this.serverName = server.serverName
       this.oldServerId = server.serverId
+      this.serverName = server.serverName
     },
     saveServer () {
       this.$refs.form.validate()
@@ -229,7 +226,7 @@ export default {
       this.$fire.database.ref().child(`shops/${shopid}/servers/${serverId}`).remove()
       this.$fire.database.ref().child(`servers/${serverId}`).remove()
       this.dialog = false
-      this.dialog2 = false
+      this.dialogDelete = false
     },
     newServer () {
       this.serverName = 'A Minecraft Server'

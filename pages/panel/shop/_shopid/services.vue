@@ -1,5 +1,71 @@
 <template>
   <div>
+    <v-row>
+      <template
+        v-for="serverServices in servicesList"
+      >
+        <v-col
+          :key="serverServices.name"
+          cols="12"
+        >
+          <strong v-if="servers[serverServices.name]">{{ servers[serverServices.name].serverName }} </strong>
+          <strong v-else>
+            {{ $t('misc.without_server') }}
+          </strong>
+        </v-col>
+        <v-col
+          v-for="service in serverServices.services"
+          :key="service.serviceId"
+          cols="12"
+          lg="4"
+          md="6"
+        >
+          <v-card elevation="2" min-height="170" @click="editService(service)">
+            <v-list-item three-line>
+              <v-list-item-content>
+                <v-list-item-title class="text-h4 mb-3">
+                  {{ service.name }}
+                </v-list-item-title>
+                <v-list-item-subtitle style="height:100px;">
+                  <div v-if="service.sms || service.przelew">
+                    <v-chip v-if="service.microsms_sms && config.microsms" small class="mb-1">
+                      {{ $t('sms') }}: {{ smsCost[service.microsms_sms_type] }}
+                    </v-chip>
+                    <v-chip v-if="service.microsms_transfer && config.microsms" small class="mb-1">
+                      {{ $t('transfer') }}: {{ service.microsms_transfer_cost }}zł
+                    </v-chip>
+                    <v-chip v-if="service.lvlup && config.lvlup" small class="mb-1">
+                      {{ $t('transfer_psc') }}: {{ service.lvlup_cost }}zł
+                    </v-chip>
+                  </div>
+                  <div v-else>
+                    {{ $t('misc.no_payment_enabled') }}
+                  </div>
+                </v-list-item-subtitle>
+              </v-list-item-content>
+
+              <v-list-item-avatar
+                v-if="service.icon"
+                tile
+                size="80"
+              >
+                <v-img :src="service.iconUrl" />
+              </v-list-item-avatar>
+            </v-list-item>
+          </v-card>
+        </v-col>
+      </template>
+    </v-row>
+    <v-btn
+      block
+      outlined
+      large
+      color="success"
+      class="mt-5"
+      @click="newService"
+    >
+      {{ $t('actions.new_service') }}
+    </v-btn>
     <v-dialog
       v-model="dialog"
       fullscreen
@@ -215,72 +281,6 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-    <v-row>
-      <template
-        v-for="serverServices in servicesList"
-      >
-        <v-col
-          :key="serverServices.name"
-          cols="12"
-        >
-          <strong v-if="servers[serverServices.name]">{{ servers[serverServices.name].serverName }} </strong>
-          <strong v-else>
-            {{ $t('misc.without_server') }}
-          </strong>
-        </v-col>
-        <v-col
-          v-for="service in serverServices.services"
-          :key="service.serviceId"
-          cols="12"
-          lg="4"
-          md="6"
-        >
-          <v-card elevation="2" min-height="170" @click="editService(service)">
-            <v-list-item three-line>
-              <v-list-item-content>
-                <v-list-item-title class="text-h4 mb-3">
-                  {{ service.name }}
-                </v-list-item-title>
-                <v-list-item-subtitle style="height:100px;">
-                  <div v-if="service.sms || service.przelew">
-                    <v-chip v-if="service.microsms_sms && config.microsms" small class="mb-1">
-                      {{ $t('sms') }}: {{ smsCost[service.microsms_sms_type] }}
-                    </v-chip>
-                    <v-chip v-if="service.microsms_transfer && config.microsms" small class="mb-1">
-                      {{ $t('transfer') }}: {{ service.microsms_transfer_cost }}zł
-                    </v-chip>
-                    <v-chip v-if="service.lvlup && config.lvlup" small class="mb-1">
-                      {{ $t('transfer_psc') }}: {{ service.lvlup_cost }}zł
-                    </v-chip>
-                  </div>
-                  <div v-else>
-                    {{ $t('misc.no_payment_enabled') }}
-                  </div>
-                </v-list-item-subtitle>
-              </v-list-item-content>
-
-              <v-list-item-avatar
-                v-if="service.icon"
-                tile
-                size="80"
-              >
-                <v-img :src="service.iconUrl" />
-              </v-list-item-avatar>
-            </v-list-item>
-          </v-card>
-        </v-col>
-      </template>
-    </v-row>
-    <v-btn
-      large
-      block
-      outlined
-      color="primary"
-      class="mt-5"
-      @click="newService"
-    >
-      {{ $t('actions.new_service') }}
-    </v-btn>
     <v-dialog
       v-model="dialogDelete"
       max-width="400"
