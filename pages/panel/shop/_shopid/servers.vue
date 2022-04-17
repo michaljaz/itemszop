@@ -165,7 +165,7 @@ export default {
         ],
         server_id: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty'),
-          v => this.$regex.normal_string(v) || this.$t('formats.wrong_format_serviceid')
+          v => this.$regex.normal_string(v) || this.$t('formats.wrong_format_serverid')
         ]
       }
     }
