@@ -208,9 +208,9 @@ export default {
     },
     newPage () {
       this.dialog = true
-      this.pageId = ''
-      this.content = ''
-      this.name = ''
+      this.pageId = `${Math.random().toString(36).replace('0.', '')}`
+      this.content = 'Treść'
+      this.name = 'Strona'
     }
   }
 }

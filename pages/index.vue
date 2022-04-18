@@ -41,7 +41,7 @@
     </v-app-bar>
     <div class="intro">
       <v-container>
-        <div style="margin-top:200px;margin-left:60px;">
+        <div style="margin-top:200px;margin-left:40px;">
           <h1 class="display-3 font-weight-regular mb-4">
             {{ $t('brand') }}
           </h1>
