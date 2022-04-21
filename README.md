@@ -12,6 +12,10 @@
 
 Tu znajduje się link do wersji produkcyjnej na cloudflare : https://itemszop.tk.
 
+## Plugin do serwera minecraftowego
+
+https://github.com/michaljaz/itemszop-plugin
+
 ## Wspierani operatorzy płatności
 
 - [x] microsms.pl - [api przelew](https://microsms.pl/documents/przelewy_online.pdf), [api sms](https://microsms.pl/kernel/Mails/files/dokumentacja_techniczna_mirosms.pdf)
