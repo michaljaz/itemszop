@@ -17,10 +17,8 @@ webhook - url do discordowego webhooka
 === SERWER ===
 REF: /servers/[id serwera]
 owner - id właściciela
-serverIp - ip serwera
 serverName - nazwa serwera
-serverPort - port rcon do serwera
-serverPassword - hasło rcon do servera
+commands - komendy wysyłane do serwera
 
 === SKLEP ===
 REF: /shops/[id sklepu]

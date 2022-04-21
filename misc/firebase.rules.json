@@ -1,5 +1,5 @@
 {
-	"rules": {
+	"rules":{
 		"users":{
 			"$user_id":{
 				".read": "auth.uid == $user_id",
@@ -7,7 +7,7 @@
 			}
 		},
 		"shops":{
-			".read": true,
+			".read":true,
 			"$shop_id":{
 				".write":"(data.child('owner').val() == auth.uid || !data.exists()) && (newData.child('owner').val() == auth.uid || !newData.exists())",
 			}
@@ -16,6 +16,12 @@
 			"$server_id":{
 				"serverName":{
 					".read":true
+				},
+				"commands":{
+					".read":true,
+					"$command_id":{
+						".write":"!newData.exists()"
+					}
 				},
 				".read":"data.child('owner').val() == auth.uid",
 				".write":"(data.child('owner').val() == auth.uid || !data.exists()) && (newData.child('owner').val() == auth.uid || !newData.exists())",
