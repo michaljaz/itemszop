@@ -3,7 +3,9 @@
 		".write":"auth.uid == 'OWNER_ID'",
 		".read": "auth.uid == 'OWNER_ID'",
 		"shops":{
-			".read": true,
+			"$shop_id":{
+				".read":true
+			}
 		},
 		"servers":{
 			"$server_id":{

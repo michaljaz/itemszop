@@ -7,8 +7,8 @@
 			}
 		},
 		"shops":{
-			".read":true,
 			"$shop_id":{
+				".read":true,
 				".write":"(data.child('owner').val() == auth.uid || !data.exists()) && (newData.child('owner').val() == auth.uid || !newData.exists())",
 			}
 		},
