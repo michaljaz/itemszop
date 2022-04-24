@@ -1,7 +1,8 @@
 import {
   request,
 	validate,
-	checkIfVoucherExpired
+	checkIfVoucherExpired,
+  sendCommands
 } from './lib/modules.js'
 
 const req = request(async ({params, firebase}) => {
@@ -14,9 +15,8 @@ const req = request(async ({params, firebase}) => {
   await checkIfVoucherExpired(voucher)
 
   const service = await firebase.get(`shops/${shopid}/services/${voucher.service}`)
-  const server = await firebase.get(`servers/${service.server}`)
 
-	// TODO: sending commands to server
+  sendCommands({service, firebase, nick, shopid})
 })
 
 export const onRequest = req.cloudflare

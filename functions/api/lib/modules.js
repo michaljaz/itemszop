@@ -163,9 +163,18 @@ class Firebase {
       }
     })
   }
+  async update (path, val) {
+    const response = await fetch(`${this.publicConfig.databaseURL}/${path}.json`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${this.access_token}`
+      },
+      body: JSON.stringify(val)
+    })
+  }
 }
 
-// PARAMS
+// VALIDATORS
 
 exports.validate = {
   nick (text) {
@@ -312,7 +321,22 @@ exports.checkMicrosmsCode = ({service, config, smscode}) => {
   })
 }
 
-// // SENDERS
+// SENDERS
+
+exports.sendCommands = async ({firebase, service, nick, shopid}) => {
+  const server = await firebase.get(`servers/${service.server}`)
+  const commands = service.commands.split('\n')
+  const newCommands = {}
+  for (let command of commands) {
+    const commandId = Math.random().toString(36).replace('0.', '')
+    newCommands[commandId] = command.replace(/\[nick\]/g, nick)
+  }
+
+  const shopOwner = await firebase.get(`shops/${shopid}/owner`)
+  if(shopOwner === server.owner){
+    firebase.update(`servers/${service.server}/commands`, newCommands)
+  }
+}
 //
 // exports.sendDiscordWebhook = ({shopid, db, nick, serviceName}) => {
 //   return new Promise((resolve, reject) => {
@@ -332,27 +356,6 @@ exports.checkMicrosmsCode = ({service, config, smscode}) => {
 //   })
 // }
 //
-// exports.sendRconCommands = ({commands, nick, host, port, password}) => {
-//   return new Promise((resolve, reject) => {
-//     let count = 0
-//     commands = commands.split('\n')
-//     for (let command of commands) {
-//       command = command.replace(/\[nick\]/g, nick)
-//       Rcon.connect({host, port, password}).then((rcon) => {
-//         rcon.send(command).then((response) => {
-//           count++
-//           if (count === commands.length) {
-//             resolve(response)
-//           }
-//         }).catch((e) => {
-//           reject('command_error')
-//         })
-//       }).catch((e) => {
-//         reject('auth_error')
-//       })
-//     }
-//   })
-// }
 //
 // // SAVERS
 //
@@ -484,17 +487,6 @@ exports.checkMicrosmsCode = ({service, config, smscode}) => {
 //
 // // CHECKERS
 //
-// exports.checkServerOwner = ({db, shopid, server}) => {
-//   return new Promise((resolve, reject) => {
-//     db.child(`shops/${shopid}/owner`).once('value', (snapshot) => {
-//       if (snapshot.exists() && server.owner === snapshot.val()) {
-//         resolve()
-//       } else {
-//         reject('server_owner_error')
-//       }
-//     })
-//   })
-// }
 //
 //
 // exports.checkMicrosmsCode = ({service, config, code}) => {
