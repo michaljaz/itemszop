@@ -36,6 +36,12 @@
         </v-icon>
         <v-icon
           small
+          @click="sendTest(item)"
+        >
+          mdi-connection
+        </v-icon>
+        <v-icon
+          small
           @click="dialogDelete=true;currentItem=item"
         >
           mdi-delete
@@ -233,6 +239,11 @@ export default {
       this.serverId = `${Math.random().toString(36).replace('0.', '')}`
       this.oldServerId = this.serverId
       this.dialog = true
+    },
+    sendTest (server) {
+      this.$fire.database.ref().child(`servers/${server.serverId}/commands`).update({
+        [Math.random().toString(36).replace('0.', '')]: 'say ItemSzop test'
+      })
     }
   }
 }
