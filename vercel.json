@@ -2,8 +2,8 @@
 	"version": 2,
 	"routes": [
     {
-      "src": "/api/lvlup",
-      "dest": "/functions/api/lvlup.js"
+      "src": "/api/voucher",
+      "dest": "/functions/api/voucher.js"
     },
 		{
       "src": "/api/payment_link",
