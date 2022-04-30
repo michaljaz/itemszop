@@ -190,7 +190,8 @@ export default {
   serverMiddleware: process.env.VERCEL || process.env.NETLIFY || process.env.NETLIFY_DEV ? [] : [
     '~/functions/api/microsms_sms.js',
     '~/functions/api/payment_link.js',
-    '~/functions/api/voucher.js'
+    '~/functions/api/voucher.js',
+    '~/functions/api/ip.js'
   ],
   server: {
     port,

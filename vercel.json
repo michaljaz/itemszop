@@ -12,6 +12,10 @@
 		{
       "src": "/api/microsms_sms",
       "dest": "/functions/api/microsms_sms.js"
+    },
+		{
+      "src": "/api/ip",
+      "dest": "/functions/api/ip.js"
     }
   ],
   "builds": [
