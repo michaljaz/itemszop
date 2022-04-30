@@ -15,7 +15,6 @@ const req = request(async ({params, firebase}) => {
   await checkIfVoucherExpired(voucher)
 
   const service = await firebase.get(`shops/${shopid}/services/${voucher.service}`)
-
   await sendCommands({service, firebase, nick, shopid})
 })
 

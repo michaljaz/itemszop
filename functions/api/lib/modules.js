@@ -233,10 +233,10 @@ exports.validate = {
   },
   paymenttype (text) {
     return new Promise((resolve, reject) => {
-      if (!/^[a-z_]{4,}$/.test(text) || typeof (text) !== 'string') {
-        reject('wrong_format_paymenttype')
-      } else {
+      if (text === 'lvlup' || text === "microsms_transfer") {
         resolve(text)
+      } else {
+        reject('wrong_format_paymenttype')
       }
     })
   }

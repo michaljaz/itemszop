@@ -17,10 +17,8 @@ const req = request(async ({params, apiBaseUrl, baseUrl, firebase}) => {
 
   if (paymenttype === 'lvlup') {
     return await generateLvlup({config, nick, shopid, serviceid, service, amount, apiBaseUrl, baseUrl})
-  } else if (paymenttype === 'microsms_transfer') {
-    return await generateMicrosmsTransfer({config, nick, shopid, serviceid, service, amount, apiBaseUrl, baseUrl})
   } else {
-    throw 'wrong_paymenttype'
+    return await generateMicrosmsTransfer({config, nick, shopid, serviceid, service, amount, apiBaseUrl, baseUrl})
   }
 })
 
