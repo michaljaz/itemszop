@@ -16,7 +16,7 @@ const req = request(async ({params, firebase}) => {
 
   const service = await firebase.get(`shops/${shopid}/services/${voucher.service}`)
 
-  sendCommands({service, firebase, nick, shopid})
+  await sendCommands({service, firebase, nick, shopid})
 })
 
 export const onRequest = req.cloudflare

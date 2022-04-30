@@ -323,22 +323,33 @@ exports.checkMicrosmsCode = ({service, config, smscode}) => {
 
 // SENDERS
 
-exports.sendCommands = async ({firebase, service, nick, shopid}) => {
-  const server = await firebase.get(`servers/${service.server}`)
-  const commands = service.commands.split('\n')
-  const newCommands = {}
-  for (let command of commands) {
-    const commandId = Math.random().toString(36).replace('0.', '')
-    newCommands[commandId] = command.replace(/\[nick\]/g, nick)
-  }
-
-  const shopOwner = await firebase.get(`shops/${shopid}/owner`)
-  if(shopOwner === server.owner){
-    firebase.update(`servers/${service.server}/commands`, newCommands)
-  }
+exports.sendCommands = ({firebase, service, nick, shopid}) => {
+  return new Promise((resolve, reject) => {
+    firebase.get(`servers/${service.server}`).then((server) => {
+      const commands = service.commands.split('\n')
+      const newCommands = {}
+      for (let command of commands) {
+        const commandId = Math.random().toString(36).replace('0.', '')
+        newCommands[commandId] = command.replace(/\[nick\]/g, nick)
+      }
+      firebase.get(`shops/${shopid}/owner`).then((shopOwner) => {
+        if (shopOwner === server.owner) {
+          firebase.update(`servers/${service.server}/commands`, newCommands).then(() => {
+            resolve()
+          }).catch(() => {
+            reject('commands_error')
+          })
+        }
+      }).catch((e) => {
+        reject('wrong_shopid')
+      })
+    }).catch((e) => {
+      reject('server_not_found')
+    })
+  })
 }
-//
-// exports.sendDiscordWebhook = ({shopid, db, nick, serviceName}) => {
+
+// exports.sendDiscordWebhook = async ({shopid, nick, serviceName}) => {
 //   return new Promise((resolve, reject) => {
 //     db.child(`shops/${shopid}/webhook`).once('value', (snapshot) => {
 //       if (snapshot.exists() && snapshot.val() !== '') {
