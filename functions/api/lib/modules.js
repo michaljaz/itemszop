@@ -27,7 +27,8 @@ exports.request = (handler) => {
         baseUrl: getBaseUrl(url),
         apiBaseUrl: `${getBaseUrl(url)}/api`,
         firebase: await new Firebase(env.FIREBASE_CONFIG).init_cloudflare(),
-        fetch
+        fetch,
+        ip: request.headers.get('cf-connecting-ip')
       }).then((data) => (
         new Response(JSON.stringify({success: true, data}), {headers: {'content-type': 'application/json'}})
       )).catch((error) => (
@@ -44,7 +45,8 @@ exports.request = (handler) => {
         baseUrl: getBaseUrl(url),
         apiBaseUrl: `${getBaseUrl(url)}/.netlify/functions`,
         firebase: await new Firebase(process.env.FIREBASE_CONFIG).init(),
-        fetch
+        fetch,
+        ip: event.headers['x-nf-client-connection-ip']
       }).then((data) => ({
         statusCode: 200,
         body: JSON.stringify({success: true, data})
@@ -67,7 +69,8 @@ exports.request = (handler) => {
             baseUrl: getBaseUrl(url),
             apiBaseUrl: `${getBaseUrl(url)}/api`,
             firebase: await new Firebase(process.env.FIREBASE_CONFIG).init(),
-            fetch
+            fetch,
+            ip: req.headers['x-forwarded-for'] || req.socket.remoteAddress
           }).then((data) => {
             res.json({success: true, data})
           }).catch((error) => {
@@ -233,7 +236,7 @@ exports.validate = {
   },
   paymenttype (text) {
     return new Promise((resolve, reject) => {
-      if (text === 'lvlup' || text === "microsms_transfer") {
+      if (text === 'lvlup' || text === 'microsms_transfer') {
         resolve(text)
       } else {
         reject('wrong_format_paymenttype')
