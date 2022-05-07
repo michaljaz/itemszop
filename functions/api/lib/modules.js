@@ -352,20 +352,25 @@ exports.sendCommands = ({firebase, service, nick, shopid}) => {
   })
 }
 
-exports.sendDiscordWebhook = async ({shopid, nick, serviceName}) => {
+exports.sendDiscordWebhook = ({shopid, nick, service, firebase}) => {
   return new Promise((resolve, reject) => {
-    db.child(`shops/${shopid}/webhook`).once('value', (snapshot) => {
-      if (snapshot.exists() && snapshot.val() !== '') {
-        axios.post(snapshot.val(), {
-          content: `${nick} właśnie kupił(a) ${serviceName}`
-        }).then(() => {
-          resolve()
-        }).catch(() => {
-          reject('discord_webhook_error')
+    firebase.get(`config/${shopid}/webhook`).then((url) => {
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          content: `${nick} właśnie kupił(a) ${service.name}`
         })
-      } else {
+      }).then(() => {
         resolve()
-      }
+      }).catch((e) => {
+        reject('discord_webhook_error')
+      })
+    }).catch((e) => {
+      resolve()
     })
   })
 }
