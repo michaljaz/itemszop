@@ -3,7 +3,8 @@ import {
 	validate,
 	checkMicrosmsCode,
   sendCommands,
-  sendDiscordWebhook
+  sendDiscordWebhook,
+  savePaymentToHistory
 } from './lib/modules.js'
 
 const req = request(async ({params, firebase, ip}) => {
@@ -16,10 +17,9 @@ const req = request(async ({params, firebase, ip}) => {
   const service = await firebase.get(`shops/${shopid}/services/${serviceid}`)
 
   await checkMicrosmsCode({service, config, smscode})
-
   await sendCommands({service, firebase, nick, shopid})
-
   await sendDiscordWebhook({service, firebase, nick, shopid})
+  await savePaymentToHistory({firebase, shopid, nick, service, serviceid, type: 'microsms_sms'})
 })
 
 export const onRequest = req.cloudflare

@@ -3,7 +3,8 @@ import {
 	validate,
 	checkIfVoucherExpired,
   sendCommands,
-  sendDiscordWebhook
+  sendDiscordWebhook,
+  savePaymentToHistory
 } from './lib/modules.js'
 
 const req = request(async ({params, firebase}) => {
@@ -19,6 +20,7 @@ const req = request(async ({params, firebase}) => {
 
   await sendCommands({service, firebase, nick, shopid})
   await sendDiscordWebhook({service, firebase, nick, shopid})
+  await savePaymentToHistory({firebase, shopid, nick, service, serviceid: voucher.service, type: 'voucher'})
 })
 
 export const onRequest = req.cloudflare

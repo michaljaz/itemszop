@@ -175,6 +175,15 @@ class Firebase {
       body: JSON.stringify(val)
     })
   }
+  async push (path, val) {
+    const response = await fetch(`${this.publicConfig.databaseURL}/${path}.json`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.access_token}`
+      },
+      body: JSON.stringify(val)
+    })
+  }
 }
 
 // VALIDATORS
@@ -289,122 +298,96 @@ const getDate = () => {
   return `${ye}-${mo}-${da}`
 }
 
-exports.checkIfVoucherExpired = (voucher) => {
-  return new Promise((resolve, reject) => {
-    if (((voucher.end && voucher.start <= getDate()) || (!voucher.end && voucher.start === getDate())) && ((voucher.end && voucher.end >= getDate()) || !voucher.end)) {
-      resolve(voucher)
-    } else {
-      reject('voucher_expired')
-    }
-  })
+exports.checkIfVoucherExpired = async (voucher) => {
+  if (!(((voucher.end && voucher.start <= getDate()) || (!voucher.end && voucher.start === getDate())) && ((voucher.end && voucher.end >= getDate()) || !voucher.end))) {
+    throw 'voucher_expired'
+  }
 }
 
-exports.checkMicrosmsCode = ({service, config, smscode}) => {
-  return new Promise(async (resolve, reject) => {
-    const number = ({
-      1: '71480',
-      2: '72480',
-      3: '73480',
-      4: '74480',
-      5: '75480',
-      6: '76480',
-      7: '79480',
-      8: '91400',
-      9: '91900',
-      10: '92022',
-      11: '92550'
-    })[service.microsms_sms_type]
-    const response = await fetch(`https://microsms.pl/api/check.php?userid=${config.microsms_user_id}&number=${number}&code=${smscode}&serviceid=${config.microsms_sms_id}`)
-    const data = await response.text()
-    if (data.split(',')[0] === '1') {
-      resolve()
-    } else {
-      reject('wrong_code')
-    }
-  })
+exports.checkMicrosmsCode = async ({service, config, smscode}) => {
+  const number = ({
+    1: '71480',
+    2: '72480',
+    3: '73480',
+    4: '74480',
+    5: '75480',
+    6: '76480',
+    7: '79480',
+    8: '91400',
+    9: '91900',
+    10: '92022',
+    11: '92550'
+  })[service.microsms_sms_type]
+  const response = await fetch(`https://microsms.pl/api/check.php?userid=${config.microsms_user_id}&number=${number}&code=${smscode}&serviceid=${config.microsms_sms_id}`)
+  const data = await response.text()
+  if (data.split(',')[0] !== '1') {
+    throw 'wrong_code'
+  }
 }
 
-exports.checkMicrosmsIp = ({ip}) => {
-  return new Promise((resolve, reject) => {
-    fetch('https://microsms.pl/psc/ips/').then((result) => result.text()).then((data) => {
-      if (data.split(',').includes(ip)) {
-        resolve()
-      } else {
-        reject('wrong_ip_address')
-      }
-    }).catch(() => {
-      reject('error_connecting_to_microsms')
-    })
-  })
+exports.checkMicrosmsIp = async ({ip}) => {
+  const response = await fetch('https://microsms.pl/psc/ips/')
+  const data = await response.text()
+  if (!data.split(',').includes(ip)) {
+    throw 'wrong_ip_address'
+  }
 }
 
 // SENDERS
 
-exports.sendCommands = ({firebase, service, nick, shopid}) => {
-  return new Promise((resolve, reject) => {
-    firebase.get(`servers/${service.server}`).then((server) => {
-      const commands = service.commands.split('\n')
-      const newCommands = {}
-      for (let command of commands) {
-        const commandId = Math.random().toString(36).replace('0.', '')
-        newCommands[commandId] = command.replace(/\[nick\]/g, nick)
-      }
-      firebase.get(`shops/${shopid}/owner`).then((shopOwner) => {
-        if (shopOwner === server.owner) {
-          firebase.update(`servers/${service.server}/commands`, newCommands).then(() => {
-            resolve()
-          }).catch(() => {
-            reject('commands_error')
-          })
-        }
-      }).catch((e) => {
-        reject('wrong_shopid')
-      })
-    }).catch((e) => {
-      reject('server_not_found')
-    })
-  })
+exports.sendCommands = async ({firebase, service, nick, shopid}) => {
+  const server = await firebase.get(`servers/${service.server}`)
+  const shopOwner = await firebase.get(`shops/${shopid}/owner`)
+  if (shopOwner === server.owner) {
+    const commands = service.commands.split('\n')
+    const newCommands = {}
+    for (let command of commands) {
+      await firebase.push(`servers/${service.server}/commands`, command.replace(/\[nick\]/g, nick))
+    }
+  }
 }
 
-exports.sendDiscordWebhook = ({shopid, nick, service, firebase}) => {
-  return new Promise((resolve, reject) => {
-    firebase.get(`shops/${shopid}`).then((shop)=>{
-      firebase.get(`config/${shopid}/webhook`).then((url) => {
-        fetch(url, {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+exports.sendDiscordWebhook = async ({shopid, nick, service, firebase}) => {
+  const shop = await firebase.get(`shops/${shopid}`)
+  try {
+    const webhookUrl = await firebase.get(`config/${shopid}/webhook`)
+    await fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        content: null,
+        embeds: [{
+          color: shop.theme ? parseInt(shop.theme.replace(/^#/, ''), 16) : 255,
+          title: 'Nowy zakup w sklepie',
+          url: 'https://itemszop.tk/',
+          author: {
+            name: shop.name,
+            icon_url: shop.icon ? shop.icon : 'https://itemszop.tk/item.png',
+            url: 'https://itemszop.tk/'
           },
-          body: JSON.stringify({
-            content: null,
-            embeds: [{
-              color: shop.theme ? parseInt(shop.theme.replace(/^#/, ''), 16) : 255,
-              title: 'Nowy zakup w sklepie',
-              url: 'https://itemszop.tk/',
-              author: {
-                name: shop.name,
-                icon_url: shop.icon ? shop.icon : 'https://itemszop.tk/item.png',
-                url: 'https://itemszop.tk/'
-              },
-              description: `${nick} właśnie kupił(a) ${service.name}`,
-              thumbnail: {
-                url: service.icon ? service.iconUrl : 'https://itemszop.tk/item.png'
-              },
-              timestamp: new Date()
-            }]
-          })
-        }).then(() => {
-          resolve()
-        }).catch((e) => {
-          reject('discord_webhook_error')
-        })
-      }).catch((e) => {
-        resolve()
+          description: `${nick} właśnie kupił(a) ${service.name}`,
+          thumbnail: {
+            url: service.icon ? service.iconUrl : 'https://itemszop.tk/item.png'
+          },
+          timestamp: new Date()
+        }]
       })
-    }).catch((e)=>{
-      reject('unable_to_get_shop')
     })
+  } catch (e) {}
+}
+
+// SAVERS
+
+exports.savePaymentToHistory = async ({firebase, shopid, nick, service, serviceid, type}) => {
+  firebase.push(`shops/${shopid}/history`, {
+    nick,
+    service: service.name,
+    serviceid,
+    date: Date.now(),
+    type
   })
 }
 
@@ -439,23 +422,6 @@ exports.sendDiscordWebhook = ({shopid, nick, service, firebase}) => {
 //   })
 // }
 //
-// exports.addPaymentToHistory = ({db, shopid, nick, service, serviceid, type}) => {
-//   return new Promise((resolve, reject) => {
-//     db.child(`shops/${shopid}/history`).push().set({
-//       nick,
-//       service,
-//       serviceid,
-//       date: Date.now(),
-//       type
-//     }).then(() => {
-//       resolve()
-//     }).catch(() => {
-//       reject('history_error')
-//     })
-//   })
-// }
-//
-
 //
 // // LOADERS
 //
