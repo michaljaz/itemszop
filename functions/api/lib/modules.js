@@ -352,24 +352,24 @@ exports.sendCommands = ({firebase, service, nick, shopid}) => {
   })
 }
 
-// exports.sendDiscordWebhook = async ({shopid, nick, serviceName}) => {
-//   return new Promise((resolve, reject) => {
-//     db.child(`shops/${shopid}/webhook`).once('value', (snapshot) => {
-//       if (snapshot.exists() && snapshot.val() !== '') {
-//         axios.post(snapshot.val(), {
-//           content: `${nick} właśnie kupił(a) ${serviceName}`
-//         }).then(() => {
-//           resolve()
-//         }).catch(() => {
-//           reject('discord_webhook_error')
-//         })
-//       } else {
-//         resolve()
-//       }
-//     })
-//   })
-// }
-//
+exports.sendDiscordWebhook = async ({shopid, nick, serviceName}) => {
+  return new Promise((resolve, reject) => {
+    db.child(`shops/${shopid}/webhook`).once('value', (snapshot) => {
+      if (snapshot.exists() && snapshot.val() !== '') {
+        axios.post(snapshot.val(), {
+          content: `${nick} właśnie kupił(a) ${serviceName}`
+        }).then(() => {
+          resolve()
+        }).catch(() => {
+          reject('discord_webhook_error')
+        })
+      } else {
+        resolve()
+      }
+    })
+  })
+}
+
 //
 // // SAVERS
 //
