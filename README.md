@@ -10,7 +10,8 @@ Tu znajduje się link do wersji produkcyjnej na cloudflare : https://itemszop.tk
 
 [Plugin do serwera minecraftowego](https://github.com/michaljaz/itemszop-plugin)
 
-[Poradnik dla dewelopera ItemSzopu](https://github.com/michaljaz/itemszop/blob/master/docs/DEVELOPMENT.md)
+
+[Przykładowy sklep](https://itemszop.tk/shop/gitcraft)
 
 ## Wspierani operatorzy płatności
 
@@ -23,3 +24,7 @@ Tu znajduje się link do wersji produkcyjnej na cloudflare : https://itemszop.tk
 ## Serwer discordowy
 
 https://discord.com/invite/Nx28v3yAER
+
+## Poradnik dla dewelopera
+
+https://github.com/michaljaz/itemszop/blob/master/docs/DEVELOPMENT.md
