@@ -324,6 +324,20 @@ exports.checkMicrosmsCode = ({service, config, smscode}) => {
   })
 }
 
+exports.checkMicrosmsIp = ({ip}) => {
+  return new Promise((resolve, reject) => {
+    fetch('https://microsms.pl/psc/ips/').then((result) => result.text()).then((data) => {
+      if (data.split(',').includes(ip)) {
+        resolve()
+      } else {
+        reject('wrong_ip_address')
+      }
+    }).catch(() => {
+      reject('error_connecting_to_microsms')
+    })
+  })
+}
+
 // SENDERS
 
 exports.sendCommands = ({firebase, service, nick, shopid}) => {
@@ -533,18 +547,6 @@ exports.sendDiscordWebhook = ({shopid, nick, service, firebase}) => {
 //   })
 // }
 //
-// exports.checkMicrosmsIp = ({req}) => {
-//   return new Promise((resolve, reject) => {
-//     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
-//     axios.get('https://microsms.pl/psc/ips/').then((response) => {
-//       if (response.data.split(',').includes(ip) && status) {
-//         resolve()
-//       } else {
-//         reject()
-//       }
-//     })
-//   })
-// }
 //
 // exports.checkMicrosmsTransferPrice = ({req, service}) => {
 //   return new Promise((resolve, reject) => {

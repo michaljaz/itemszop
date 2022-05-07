@@ -1,10 +1,12 @@
 import {
   request,
 	validate,
-	checkMicrosmsCode
+	checkMicrosmsCode,
+  sendCommands,
+  sendDiscordWebhook
 } from './lib/modules.js'
 
-const req = request(async ({params, firebase, fetch}) => {
+const req = request(async ({params, firebase, ip}) => {
   const nick = await validate.nick(params.nick)
   const shopid = await validate.shopid(params.shopid)
   const serviceid = await validate.serviceid(params.serviceid)
@@ -15,9 +17,9 @@ const req = request(async ({params, firebase, fetch}) => {
 
   await checkMicrosmsCode({service, config, smscode})
 
-  const server = await firebase.get(`servers/${service.server}`)
+  await sendCommands({service, firebase, nick, shopid})
 
-	// TODO: sending commands to server
+  await sendDiscordWebhook({service, firebase, nick, shopid})
 })
 
 export const onRequest = req.cloudflare
