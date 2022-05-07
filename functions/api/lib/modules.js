@@ -368,23 +368,42 @@ exports.sendCommands = ({firebase, service, nick, shopid}) => {
 
 exports.sendDiscordWebhook = ({shopid, nick, service, firebase}) => {
   return new Promise((resolve, reject) => {
-    firebase.get(`config/${shopid}/webhook`).then((url) => {
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          content: `${nick} właśnie kupił(a) ${service.name}`
+    firebase.get(`shops/${shopid}`).then((shop)=>{
+      firebase.get(`config/${shopid}/webhook`).then((url) => {
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            content: null,
+            embeds: [{
+              color: shop.theme ? parseInt(shop.theme.replace(/^#/, ''), 16) : 255,
+              title: 'Nowy zakup w sklepie',
+              url: 'https://itemszop.tk/',
+              author: {
+                name: shop.name,
+                icon_url: shop.icon ? shop.icon : 'https://itemszop.tk/item.png',
+                url: 'https://itemszop.tk/'
+              },
+              description: `${nick} właśnie kupił(a) ${service.name}`,
+              thumbnail: {
+                url: service.icon ? service.iconUrl : 'https://itemszop.tk/item.png'
+              },
+              timestamp: new Date()
+            }]
+          })
+        }).then(() => {
+          resolve()
+        }).catch((e) => {
+          reject('discord_webhook_error')
         })
-      }).then(() => {
-        resolve()
       }).catch((e) => {
-        reject('discord_webhook_error')
+        resolve()
       })
-    }).catch((e) => {
-      resolve()
+    }).catch((e)=>{
+      reject('unable_to_get_shop')
     })
   })
 }
