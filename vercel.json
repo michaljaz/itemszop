@@ -14,8 +14,8 @@
       "dest": "/functions/api/microsms_sms.js"
     },
 		{
-      "src": "/api/ip",
-      "dest": "/functions/api/ip.js"
+      "src": "/api/body",
+      "dest": "/functions/api/body.js"
     }
   ],
   "builds": [

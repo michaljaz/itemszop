@@ -191,7 +191,7 @@ export default {
     '~/functions/api/microsms_sms.js',
     '~/functions/api/payment_link.js',
     '~/functions/api/voucher.js',
-    '~/functions/api/ip.js'
+    '~/functions/api/body.js'
   ],
   server: {
     port,

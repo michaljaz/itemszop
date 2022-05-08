@@ -15,7 +15,6 @@ const req = request(async ({params, firebase, ip}) => {
 
   const config = await firebase.get(`config/${shopid}`)
   const service = await firebase.get(`shops/${shopid}/services/${serviceid}`)
-
   await checkMicrosmsCode({service, config, smscode})
   await sendCommands({service, firebase, nick, shopid})
   await sendDiscordWebhook({service, firebase, nick, shopid})

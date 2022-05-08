@@ -14,7 +14,6 @@ const req = request(async ({params, apiBaseUrl, baseUrl, firebase}) => {
 
   const config = await firebase.get(`config/${shopid}`)
   const service = await firebase.get(`shops/${shopid}/services/${serviceid}`)
-
   if (paymenttype === 'lvlup') {
     return await generateLvlup({config, nick, shopid, serviceid, service, amount, apiBaseUrl, baseUrl})
   } else {

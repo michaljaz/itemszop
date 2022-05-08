@@ -10,6 +10,30 @@ function getBaseUrl (url) {
   return `${l[0]}//${l[2]}`
 }
 
+async function readRequestBody (request) {
+  const { headers } = request
+  const contentType = headers.get('content-type') || ''
+
+  if (contentType.includes('application/json')) {
+    return JSON.stringify(await request.json())
+  } else if (contentType.includes('application/text')) {
+    return request.text()
+  } else if (contentType.includes('text/html')) {
+    return request.text()
+  } else if (contentType.includes('form')) {
+    const formData = await request.formData()
+    const body = {}
+    for (const entry of formData.entries()) {
+      body[entry[0]] = entry[1]
+    }
+    return JSON.stringify(body)
+  } else {
+    // Perhaps some other type of data was submitted in the form
+    // like an image, or some other binary data.
+    return 'a file'
+  }
+}
+
 exports.request = (handler) => {
   return {
     async cloudflare ({request, env}) {
@@ -28,7 +52,8 @@ exports.request = (handler) => {
         apiBaseUrl: `${getBaseUrl(url)}/api`,
         firebase: await new Firebase(env.FIREBASE_CONFIG).init_cloudflare(),
         fetch,
-        ip: request.headers.get('cf-connecting-ip')
+        ip: request.headers.get('cf-connecting-ip'),
+        body: readRequestBody(request)
       }).then((data) => (
         new Response(JSON.stringify({success: true, data}), {headers: {'content-type': 'application/json'}})
       )).catch((error) => (
@@ -46,7 +71,8 @@ exports.request = (handler) => {
         apiBaseUrl: `${getBaseUrl(url)}/.netlify/functions`,
         firebase: await new Firebase(process.env.FIREBASE_CONFIG).init(),
         fetch,
-        ip: event.headers['x-nf-client-connection-ip']
+        ip: event.headers['x-nf-client-connection-ip'],
+        body: event.body ? JSON.parse(event.body) : null
       }).then((data) => ({
         statusCode: 200,
         body: JSON.stringify({success: true, data})
@@ -60,8 +86,11 @@ exports.request = (handler) => {
         const a = 'node-fetch'
         fetch = require(a)
         const b = 'express'
-        const app = require(b)()
-        app.get(`/api/:name`, async (req, res) => {
+        const express = require(b)
+        const app = express()
+        app.use(express.urlencoded({extended: true}))
+        app.use(express.json())
+        app.all(`/api/:name`, async (req, res) => {
           const url = req.protocol + '://' + req.get('host') + req.originalUrl
           handler({
             params: req.query,
@@ -70,7 +99,8 @@ exports.request = (handler) => {
             apiBaseUrl: `${getBaseUrl(url)}/api`,
             firebase: await new Firebase(process.env.FIREBASE_CONFIG).init(),
             fetch,
-            ip: req.headers['x-forwarded-for'] || req.socket.remoteAddress
+            ip: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
+            body: req.body
           }).then((data) => {
             res.json({success: true, data})
           }).catch((error) => {
@@ -142,24 +172,22 @@ class Firebase {
     this.access_token = access_token
     return this
   }
-  get (path) {
-    return new Promise(async (resolve, reject) => {
-      const response = await fetch(`${this.publicConfig.databaseURL}/${path}.json`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${this.access_token}`
-        }
-      })
-      const result = await response.json()
-      if (result) {
-        resolve(result)
-      } else {
-        reject(`reference_not_found`)
+  async get (path) {
+    const response = await fetch(`${this.publicConfig.databaseURL}/${path}.json`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${this.access_token}`
       }
     })
+    const data = await response.json()
+    if (data) {
+      return data
+    } else {
+      throw 'reference_not_found'
+    }
   }
   async remove (path) {
-    const response = await fetch(`${this.publicConfig.databaseURL}/${path}.json`, {
+    await fetch(`${this.publicConfig.databaseURL}/${path}.json`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${this.access_token}`
@@ -167,7 +195,7 @@ class Firebase {
     })
   }
   async update (path, val) {
-    const response = await fetch(`${this.publicConfig.databaseURL}/${path}.json`, {
+    await fetch(`${this.publicConfig.databaseURL}/${path}.json`, {
       method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${this.access_token}`
@@ -176,7 +204,7 @@ class Firebase {
     })
   }
   async push (path, val) {
-    const response = await fetch(`${this.publicConfig.databaseURL}/${path}.json`, {
+    await fetch(`${this.publicConfig.databaseURL}/${path}.json`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${this.access_token}`
@@ -268,7 +296,7 @@ exports.generateLvlup = async({config, nick, shopid, serviceid, service, amount,
     body: JSON.stringify({
       amount: cost,
       redirectUrl: baseUrl,
-      webhookUrl: `${apiBaseUrl}/api/lvlup_webhook?nick=${nick}&shopid=${shopid}&serviceid=${serviceid}`
+      webhookUrl: `${apiBaseUrl}/api/payment_webhook?paymenttype=lvlup&nick=${nick}&shopid=${shopid}&serviceid=${serviceid}&amount=${amount}`
     })
   })
   return (await response.json()).url
@@ -282,8 +310,8 @@ exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service, a
     signature: md5(`${config.microsms_transfer_id}${config.microsms_transfer_hash}${cost}`),
     description: `${service.name} dla ${nick}`,
     control: `${shopid}|${serviceid}|${nick}`,
-    returl_url: `${baseUrl}/shop/${shopid}/payment_success`,
-    returl_urlc: `${apiBaseUrl}/microsms_transfer_webhook`
+    returl_url: `${baseUrl}`,
+    returl_urlc: `${apiBaseUrl}/payment_webhook`
   })
   return `https://microsms.pl/api/bankTransfer/?${params}`
 }
@@ -382,7 +410,7 @@ exports.sendDiscordWebhook = async ({shopid, nick, service, firebase}) => {
 // SAVERS
 
 exports.savePaymentToHistory = async ({firebase, shopid, nick, service, serviceid, type}) => {
-  firebase.push(`shops/${shopid}/history`, {
+  await firebase.push(`shops/${shopid}/history`, {
     nick,
     service: service.name,
     serviceid,
@@ -423,114 +451,7 @@ exports.savePaymentToHistory = async ({firebase, shopid, nick, service, servicei
 // }
 //
 //
-// // LOADERS
-//
-// exports.loadConfig = ({db, shopid}) => {
-//   return new Promise((resolve, reject) => {
-//     db.child(`config/${shopid}`).once('value', (snapshot) => {
-//       if (snapshot.exists()) {
-//         resolve(snapshot.val())
-//       } else {
-//         reject('config_not_exist')
-//       }
-//     })
-//   })
-// }
-//
-// exports.loadServer = ({db, serverid}) => {
-//   return new Promise((resolve, reject) => {
-//     db.child(`servers/${serverid}`).once('value', (snapshot) => {
-//       if (snapshot.exists()) {
-//         resolve(snapshot.val())
-//       } else {
-//         reject('server_not_exist')
-//       }
-//     })
-//   })
-// }
-//
-// exports.loadService = ({db, serviceid, shopid}) => {
-//   return new Promise((resolve, reject) => {
-//     db.child(`shops/${shopid}/services/${serviceid}`).once('value', (snapshot) => {
-//       if (snapshot.exists()) {
-//         resolve(snapshot.val())
-//       } else {
-//         reject('service_not_exist')
-//       }
-//     })
-//   })
-// }
-//
-// // GENERATORS
-//
-// exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service, amount}) => {
-//   const cost = service.microsms_transfer_cost * amount
-//   const params = new URLSearchParams({
-//     shopid: config.microsms_transfer_id,
-//     amount: cost,
-//     signature: md5(`${config.microsms_transfer_id}${config.microsms_transfer_hash}${cost}`),
-//     description: `${service.name} dla ${nick}`,
-//     control: `${shopid}|${serviceid}|${nick}`,
-//     returl_url: `${baseUrl}/shop/${shopid}/payment_success`,
-//     returl_urlc: `${apiUrl}/microsms_transfer_webhook`
-//   })
-//   return `https://microsms.pl/api/bankTransfer/?${params}`
-// }
-//
-// exports.generateLvlup = ({config, nick, shopid, serviceid, service, amount}) => {
-//   let cost = String(parseFloat(service.lvlup_cost) * amount)
-//   cost = (+(Math.round(cost + 'e+2') + 'e-2')).toFixed(2)
-//   return new Promise(async (resolve, reject) => {
-//     try {
-//       const res = await axios.post('https://api.lvlup.pro/v4/wallet/up', {
-//         amount: cost,
-//         redirectUrl: `${baseUrl}`,
-//         webhookUrl: `${apiUrl}/lvlup_webhook?nick=${nick}&shopid=${shopid}&serviceid=${serviceid}`
-//       }, {
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'Authorization': `Bearer ${config.lvlup_api}`
-//         }
-//       })
-//       if (res.status === 200) {
-//         resolve(res.data.url)
-//       } else {
-//         reject('lvlup_error')
-//       }
-//     } catch (e) {
-//       reject('lvlup_error')
-//     }
-//   })
-// }
-//
 // // CHECKERS
-//
-//
-//
-// exports.checkMicrosmsCode = ({service, config, code}) => {
-//   return new Promise((resolve, reject) => {
-//     const number = ({
-//       1: '71480',
-//       2: '72480',
-//       3: '73480',
-//       4: '74480',
-//       5: '75480',
-//       6: '76480',
-//       7: '79480',
-//       8: '91400',
-//       9: '91900',
-//       10: '92022',
-//       11: '92550'
-//     })[service.microsms_sms_type]
-//     axios.get(`https://microsms.pl/api/check.php?userid=${config.microsms_user_id}&number=${number}&code=${code}&serviceid=${config.microsms_sms_id}`).then(({data}) => {
-//       if (data.split(',')[0] === '1') {
-//         resolve()
-//       } else {
-//         reject('wrong_code')
-//       }
-//     })
-//   })
-// }
 //
 //
 // exports.checkMicrosmsTransferPrice = ({req, service}) => {
