@@ -10,30 +10,6 @@ function getBaseUrl (url) {
   return `${l[0]}//${l[2]}`
 }
 
-async function readRequestBody (request) {
-  const { headers } = request
-  const contentType = headers.get('content-type') || ''
-
-  if (contentType.includes('application/json')) {
-    return JSON.stringify(await request.json())
-  } else if (contentType.includes('application/text')) {
-    return request.text()
-  } else if (contentType.includes('text/html')) {
-    return request.text()
-  } else if (contentType.includes('form')) {
-    const formData = await request.formData()
-    const body = {}
-    for (const entry of formData.entries()) {
-      body[entry[0]] = entry[1]
-    }
-    return JSON.stringify(body)
-  } else {
-    // Perhaps some other type of data was submitted in the form
-    // like an image, or some other binary data.
-    return 'a file'
-  }
-}
-
 exports.request = (handler) => {
   return {
     async cloudflare ({request, env}) {
@@ -45,6 +21,10 @@ exports.request = (handler) => {
         if (kv[0]) params[kv[0]] = kv[1] || true
       })
       const url = request.url
+      let body = false
+      try {
+        body = await request.json()
+      } catch (e) {}
       return handler({
         params,
         url,
@@ -53,7 +33,7 @@ exports.request = (handler) => {
         firebase: await new Firebase(env.FIREBASE_CONFIG).init_cloudflare(),
         fetch,
         ip: request.headers.get('cf-connecting-ip'),
-        body: readRequestBody(request)
+        body
       }).then((data) => (
         new Response(JSON.stringify({success: true, data}), {headers: {'content-type': 'application/json'}})
       )).catch((error) => (
@@ -72,7 +52,7 @@ exports.request = (handler) => {
         firebase: await new Firebase(process.env.FIREBASE_CONFIG).init(),
         fetch,
         ip: event.headers['x-nf-client-connection-ip'],
-        body: event.body ? JSON.parse(event.body) : null
+        body: event.body ? JSON.parse(event.body) : false
       }).then((data) => ({
         statusCode: 200,
         body: JSON.stringify({success: true, data})
@@ -88,9 +68,10 @@ exports.request = (handler) => {
         const b = 'express'
         const express = require(b)
         const app = express()
-        app.use(express.urlencoded({extended: true}))
         app.use(express.json())
+        app.use(express.urlencoded({extended: true}))
         app.all(`/api/:name`, async (req, res) => {
+          const body = JSON.parse(Object.keys(req.body)[0])
           const url = req.protocol + '://' + req.get('host') + req.originalUrl
           handler({
             params: req.query,
@@ -100,7 +81,7 @@ exports.request = (handler) => {
             firebase: await new Firebase(process.env.FIREBASE_CONFIG).init(),
             fetch,
             ip: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
-            body: req.body
+            body
           }).then((data) => {
             res.json({success: true, data})
           }).catch((error) => {
