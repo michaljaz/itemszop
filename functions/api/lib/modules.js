@@ -268,7 +268,8 @@ exports.validate = {
 exports.generateLvlup = async({config, nick, shopid, serviceid, service, amount, apiBaseUrl, baseUrl}) => {
   let cost = String(parseFloat(service.lvlup_cost) * amount)
   cost = (+(Math.round(cost + 'e+2') + 'e-2')).toFixed(2)
-  const response = await fetch('https://api.lvlup.pro/v4/wallet/up', {
+  const sandbox = false
+  const response = await fetch(`https://api${sandbox ? '.sandbox' : ''}.lvlup.pro/v4/wallet/up`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -277,9 +278,10 @@ exports.generateLvlup = async({config, nick, shopid, serviceid, service, amount,
     body: JSON.stringify({
       amount: cost,
       redirectUrl: baseUrl,
-      webhookUrl: `${apiBaseUrl}/api/payment_webhook?paymenttype=lvlup&nick=${nick}&shopid=${shopid}&serviceid=${serviceid}&amount=${amount}`
+      webhookUrl: `${apiBaseUrl}/payment_webhook?paymenttype=lvlup&nick=${nick}&shopid=${shopid}&serviceid=${serviceid}&amount=${amount}`
     })
   })
+  console.log(apiBaseUrl)
   return (await response.json()).url
 }
 

@@ -14,8 +14,8 @@
       "dest": "/functions/api/microsms_sms.js"
     },
 		{
-      "src": "/api/body",
-      "dest": "/functions/api/body.js"
+      "src": "/api/payment_webhook",
+      "dest": "/functions/api/payment_webhook.js"
     }
   ],
   "builds": [
