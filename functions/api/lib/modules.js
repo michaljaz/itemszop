@@ -6,8 +6,9 @@ let fetch
 // REQUEST
 
 function getBaseUrl (url) {
-  const l = url.split('/')
-  return `${l[0]}//${l[2]}`
+  // const l = url.split('/')
+  // return `${l[0]}//${l[2]}`
+  return 'https://1099-79-184-136-197.ngrok.io'
 }
 
 exports.request = (handler) => {
@@ -268,7 +269,7 @@ exports.validate = {
 exports.generateLvlup = async({config, nick, shopid, serviceid, service, amount, apiBaseUrl, baseUrl}) => {
   let cost = String(parseFloat(service.lvlup_cost) * amount)
   cost = (+(Math.round(cost + 'e+2') + 'e-2')).toFixed(2)
-  const sandbox = false
+  const sandbox = true
   const response = await fetch(`https://api${sandbox ? '.sandbox' : ''}.lvlup.pro/v4/wallet/up`, {
     method: 'POST',
     headers: {
@@ -294,7 +295,7 @@ exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service, a
     description: `${service.name} dla ${nick}`,
     control: `${shopid}|${serviceid}|${nick}`,
     returl_url: `${baseUrl}`,
-    returl_urlc: `${apiBaseUrl}/payment_webhook`
+    returl_urlc: `${apiBaseUrl}/payment_webhook?paymenttype=microsms_sms&shopid=${shopid}&serviceid=${serviceid}&amount=${amount}`
   })
   return `https://microsms.pl/api/bankTransfer/?${params}`
 }
@@ -344,9 +345,10 @@ exports.checkMicrosmsIp = async ({ip}) => {
   }
 }
 
-// SENDERS
+// EXECUTE SERVICE
 
-exports.sendCommands = async ({firebase, service, nick, shopid}) => {
+exports.executeService = async ({type, firebase, service, serviceid, shopid, nick}) => {
+  // send commands to server
   const server = await firebase.get(`servers/${service.server}`)
   const shopOwner = await firebase.get(`shops/${shopid}/owner`)
   if (shopOwner === server.owner) {
@@ -356,9 +358,8 @@ exports.sendCommands = async ({firebase, service, nick, shopid}) => {
       await firebase.push(`servers/${service.server}/commands`, command.replace(/\[nick\]/g, nick))
     }
   }
-}
 
-exports.sendDiscordWebhook = async ({shopid, nick, service, firebase}) => {
+  // send discord webhook
   const shop = await firebase.get(`shops/${shopid}`)
   try {
     const webhookUrl = await firebase.get(`config/${shopid}/webhook`)
@@ -388,11 +389,8 @@ exports.sendDiscordWebhook = async ({shopid, nick, service, firebase}) => {
       })
     })
   } catch (e) {}
-}
 
-// SAVERS
-
-exports.savePaymentToHistory = async ({firebase, shopid, nick, service, serviceid, type}) => {
+  // save to payments history
   await firebase.push(`shops/${shopid}/history`, {
     nick,
     service: service.name,
@@ -401,60 +399,3 @@ exports.savePaymentToHistory = async ({firebase, shopid, nick, service, servicei
     type
   })
 }
-
-//
-// // SAVERS
-//
-// exports.addMonthlyGoal = ({type, shopid, db, service}) => {
-//   return new Promise((resolve, reject) => {
-//     let cost
-//     if (type === 'microsms_sms') {
-//       cost = ({1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 9, 8: 14, 9: 19, 10: 20, 11: 25})[service.microsms_sms_type]
-//     } else if (type === 'microsms_transfer') {
-//       cost = parseFloat(service.microsms_transfer_cost)
-//     } else if (type === 'lvlup') {
-//       cost = parseFloat(service.lvlup_cost)
-//     }
-//     db.child(`shops/${shopid}/collected`).once('value', (snapshot) => {
-//       if (snapshot.exists()) {
-//         db.child(`shops/${shopid}/collected`).set(parseFloat(snapshot.val()) + cost).then(() => {
-//           resolve()
-//         }).catch(() => {
-//           reject('monthly_goal_error')
-//         })
-//       } else {
-//         db.child(`shops/${shopid}/collected`).set(cost).then(() => {
-//           resolve()
-//         }).catch(() => {
-//           reject('monthly_goal_error')
-//         })
-//       }
-//     })
-//   })
-// }
-//
-//
-// // CHECKERS
-//
-//
-// exports.checkMicrosmsTransferPrice = ({req, service}) => {
-//   return new Promise((resolve, reject) => {
-//     if (req.amountUni === service.microsms_transfer_cost) {
-//       resolve()
-//     } else {
-//       reject()
-//     }
-//   })
-// }
-//
-// exports.checkMicrosmsUserId = ({db, shopid, userid}) => {
-//   return new Promise((resolve, reject) => {
-//     db.child(`config/${shopid}/microsms_user_id`).once('value', (snapshot) => {
-//       if (snapshot.exists() && snapshot.val() === userid) {
-//         resolve()
-//       } else {
-//         reject()
-//       }
-//     })
-//   })
-// }

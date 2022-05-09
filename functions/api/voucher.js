@@ -2,9 +2,7 @@ import {
   request,
 	validate,
 	checkIfVoucherExpired,
-  sendCommands,
-  sendDiscordWebhook,
-  savePaymentToHistory
+  executeService
 } from './lib/modules.js'
 
 const req = request(async ({params, firebase}) => {
@@ -16,9 +14,8 @@ const req = request(async ({params, firebase}) => {
   await firebase.remove(`vouchers/${shopid}/${vouchercode}`)
   await checkIfVoucherExpired(voucher)
   const service = await firebase.get(`shops/${shopid}/services/${voucher.service}`)
-  await sendCommands({service, firebase, nick, shopid})
-  await sendDiscordWebhook({service, firebase, nick, shopid})
-  await savePaymentToHistory({firebase, shopid, nick, service, serviceid: voucher.service, type: 'voucher'})
+
+  await executeService({type: 'voucher', firebase, service, serviceid: voucher.service, shopid, nick})
 })
 
 export const onRequest = req.cloudflare
