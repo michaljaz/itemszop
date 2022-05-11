@@ -533,7 +533,7 @@ export default {
         const { shopid } = this.$route.params
         this.fields.microsms_sms_list = this.smsList
         this.$fire.database.ref().child(`/shops/${shopid}/services/${this.serviceId}`).set(this.fields)
-        if (this.serviceId !== this.oldServiceId) {
+        if (this.serviceId !== this.oldServiceId && this.oldServiceId !== '') {
           this.$fire.database.ref().child(`/shops/${shopid}/services/${this.oldServiceId}`).remove()
         }
         this.dialog = false

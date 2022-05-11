@@ -13,6 +13,9 @@ const req = request(async ({params, firebase, ip}) => {
 
   const config = await firebase.get(`config/${shopid}`)
   const service = await firebase.get(`shops/${shopid}/services/${serviceid}`)
+  if(service.costslider){
+    
+  }
   await checkMicrosmsCode({service, config, smscode})
 
   await executeService({type: 'microsms_sms', firebase, service, serviceid, shopid, nick, validate})

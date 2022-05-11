@@ -262,7 +262,7 @@ exports.validate = {
       }
     })
   },
-  serverid (text){
+  serverid (text) {
     return new Promise((resolve, reject) => {
       if (!/^[A-Za-z0-9_]{4,}$/.test(text) || typeof (text) !== 'string') {
         reject('wrong_format_amount')
@@ -355,21 +355,22 @@ exports.checkMicrosmsIp = async ({ip}) => {
 
 // EXECUTE SERVICE
 
-exports.executeService = async ({type, firebase, service, serviceid, shopid, nick, validate}) => {
+exports.executeService = async ({type, firebase, service, serviceid, shopid, nick, validate, amount}) => {
   // send commands to server
   const serverid = validate.serverid(service.server)
   const server = await firebase.get(`servers/${serverid}`)
-  const shopOwner = await firebase.get(`shops/${shopid}/owner`)
-  if (shopOwner === server.owner) {
+  const shop = await firebase.get(`shops/${shopid}`)
+  if (shop.owner === server.owner) {
     const commands = service.commands.split('\n')
     const newCommands = {}
     for (let command of commands) {
-      await firebase.push(`servers/${serverid}/commands`, command.replace(/\[nick\]/g, nick))
+      command = command.replace(/\[nick\]/g, nick)
+      command = command.replace(/\[n\]/g, amount)
+      await firebase.push(`servers/${serverid}/commands`, command)
     }
   }
 
   // send discord webhook
-  const shop = await firebase.get(`shops/${shopid}`)
   try {
     const webhookUrl = await firebase.get(`config/${shopid}/webhook`)
     await fetch(webhookUrl, {
