@@ -15,7 +15,7 @@ const req = request(async ({params, firebase, ip}) => {
   const service = await firebase.get(`shops/${shopid}/services/${serviceid}`)
   await checkMicrosmsCode({service, config, smscode})
 
-  await executeService({type: 'microsms_sms', firebase, service, serviceid, shopid, nick})
+  await executeService({type: 'microsms_sms', firebase, service, serviceid, shopid, nick, validate})
 })
 
 export const onRequest = req.cloudflare

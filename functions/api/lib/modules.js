@@ -261,6 +261,15 @@ exports.validate = {
         reject('wrong_format_paymenttype')
       }
     })
+  },
+  serverid (text){
+    return new Promise((resolve, reject) => {
+      if (!/^[A-Za-z0-9_]{4,}$/.test(text) || typeof (text) !== 'string') {
+        reject('wrong_format_amount')
+      } else {
+        resolve(parseFloat(text))
+      }
+    })
   }
 }
 
@@ -282,7 +291,6 @@ exports.generateLvlup = async({config, nick, shopid, serviceid, service, amount,
       webhookUrl: `${apiBaseUrl}/payment_webhook?paymenttype=lvlup&nick=${nick}&shopid=${shopid}&serviceid=${serviceid}&amount=${amount}`
     })
   })
-  console.log(apiBaseUrl)
   return (await response.json()).url
 }
 
@@ -347,15 +355,16 @@ exports.checkMicrosmsIp = async ({ip}) => {
 
 // EXECUTE SERVICE
 
-exports.executeService = async ({type, firebase, service, serviceid, shopid, nick}) => {
+exports.executeService = async ({type, firebase, service, serviceid, shopid, nick, validate}) => {
   // send commands to server
-  const server = await firebase.get(`servers/${service.server}`)
+  const serverid = validate.serverid(service.server)
+  const server = await firebase.get(`servers/${serverid}`)
   const shopOwner = await firebase.get(`shops/${shopid}/owner`)
   if (shopOwner === server.owner) {
     const commands = service.commands.split('\n')
     const newCommands = {}
     for (let command of commands) {
-      await firebase.push(`servers/${service.server}/commands`, command.replace(/\[nick\]/g, nick))
+      await firebase.push(`servers/${serverid}/commands`, command.replace(/\[nick\]/g, nick))
     }
   }
 
