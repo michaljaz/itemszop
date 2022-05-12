@@ -126,7 +126,8 @@ export default {
     max_amount: 'Maksymalna ilość',
     google_analytics: 'Google Analytics',
     gid: 'ID Google analytics',
-    module_enabled: 'Moduł włączony'
+    module_enabled: 'Moduł włączony',
+    choose_payment_method: 'Wybierz sposób płatności'
   },
 
   formats: {
@@ -190,9 +191,10 @@ export default {
     page_config: 'Konfiguracja strony',
     no_server_available: 'Nie dodano żadnego serwera :(',
     temp_announcement: 'Czasowe ogłoszenie',
-    buy_service_1: 'Zapoznanie się z usługą',
-    buy_service_2: 'Wybranie formy płatności',
-    buy_service_3: 'Realizacja płatności'
+    buy_service_1: 'Zapoznanie',
+    buy_service_2: 'Wybór płatności',
+    buy_service_3: 'Potwierdzenie',
+    buy_service_4: 'Realizacja'
   },
 
   responses: {

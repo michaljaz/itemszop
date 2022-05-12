@@ -24,7 +24,7 @@
     <v-dialog
       v-model="dialog"
       persistent
-      max-width="800"
+      max-width="900"
     >
       <v-stepper v-model="e1">
         <v-stepper-header class="elevation-0">
@@ -59,44 +59,44 @@
 
           <v-divider />
 
-          <v-stepper-step step="3">
+          <v-stepper-step
+            :complete="e1 > 3"
+            step="3"
+          >
             {{ $t('titles.buy_service_3') }}
+          </v-stepper-step>
+
+          <v-divider />
+
+          <v-stepper-step step="4">
+            {{ $t('titles.buy_service_4') }}
           </v-stepper-step>
         </v-stepper-header>
         <v-stepper-items>
           <v-stepper-content step="1">
-            <div class="ma-2">
-              <v-row>
-                <v-col cols="12" class="my-auto" sm="5">
-                  <v-img :src="service.icon ? service.iconUrl : `/item.png`" max-height="150" contain class="mb-2" />
-                </v-col>
-
-                <v-col cols="12" sm="7">
-                  <center>
-                    <div class="headline font-weight-bold">
-                      {{ service.name }}
-                    </div>
-                  </center>
-                  <!-- eslint-disable vue/no-v-html -->
-                  <div
-                    class="mt-2 mx-auto mb-3"
-                    v-html="service.description"
-                  />
-                  <!--eslint-enable-->
-                  <span class="float-right mt-10">
-                    <v-btn text @click="dialog=false;$emit('blur', false)">
-                      {{ $t('actions.cancel') }}
-                    </v-btn>
-                    <v-btn
-                      color="success"
-                      @click="e1 = 2"
-                    >
-                      {{ $t('actions.next') }}
-                    </v-btn>
-                  </span>
-                </v-col>
-              </v-row>
-            </div>
+            <center>
+              <v-img :src="service.icon ? service.iconUrl : `/item.png`" max-height="150" contain class="mb-2" />
+              <div class="headline font-weight-bold">
+                {{ service.name }}
+              </div>
+              <!-- eslint-disable vue/no-v-html -->
+              <div
+                class="mt-2 mx-auto mb-3"
+                v-html="service.description"
+              />
+              <!--eslint-enable-->
+              <span class="float-right mt-10">
+                <v-btn text @click="dialog=false;$emit('blur', false)">
+                  {{ $t('actions.cancel') }}
+                </v-btn>
+                <v-btn
+                  color="success"
+                  @click="e1 = 2"
+                >
+                  {{ $t('actions.next') }}
+                </v-btn>
+              </span>
+            </center>
           </v-stepper-content>
 
           <v-stepper-content step="2">
@@ -106,7 +106,11 @@
                 v-model="valid"
               >
                 <v-text-field v-model="nick" :label="$t('fields.nick')" :rules="rules.nick" />
+
                 <v-radio-group v-model="type" :rules="rules.type">
+                  <template #label>
+                    {{ $t('fields.choose_payment_method') }}
+                  </template>
                   <v-radio
                     v-if="service.microsms_sms && config.microsms"
                     :label="service.costslider ? `${$t('sms')}` : `${$t('sms')} (${smsCost[service.microsms_sms_type][1]} zł ${$t('misc.per_item')})`"
@@ -174,7 +178,7 @@
                   <v-btn
                     :disabled="!valid"
                     color="success"
-                    @click="e1=3;initPaypal()"
+                    @click="e1=3"
                   >
                     {{ $t('actions.next') }}
                   </v-btn>
@@ -184,6 +188,84 @@
           </v-stepper-content>
 
           <v-stepper-content step="3">
+            <v-simple-table
+              class="mb-3"
+              tile
+              style="background:#505050;"
+            >
+              <template #default>
+                <tbody>
+                  <tr>
+                    <td>
+                      Nick na serwerze
+                    </td>
+                    <td>
+                      {{ nick }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Ilość produktów
+                    </td>
+                    <td>
+                      <template v-if="service.costslider">
+                        <template v-if="type==='microsms_sms'">
+                          {{ smsList[costslider_sms][1] }}
+                        </template>
+                        <template v-else>
+                          {{ costslider }}
+                        </template>
+                      </template>
+                      <template v-else>
+                        1
+                      </template>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Kwota
+                    </td>
+                    <td>
+                      {{ price }} zł
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Sposób płatności
+                    </td>
+                    <td>
+                      <template v-if="type==='microsms_sms'">
+                        {{ $t('sms') }}
+                      </template>
+                      <template v-else-if="type==='paypal_p24'">
+                        {{ $t('przelewy24') }}
+                      </template>
+                      <template v-else-if="type==='microsms_transfer'">
+                        {{ $t('transfer') }}
+                      </template>
+                      <template v-else-if="type==='lvlup'">
+                        {{ $t('transfer_psc') }}
+                      </template>
+                    </td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
+            <span class="float-right">
+              <v-btn text @click="e1 = 2">
+                {{ $t('actions.go_back') }}
+              </v-btn>
+              <v-btn
+                :disabled="!valid"
+                color="success"
+                @click="e1=4;initPaypal()"
+              >
+                {{ $t('actions.next') }}
+              </v-btn>
+            </span>
+          </v-stepper-content>
+
+          <v-stepper-content step="4">
             <div class="ma-2">
               <div v-if="type=='microsms_sms'">
                 <center>
@@ -214,7 +296,7 @@
                   <v-text-field v-model="code" label="Wpisz kod z sms'a" :rules="rules.code" />
                 </v-form>
                 <span class="float-right">
-                  <v-btn text @click="e1 = 2">
+                  <v-btn text @click="e1 = 3">
                     {{ $t('actions.go_back') }}
                   </v-btn>
                   <v-btn
@@ -231,7 +313,7 @@
                   {{ $t('misc.click_to_pay_by_link') }}
                 </h1>
                 <span class="float-right">
-                  <v-btn text @click="e1 = 2">
+                  <v-btn text @click="e1 = 3">
                     {{ $t('actions.go_back') }}
                   </v-btn>
                   <v-btn
@@ -246,14 +328,14 @@
               <div v-else-if="type=='paypal_p24'">
                 <div id="p24_container" />
                 <span class="float-right">
-                  <v-btn text @click="e1 = 2">
+                  <v-btn text @click="e1 = 3">
                     {{ $t('actions.go_back') }}
                   </v-btn>
                 </span>
               </div>
               <div v-else>
                 <span class="float-right">
-                  <v-btn text @click="e1 = 2">
+                  <v-btn text @click="e1 = 3">
                     {{ $t('actions.go_back') }}
                   </v-btn>
                 </span>
