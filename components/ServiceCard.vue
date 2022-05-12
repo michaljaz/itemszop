@@ -376,7 +376,7 @@ export default {
           const [type, amount] = l[i].split('=')
           result.push([parseFloat(type), parseFloat(amount)])
         }
-        result.sort()
+        result.sort((a, b) => a - b)
         return result
       } else {
         return []
@@ -457,7 +457,13 @@ export default {
       if (this.valid2) {
         const { code, nick, shopid } = this
         this.$axios.get('/microsms_sms', {
-          params: { smscode: code, nick, shopid, serviceid: this.service.serviceId }
+          params: {
+            smscode: code,
+            nick,
+            shopid,
+            serviceid: this.service.serviceId,
+            amount: this.costslider_sms + 1
+          }
         }).then(({ data }) => {
           if (data.success) {
             this.$emit('blur', false)

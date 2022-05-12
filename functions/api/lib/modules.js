@@ -324,7 +324,7 @@ exports.checkIfVoucherExpired = async (voucher) => {
   }
 }
 
-exports.checkMicrosmsCode = async ({service, config, smscode}) => {
+exports.checkMicrosmsCode = async ({service, config, smscode, type}) => {
   const number = ({
     1: '71480',
     2: '72480',
@@ -337,7 +337,7 @@ exports.checkMicrosmsCode = async ({service, config, smscode}) => {
     9: '91900',
     10: '92022',
     11: '92550'
-  })[service.microsms_sms_type]
+  })[type === 'default' ? service.microsms_sms_type : type]
   const response = await fetch(`https://microsms.pl/api/check.php?userid=${config.microsms_user_id}&number=${number}&code=${smscode}&serviceid=${config.microsms_sms_id}`)
   const data = await response.text()
   if (data.split(',')[0] !== '1') {
