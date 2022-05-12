@@ -382,7 +382,7 @@ exports.executeService = async ({type, firebase, service, serviceid, shopid, nic
       body: JSON.stringify({
         content: null,
         embeds: [{
-          color: shop.theme ? parseInt(shop.theme.replace(/^#/, ''), 16) : 255,
+          color: 255,
           title: 'Nowy zakup w sklepie',
           url: 'https://itemszop.tk/',
           author: {
