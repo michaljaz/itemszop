@@ -1,23 +1,18 @@
 import {
   request,
-	validate
+	validate,
+  checkLvlupPayment,
+  executeService
 } from './lib/modules.js'
 
-const req = request(async ({params, body}) => {
-  const nick = await validate.nick(params.nick)
-  const shopid = await validate.shopid(params.shopid)
-  const serviceid = await validate.serviceid(params.serviceid)
-  const amount = await validate.amount(params.amount)
+const req = request(async ({params, body, firebase}) => {
   const paymenttype = await validate.paymenttype(params.paymenttype)
   if (paymenttype === 'lvlup') {
     // lvlup payment webhook
     const {paymentId, status} = body
-
-    //check payment not already done
-
-    //check price
-
-    //send commands to server
+    const {nick, shopid, serviceid, amount} = await checkLvlupPayment({paymentId, firebase})
+    
+    await executeService({type: 'lvlup', firebase, nick, shopid, serviceid, amount, validate})
   } else {
     // microsms payment webhook
   }

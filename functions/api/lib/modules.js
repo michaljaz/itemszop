@@ -6,9 +6,9 @@ let fetch
 // REQUEST
 
 function getBaseUrl (url) {
-  const l = url.split('/')
-  return `${l[0]}//${l[2]}`
-  // return 'https://1099-79-184-136-197.ngrok.io'
+  // const l = url.split('/')
+  // return `${l[0]}//${l[2]}`
+  return 'https://6a00-79-191-58-129.ngrok.io'
 }
 
 exports.request = (handler) => {
@@ -194,6 +194,15 @@ class Firebase {
       body: JSON.stringify(val)
     })
   }
+  async set (path, val) {
+    await fetch(`${this.publicConfig.databaseURL}/${path}.json`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${this.access_token}`
+      },
+      body: JSON.stringify(val)
+    })
+  }
 }
 
 // VALIDATORS
@@ -267,7 +276,7 @@ exports.validate = {
       if (!/^[A-Za-z0-9_]{4,}$/.test(text) || typeof (text) !== 'string') {
         reject('wrong_format_amount')
       } else {
-        resolve(parseFloat(text))
+        resolve(text)
       }
     })
   }
@@ -275,10 +284,10 @@ exports.validate = {
 
 // GENERATORS
 
-exports.generateLvlup = async({config, nick, shopid, serviceid, service, amount, apiBaseUrl, baseUrl}) => {
+exports.generateLvlup = async({config, nick, shopid, serviceid, service, amount, apiBaseUrl, baseUrl, firebase}) => {
   let cost = String(parseFloat(service.lvlup_cost) * amount)
   cost = (+(Math.round(cost + 'e+2') + 'e-2')).toFixed(2)
-  const sandbox = true
+  const sandbox = false
   const response = await fetch(`https://api${sandbox ? '.sandbox' : ''}.lvlup.pro/v4/wallet/up`, {
     method: 'POST',
     headers: {
@@ -288,10 +297,17 @@ exports.generateLvlup = async({config, nick, shopid, serviceid, service, amount,
     body: JSON.stringify({
       amount: cost,
       redirectUrl: baseUrl,
-      webhookUrl: `${apiBaseUrl}/payment_webhook?paymenttype=lvlup&nick=${nick}&shopid=${shopid}&serviceid=${serviceid}&amount=${amount}`
+      webhookUrl: `${apiBaseUrl}/payment_webhook?paymenttype=lvlup`
     })
   })
-  return (await response.json()).url
+  const {url, id} = await response.json()
+  firebase.set(`lvlup_payment/${id}`, {
+    nick,
+    shopid,
+    serviceid,
+    amount
+  })
+  return url
 }
 
 exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service, amount, apiBaseUrl, baseUrl}) => {
@@ -303,12 +319,30 @@ exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service, a
     description: `${service.name} dla ${nick}`,
     control: `${shopid}|${serviceid}|${nick}`,
     returl_url: `${baseUrl}`,
-    returl_urlc: `${apiBaseUrl}/payment_webhook?paymenttype=microsms_sms&shopid=${shopid}&serviceid=${serviceid}&amount=${amount}`
+    returl_urlc: `${apiBaseUrl}/payment_webhook?paymenttype=microsms_sms`
   })
   return `https://microsms.pl/api/bankTransfer/?${params}`
 }
 
 // CHECKERS
+
+exports.checkLvlupPayment = async ({paymentId, firebase, shopid}) => {
+  const info = await firebase.get(`lvlup_payment/${paymentId}`)
+  await firebase.remove(`lvlup_payment/${paymentId}`)
+  const config = await firebase.get(`config/${info.shopid}`)
+  const sandbox = false
+  const response = await fetch(`https://api${sandbox ? '.sandbox' : ''}.lvlup.pro/v4/wallet/up/${paymentId}`, {
+    method: 'get',
+    headers: {
+      'Authorization': `Bearer ${config.lvlup_api}`
+    }
+  })
+  const {payed} = await response.json()
+  if (!payed) {
+    throw 'not_payed'
+  }
+  return info
+}
 
 const getDate = () => {
   let d = new Date()
@@ -355,11 +389,12 @@ exports.checkMicrosmsIp = async ({ip}) => {
 
 // EXECUTE SERVICE
 
-exports.executeService = async ({type, firebase, service, serviceid, shopid, nick, validate, amount}) => {
+exports.executeService = async ({type, firebase, serviceid, shopid, nick, validate, amount}) => {
   // send commands to server
-  const serverid = validate.serverid(service.server)
-  const server = await firebase.get(`servers/${serverid}`)
   const shop = await firebase.get(`shops/${shopid}`)
+  const service = shop.services[serviceid]
+  const serverid = await validate.serverid(service.server)
+  const server = await firebase.get(`servers/${serverid}`)
   if (shop.owner === server.owner) {
     const commands = service.commands.split('\n')
     const newCommands = {}

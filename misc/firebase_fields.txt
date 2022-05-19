@@ -14,12 +14,6 @@ paypal_id - klucz client id paypal
 paypal_secret - klucz client secret paypal
 webhook - url do discordowego webhooka
 
-=== SERWER ===
-REF: /servers/[id serwera]
-owner - id właściciela
-serverName - nazwa serwera
-commands - komendy wysyłane do serwera
-
 === SKLEP ===
 REF: /shops/[id sklepu]
 name - nazwa sklepu
@@ -65,3 +59,12 @@ nick - nick kupującego
 service - nazwa usługi
 serviceid - id usługi
 type - typ usługi
+
+=== SERWER ===
+REF: /servers/[id serwera]
+owner - id właściciela
+serverName - nazwa serwera
+commands - komendy wysyłane do serwera
+
+=== AKTYWNE PŁATNOŚCI LVLUP ===
+REF: /lvlup_payment/[id płatności]

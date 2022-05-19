@@ -36,7 +36,7 @@ Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację
 1. Skonfiguruj własną bazę danych firebase
 [(link do dokumentacji)](https://github.com/michaljaz/itemszop/wiki/Utworzenie-i-konfiguracja-sklepu-z-w%C5%82asn%C4%85-baz%C4%85-Firebase).
 
-2. Wygeneruj zmienną środowiskową wywołując plik ```misc/scripts/env_generator.js``` z podmienionymi wartościami z punktu 1.
+2. Wygeneruj zmienną środowiskową wywołując plik ```misc/env_generator.js``` z podmienionymi wartościami z punktu 1.
 
 ##### Opcja 1 - użycie serwisów takich jak Cloudflare, Vercel, Netlify, Heroku lub Glitch
 

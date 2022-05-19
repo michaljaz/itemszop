@@ -12,9 +12,9 @@ export default function () {
 	  })
 	  let rules
 	  if (process.env.OWNER_ID) {
-	    rules = fs.readFileSync('./misc/one_owner_firebase.rules.json', 'utf-8').replace(/OWNER_ID/g, process.env.OWNER_ID)
+	    rules = fs.readFileSync('./rules/one_owner_firebase.rules.json', 'utf-8').replace(/OWNER_ID/g, process.env.OWNER_ID)
 	  } else {
-	    rules = fs.readFileSync('./misc/firebase.rules.json', 'utf-8')
+	    rules = fs.readFileSync('./rules/firebase.rules.json', 'utf-8')
 	  }
 	  admin.database().setRules(rules).then(() => {
 	    console.log('Rules updated successfully')

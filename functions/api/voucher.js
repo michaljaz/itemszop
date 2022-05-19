@@ -15,7 +15,7 @@ const req = request(async ({params, firebase}) => {
   await checkIfVoucherExpired(voucher)
   const service = await firebase.get(`shops/${shopid}/services/${voucher.service}`)
 
-  await executeService({type: 'voucher', firebase, service, serviceid: voucher.service, shopid, nick})
+  await executeService({type: 'voucher', firebase, serviceid: voucher.service, shopid, nick, amount: 1, validate})
 })
 
 export const onRequest = req.cloudflare
