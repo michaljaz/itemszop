@@ -6,9 +6,9 @@ let fetch
 // REQUEST
 
 function getBaseUrl (url) {
-  // const l = url.split('/')
-  // return `${l[0]}//${l[2]}`
-  return 'https://6a00-79-191-58-129.ngrok.io'
+  const l = url.split('/')
+  return `${l[0]}//${l[2]}`
+  // return 'https://6a00-79-191-58-129.ngrok.io'
 }
 
 exports.request = (handler) => {
