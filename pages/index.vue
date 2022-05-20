@@ -72,6 +72,11 @@
       </v-container>
     </div>
     <v-container>
+      <center>
+        <div class="headline mx-4 mt-3 mb-7">
+          {{ $t('homepage.comment') }}
+        </div>
+      </center>
       <h1 class="display-1 mt-10 mb-7">
         {{ $t('homepage.why_best') }}
       </h1>

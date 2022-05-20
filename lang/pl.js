@@ -16,8 +16,8 @@ export default {
 
   homepage: {
     title: 'Darmowy sklep serwera minecraftowego',
-    subtitle: 'Zacznij zarabiać na swoim serwerze już teraz!',
-    why_best: 'Dlaczego Itemszop jest najlepszy?',
+    why_best: 'Dlaczego ItemSzop jest najlepszy?',
+    comment: 'Posiadasz serwer minecraftowy i chcesz na nim zarabiać? ItemSzop to idealny wybór dla Ciebie! ',
     card1_title: 'Cena',
     card1_content: 'Nie ma tutaj żadnych planów cenowych. ItemSzop jest kompletnie za darmo, przez co tworzy sporą konkurencję dla innych sklepów serwerów.',
     card2_title: 'Open-source',
@@ -33,6 +33,7 @@ export default {
     card6_title: 'Architektura SaaS',
     card6_content: 'Cały sklep jest hostowany u nas. Nie musisz się martwić o stronę techniczną. Istnieje również możliwość własnego hostowania.',
     supported_operators: 'Wspierani operatorzy płatności'
+
   },
 
   actions: {
