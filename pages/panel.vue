@@ -50,131 +50,140 @@
               </v-list>
             </v-menu>
           </v-list-item-title>
-          <v-list-item-subtitle v-if="url">
-            <v-icon dense>
-              mdi-link-variant
-            </v-icon>
-            <a :href="url" target="_blank">{{ url }}</a>
-          </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-
-      <v-list
-        nav
+      <v-divider />
+      <v-list-item
         dense
+        link
+        :to="`/panel/shop/${$route.params.shopid}/`"
+        :active-class="isDashboard ? '' : `no-active`"
       >
-        <v-list-item
-          link
-          :to="`/panel/shop/${$route.params.shopid}/`"
-          :active-class="isDashboard ? '' : `no-active`"
-        >
-          <v-list-item-icon>
-            <v-icon>mdi-view-dashboard</v-icon>
-          </v-list-item-icon>
+        <v-list-item-icon>
+          <v-icon>mdi-view-dashboard</v-icon>
+        </v-list-item-icon>
 
-          <v-list-item-content>
-            <v-list-item-title>{{ $t('titles.dashboard') }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
-          :to="`/panel/shop/${$route.params.shopid}/pages`"
-        >
-          <v-list-item-icon>
-            <v-icon>mdi-file</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ $t('titles.pages') }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
-          :to="`/panel/shop/${$route.params.shopid}/servers`"
-        >
-          <v-list-item-icon>
-            <v-icon>mdi-server</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ $t('titles.servers') }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
-          :to="`/panel/shop/${$route.params.shopid}/services`"
-        >
-          <v-list-item-icon>
-            <v-icon>mdi-cart</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ $t('titles.services') }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
-          :to="`/panel/shop/${$route.params.shopid}/payments`"
-        >
-          <v-list-item-icon>
-            <v-icon>mdi-credit-card-plus</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ $t('titles.payments') }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          link
-          :to="`/panel/shop/${$route.params.shopid}/settings`"
-        >
-          <v-list-item-icon>
-            <v-icon>mdi-cog</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ $t('titles.settings') }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-group
-          :value="true"
-          no-action
-        >
-          <template #activator>
-            <v-list-item-icon>
-              <v-icon>mdi-view-grid-plus</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>{{ $t('titles.additional_modules') }}</v-list-item-title>
-            </v-list-item-content>
-          </template>
+        <v-list-item-content>
+          <v-list-item-title>{{ $t('titles.dashboard') }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item
+        dense
+        link
+        :to="`/panel/shop/${$route.params.shopid}/pages`"
+      >
+        <v-list-item-icon>
+          <v-icon>mdi-file</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>{{ $t('titles.pages') }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item
+        dense
+        link
+        :to="`/panel/shop/${$route.params.shopid}/servers`"
+      >
+        <v-list-item-icon>
+          <v-icon>mdi-server</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>{{ $t('titles.servers') }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item
+        dense
+        link
+        :to="`/panel/shop/${$route.params.shopid}/services`"
+      >
+        <v-list-item-icon>
+          <v-icon>mdi-cart</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>{{ $t('titles.services') }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item
+        dense
+        link
+        :to="`/panel/shop/${$route.params.shopid}/payments`"
+      >
+        <v-list-item-icon>
+          <v-icon>mdi-credit-card-plus</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>{{ $t('titles.payments') }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item
+        dense
+        link
+        :to="`/panel/shop/${$route.params.shopid}/settings`"
+      >
+        <v-list-item-icon>
+          <v-icon>mdi-cog</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>{{ $t('titles.settings') }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item
+        dense
+        link
+        target="_blank"
+        :href="url"
+      >
+        <v-list-item-icon>
+          <v-icon>mdi-link-variant</v-icon>
+        </v-list-item-icon>
 
-          <v-list-item
-            link
-            :to="`/panel/shop/${$route.params.shopid}/vouchers`"
-          >
-            <v-list-item-icon>
-              <v-icon>mdi-ticket-percent</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>{{ $t('titles.vouchers') }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item
-            link
-            :to="`/panel/shop/${$route.params.shopid}/temp`"
-          >
-            <v-list-item-icon>
-              <v-icon>mdi-bullhorn</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>{{ $t('titles.temp_announcement') }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-group>
-      </v-list>
+        <v-list-item-content>
+          <v-list-item-title>{{ $t('titles.preview') }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider />
+      <v-list-group
+        :value="true"
+        no-action
+      >
+        <template #activator>
+          <v-list-item-content>
+            <v-list-item-title>{{ $t('titles.additional_modules') }}</v-list-item-title>
+          </v-list-item-content>
+        </template>
+
+        <v-list-item
+          dense
+          link
+          :to="`/panel/shop/${$route.params.shopid}/vouchers`"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-ticket-percent</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ $t('titles.vouchers') }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          dense
+          link
+          :to="`/panel/shop/${$route.params.shopid}/temp`"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-bullhorn</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ $t('titles.temp_announcement') }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
     </v-navigation-drawer>
 
     <v-app-bar
-      height="70"
       elevation="2"
       fixed
       app
+      flat
     >
       <v-container class="pa-0 fill-height justify-space-between">
         <v-app-bar-nav-icon v-if="$route.params.shopid" class="hidden-lg-and-up" @click.stop="drawer = !drawer" />

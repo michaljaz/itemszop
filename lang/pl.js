@@ -157,6 +157,7 @@ export default {
     panel: 'Panel',
     shops: 'Sklepy',
     account: 'Konto',
+    preview: 'Podgląd',
     dashboard: 'Kokpit',
     servers: 'Serwery',
     services: 'Usługi',

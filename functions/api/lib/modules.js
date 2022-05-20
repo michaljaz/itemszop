@@ -317,7 +317,7 @@ exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service, a
     amount: cost,
     signature: md5(`${config.microsms_transfer_id}${config.microsms_transfer_hash}${cost}`),
     description: `${service.name} dla ${nick}`,
-    control: `${shopid}|${serviceid}|${nick}`,
+    control: `${shopid}|${serviceid}|${nick}|${amount}`,
     returl_url: `${baseUrl}`,
     returl_urlc: `${apiBaseUrl}/payment_webhook?paymenttype=microsms_sms`
   })
@@ -326,7 +326,7 @@ exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service, a
 
 // CHECKERS
 
-exports.checkLvlupPayment = async ({paymentId, firebase, shopid}) => {
+exports.checkLvlupTransfer = async ({paymentId, firebase, shopid}) => {
   const info = await firebase.get(`lvlup_payment/${paymentId}`)
   await firebase.remove(`lvlup_payment/${paymentId}`)
   const config = await firebase.get(`config/${info.shopid}`)
@@ -379,12 +379,34 @@ exports.checkMicrosmsCode = async ({service, config, smscode, type}) => {
   }
 }
 
-exports.checkMicrosmsIp = async ({ip}) => {
+exports.checkMicrosmsTransfer = async ({ip, firebase, body}) => {
+  const {status, userid, email, orderID, amountUni, amountPay, description, control, test} = body
+
+  // check ip
   const response = await fetch('https://microsms.pl/psc/ips/')
   const data = await response.text()
   if (!data.split(',').includes(ip)) {
     throw 'wrong_ip_address'
   }
+
+  // check user id
+  let [shopid, serviceid, nick, amount] = control.split('|')
+  shopid = validate.shopid(shopid)
+  serviceid = validate.serviceid(serviceid)
+  nick = validate.nick(nick)
+  amount = validate.amount(amount)
+  const microsms_user_id = await firebase.get(`config/${shopid}/microsms_user_id`)
+  if (microsms_user_id != userid) {
+    throw 'wrong_user_id'
+  }
+
+  // check cost
+  const cost = await firebase.get(`shops/${shopid}/services/${serviceid}/microsms_transfer_cost`)
+  if (cost != amountUni) {
+    throw 'wrong_cost'
+  }
+
+  console.log('success')
 }
 
 // EXECUTE SERVICE

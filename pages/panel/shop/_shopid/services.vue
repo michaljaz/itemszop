@@ -532,6 +532,9 @@ export default {
       if (this.valid) {
         const { shopid } = this.$route.params
         this.fields.microsms_sms_list = this.smsList
+        // this.fields.microsms_transfer_cost = parseFloat(this.fields.microsms_transfer_cost)
+        this.fields.lvlup_cost = parseFloat(this.fields.lvlup_cost)
+        this.fields.paypal_p24_cost = parseFloat(this.fields.paypal_p24_cost)
         this.$fire.database.ref().child(`/shops/${shopid}/services/${this.serviceId}`).set(this.fields)
         if (this.serviceId !== this.oldServiceId && this.oldServiceId !== '') {
           this.$fire.database.ref().child(`/shops/${shopid}/services/${this.oldServiceId}`).remove()
