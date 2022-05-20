@@ -195,7 +195,9 @@ export default {
     buy_service_1: 'Zapoznanie',
     buy_service_2: 'Wybór płatności',
     buy_service_3: 'Potwierdzenie',
-    buy_service_4: 'Realizacja'
+    buy_service_4: 'Realizacja',
+    main_page: 'Strona główna',
+    modules: 'Moduły'
   },
 
   responses: {
