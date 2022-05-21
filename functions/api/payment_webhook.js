@@ -6,14 +6,14 @@ import {
   checkMicrosmsIp
 } from './lib/modules.js'
 
-const req = request(async ({params, body, firebase, ip}) => {
+const req = request(async ({params, body, firebase, ip, baseUrl}) => {
   const paymenttype = await validate.paymenttype(params.paymenttype)
   if (paymenttype === 'lvlup') {
     // lvlup payment webhook
     const {paymentId, status} = body
     const {nick, shopid, serviceid, amount} = await checkLvlupTransfer({paymentId, firebase})
 
-    await executeService({type: 'lvlup', firebase, nick, shopid, serviceid, amount, validate})
+    await executeService({type: 'lvlup', firebase, nick, shopid, serviceid, amount, validate, baseUrl})
   } else {
     // microsms payment webhook
 

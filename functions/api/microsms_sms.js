@@ -5,7 +5,7 @@ import {
   executeService
 } from './lib/modules.js'
 
-const req = request(async ({params, firebase, ip}) => {
+const req = request(async ({params, firebase, baseUrl}) => {
   const nick = await validate.nick(params.nick)
   const shopid = await validate.shopid(params.shopid)
   const serviceid = await validate.serviceid(params.serviceid)
@@ -21,7 +21,7 @@ const req = request(async ({params, firebase, ip}) => {
   }
   await checkMicrosmsCode({service, config, smscode, type})
 
-  await executeService({type: 'microsms_sms', firebase, serviceid, shopid, nick, validate, amount})
+  await executeService({type: 'microsms_sms', firebase, serviceid, shopid, nick, validate, amount, baseUrl})
 })
 
 export const onRequest = req.cloudflare

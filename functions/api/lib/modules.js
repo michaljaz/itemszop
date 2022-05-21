@@ -411,7 +411,7 @@ exports.checkMicrosmsTransfer = async ({ip, firebase, body}) => {
 
 // EXECUTE SERVICE
 
-exports.executeService = async ({type, firebase, serviceid, shopid, nick, validate, amount}) => {
+exports.executeService = async ({type, firebase, serviceid, shopid, nick, validate, amount, baseUrl}) => {
   // send commands to server
   const shop = await firebase.get(`shops/${shopid}`)
   const service = shop.services[serviceid]
@@ -441,11 +441,11 @@ exports.executeService = async ({type, firebase, serviceid, shopid, nick, valida
         embeds: [{
           color: 255,
           title: 'Nowy zakup w sklepie',
-          url: 'https://itemszop.tk/',
+          url: baseUrl,
           author: {
             name: shop.name,
             icon_url: shop.icon ? shop.icon : 'https://itemszop.tk/item.png',
-            url: 'https://itemszop.tk/'
+            url: baseUrl
           },
           description: `${nick} właśnie kupił(a) ${service.name}`,
           thumbnail: {
