@@ -51,6 +51,11 @@
             </v-menu>
           </v-list-item-title>
         </v-list-item-content>
+        <v-list-item-icon class="mt-6 mr-1">
+          <v-btn :href="url" target="_blank" rounded text>
+            <v-icon>mdi-link-variant</v-icon>
+          </v-btn>
+        </v-list-item-icon>
       </v-list-item>
       <v-divider />
       <v-subheader>{{ $t('titles.main_page') }}</v-subheader>
@@ -83,7 +88,7 @@
         :to="`/panel/shop/${$route.params.shopid}/preview`"
       >
         <v-list-item-icon>
-          <v-icon>mdi-link-variant</v-icon>
+          <v-icon>mdi-eye</v-icon>
         </v-list-item-icon>
 
         <v-list-item-content>
