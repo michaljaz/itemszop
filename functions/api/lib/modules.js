@@ -419,6 +419,7 @@ exports.checkMicrosmsTransfer = async ({ip, firebase, body, validate}) => {
   if (parseFloat(microsms_transfer_cost) * parseFloat(info.amount) !== parseFloat(amountUni)) {
     throw 'wrong_cost'
   }
+  return info
 }
 
 // EXECUTE SERVICE
