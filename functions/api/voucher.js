@@ -20,4 +20,8 @@ const req = request(async ({params, firebase, baseUrl}) => {
 
 export const onRequest = req.cloudflare
 export const handler = req.netlify
-export default req.vercel()
+let filename = ""
+try{
+  filename = __filename
+}catch(e){}
+export default req.vercel(filename)

@@ -62,7 +62,7 @@ exports.request = (handler) => {
         body: JSON.stringify({success: false, error})
       }))
     },
-    vercel () {
+    vercel (filename) {
       try {
         const a = 'node-fetch'
         fetch = require(a)
@@ -71,8 +71,14 @@ exports.request = (handler) => {
         const app = express()
         app.use(express.json())
         app.use(express.urlencoded({extended: true}))
-        app.all(`/api/:name`, async (req, res) => {
-          const body = JSON.parse(Object.keys(req.body)[0])
+        filename = filename.split("/")
+        filename = filename[filename.length-1]
+        filename = filename.split(".")[0]
+        app.all(`/api/${filename}`, async (req, res) => {
+          let body = {}
+          if (Object.keys(req.body).length > 0) {
+            body = JSON.parse(Object.keys(req.body)[0])
+          }
           const url = req.protocol + '://' + req.get('host') + req.originalUrl
           handler({
             params: req.query,

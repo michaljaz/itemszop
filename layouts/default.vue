@@ -4,7 +4,7 @@
       <nuxt v-if="!$slots.default" />
       <slot />
     </v-main>
-    <v-footer class="justify-center">
+    <v-footer v-if="!inframe" class="justify-center">
       <span>
         &copy; {{ new Date().getFullYear() }}
         <a :href="mainUrl">ItemSzop</a>
@@ -19,6 +19,15 @@ export default {
   data () {
     return {
       mainUrl: process.env.mainUrl
+    }
+  },
+  computed: {
+    inframe () {
+      try {
+        return window.self !== window.top
+      } catch (e) {
+        return true
+      }
     }
   }
 }

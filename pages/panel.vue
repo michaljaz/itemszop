@@ -80,8 +80,7 @@
       </v-list-item>
       <v-list-item
         link
-        target="_blank"
-        :href="url"
+        :to="`/panel/shop/${$route.params.shopid}/preview`"
       >
         <v-list-item-icon>
           <v-icon>mdi-link-variant</v-icon>
@@ -231,9 +230,12 @@
         </v-menu>
       </v-container>
     </v-app-bar>
-    <v-container>
+    <v-container v-if="preview!=='preview'">
       <nuxt-child :shops="shops" />
     </v-container>
+    <template v-else>
+      <nuxt-child :shops="shops" />
+    </template>
   </div>
 </template>
 <script>
@@ -266,6 +268,10 @@ export default {
       } else {
         return `${document.location.origin}/shop/${this.$route.params.shopid}`
       }
+    },
+    preview () {
+      const xd = this.$route.path.split('/')
+      return xd[xd.length - 1]
     }
   },
   mounted () {
