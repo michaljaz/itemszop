@@ -3,21 +3,22 @@ import {
 	validate,
   checkLvlupTransfer,
   executeService,
-  checkMicrosmsIp
+  checkMicrosmsTransfer
 } from './lib/modules.js'
 
 const req = request(async ({params, body, firebase, ip, baseUrl}) => {
   const paymenttype = await validate.paymenttype(params.paymenttype)
   if (paymenttype === 'lvlup') {
     // lvlup payment webhook
-    const {paymentId, status} = body
-    const {nick, shopid, serviceid, amount} = await checkLvlupTransfer({paymentId, firebase})
+    const {nick, shopid, serviceid, amount} = await checkLvlupTransfer({firebase, body})
 
     await executeService({type: 'lvlup', firebase, nick, shopid, serviceid, amount, validate, baseUrl})
   } else {
     // microsms payment webhook
+    const {nick, shopid, serviceid, amount} = await checkMicrosmsTransfer({ip, firebase, body, validate})
 
-    // await executeService({type: 'microsms_transfer', firebase, nick, shopid, serviceid, amount, validate})
+    await executeService({type: 'microsms_transfer', firebase, nick, shopid, serviceid, amount, validate, baseUrl})
+    return 'OK'
   }
 })
 

@@ -279,6 +279,15 @@ exports.validate = {
         resolve(text)
       }
     })
+  },
+  control (text) {
+    return new Promise((resolve, reject) => {
+      if (!/^[A-Za-z0-9]{3,}$/.test(text) || typeof (text) !== 'string') {
+        reject('wrong_format_control')
+      } else {
+        resolve(text)
+      }
+    })
   }
 }
 
@@ -312,21 +321,29 @@ exports.generateLvlup = async({config, nick, shopid, serviceid, service, amount,
 
 exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service, amount, apiBaseUrl, baseUrl}) => {
   const cost = service.microsms_transfer_cost * amount
+  const paymentId = (Math.random() + 1).toString(36).substring(2)
   const params = new URLSearchParams({
     shopid: config.microsms_transfer_id,
     amount: cost,
     signature: md5(`${config.microsms_transfer_id}${config.microsms_transfer_hash}${cost}`),
     description: `${service.name} dla ${nick}`,
-    control: `${shopid}|${serviceid}|${nick}|${amount}`,
+    control: paymentId,
     returl_url: `${baseUrl}`,
     returl_urlc: `${apiBaseUrl}/payment_webhook?paymenttype=microsms_sms`
+  })
+  firebase.set(`microsms_transfer_payment/${paymentId}`, {
+    nick,
+    shopid,
+    serviceid,
+    amount
   })
   return `https://microsms.pl/api/bankTransfer/?${params}`
 }
 
 // CHECKERS
 
-exports.checkLvlupTransfer = async ({paymentId, firebase, shopid}) => {
+exports.checkLvlupTransfer = async ({body, firebase}) => {
+  const {paymentId, status} = body
   const info = await firebase.get(`lvlup_payment/${paymentId}`)
   await firebase.remove(`lvlup_payment/${paymentId}`)
   const config = await firebase.get(`config/${info.shopid}`)
@@ -379,8 +396,10 @@ exports.checkMicrosmsCode = async ({service, config, smscode, type}) => {
   }
 }
 
-exports.checkMicrosmsTransfer = async ({ip, firebase, body}) => {
+exports.checkMicrosmsTransfer = async ({ip, firebase, body, validate}) => {
   const {status, userid, email, orderID, amountUni, amountPay, description, control, test} = body
+  const info = await firebase.get(`microsms_transfer_payment/${paymentId}`)
+  firebase.remove(`microsms_transfer_payment/${paymentId}`)
 
   // check ip
   const response = await fetch('https://microsms.pl/psc/ips/')
@@ -390,23 +409,16 @@ exports.checkMicrosmsTransfer = async ({ip, firebase, body}) => {
   }
 
   // check user id
-  let [shopid, serviceid, nick, amount] = control.split('|')
-  shopid = validate.shopid(shopid)
-  serviceid = validate.serviceid(serviceid)
-  nick = validate.nick(nick)
-  amount = validate.amount(amount)
-  const microsms_user_id = await firebase.get(`config/${shopid}/microsms_user_id`)
+  const microsms_user_id = await firebase.get(`config/${info.shopid}/microsms_user_id`)
   if (microsms_user_id != userid) {
     throw 'wrong_user_id'
   }
 
   // check cost
-  const cost = await firebase.get(`shops/${shopid}/services/${serviceid}/microsms_transfer_cost`)
-  if (cost != amountUni) {
+  const microsms_transfer_cost = await firebase.get(`shops/${info.shopid}/services/${info.serviceid}/microsms_transfer_cost`)
+  if (parseFloat(microsms_transfer_cost) * parseFloat(info.amount) !== parseFloat(amountUni)) {
     throw 'wrong_cost'
   }
-
-  console.log('success')
 }
 
 // EXECUTE SERVICE
