@@ -164,7 +164,7 @@ export default {
     services: 'Usługi',
     payments: 'Płatności',
     vouchers: 'Vouchery',
-    pages: 'Strony',
+    pages: 'Podstrony',
     rcon: 'Rcon',
     additional_modules: 'Dodatkowe moduły',
     settings: 'Ustawienia',

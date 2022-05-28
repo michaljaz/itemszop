@@ -51,7 +51,7 @@
             </v-menu>
           </v-list-item-title>
         </v-list-item-content>
-        <v-list-item-icon class="mt-6 mr-1">
+        <v-list-item-icon class="mt-5 mr-1">
           <v-btn :href="url" target="_blank" rounded text>
             <v-icon>mdi-link-variant</v-icon>
           </v-btn>
