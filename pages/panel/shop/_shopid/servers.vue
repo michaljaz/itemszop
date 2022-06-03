@@ -73,6 +73,12 @@
               :rules="rules.server_id"
               autocomplete="new-password"
             />
+            <v-text-field
+              v-model="serverIp"
+              :label="$t('fields.server_ip')"
+              :rules="rules.server_ip"
+              autocomplete="new-password"
+            />
             <v-alert
               v-model="error"
               color="red"
@@ -158,6 +164,11 @@ export default {
           value: 'serverId'
         },
         {
+          text: this.$t('fields.server_ip'),
+          align: 'start',
+          value: 'serverIp'
+        },
+        {
           text: this.$t('fields.actions'),
           value: 'actions',
           sortable: false
@@ -169,6 +180,7 @@ export default {
       valid: false,
       serverName: '',
       serverId: '',
+      serverIp: '',
       oldServerId: '',
       error: false,
       rules: {
@@ -205,15 +217,17 @@ export default {
       this.serverId = server.serverId
       this.oldServerId = server.serverId
       this.serverName = server.serverName
+      this.serverIp = server.serverIp
     },
     saveServer () {
       this.$refs.form.validate()
       if (this.valid) {
         const { shopid } = this.$route.params
-        const { serverId, serverName } = this
+        const { serverId, serverName, serverIp } = this
         this.$fire.database.ref().child(`servers/${serverId}`).set({
           owner: this.$fire.auth.currentUser.uid,
-          serverName
+          serverName,
+          serverIp
         }).then(() => {
           this.$fire.database.ref().child(`shops/${shopid}/servers`).update({ [serverId]: true })
           if (this.serverId !== this.oldServerId) {

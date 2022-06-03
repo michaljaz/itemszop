@@ -73,6 +73,7 @@ export default {
     display_name: 'Pseudonim',
     server_name: 'Nazwa serwera',
     server_id: 'ID serwera',
+    server_ip: 'IP serwera',
     command: 'Komenda',
     service_name: 'Nazwa usługi',
     service_icon: 'Ikona usługi',
