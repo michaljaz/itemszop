@@ -112,7 +112,7 @@
                       tile
                       size="40"
                     >
-                      <v-img class="rounded-lg" :src="`https://minotar.net/helm/${k.nick}/32.png`" />
+                      <v-img class="rounded-lg" :src="`https://crafthead.net/helm/${k.nick}/32`" />
                     </v-list-item-avatar>
                     <v-list-item-content>
                       <v-list-item-title>{{ k.nick }}</v-list-item-title>
