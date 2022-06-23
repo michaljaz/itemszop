@@ -73,7 +73,7 @@ export default {
     display_name: 'Pseudonim',
     server_name: 'Nazwa serwera',
     server_id: 'ID serwera',
-    server_ip: 'IP serwera',
+    trigger_ip: 'IP serwera do triggerowania',
     command: 'Komenda',
     service_name: 'Nazwa usługi',
     service_icon: 'Ikona usługi',
@@ -129,7 +129,8 @@ export default {
     google_analytics: 'Google Analytics',
     gid: 'ID Google analytics',
     module_enabled: 'Moduł włączony',
-    choose_payment_method: 'Wybierz sposób płatności'
+    choose_payment_method: 'Wybierz sposób płatności',
+    commands_in_queue: 'Komendy w kolejce'
   },
 
   formats: {

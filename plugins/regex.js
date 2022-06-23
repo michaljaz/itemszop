@@ -20,9 +20,6 @@ const regex = {
   sms_text (v) {
     return /^[A-Z.]+$/.test(v)
   },
-  ip (v) {
-    return /^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]))*$/.test(v)
-  },
   is_url (v) {
     let url
     try {

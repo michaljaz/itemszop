@@ -28,20 +28,25 @@
       </template>
       <template #[`item.actions`]="{ item }">
         <v-icon
-          small
           class="mr-2"
           @click="applyServer(item);dialog=true"
         >
           mdi-pencil
         </v-icon>
         <v-icon
-          small
+          class="mr-2"
           @click="sendTest(item)"
         >
-          mdi-connection
+          mdi-test-tube
         </v-icon>
         <v-icon
-          small
+          class="mr-2"
+          @click="clearCommands(item)"
+        >
+          mdi-autorenew-off
+        </v-icon>
+        <v-icon
+          class="mr-2"
           @click="dialogDelete=true;currentItem=item"
         >
           mdi-delete
@@ -74,9 +79,8 @@
               autocomplete="new-password"
             />
             <v-text-field
-              v-model="serverIp"
-              :label="$t('fields.server_ip')"
-              :rules="rules.server_ip"
+              v-model="triggerIp"
+              :label="$t('fields.trigger_ip')"
               autocomplete="new-password"
             />
             <v-alert
@@ -164,9 +168,14 @@ export default {
           value: 'serverId'
         },
         {
-          text: this.$t('fields.server_ip'),
+          text: this.$t('fields.trigger_ip'),
           align: 'start',
-          value: 'serverIp'
+          value: 'triggerIp'
+        },
+        {
+          text: this.$t('fields.commands_in_queue'),
+          align: 'start',
+          value: 'commandsInQueue'
         },
         {
           text: this.$t('fields.actions'),
@@ -180,7 +189,7 @@ export default {
       valid: false,
       serverName: '',
       serverId: '',
-      serverIp: '',
+      triggerIp: '',
       oldServerId: '',
       error: false,
       rules: {
@@ -206,6 +215,12 @@ export default {
         if (this.servers[serverId]) {
           const server = Object.assign({}, this.servers[serverId])
           server.serverId = serverId
+          if (this.servers[serverId].commands) {
+            server.commandsInQueue = Object.keys(this.servers[serverId].commands).length
+          } else {
+            server.commandsInQueue = 0
+          }
+
           result.push(server)
         }
       }
@@ -217,17 +232,17 @@ export default {
       this.serverId = server.serverId
       this.oldServerId = server.serverId
       this.serverName = server.serverName
-      this.serverIp = server.serverIp
+      this.triggerIp = server.triggerIp
     },
     saveServer () {
       this.$refs.form.validate()
       if (this.valid) {
         const { shopid } = this.$route.params
-        const { serverId, serverName, serverIp } = this
+        const { serverId, serverName, triggerIp } = this
         this.$fire.database.ref().child(`servers/${serverId}`).set({
           owner: this.$fire.auth.currentUser.uid,
           serverName,
-          serverIp
+          triggerIp
         }).then(() => {
           this.$fire.database.ref().child(`shops/${shopid}/servers`).update({ [serverId]: true })
           if (this.serverId !== this.oldServerId) {
@@ -258,6 +273,9 @@ export default {
       this.$fire.database.ref().child(`servers/${server.serverId}/commands`).update({
         [Math.random().toString(36).replace('0.', '')]: 'say ItemSzop test'
       })
+    },
+    clearCommands (server) {
+      this.$fire.database.ref().child(`servers/${server.serverId}/commands`).remove()
     }
   }
 }

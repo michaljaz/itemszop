@@ -71,9 +71,9 @@ exports.request = (handler) => {
         const app = express()
         app.use(express.json())
         app.use(express.urlencoded({extended: true}))
-        filename = filename.split("/")
-        filename = filename[filename.length-1]
-        filename = filename.split(".")[0]
+        filename = filename.split('/')
+        filename = filename[filename.length - 1]
+        filename = filename.split('.')[0]
         app.all(`/api/${filename}`, async (req, res) => {
           let body = {}
           if (Object.keys(req.body).length > 0) {
@@ -431,7 +431,7 @@ exports.checkMicrosmsTransfer = async ({ip, firebase, body, validate}) => {
 // EXECUTE SERVICE
 
 exports.executeService = async ({type, firebase, serviceid, shopid, nick, validate, amount, baseUrl}) => {
-  // send commands to server
+  // save commands to firebase
   const shop = await firebase.get(`shops/${shopid}`)
   const service = shop.services[serviceid]
   const serverid = await validate.serverid(service.server)
@@ -445,6 +445,12 @@ exports.executeService = async ({type, firebase, serviceid, shopid, nick, valida
       await firebase.push(`servers/${serverid}/commands`, command)
     }
   }
+
+  // trigger http server
+  try {
+    const {triggerIp} = server
+    await fetch(triggerIp)
+  } catch (e) {}
 
   // send discord webhook
   try {
