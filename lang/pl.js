@@ -73,7 +73,7 @@ export default {
     display_name: 'Pseudonim',
     server_name: 'Nazwa serwera',
     server_id: 'ID serwera',
-    trigger_ip: 'IP serwera do triggerowania',
+    trigger_ip: 'IP serwera do triggerowania (np. http://server.eu:8080)',
     command: 'Komenda',
     service_name: 'Nazwa usługi',
     service_icon: 'Ikona usługi',
