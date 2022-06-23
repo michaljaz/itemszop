@@ -28,20 +28,25 @@
       </template>
       <template #[`item.actions`]="{ item }">
         <v-icon
-          small
           class="mr-2"
           @click="applyServer(item);dialog=true"
         >
           mdi-pencil
         </v-icon>
         <v-icon
-          small
+          class="mr-2"
           @click="sendTest(item)"
         >
-          mdi-connection
+          mdi-test-tube
         </v-icon>
         <v-icon
-          small
+          class="mr-2"
+          @click="clearCommands(item)"
+        >
+          mdi-autorenew-off
+        </v-icon>
+        <v-icon
+          class="mr-2"
           @click="dialogDelete=true;currentItem=item"
         >
           mdi-delete
@@ -168,6 +173,11 @@ export default {
           value: 'triggerIp'
         },
         {
+          text: this.$t('fields.commands_in_queue'),
+          align: 'start',
+          value: 'commandsInQueue'
+        },
+        {
           text: this.$t('fields.actions'),
           value: 'actions',
           sortable: false
@@ -205,6 +215,12 @@ export default {
         if (this.servers[serverId]) {
           const server = Object.assign({}, this.servers[serverId])
           server.serverId = serverId
+          if (this.servers[serverId].commands) {
+            server.commandsInQueue = Object.keys(this.servers[serverId].commands).length
+          } else {
+            server.commandsInQueue = 0
+          }
+
           result.push(server)
         }
       }
@@ -257,6 +273,9 @@ export default {
       this.$fire.database.ref().child(`servers/${server.serverId}/commands`).update({
         [Math.random().toString(36).replace('0.', '')]: 'say ItemSzop test'
       })
+    },
+    clearCommands (server) {
+      this.$fire.database.ref().child(`servers/${server.serverId}/commands`).remove()
     }
   }
 }
