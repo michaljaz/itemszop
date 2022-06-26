@@ -1,11 +1,20 @@
 <template>
   <div>
-    <v-app-bar height="70" :elevation="el" fixed :color="bg">
+    <v-app-bar height="70" :elevation="el" fixed :color="bg" light>
       <v-container class="pa-0 fill-height justify-space-between">
         <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer" />
         <v-toolbar-title style="cursor: pointer">
           {{ $t('brand') }}
+          <v-btn icon @click="toggle_theme">
+            <v-icon v-if="$vuetify.theme.dark">
+              mdi-white-balance-sunny
+            </v-icon>
+            <v-icon v-if="!$vuetify.theme.dark">
+              mdi-weather-night
+            </v-icon>
+          </v-btn>
         </v-toolbar-title>
+
         <v-toolbar-items class="hidden-sm-and-down">
           <v-btn text to="/github">
             <v-icon>
@@ -41,7 +50,7 @@
     </v-app-bar>
     <div class="intro">
       <v-container>
-        <div style="margin-top:200px;margin-left:40px;">
+        <div style="margin-top:200px;margin-left:40px;color:black;">
           <h1 class="display-3 font-weight-regular mb-4">
             {{ $t('brand') }}
           </h1>
@@ -238,18 +247,31 @@ export default {
     ])
   },
   mounted () {
-    this.$vuetify.theme.dark = true
+    const theme = localStorage.getItem('dark')
+    if (theme) {
+      if (theme === 'true') {
+        this.$vuetify.theme.dark = true
+      } else {
+        this.$vuetify.theme.dark = false
+      }
+    } else {
+      localStorage.setItem('dark', 'true')
+    }
     window.onscroll = () => {
       this.changeColor()
     }
   },
   methods: {
+    toggle_theme () {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark
+      localStorage.setItem('dark', this.$vuetify.theme.dark.toString())
+    },
     changeColor () {
       if (
         document.body.scrollTop > 0 ||
         document.documentElement.scrollTop > 0
       ) {
-        this.bg = ''
+        this.bg = '#8d8fbe'
         this.el = '5'
       } else {
         this.bg = 'transparent'
@@ -261,7 +283,7 @@ export default {
 </script>
 <style>
 .intro{
-  background: url('/bg.webp') no-repeat top center fixed;
-  height:550px;
+  background: url('/bg.webp') no-repeat bottom center fixed;
+  height:700px;
 }
 </style>
