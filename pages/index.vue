@@ -82,13 +82,13 @@
     </div>
     <v-container>
       <center>
-        <div class="headline mx-4 mt-3 mb-7">
+        <div class="headline mx-4 mt-3 mb-7 primary--text">
           {{ $t('homepage.comment') }}
         </div>
+        <h1 class="display-1 mt-10 mb-13">
+          {{ $t('homepage.why_best') }}
+        </h1>
       </center>
-      <h1 class="display-1 mt-10 mb-7">
-        {{ $t('homepage.why_best') }}
-      </h1>
       <v-row>
         <v-col cols="12" md="4" sm="6">
           <v-card height="100%">
@@ -185,22 +185,29 @@
         <h1 class="display-1 mt-15 mb-7">
           {{ $t('homepage.supported_operators') }}
         </h1>
-        <v-img
-          class="mt-4"
-          src="/microsms.webp"
-          width="300"
-        />
-        <v-img
-          class="mt-4"
-          src="/lvlup.png"
-          width="300"
-        />
-        <v-img
-          class="mt-4"
-          src="/paypal.webp"
-          width="300"
-        />
       </center>
+      <VueSlickCarousel v-bind="settings">
+        <div>
+          <v-img
+            class="mt-8"
+            src="/microsms.webp"
+            width="300"
+          />
+        </div>
+        <div>
+          <v-img
+            class="mt-8"
+            src="/lvlup.png"
+            width="300"
+          />
+        </div>
+        <div>
+          <v-img
+            src="/paypal.webp"
+            width="300"
+          />
+        </div>
+      </VueSlickCarousel>
     </v-container>
 
     <v-navigation-drawer v-model="drawer" fixed temporary app>
@@ -231,14 +238,27 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import VueSlickCarousel from 'vue-slick-carousel'
+import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 
 export default {
   name: 'IndexPage',
+  components: { VueSlickCarousel },
   data () {
     return {
       drawer: false,
       bg: 'transparent',
-      el: '0'
+      el: '0',
+      settings: {
+        dots: true,
+        focusOnSelect: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        touchThreshold: 5
+      }
     }
   },
   computed: {
