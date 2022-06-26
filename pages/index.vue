@@ -65,8 +65,7 @@
                   v-if="!loggedIn"
                   to="/auth/signup"
                   large
-                  color="primary"
-                  outlined
+                  color="secondary"
                   class="mt-1"
                 >
                   {{ $t('sign_up') }}
