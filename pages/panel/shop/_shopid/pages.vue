@@ -18,7 +18,7 @@
           />
           <v-spacer />
           <v-btn
-            color="success"
+            color="primary"
             dark
             @click="newPage"
           >

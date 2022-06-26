@@ -63,7 +63,7 @@
       block
       outlined
       large
-      color="success"
+      color="primary"
       class="mt-5"
       @click="newService"
     >

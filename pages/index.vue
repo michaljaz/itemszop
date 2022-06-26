@@ -116,7 +116,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer />
-              <v-btn color="blue" text to="/github">
+              <v-btn color="primary" text to="/github">
                 {{ $t('homepage.card2_button') }}
               </v-btn>
             </v-card-actions>
@@ -271,7 +271,7 @@ export default {
         document.body.scrollTop > 0 ||
         document.documentElement.scrollTop > 0
       ) {
-        this.bg = '#8d8fbe'
+        this.bg = 'deep-purple lighten-3'
         this.el = '5'
       } else {
         this.bg = 'transparent'

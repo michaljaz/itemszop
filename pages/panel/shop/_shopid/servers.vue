@@ -19,7 +19,7 @@
           <v-spacer />
           <v-btn
             dark
-            color="success"
+            color="primary"
             @click="newServer"
           >
             {{ $t('actions.new_server') }}

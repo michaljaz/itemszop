@@ -75,7 +75,7 @@
         <v-spacer />
         <v-btn
           text
-          color="info"
+          color="accent"
           to="/auth/signin"
           large
         >
