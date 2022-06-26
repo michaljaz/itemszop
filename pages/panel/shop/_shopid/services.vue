@@ -27,12 +27,15 @@
                   {{ service.name }}
                 </v-list-item-title>
                 <v-list-item-subtitle style="height:100px;">
-                  <div v-if="service.sms || service.przelew">
+                  <div v-if="service.microsms_sms || service.microsms_transfer || service.lvlup || service.paypal_p24">
                     <v-chip v-if="service.microsms_sms && config.microsms" small class="mb-1">
                       {{ $t('sms') }}: {{ smsCost[service.microsms_sms_type] }}
                     </v-chip>
                     <v-chip v-if="service.microsms_transfer && config.microsms" small class="mb-1">
                       {{ $t('transfer') }}: {{ service.microsms_transfer_cost }}zł
+                    </v-chip>
+                    <v-chip v-if="service.paypal_p24 && config.paypal" small class="mb-1">
+                      {{ $t('przelewy24') }}: {{ service.paypal_p24_cost }}zł
                     </v-chip>
                     <v-chip v-if="service.lvlup && config.lvlup" small class="mb-1">
                       {{ $t('transfer_psc') }}: {{ service.lvlup_cost }}zł
@@ -60,7 +63,7 @@
       block
       outlined
       large
-      color="success"
+      color="primary"
       class="mt-5"
       @click="newService"
     >

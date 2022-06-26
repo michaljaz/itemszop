@@ -53,6 +53,7 @@
     "tiptap-vuetify": "^2.24.0",
     "vue-chartjs": "^3.5.1",
     "vue-gtag": "^1.16.1",
+    "vue-slick-carousel": "^1.0.6",
     "vuedraggable": "^2.24.3"
   }
 }

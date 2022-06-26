@@ -74,7 +74,7 @@ export default {
     toolbarAttrs () {
       return this.$vuetify.theme.isDark
         ? { color: 'black', dark: true }
-        : { color: 'blue' }
+        : { color: 'primary' }
     }
   },
   watch: {

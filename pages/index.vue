@@ -1,11 +1,20 @@
 <template>
   <div>
-    <v-app-bar height="70" :elevation="el" fixed :color="bg">
+    <v-app-bar height="70" :elevation="el" fixed :color="bg" light>
       <v-container class="pa-0 fill-height justify-space-between">
         <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer" />
         <v-toolbar-title style="cursor: pointer">
           {{ $t('brand') }}
+          <v-btn icon @click="toggle_theme">
+            <v-icon v-if="$vuetify.theme.dark">
+              mdi-white-balance-sunny
+            </v-icon>
+            <v-icon v-if="!$vuetify.theme.dark">
+              mdi-weather-night
+            </v-icon>
+          </v-btn>
         </v-toolbar-title>
+
         <v-toolbar-items class="hidden-sm-and-down">
           <v-btn text to="/github">
             <v-icon>
@@ -41,7 +50,7 @@
     </v-app-bar>
     <div class="intro">
       <v-container>
-        <div style="margin-top:200px;margin-left:40px;">
+        <div style="margin-top:200px;margin-left:40px;color:black;">
           <h1 class="display-3 font-weight-regular mb-4">
             {{ $t('brand') }}
           </h1>
@@ -56,8 +65,7 @@
                   v-if="!loggedIn"
                   to="/auth/signup"
                   large
-                  color="primary"
-                  outlined
+                  color="secondary"
                   class="mt-1"
                 >
                   {{ $t('sign_up') }}
@@ -73,13 +81,13 @@
     </div>
     <v-container>
       <center>
-        <div class="headline mx-4 mt-3 mb-7">
+        <div class="headline mx-4 mt-3 mb-7 primary--text">
           {{ $t('homepage.comment') }}
         </div>
+        <h1 class="display-1 mt-10 mb-13">
+          {{ $t('homepage.why_best') }}
+        </h1>
       </center>
-      <h1 class="display-1 mt-10 mb-7">
-        {{ $t('homepage.why_best') }}
-      </h1>
       <v-row>
         <v-col cols="12" md="4" sm="6">
           <v-card height="100%">
@@ -107,7 +115,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer />
-              <v-btn color="blue" text to="/github">
+              <v-btn color="primary" text to="/github">
                 {{ $t('homepage.card2_button') }}
               </v-btn>
             </v-card-actions>
@@ -176,22 +184,29 @@
         <h1 class="display-1 mt-15 mb-7">
           {{ $t('homepage.supported_operators') }}
         </h1>
-        <v-img
-          class="mt-4"
-          src="/microsms.webp"
-          width="300"
-        />
-        <v-img
-          class="mt-4"
-          src="/lvlup.png"
-          width="300"
-        />
-        <v-img
-          class="mt-4"
-          src="/paypal.webp"
-          width="300"
-        />
       </center>
+      <VueSlickCarousel v-bind="settings">
+        <div>
+          <v-img
+            class="mt-8"
+            src="/microsms.webp"
+            width="300"
+          />
+        </div>
+        <div>
+          <v-img
+            class="mt-8"
+            src="/lvlup.png"
+            width="300"
+          />
+        </div>
+        <div>
+          <v-img
+            src="/paypal.webp"
+            width="300"
+          />
+        </div>
+      </VueSlickCarousel>
     </v-container>
 
     <v-navigation-drawer v-model="drawer" fixed temporary app>
@@ -222,14 +237,27 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import VueSlickCarousel from 'vue-slick-carousel'
+import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 
 export default {
   name: 'IndexPage',
+  components: { VueSlickCarousel },
   data () {
     return {
       drawer: false,
       bg: 'transparent',
-      el: '0'
+      el: '0',
+      settings: {
+        dots: true,
+        focusOnSelect: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        touchThreshold: 5
+      }
     }
   },
   computed: {
@@ -238,18 +266,31 @@ export default {
     ])
   },
   mounted () {
-    this.$vuetify.theme.dark = true
+    const theme = localStorage.getItem('dark')
+    if (theme) {
+      if (theme === 'true') {
+        this.$vuetify.theme.dark = true
+      } else {
+        this.$vuetify.theme.dark = false
+      }
+    } else {
+      localStorage.setItem('dark', 'true')
+    }
     window.onscroll = () => {
       this.changeColor()
     }
   },
   methods: {
+    toggle_theme () {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark
+      localStorage.setItem('dark', this.$vuetify.theme.dark.toString())
+    },
     changeColor () {
       if (
         document.body.scrollTop > 0 ||
         document.documentElement.scrollTop > 0
       ) {
-        this.bg = ''
+        this.bg = 'deep-purple lighten-3'
         this.el = '5'
       } else {
         this.bg = 'transparent'
@@ -261,7 +302,9 @@ export default {
 </script>
 <style>
 .intro{
-  background: url('/bg.webp') no-repeat top center fixed;
-  height:550px;
+  background-image: url('/bg.webp');
+  background-size: cover;
+  background-position:center;
+  height:700px;
 }
 </style>

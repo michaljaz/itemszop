@@ -85,7 +85,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer />
-        <v-btn color="success" @click="save">
+        <v-btn color="primary" @click="save">
           {{ $t('actions.save') }}
         </v-btn>
       </v-card-actions>

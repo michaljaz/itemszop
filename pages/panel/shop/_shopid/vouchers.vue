@@ -87,7 +87,7 @@
       <v-card-actions>
         <v-spacer />
         <v-btn
-          color="success"
+          color="primary"
           @click="create"
         >
           {{ $t('actions.create_and_download') }}
