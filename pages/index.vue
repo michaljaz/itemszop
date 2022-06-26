@@ -283,7 +283,9 @@ export default {
 </script>
 <style>
 .intro{
-  background: url('/bg.webp') no-repeat bottom center fixed;
+  background-image: url('/bg.webp');
+  background-size: cover;
+  background-position:center;
   height:700px;
 }
 </style>
