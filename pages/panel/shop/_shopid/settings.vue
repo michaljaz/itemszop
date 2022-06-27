@@ -44,10 +44,9 @@
           />
           <div v-if="enable_goal">
             {{ $t('titles.monthly_goal') }} {{ goal }} zł
-            <v-slider
+            <v-text-field
               v-model="goal"
-              min="1"
-              max="500"
+              type="number"
             />
           </div>
           <v-switch
