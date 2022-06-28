@@ -381,7 +381,7 @@ export default {
       code: '',
       valid2: false,
       valid: false,
-      nick: '',
+      nick: localStorage.getItem('nick'),
       type: '',
       dialog: false,
       smsCost: {
@@ -474,6 +474,11 @@ export default {
       } else {
         return 1
       }
+    }
+  },
+  watch: {
+    nick () {
+      localStorage.setItem('nick', this.nick)
     }
   },
   methods: {

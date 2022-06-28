@@ -181,29 +181,33 @@
         </v-col>
       </v-row>
       <center>
-        <h1 class="display-1 mt-15 mb-7">
+        <h1 class="display-1 mt-15">
           {{ $t('homepage.supported_operators') }}
         </h1>
       </center>
       <VueSlickCarousel v-bind="settings">
         <div>
           <v-img
-            class="mt-8"
+            contain
+            height="200"
+            class="mx-2"
             src="/microsms.webp"
-            width="300"
           />
         </div>
         <div>
           <v-img
-            class="mt-8"
+            contain
+            height="200"
+            class="mx-2"
             src="/lvlup.png"
-            width="300"
           />
         </div>
         <div>
           <v-img
+            contain
+            height="200"
+            class="mx-2"
             src="/paypal.webp"
-            width="300"
           />
         </div>
       </VueSlickCarousel>
@@ -290,7 +294,7 @@ export default {
         document.body.scrollTop > 0 ||
         document.documentElement.scrollTop > 0
       ) {
-        this.bg = 'deep-purple lighten-3'
+        this.bg = 'primary'
         this.el = '5'
       } else {
         this.bg = 'transparent'

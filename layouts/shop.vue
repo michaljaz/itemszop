@@ -136,7 +136,7 @@
                         <v-img
                           v-bind="attrs"
                           class="p-0 m-0 rounded-lg"
-                          :src="`https://minotar.net/helm/${k.nick}/32.png`"
+                          :src="`https://crafthead.net/helm/${k.nick}/32.png`"
                           v-on="on"
                         />
                       </template>
