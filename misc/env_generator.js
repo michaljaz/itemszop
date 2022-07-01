@@ -24,7 +24,6 @@ const publicConfig = {
   appId: "XXXXXXXXX"
 };
 
-
 const config = {serviceAccount, publicConfig}
 const dotenv = `FIREBASE_CONFIG=${JSON.stringify(config)}`
 console.log(dotenv)
