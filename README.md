@@ -11,7 +11,7 @@
 
 ## Spis treści
 - [Wersja produkcyjna](#wersja-produkcyjna)
-- [Plugin do serwera minecraftowego](https://github.com/michaljaz/itemszop-plugin)
+- [Plugin do serwera minecraftowego](#plugin-do-serwera-minecraftowego)
 - [Wspierani operatorzy płatności](#wspierani-operatorzy-płatności)
 - [Konfiguracja budowania](#konfiguracja-budowania)
 - [Własne hostowanie](#własne-hostowanie)
@@ -47,7 +47,8 @@ Aby itemszop działał prawidłowo zalecane jest zainstalowanie pluginu na serwe
 
 > **_Ważne:_**  Pamiętaj, że nie potrzebujesz stawiać własnego sklepu. Możesz po prostu skorzystać z modelu SaaS.
 
-[Nagranie instalacji itemszopu na cloudflare](https://streamable.com/wacai0)
+[Tutorial instalacji itemszopu na cloudflare](https://streamable.com/wacai0)
+
 ### 1. Konfiguracja bazy firebase
 
 - Włącz logowanie emailem i hasłem
@@ -58,20 +59,20 @@ Aby itemszop działał prawidłowo zalecane jest zainstalowanie pluginu na serwe
 	- Otrzymasz wtedy kod node.js, z którego zapisz sobie tą część:
 ```js
 {
-  apiKey: "XXXXXXXXX",
-  authDomain: "XXXXXXXXX",
-  databaseURL: "XXXXXXXXX",
-  projectId: "XXXXXXXXX",
-  storageBucket: "XXXXXXXXX",
-  messagingSenderId: "XXXXXXXXX",
-  appId: "XXXXXXXXX"
-};
+	apiKey: "XXXXXXXXX",
+	authDomain: "XXXXXXXXX",
+	databaseURL: "XXXXXXXXX",
+	projectId: "XXXXXXXXX",
+	storageBucket: "XXXXXXXXX",
+	messagingSenderId: "XXXXXXXXX",
+	appId: "XXXXXXXXX"
+}
 ```
 - Utwórz konto serwisowe w bazie
 	- Kliknij `ikonkę koła zębatego > Project Settings > Service accounts > Create service account > Generate new private key`
 	- Zapisz plik `serviceAccountKey.json` na swoim komputerze
 	- Zawartość pliku będzie wyglądać tak:
-```js
+```json
 {
 	"type": "XXXXXXXXX",
 	"project_id": "XXXXXXXXX",

@@ -8,6 +8,7 @@
     </h3>
     <v-text-field
       v-for="key in Object.keys(firebaseConfig.publicConfig)"
+      :key="key"
       v-model="firebaseConfig.publicConfig[key]"
       :label="key"
     />
@@ -16,6 +17,7 @@
     </h3>
     <v-text-field
       v-for="key in Object.keys(firebaseConfig.serviceAccount)"
+      :key="key"
       v-model="firebaseConfig.serviceAccount[key]"
       :label="key"
     />
@@ -40,25 +42,25 @@ export default {
     return {
       firebaseConfig: {
         publicConfig: {
-	        apiKey: '',
-	        authDomain: '',
-	        databaseURL: '',
-	        projectId: '',
-	        storageBucket: '',
-	        messagingSenderId: '',
-	        appId: ''
-	      },
-	      serviceAccount: {
-	        type: '',
-	        project_id: '',
-	        private_key_id: '',
-	        private_key: '',
-	        auth_uri: '',
-	        token_uri: '',
-	        auth_provider_x509_cert_url: '',
-	        client_x509_cert_url: '',
-	        client_email: ''
-	      }
+          apiKey: '',
+          authDomain: '',
+          databaseURL: '',
+          projectId: '',
+          storageBucket: '',
+          messagingSenderId: '',
+          appId: ''
+        },
+        serviceAccount: {
+          type: '',
+          project_id: '',
+          private_key_id: '',
+          private_key: '',
+          auth_uri: '',
+          token_uri: '',
+          auth_provider_x509_cert_url: '',
+          client_x509_cert_url: '',
+          client_email: ''
+        }
       },
       result: ''
     }
