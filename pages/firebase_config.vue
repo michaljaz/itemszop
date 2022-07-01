@@ -17,7 +17,7 @@
     <v-text-field
       v-for="key in Object.keys(firebaseConfig.serviceAccount)"
       v-model="firebaseConfig.serviceAccount[key]"
-      :label="key"
+      :label="key === 'private_key' ? `${key} (bez znaków \\n)` : key"
     />
     <v-btn
       color="primary"
