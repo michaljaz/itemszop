@@ -9,17 +9,30 @@
 
 
 
-#### Spis treści
+## Spis treści
+- [Wersja produkcyjna](#wersja-produkcyjna)
+- [Plugin do serwera minecraftowego](https://github.com/michaljaz/itemszop-plugin)
 - [Wspierani operatorzy płatności](#wspierani-operatorzy-płatności)
 - [Konfiguracja budowania](#konfiguracja-budowania)
 - [Własne hostowanie](#własne-hostowanie)
+	- [Konfiguracja bazy firebase](#1-konfiguracja-bazy-firebase)
+	- [Przygotowanie sklepu](#2-przygotowanie-sklepu)
 - [Dodatkowe informacje](#dodatkowe-informacje)
 - [Limity na darmowych hostingach](#limity-na-darmowych-hostingach)
-- Przydatne linki
-	- [Wersja produkcyjna](https://itemszop.tk)
-	- [Plugin do serwera minecraftowego](https://github.com/michaljaz/itemszop-plugin)
-	- [Przykładowy sklep](https://itemszop.tk/shop/gitcraft)
-	- [Serwer discordowy](https://discord.com/invite/Nx28v3yAER)
+- [Dla deweloperów](#dla-deweloperów)
+- [Forum discordowe](#forum-discordowe)
+
+## Wersja produkcyjna
+
+Wersja produkcyjna znajduje się pod adresem: https://itemszop.tk.
+
+Nie jest wymagane hostowanie własnego sklepu - model Software as a Service. Na tej stronie może się każdy zarejestrować i założyć swój sklep. Wówczas sklep dostanie adres https://itemszop.tk/shop/id_sklepu. Jest również możliwość przekierowania własnej domeny, lecz wtedy trzeba poprosić na forum discordowym.
+
+## Plugin do serwera minecraftowego
+
+Adres do repozytorium z pluginem: https://github.com/michaljaz/itemszop-plugin
+
+Aby itemszop działał prawidłowo zalecane jest zainstalowanie pluginu na serwerze minecraftowym. Nie jest to jednak obowiązkowe, lecz bez pluginu komendy odkładają się na stos i są wywoływane gdy administrator serwera wywoła odpowiednią komendę.
 
 ## Wspierani operatorzy płatności
 
@@ -35,7 +48,7 @@
 > **_Ważne:_**  Pamiętaj, że nie potrzebujesz stawiać własnego sklepu. Możesz po prostu skorzystać z modelu SaaS.
 
 [Nagranie instalacji itemszopu na cloudflare](https://streamable.com/wacai0)
-### 1. Skonfigurowanie bazy danych firebase
+### 1. Konfiguracja bazy firebase
 
 - Włącz logowanie emailem i hasłem
 	- Kliknij `Build > Authentication > Sign-in method > Native providers > Email/Password`
@@ -72,9 +85,11 @@
 }
 ```
 
-- Tworzenie zmiennej FIREBASE_CONFIG - https://itemszop.tk/firebase_config
+- Tworzenie zmiennej FIREBASE_CONFIG
+	- Automatyczny generator (opcja 1): https://itemszop.tk/firebase_config
+	- Javascriptowy generator (opcja 2) `misc/env_generator.js`
 
-### 2. Przygotowywanie sklepu
+### 2. Przygotowanie sklepu
 
 > **_Wskazówka:_**  Cloudflare jest najlepsze do hostowania itemszopu.
 
@@ -144,3 +159,7 @@ $ npm start
 
 ```
 Aby uzyskać szczegółowe wyjaśnienie, jak to działa, sprawdź [dokumentację](https://nuxtjs.org).
+
+## Forum discordowe
+
+Pod tym linkiem: https://discord.com/invite/Nx28v3yAER znajduje się serwer discordowy, na którym można zadawać pytania, składać propozycje lub zgłaszać problemy techniczne.
