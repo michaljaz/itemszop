@@ -17,7 +17,7 @@
     <v-text-field
       v-for="key in Object.keys(firebaseConfig.serviceAccount)"
       v-model="firebaseConfig.serviceAccount[key]"
-      :label="key === 'private_key' ? `${key} (bez znaków \\n)` : key"
+      :label="key"
     />
     <v-btn
       color="primary"
@@ -65,8 +65,8 @@ export default {
   },
   methods: {
     generate () {
-      const dotenv = `FIREBASE_CONFIG=${JSON.stringify(this.firebaseConfig)}`
-      this.result = dotenv
+      this.firebaseConfig.serviceAccount.private_key = this.firebaseConfig.serviceAccount.private_key.replace('\\n', '')
+      this.result = `FIREBASE_CONFIG=${JSON.stringify(this.firebaseConfig)}`
     }
   }
 }
