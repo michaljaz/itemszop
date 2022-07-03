@@ -5,6 +5,7 @@
 import { mapGetters } from 'vuex'
 
 let captured = false
+const WebSocketClone = WebSocket
 WebSocket = function (...data) {
   if (!captured) {
     WebSocket._firebaseWebsocketUrl = data[0]
@@ -12,7 +13,7 @@ WebSocket = function (...data) {
     captured = true
   }
 
-  return WebSocket(data)
+  return new WebSocketClone(...data)
 }
 
 export default {
