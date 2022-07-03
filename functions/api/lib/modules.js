@@ -446,12 +446,6 @@ exports.executeService = async ({type, firebase, serviceid, shopid, nick, valida
     }
   }
 
-  // trigger http server
-  try {
-    const {triggerIp} = server
-    await fetch(triggerIp)
-  } catch (e) {}
-
   // send discord webhook
   try {
     const webhookUrl = await firebase.get(`config/${shopid}/webhook`)
