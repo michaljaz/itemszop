@@ -76,13 +76,13 @@
               readonly
             />
 
-            <v-btn color="primary" outlined @click="regeneratePluginSecret(currentItem)">
+            <v-btn color="primary" outlined block @click="regeneratePluginSecret(currentItem)">
               {{ $t("actions.generate_new_key") }}
             </v-btn>
-            <v-btn color="accent" class="mt-5" @click="sendTest(currentItem)">
+            <v-btn color="accent" class="mt-5" block @click="sendTest(currentItem)">
               {{ $t("actions.send_test_message") }}
             </v-btn>
-            <v-btn color="primary" class="mt-1" @click="clearCommands(currentItem)">
+            <v-btn color="primary" class="mt-1" block @click="clearCommands(currentItem)">
               {{ $t("actions.reset_stack") }}
             </v-btn>
           </v-form>
@@ -269,7 +269,7 @@ export default {
       this.dialog = true
     },
     sendTest (server) {
-      this.$fire.database.ref().child(`servers/${server.serverId}/commands/${server.secret}`).update({
+      this.$fire.database.ref().child(`servers/${server.serverId}/commands/${this.servers[server.serverId].secret}`).update({
         [Math.random().toString(36).replace('0.', '')]: 'say ItemSzop test'
       })
     },

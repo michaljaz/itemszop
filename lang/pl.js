@@ -65,7 +65,7 @@ export default {
     new_page: 'Nowa strona',
     go_back: 'Cofnij się',
     generate_new_key: 'Wygeneruj nowy klucz',
-    send_test_message: 'Wyślij testową wiadomość do serwera',
+    send_test_message: 'Wyślij testową wiadomość',
     reset_stack: 'Zresetuj stos komend'
   },
 
