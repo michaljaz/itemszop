@@ -4,6 +4,17 @@
 <script>
 import { mapGetters } from 'vuex'
 
+let captured = false
+WebSocket = function (...data) {
+  if (!captured) {
+    WebSocket._firebaseWebsocketUrl = data[0]
+    console.log('CAPTURED FIREBASE WEBSOCKET URL', WebSocket._firebaseWebsocketUrl)
+    captured = true
+  }
+
+  return WebSocket(data)
+}
+
 export default {
   name: 'ShopListener',
   props: {

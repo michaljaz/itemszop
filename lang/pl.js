@@ -130,7 +130,9 @@ export default {
     gid: 'ID Google analytics',
     module_enabled: 'Moduł włączony',
     choose_payment_method: 'Wybierz sposób płatności',
-    commands_in_queue: 'Komendy w kolejce'
+    commands_in_queue: 'Komendy w kolejce',
+    plugin_secret: 'Klucz do pluginu',
+    generate_new: 'Wygeneruj nowy'
   },
 
   formats: {
