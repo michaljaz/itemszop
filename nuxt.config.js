@@ -36,7 +36,7 @@ export default {
 
   // https://tobiasahlin.com/spinkit/
   loadingIndicator: {
-    name: 'rotating-plane',
+    name: 'folding-cube',
     color: '#4f388c',
     background: 'black'
   },
