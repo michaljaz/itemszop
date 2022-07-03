@@ -27,34 +27,15 @@
         </v-toolbar>
       </template>
       <template #[`item.actions`]="{ item }">
-        <v-icon
-          class="mr-2"
-          @click="applyServer(item);dialog=true"
-        >
-          mdi-pencil
-        </v-icon>
-        <v-icon
-          class="mr-2"
-          @click="sendTest(item)"
-        >
-          mdi-test-tube
-        </v-icon>
-        <v-icon
-          class="mr-2"
-          @click="clearCommands(item)"
-        >
-          mdi-autorenew-off
-        </v-icon>
-        <v-icon
-          class="mr-2"
-          @click="dialogDelete=true;currentItem=item"
-        >
-          mdi-delete
-        </v-icon>
-      </template>
-      <template #[`item.plugin_secret`]="{ item }">
-        <v-btn color="primary" @click="generatePluginSecret(item)">
-          {{ $t("fields.generate_new") }}
+        <v-btn color="primary" @click="applyServer(item);dialog=true;currentItem=item">
+          <v-icon>
+            mdi-pencil
+          </v-icon>
+        </v-btn>
+        <v-btn color="accent">
+          <v-icon>
+            mdi-connection
+          </v-icon>
         </v-btn>
       </template>
     </v-data-table>
@@ -97,18 +78,25 @@
         <v-card-actions>
           <v-spacer />
           <v-btn
-            color="primary"
+            color="accent"
             text
             @click="dialog = false"
           >
             {{ $t('actions.cancel') }}
           </v-btn>
           <v-btn
-            color="success"
+            color="primary"
             text
             @click="saveServer"
           >
             {{ $t('actions.save') }}
+          </v-btn>
+          <v-btn
+            color="error"
+            text
+            @click="dialogDelete=true"
+          >
+            {{ $t('actions.remove') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -171,11 +159,6 @@ export default {
           text: this.$t('fields.commands_in_queue'),
           align: 'start',
           value: 'commandsInQueue'
-        },
-        {
-          text: this.$t('fields.plugin_secret'),
-          value: 'plugin_secret',
-          sortable: false
         },
         {
           text: this.$t('fields.actions'),
