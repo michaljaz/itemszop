@@ -13,9 +13,11 @@
 					".read":true
 				},
 				"commands":{
-					".read":true,
-					"$command_id":{
-						".write":"!newData.exists()"
+					"$key":{
+						".read":true,
+						"$command_id":{
+							".write":"!newData.exists()"
+						}
 					}
 				}
 			}
