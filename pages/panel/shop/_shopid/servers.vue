@@ -32,11 +32,6 @@
             mdi-pencil
           </v-icon>
         </v-btn>
-        <v-btn color="accent">
-          <v-icon>
-            mdi-connection
-          </v-icon>
-        </v-btn>
       </template>
     </v-data-table>
     <v-dialog
@@ -73,6 +68,23 @@
             >
               {{ $t('responses.server_already_exist') }}
             </v-alert>
+
+            <v-text-field
+              v-model="pluginKey"
+              class="mt-5"
+              :label="$t('fields.plugin_secret')"
+              readonly
+            />
+
+            <v-btn color="primary" outlined @click="regeneratePluginSecret(currentItem)">
+              {{ $t("actions.generate_new_key") }}
+            </v-btn>
+            <v-btn color="accent" class="mt-5" @click="sendTest(currentItem)">
+              {{ $t("actions.send_test_message") }}
+            </v-btn>
+            <v-btn color="primary" class="mt-1" @click="clearCommands(currentItem)">
+              {{ $t("actions.reset_stack") }}
+            </v-btn>
           </v-form>
         </v-card-text>
         <v-card-actions>
@@ -207,6 +219,13 @@ export default {
         }
       }
       return result
+    },
+    pluginKey () {
+      if (this.serverId) {
+        return btoa(`${this.servers[this.serverId].secret}@${WebSocket._firebaseWebsocketUrl}@${this.serverId}`)
+      } else {
+        return false
+      }
     }
   },
   methods: {
@@ -257,11 +276,9 @@ export default {
     clearCommands (server) {
       this.$fire.database.ref().child(`servers/${server.serverId}/commands`).remove()
     },
-    generatePluginSecret (server) {
+    regeneratePluginSecret (server) {
       this.clearCommands(server)
-      const secret = `${Math.random().toString(36).replace('0.', '')}`
-      this.$fire.database.ref().child(`servers/${server.serverId}/secret`).set(secret)
-      console.log(btoa(`${secret}@${WebSocket._firebaseWebsocketUrl}@${server.serverId}`))
+      this.$fire.database.ref().child(`servers/${server.serverId}/secret`).set(`${Math.random().toString(36).replace('0.', '')}`)
     }
   }
 }

@@ -63,7 +63,10 @@ export default {
     description: 'Opis',
     remove_payment_history: 'Usuń historię płatności',
     new_page: 'Nowa strona',
-    go_back: 'Cofnij się'
+    go_back: 'Cofnij się',
+    generate_new_key: 'Wygeneruj nowy klucz',
+    send_test_message: 'Wyślij testową wiadomość do serwera',
+    reset_stack: 'Zresetuj stos komend'
   },
 
   fields: {
@@ -131,8 +134,7 @@ export default {
     module_enabled: 'Moduł włączony',
     choose_payment_method: 'Wybierz sposób płatności',
     commands_in_queue: 'Komendy w kolejce',
-    plugin_secret: 'Klucz do pluginu',
-    generate_new: 'Wygeneruj nowy'
+    plugin_secret: 'Klucz do pluginu'
   },
 
   formats: {
