@@ -442,7 +442,7 @@ exports.executeService = async ({type, firebase, serviceid, shopid, nick, valida
     for (let command of commands) {
       command = command.replace(/\[nick\]/g, nick)
       command = command.replace(/\[n\]/g, amount)
-      await firebase.push(`servers/${serverid}/commands`, command)
+      await firebase.push(`servers/${serverid}/commands/${server.secret}`, command)
     }
   }
 

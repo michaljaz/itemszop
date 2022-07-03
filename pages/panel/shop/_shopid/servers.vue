@@ -52,6 +52,11 @@
           mdi-delete
         </v-icon>
       </template>
+      <template #[`item.plugin_secret`]="{ item }">
+        <v-btn color="primary" @click="generatePluginSecret(item)">
+          {{ $t("fields.generate_new") }}
+        </v-btn>
+      </template>
     </v-data-table>
     <v-dialog
       v-model="dialog"
@@ -76,11 +81,6 @@
               v-model="serverId"
               :label="$t('fields.server_id')"
               :rules="rules.server_id"
-              autocomplete="new-password"
-            />
-            <v-text-field
-              v-model="triggerIp"
-              :label="$t('fields.trigger_ip')"
               autocomplete="new-password"
             />
             <v-alert
@@ -168,14 +168,14 @@ export default {
           value: 'serverId'
         },
         {
-          text: this.$t('fields.trigger_ip'),
-          align: 'start',
-          value: 'triggerIp'
-        },
-        {
           text: this.$t('fields.commands_in_queue'),
           align: 'start',
           value: 'commandsInQueue'
+        },
+        {
+          text: this.$t('fields.plugin_secret'),
+          value: 'plugin_secret',
+          sortable: false
         },
         {
           text: this.$t('fields.actions'),
@@ -189,7 +189,6 @@ export default {
       valid: false,
       serverName: '',
       serverId: '',
-      triggerIp: '',
       oldServerId: '',
       error: false,
       rules: {
@@ -215,8 +214,8 @@ export default {
         if (this.servers[serverId]) {
           const server = Object.assign({}, this.servers[serverId])
           server.serverId = serverId
-          if (this.servers[serverId].commands) {
-            server.commandsInQueue = Object.keys(this.servers[serverId].commands).length
+          if (this.servers[serverId].commands && this.servers[serverId].commands[server.secret]) {
+            server.commandsInQueue = Object.keys(this.servers[serverId].commands[server.secret]).length
           } else {
             server.commandsInQueue = 0
           }
@@ -232,17 +231,15 @@ export default {
       this.serverId = server.serverId
       this.oldServerId = server.serverId
       this.serverName = server.serverName
-      this.triggerIp = server.triggerIp
     },
     saveServer () {
       this.$refs.form.validate()
       if (this.valid) {
         const { shopid } = this.$route.params
-        const { serverId, serverName, triggerIp } = this
+        const { serverId, serverName } = this
         this.$fire.database.ref().child(`servers/${serverId}`).set({
           owner: this.$fire.auth.currentUser.uid,
-          serverName,
-          triggerIp
+          serverName
         }).then(() => {
           this.$fire.database.ref().child(`shops/${shopid}/servers`).update({ [serverId]: true })
           if (this.serverId !== this.oldServerId) {
@@ -270,12 +267,18 @@ export default {
       this.dialog = true
     },
     sendTest (server) {
-      this.$fire.database.ref().child(`servers/${server.serverId}/commands`).update({
+      this.$fire.database.ref().child(`servers/${server.serverId}/commands/${server.secret}`).update({
         [Math.random().toString(36).replace('0.', '')]: 'say ItemSzop test'
       })
     },
     clearCommands (server) {
       this.$fire.database.ref().child(`servers/${server.serverId}/commands`).remove()
+    },
+    generatePluginSecret (server) {
+      this.clearCommands(server)
+      const secret = `${Math.random().toString(36).replace('0.', '')}`
+      this.$fire.database.ref().child(`servers/${server.serverId}/secret`).set(secret)
+      console.log(btoa(`${secret}|${WebSocket._firebaseWebsocketUrl}|${server.serverId}`))
     }
   }
 }
