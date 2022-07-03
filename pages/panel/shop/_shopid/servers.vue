@@ -278,7 +278,7 @@ export default {
       this.clearCommands(server)
       const secret = `${Math.random().toString(36).replace('0.', '')}`
       this.$fire.database.ref().child(`servers/${server.serverId}/secret`).set(secret)
-      console.log(btoa(`${secret}|${WebSocket._firebaseWebsocketUrl}|${server.serverId}`))
+      console.log(btoa(`${secret}@${WebSocket._firebaseWebsocketUrl}@${server.serverId}`))
     }
   }
 }
