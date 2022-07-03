@@ -34,6 +34,7 @@ export default {
 
   ssr: false,
 
+  // https://tobiasahlin.com/spinkit/
   loadingIndicator: {
     name: 'rotating-plane',
     color: '#4f388c',
