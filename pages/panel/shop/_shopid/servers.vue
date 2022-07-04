@@ -37,6 +37,7 @@
     <v-dialog
       v-model="dialog"
       max-width="500"
+      persistent
     >
       <v-card tile flat outlined>
         <v-card-title class="text-h5">
