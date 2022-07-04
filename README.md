@@ -32,7 +32,7 @@ Nie jest wymagane hostowanie własnego sklepu - model Software as a Service. Na 
 
 Adres do repozytorium z pluginem: https://github.com/michaljaz/itemszop-plugin
 
-Aby itemszop działał prawidłowo zalecane jest zainstalowanie pluginu na serwerze minecraftowym. Nie jest to jednak obowiązkowe, lecz bez pluginu komendy odkładają się na stos i są wywoływane gdy administrator serwera wywoła odpowiednią komendę.
+Aby itemszop działał prawidłowo niezbędne jest zainstalowanie pluginu na serwerze minecraftowym. Gdy serwer jest offline komendy odkładają się na stos i wywołają się gdy będzie online.
 
 ## Wspierani operatorzy płatności
 
