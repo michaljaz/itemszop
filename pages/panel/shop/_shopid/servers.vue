@@ -69,24 +69,24 @@
             >
               {{ $t('responses.server_already_exist') }}
             </v-alert>
+            <template v-if="serverAlreadyExists">
+              <v-text-field
+                v-model="pluginKey"
+                class="mt-5"
+                :label="$t('fields.plugin_secret')"
+                readonly
+              />
 
-            <v-text-field
-              v-model="pluginKey"
-              :disabled="serverAlreadyExists"
-              class="mt-5"
-              :label="$t('fields.plugin_secret')"
-              readonly
-            />
-
-            <v-btn color="primary" outlined block :disabled="serverAlreadyExists" @click="regeneratePluginSecret(currentItem)">
-              {{ $t("actions.generate_new_key") }}
-            </v-btn>
-            <v-btn color="accent" class="mt-5" :disabled="serverAlreadyExists" block @click="sendTest(currentItem)">
-              {{ $t("actions.send_test_message") }}
-            </v-btn>
-            <v-btn color="primary" class="mt-1" :disabled="serverAlreadyExists" block @click="clearCommands(currentItem)">
-              {{ $t("actions.reset_stack") }}
-            </v-btn>
+              <v-btn color="primary" outlined block @click="regeneratePluginSecret(currentItem)">
+                {{ $t("actions.generate_new_key") }}
+              </v-btn>
+              <v-btn color="accent" class="mt-5" block @click="sendTest(currentItem)">
+                {{ $t("actions.send_test_message") }}
+              </v-btn>
+              <v-btn color="primary" class="mt-1" block @click="clearCommands(currentItem)">
+                {{ $t("actions.reset_stack") }}
+              </v-btn>
+            </template>
           </v-form>
         </v-card-text>
         <v-card-actions>
@@ -206,7 +206,7 @@ export default {
   },
   computed: {
     serverAlreadyExists () {
-      return !this.servers[this.serverId]
+      return !!this.servers[this.serverId]
     },
     serversList () {
       const result = []
