@@ -72,18 +72,19 @@
 
             <v-text-field
               v-model="pluginKey"
+              :disabled="serverAlreadyExists"
               class="mt-5"
               :label="$t('fields.plugin_secret')"
               readonly
             />
 
-            <v-btn color="primary" outlined block @click="regeneratePluginSecret(currentItem)">
+            <v-btn color="primary" outlined block :disabled="serverAlreadyExists" @click="regeneratePluginSecret(currentItem)">
               {{ $t("actions.generate_new_key") }}
             </v-btn>
-            <v-btn color="accent" class="mt-5" block @click="sendTest(currentItem)">
+            <v-btn color="accent" class="mt-5" :disabled="serverAlreadyExists" block @click="sendTest(currentItem)">
               {{ $t("actions.send_test_message") }}
             </v-btn>
-            <v-btn color="primary" class="mt-1" block @click="clearCommands(currentItem)">
+            <v-btn color="primary" class="mt-1" :disabled="serverAlreadyExists" block @click="clearCommands(currentItem)">
               {{ $t("actions.reset_stack") }}
             </v-btn>
           </v-form>
@@ -204,6 +205,9 @@ export default {
     }
   },
   computed: {
+    serverAlreadyExists () {
+      return !this.servers[this.serverId]
+    },
     serversList () {
       const result = []
       for (const serverId in this.servers) {
@@ -222,7 +226,7 @@ export default {
       return result
     },
     pluginKey () {
-      if (this.serverId) {
+      if (this.serverId && this.servers[this.serverId] && this.servers[this.serverId].secret) {
         return btoa(`${this.servers[this.serverId].secret}@${WebSocket._firebaseWebsocketUrl}@${this.serverId}`)
       } else {
         return false
