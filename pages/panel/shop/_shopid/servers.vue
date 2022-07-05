@@ -244,7 +244,7 @@ export default {
       if (this.valid) {
         const { shopid } = this.$route.params
         const { serverId, serverName } = this
-        this.$fire.database.ref().child(`servers/${serverId}`).set({
+        this.$fire.database.ref().child(`servers/${serverId}`).update({
           owner: this.$fire.auth.currentUser.uid,
           serverName
         }).then(() => {
@@ -269,21 +269,25 @@ export default {
     },
     newServer () {
       this.serverName = 'A Minecraft Server'
-      this.serverId = `${Math.random().toString(36).replace('0.', '')}`
+      this.serverId = this.randomString()
       this.oldServerId = this.serverId
       this.dialog = true
     },
     sendTest (server) {
       this.$fire.database.ref().child(`servers/${server.serverId}/commands/${this.servers[server.serverId].secret}`).update({
-        [Math.random().toString(36).replace('0.', '')]: 'say ItemSzop test'
+        [this.randomString()]: 'say ItemSzop test'
       })
     },
     clearCommands (server) {
       this.$fire.database.ref().child(`servers/${server.serverId}/commands`).remove()
     },
     regeneratePluginSecret (server) {
+      this.secret = this.randomString()
       this.clearCommands(server)
-      this.$fire.database.ref().child(`servers/${server.serverId}/secret`).set(`${Math.random().toString(36).replace('0.', '')}`)
+      this.$fire.database.ref().child(`servers/${server.serverId}/secret`).set(this.secret)
+    },
+    randomString () {
+      return Math.random().toString(36).replace('0.', '')
     }
   }
 }
