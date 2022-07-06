@@ -442,8 +442,9 @@ exports.executeService = async ({type, firebase, serviceid, shopid, nick, valida
     for (let command of commands) {
       command = command.replace(/\[nick\]/g, nick)
       command = command.replace(/\[n\]/g, amount)
-      await firebase.push(`servers/${serverid}/commands/${server.secret}`, command)
+      newCommands[(Math.random() + 1).toString(36).substring(2)] = command
     }
+    await firebase.update(`servers/${serverid}/commands/${server.secret}`, newCommands)
   }
 
   // send discord webhook
