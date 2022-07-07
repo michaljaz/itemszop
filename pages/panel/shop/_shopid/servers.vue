@@ -32,6 +32,11 @@
             mdi-pencil
           </v-icon>
         </v-btn>
+        <v-btn color="error" @click="dialogDelete=true">
+          <v-icon>
+            mdi-delete
+          </v-icon>
+        </v-btn>
       </template>
     </v-data-table>
     <v-dialog
@@ -104,13 +109,6 @@
             @click="saveServer"
           >
             {{ $t('actions.save') }}
-          </v-btn>
-          <v-btn
-            color="error"
-            text
-            @click="dialogDelete=true"
-          >
-            {{ $t('actions.remove') }}
           </v-btn>
         </v-card-actions>
       </v-card>

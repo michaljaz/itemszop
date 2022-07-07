@@ -27,19 +27,16 @@
         </v-toolbar>
       </template>
       <template #[`item.actions`]="{ item }">
-        <v-icon
-          small
-          class="mr-2"
-          @click="applyPage(item);dialog=true"
-        >
-          mdi-pencil
-        </v-icon>
-        <v-icon
-          small
-          @click="dialog=false;dialogDelete=true;currentItem=item"
-        >
-          mdi-delete
-        </v-icon>
+        <v-btn color="primary" @click="applyPage(item);dialog=true">
+          <v-icon>
+            mdi-pencil
+          </v-icon>
+        </v-btn>
+        <v-btn color="error" @click="dialog=false;dialogDelete=true;currentItem=item">
+          <v-icon>
+            mdi-delete
+          </v-icon>
+        </v-btn>
       </template>
     </v-data-table>
     <v-dialog
@@ -75,14 +72,14 @@
         <v-card-actions>
           <v-spacer />
           <v-btn
-            color="primary"
+            color="accent"
             text
             @click="dialog=false"
           >
             {{ $t('actions.cancel') }}
           </v-btn>
           <v-btn
-            color="success"
+            color="primary"
             text
             @click="savePage"
           >
