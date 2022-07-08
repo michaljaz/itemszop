@@ -92,11 +92,7 @@
             autocomplete="new-password"
             :rules="rules.dsc_id"
           />
-        </v-card-text>
-        <v-card-title class="headline">
-          {{ $t('titles.additional_settings') }}
-        </v-card-title>
-        <v-card-text>
+
           {{ $t('fields.last_payments_amount') }} {{ maxservices }}
           <v-slider
             v-model="maxservices"
