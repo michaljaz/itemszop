@@ -249,11 +249,13 @@ export default {
       main.style['-ms-filter'] = state
     },
     shop () {
-      const favicon = document.querySelector("link[rel~='icon']")
       if (this.shop.icon) {
-        favicon.href = this.shop.icon
+        document.querySelector("link[rel~='icon']").href = this.shop.icon
+        setTimeout(() => {
+          document.querySelector("link[rel~='icon']").href = this.shop.icon
+        }, 100)
       } else {
-        favicon.href = '/favicon.ico'
+        document.querySelector("link[rel~='icon']").href = '/favicon.ico'
       }
       if (this.shop.background) {
         this.background = true
