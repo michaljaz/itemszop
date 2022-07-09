@@ -8,7 +8,7 @@
       <span>
         &copy; {{ new Date().getFullYear() }}
         <a :href="mainUrl">ItemSzop</a>
-        <template v-if="shopName">
+        <template v-if="shopName && $route.fullPath.substring(1, 6) !== 'panel'">
           | {{ shopName }} nie jest w żaden sposób powiązany z firmą Mojang AB.
         </template>
       </span>
