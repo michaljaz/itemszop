@@ -9,7 +9,6 @@ const WebSocketClone = WebSocket
 WebSocket = function (...data) {
   if (!captured) {
     WebSocket._firebaseWebsocketUrl = data[0]
-    console.log('CAPTURED FIREBASE WEBSOCKET URL', WebSocket._firebaseWebsocketUrl)
     captured = true
   }
 

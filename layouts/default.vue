@@ -54,7 +54,6 @@ export default {
   },
   methods: {
     updateShopNameListener () {
-      console.log(this.shopId)
       if (this.oldShopId) {
         this.$fire.database.ref().child(`shops/${this.oldShopId}/name`).off('value')
       }

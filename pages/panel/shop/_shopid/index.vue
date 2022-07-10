@@ -8,7 +8,7 @@
         <v-alert
           v-if="url"
           text
-          type="accent"
+          color="accent"
           elevation="2"
         >
           {{ $t('misc.shop_url') }} <a :href="url" target="_blank">{{ url }}</a>
