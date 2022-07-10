@@ -10,53 +10,52 @@
         </v-card-title>
         <v-card-text>
           <v-text-field
-            v-model="name"
+            v-model="fields.name"
             :label="$t('fields.shop_name')"
           />
           <v-switch
-            v-model="shop_icon"
+            v-model="switches.icon"
             class="mt-0"
             :label="$t('fields.shop_icon')"
           />
           <v-text-field
-            v-if="shop_icon"
-            v-model="shop_icon_url"
+            v-if="switches.icon"
+            v-model="fields.icon"
             :label="$t('fields.icon_url')"
             autocomplete="new-password"
             :rules="rules.icon_url"
           />
           <v-switch
-            v-model="shop_background"
+            v-model="switches.background"
             class="mt-0"
             :label="$t('fields.shop_background')"
           />
           <v-text-field
-            v-if="shop_background"
-            v-model="shop_background_url"
+            v-if="switches.background"
+            v-model="fields.background"
             :label="$t('fields.shop_background_url')"
             autocomplete="new-password"
             :rules="rules.icon_url"
           />
           <v-switch
-            v-model="enable_goal"
+            v-model="switches.goal"
             class="mt-0"
             :label="$t('titles.monthly_goal')"
           />
-          <div v-if="enable_goal">
-            {{ $t('titles.monthly_goal') }} {{ goal }} zł
-            <v-text-field
-              v-model="goal"
-              type="number"
-            />
-          </div>
+          <v-text-field
+            v-if="switches.goal"
+            v-model="fields.goal"
+            type="number"
+            :label="`${$t('titles.monthly_goal')} (zł)`"
+          />
           <v-switch
-            v-model="enable_theme"
+            v-model="switches.theme"
             class="mt-0"
             :label="$t('fields.shop_theme')"
           />
           <v-color-picker
-            v-if="enable_theme"
-            v-model="theme"
+            v-if="switches.theme"
+            v-model="fields.theme"
             dot-size="17"
             hide-inputs
             mode="rgba"
@@ -64,57 +63,57 @@
           />
 
           <v-switch
-            v-model="webhook"
+            v-model="switches.webhook"
             class="mt-0"
             :label="$t('fields.discord_webhook')"
           />
 
           <v-text-field
-            v-if="webhook"
-            v-model="webhookUrl"
+            v-if="switches.webhook"
+            v-model="fields.webhook"
             :label="$t('fields.webhook_url')"
             autocomplete="new-password"
             :rules="rules.webhook"
             append-icon="mdi-lan-connect"
-            @click:append="testWebhook"
+            @click:append="testDiscordWebhook"
           />
 
           <v-switch
-            v-model="dsc"
+            v-model="switches.dsc"
             class="mt-0"
             :label="$t('fields.discord_widget')"
           />
 
           <v-text-field
-            v-if="dsc"
-            v-model="dsc_id"
+            v-if="switches.dsc"
+            v-model="fields.dsc"
             :label="$t('fields.discord_server_id')"
             autocomplete="new-password"
             :rules="rules.dsc_id"
           />
 
-          {{ $t('fields.last_payments_amount') }} {{ maxservices }}
+          {{ $t('fields.last_payments_amount') }} {{ fields.maxservices }}
           <v-slider
-            v-model="maxservices"
+            v-model="fields.maxservices"
             min="1"
             max="60"
           />
           <v-select
-            v-model="last_payments_type"
+            v-model="fields.last_payments_type"
             item-text="name"
             item-value="value"
             :items="last_payments_type_list"
             label="Widżet ostatnich zakupów"
           />
           <v-switch
-            v-model="gid_enabled"
+            v-model="switches.gid"
             class="mt-0"
             :label="$t('fields.google_analytics')"
           />
 
           <v-text-field
-            v-if="gid_enabled"
-            v-model="gid"
+            v-if="switches.gid"
+            v-model="fields.gid"
             :label="$t('fields.gid')"
             autocomplete="new-password"
             :rules="rules.gid"
@@ -137,7 +136,7 @@
           {{ $t('actions.remove_payment_history') }}
         </v-btn>
         <br>
-        <v-btn color="error" class="mb-2" @click="removeDialog">
+        <v-btn color="error" class="mb-2" @click="dialog = true">
           {{ $t('actions.remove_shop') }}
         </v-btn>
       </v-card-text>
@@ -180,7 +179,7 @@
               </v-btn>
             </v-col>
             <v-col>
-              <v-btn color="error" :disabled="cdel===$route.params.shopid ? false : true" block @click="remove()">
+              <v-btn color="error" :disabled="cdel===$route.params.shopid ? false : true" block @click="removeAll()">
                 {{ $t('actions.remove_shop') }}
               </v-btn>
             </v-col>
@@ -205,29 +204,33 @@ export default {
   },
   data () {
     return {
-      gid: this.shop.gid,
-      gid_enabled: this.shop.gid,
-      theme: this.shop.theme,
-      enable_theme: this.shop.theme,
-      enable_goal: this.shop.goal,
-      shop_background: this.shop.background,
-      shop_background_url: this.shop.background,
-      dsc: this.shop.dsc_id,
-      dsc_id: this.shop.dsc_id,
-      shop_icon: this.shop.icon,
-      shop_icon_url: this.shop.icon,
-      last_payments_type: this.shop.last_payments_type,
+      switches: {
+        icon: !!this.shop.icon,
+        background: !!this.shop.background,
+        goal: !!this.goal,
+        theme: !!this.theme,
+        webhook: !!this.webhook,
+        dsc: !!this.dsc,
+        gid: !!this.gid
+      },
+      fields: {
+        name: this.shop.name,
+        gid: this.shop.gid,
+        theme: this.shop.theme,
+        goal: this.shop.goal,
+        background: this.shop.background,
+        dsc: this.shop.dsc,
+        icon: this.shop.icon,
+        webhook: this.config.webhook,
+        maxservices: this.shop.maxservices,
+        last_payments_type: this.shop.last_payments_type
+      },
       last_payments_type_list: [
         { name: this.$t('fields.vertical_history'), value: 1 },
         { name: this.$t('fields.horizontal_history'), value: 2 }
       ],
-      maxservices: this.shop.maxservices,
       valid: false,
-      webhook: this.config.webhook,
-      webhookUrl: this.config.webhook,
       cdel: '',
-      goal: this.shop.goal,
-      name: this.shop.name,
       dialog: false,
       rules: {
         webhook: [
@@ -260,25 +263,22 @@ export default {
       if (this.valid) {
         const { shopid } = this.$route.params
         this.$fire.database.ref().child(`shops/${shopid}`).update({
-          name: this.name,
-          goal: this.enable_goal ? this.goal : '',
-          maxservices: this.maxservices,
-          last_payments_type: this.last_payments_type,
-          icon: this.shop_icon ? this.shop_icon_url : '',
-          dsc_id: this.dsc ? this.dsc_id : '',
-          background: this.shop_background ? this.shop_background_url : '',
-          theme: this.enable_theme ? this.theme : '',
-          gid: this.gid_enabled ? this.gid : ''
+          name: this.fields.name,
+          maxservices: this.fields.maxservices,
+          last_payments_type: this.fields.last_payments_type,
+          goal: this.switches.goal ? this.fields.goal : '',
+          icon: this.switches.icon ? this.fields.icon : '',
+          dsc: this.switches.dsc ? this.fields.dsc : '',
+          background: this.switches.background ? this.fields.background : '',
+          theme: this.switches.theme ? this.fields.theme : '',
+          gid: this.switches.gid ? this.fields.gid : ''
         })
         this.$fire.database.ref().child(`config/${shopid}`).update({
-          webhook: this.webhook ? this.webhookUrl : ''
+          webhook: this.switches.webhook ? this.fields.webhook : ''
         })
       }
     },
-    removeDialog () {
-      this.dialog = true
-    },
-    remove () {
+    removeAll () {
       if (this.shop.servers) {
         let deleted = 0
         for (const serverId in this.shop.servers) {
@@ -300,8 +300,8 @@ export default {
         this.$fire.database.ref().child(`users/${uid}/${shopid}`).remove()
       })
     },
-    testWebhook () {
-      this.$axios.post(this.webhookUrl, {
+    testDiscordWebhook () {
+      this.$axios.post(this.fields.webhook, {
         content: this.$t('misc.test_message')
       })
     },
