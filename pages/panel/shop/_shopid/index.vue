@@ -14,23 +14,6 @@
           {{ $t('misc.shop_url') }} <a :href="url" target="_blank">{{ url }}</a>
         </v-alert>
       </v-col>
-      <v-col cols="12" md="6">
-        <v-card class="mb-3">
-          <v-card-title>
-            <v-select
-              v-model="selectedChart"
-              :items="charts"
-              item-text="name"
-              item-value="id"
-              solo
-            />
-          </v-card-title>
-          <v-card-text>
-            <PieChart :data="pieChartData" :options="pieChartOptions" :height="200" />
-          </v-card-text>
-          </v-card-text>
-        </v-card>
-      </v-col>
     </v-row>
   </div>
 </template>
@@ -49,106 +32,11 @@ export default {
     }
   },
   data () {
-    return {
-      selectedChart: 1,
-      charts: [
-        { name: this.$t('titles.payment_methods'), id: 1 },
-        { name: this.$t('titles.most_common_services'), id: 2 }
-      ],
-      pieChartData: this.getData1(),
-      pieChartOptions: {}
-    }
+    return { }
   },
   head () {
     return {
       title: this.$t('titles.dashboard')
-    }
-  },
-  watch: {
-    selectedChart (newData, oldData) {
-      if (newData === 1) {
-        this.pieChartData = this.getData1()
-      } else {
-        this.pieChartData = this.getData2()
-      }
-    }
-  },
-  methods: {
-    getData1 () {
-      let countSms = 0
-      let countPrzelew = 0
-      const { history } = this.shop
-      for (const i in history) {
-        const { type } = history[i]
-        if (type === 'sms') {
-          countSms++
-        } else if (type === 'przelew') {
-          countPrzelew++
-        }
-      }
-      const labels = []
-      const data = []
-      if (countSms > 0) {
-        labels.push(this.$t('sms'))
-        data.push(countSms)
-      }
-      if (countPrzelew > 0) {
-        labels.push(this.$t('transfer'))
-        data.push(countPrzelew)
-      }
-
-      return {
-        labels,
-        datasets: [{
-          label: 'My First Dataset',
-          data,
-          backgroundColor: [
-            '#005f73',
-            '#0a9396',
-            '#94d2bd',
-            '#e9d8a6',
-            '#ee9b00',
-            '#ca6702',
-            '#bb3e03'
-          ],
-          borderColor: 'rgba(0,0,0,0)',
-          hoverOffset: 4
-        }]
-      }
-    },
-    getData2 () {
-      const countServices = {}
-      const { history } = this.shop
-      for (const i in history) {
-        let { serviceid } = history[i]
-        if (serviceid) {
-          serviceid = this.shop.services[serviceid].name
-          if (countServices[serviceid]) {
-            countServices[serviceid]++
-          } else {
-            countServices[serviceid] = 1
-          }
-        }
-      }
-
-      return {
-        labels: Object.keys(countServices),
-        datasets: [{
-          label: 'My First Dataset',
-          data: Object.values(countServices),
-          backgroundColor: [
-            '#005f73',
-            '#0a9396',
-            '#94d2bd',
-            '#e9d8a6',
-            '#ee9b00',
-            '#ca6702',
-            '#bb3e03'
-          ],
-          borderColor: 'rgba(0,0,0,0)',
-          hoverOffset: 4
-        }]
-      }
     }
   }
 }
