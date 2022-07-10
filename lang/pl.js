@@ -204,7 +204,8 @@ export default {
     buy_service_3: 'Potwierdzenie',
     buy_service_4: 'Realizacja',
     main_page: 'Strona główna',
-    modules: 'Moduły'
+    modules: 'Moduły',
+    voucher_success: 'Pomyślnie użyto vouchera'
   },
 
   responses: {

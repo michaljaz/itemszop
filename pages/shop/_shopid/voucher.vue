@@ -22,28 +22,31 @@
               prepend-icon="mdi-account"
               :rules="rules.nick"
             />
+            <v-alert
+              v-if="success"
+              color="success"
+              type="success"
+              dismissible
+              outlined
+            >
+              {{ success }}
+            </v-alert>
+            <v-alert
+              v-if="error"
+              color="red"
+              type="error"
+              dismissible
+              outlined
+            >
+              {{ error }}
+            </v-alert>
           </v-form>
-          <v-btn class="blue darken-4" large @click="check">
+          <v-btn :color="shop.theme ? shop.theme : 'blue darken-4'" large :loading="loadingButton" @click="check">
             {{ $t('actions.check_voucher') }}
           </v-btn>
         </center>
       </v-col>
     </v-row>
-    <v-snackbar
-      v-model="snackbar"
-    >
-      {{ snackbarMessage }}
-      <template #action="{ attrs }">
-        <v-btn
-          color="error"
-          text
-          v-bind="attrs"
-          @click="snackbar = false"
-        >
-          {{ $t('actions.cancel') }}
-        </v-btn>
-      </template>
-    </v-snackbar>
   </div>
 </template>
 <script>
@@ -62,8 +65,9 @@ export default {
   },
   data () {
     return {
-      snackbarMessage: '',
-      snackbar: false,
+      loadingButton: false,
+      error: false,
+      success: false,
       valid: false,
       code: '',
       nick: '',
@@ -99,17 +103,20 @@ export default {
     check () {
       this.$refs.form.validate()
       if (this.valid) {
+        this.loadingButton = true
         const { code, nick } = this
         const shopid = this.$route.params.shopid ? this.$route.params.shopid : process.env.singleShopId
         this.$axios.get('/voucher', {
           params: { vouchercode: code, nick, shopid }
         }).then(({ data }) => {
+          this.loadingButton = false
+          this.error = false
+          this.success = false
           if (data.success) {
-            this.snackbarMessage = 'Pomyślnie użyto vouchera'
+            this.success = this.$t('titles.voucher_success')
           } else {
-            this.snackbarMessage = this.$t(`responses.${data.error}`)
+            this.error = this.$t(`responses.${data.error}`)
           }
-          this.snackbar = true
         })
       }
     }
