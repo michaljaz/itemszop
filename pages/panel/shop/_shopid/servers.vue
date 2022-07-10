@@ -32,7 +32,7 @@
             mdi-pencil
           </v-icon>
         </v-btn>
-        <v-btn color="error" @click="dialogDelete=true">
+        <v-btn color="error" @click="dialogDelete=true;currentItem=item">
           <v-icon>
             mdi-delete
           </v-icon>
