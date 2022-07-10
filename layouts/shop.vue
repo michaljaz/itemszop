@@ -190,7 +190,15 @@ export default {
   },
   head () {
     return {
-      titleTemplate: this.titleTemplate
+      titleTemplate: this.titleTemplate,
+      link: [
+        {
+          hid: 'icon',
+          rel: 'icon',
+          type: 'image/x-icon',
+          href: this.shop.icon ? this.shop.icon : '/favicon.ico'
+        }
+      ]
     }
   },
   computed: {
@@ -249,14 +257,6 @@ export default {
       main.style['-ms-filter'] = state
     },
     shop () {
-      if (this.shop.icon) {
-        document.querySelector("link[rel~='icon']").href = this.shop.icon
-        setTimeout(() => {
-          document.querySelector("link[rel~='icon']").href = this.shop.icon
-        }, 100)
-      } else {
-        document.querySelector("link[rel~='icon']").href = '/favicon.ico'
-      }
       if (this.shop.background) {
         this.background = true
         this.backgroundUrl = this.shop.background
