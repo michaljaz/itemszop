@@ -28,8 +28,8 @@ export default {
   },
   computed: {
     shopId () {
-      if (process.env.SINGLE_SHOP) {
-        return process.env.SINGLE_SHOP
+      if (process.env.singleShopId) {
+        return process.env.singleShopId
       } else if (this.$route.params.shopid) {
         return this.$route.params.shopid
       } else {
