@@ -206,11 +206,11 @@ export default {
       switches: {
         icon: !!this.shop.icon,
         background: !!this.shop.background,
-        goal: !!this.goal,
-        theme: !!this.theme,
-        webhook: !!this.webhook,
-        dsc: !!this.dsc,
-        gid: !!this.gid
+        goal: !!this.shop.goal,
+        theme: !!this.shop.theme,
+        webhook: !!this.shop.webhook,
+        dsc: !!this.shop.dsc,
+        gid: !!this.shop.gid
       },
       fields: {
         name: this.shop.name,

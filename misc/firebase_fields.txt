@@ -22,7 +22,7 @@ owner - id właściciela
 collected - zebrane w zł
 goal - cel w zł
 maxservices - ilość wyświetlanych ostatnich zakupów
-dsc_id - id serwera discordowego (do widżetu)
+dsc - id serwera discordowego (do widżetu)
 last_payments_type - rodzaj listy ostatnich płatności
 theme - motyw strony
 gid - ID google analytics
