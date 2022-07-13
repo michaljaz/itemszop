@@ -27,10 +27,9 @@
         <v-col cols="12" md="4" sm="6">
           <v-card>
             <v-card-title>
-              {{ $t('fields.shop_icon') }}
-              <v-spacer />
               <v-switch
                 v-model="switches.icon"
+                :label="$t('fields.shop_icon')"
               />
             </v-card-title>
             <v-card-text>
@@ -47,10 +46,9 @@
         <v-col cols="12" md="4" sm="6">
           <v-card>
             <v-card-title>
-              {{ $t('fields.shop_background') }}
-              <v-spacer />
               <v-switch
                 v-model="switches.background"
+                :label="$t('fields.shop_background')"
               />
             </v-card-title>
             <v-card-text>
@@ -67,10 +65,9 @@
         <v-col cols="12" md="4" sm="6">
           <v-card>
             <v-card-title>
-              {{ $t('titles.monthly_goal') }}
-              <v-spacer />
               <v-switch
                 v-model="switches.goal"
+                :label="$t('titles.monthly_goal')"
               />
             </v-card-title>
             <v-card-text>
@@ -86,10 +83,9 @@
         <v-col cols="12" md="4" sm="6">
           <v-card>
             <v-card-title>
-              {{ $t('fields.shop_theme') }}
-              <v-spacer />
               <v-switch
                 v-model="switches.theme"
+                :label="$t('fields.shop_theme')"
               />
             </v-card-title>
             <v-card-text>
@@ -107,10 +103,9 @@
         <v-col cols="12" md="4" sm="6">
           <v-card>
             <v-card-title>
-              {{ $t('fields.discord_webhook') }}
-              <v-spacer />
               <v-switch
                 v-model="switches.webhook"
+                :label="$t('fields.discord_webhook') "
               />
             </v-card-title>
             <v-card-text>
@@ -129,10 +124,9 @@
         <v-col cols="12" md="4" sm="6">
           <v-card>
             <v-card-title>
-              {{ $t('fields.discord_widget') }}
-              <v-spacer />
               <v-switch
                 v-model="switches.dsc"
+                :label="$t('fields.discord_widget')"
               />
             </v-card-title>
             <v-card-text>
@@ -171,10 +165,9 @@
         <v-col cols="12" md="4" sm="6">
           <v-card>
             <v-card-title>
-              {{ $t('fields.google_analytics') }}
-              <v-spacer />
               <v-switch
                 v-model="switches.gid"
+                :label="$t('fields.google_analytics')"
               />
             </v-card-title>
             <v-card-text>
@@ -190,20 +183,16 @@
         </v-col>
       </v-row>
     </v-form>
-    <v-card class="pt-1 mt-4 pb-4" elevation="10">
-      <v-card-title class="headline">
-        {{ $t('titles.advanced_settings') }}
-      </v-card-title>
-      <v-card-text>
-        <v-btn color="error" class="mb-2" @click="removeHistory">
-          {{ $t('actions.remove_payment_history') }}
-        </v-btn>
-        <br>
-        <v-btn color="error" class="mb-2" @click="dialog = true">
-          {{ $t('actions.remove_shop') }}
-        </v-btn>
-      </v-card-text>
-    </v-card>
+    <h1 class="display-1 mt-3 mb-5">
+      {{ $t('titles.advanced_settings') }}
+    </h1>
+
+    <v-btn color="error" outlined class="mb-3" block @click="removeHistory">
+      {{ $t('actions.remove_payment_history') }}
+    </v-btn>
+    <v-btn color="error" outlined block @click="dialog = true">
+      {{ $t('actions.remove_shop') }}
+    </v-btn>
     <v-dialog
       v-model="dialog"
       max-width="550"
