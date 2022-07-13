@@ -1,130 +1,194 @@
 <template>
   <div>
+    <h1 class="display-1 mt-3 mb-5">
+      {{ $t('titles.settings') }}
+      <v-btn color="primary" class="float-right" large @click="save">
+        {{ $t('actions.save') }}
+      </v-btn>
+    </h1>
     <v-form
       ref="form"
       v-model="valid"
     >
-      <v-card class="pt-1 pb-4" elevation="2">
-        <v-card-title class="headline">
-          {{ $t('titles.shop_appearance') }}
-        </v-card-title>
-        <v-card-text>
-          <v-text-field
-            v-model="fields.name"
-            :label="$t('fields.shop_name')"
-          />
-          <v-switch
-            v-model="switches.icon"
-            class="mt-0"
-            :label="$t('fields.shop_icon')"
-          />
-          <v-text-field
-            v-if="switches.icon"
-            v-model="fields.icon"
-            :label="$t('fields.icon_url')"
-            autocomplete="new-password"
-            :rules="rules.icon_url"
-          />
-          <v-switch
-            v-model="switches.background"
-            class="mt-0"
-            :label="$t('fields.shop_background')"
-          />
-          <v-text-field
-            v-if="switches.background"
-            v-model="fields.background"
-            :label="$t('fields.shop_background_url')"
-            autocomplete="new-password"
-            :rules="rules.icon_url"
-          />
-          <v-switch
-            v-model="switches.goal"
-            class="mt-0"
-            :label="$t('titles.monthly_goal')"
-          />
-          <v-text-field
-            v-if="switches.goal"
-            v-model="fields.goal"
-            type="number"
-            :label="`${$t('titles.monthly_goal')} (zł)`"
-          />
-          <v-switch
-            v-model="switches.theme"
-            class="mt-0"
-            :label="$t('fields.shop_theme')"
-          />
-          <v-color-picker
-            v-if="switches.theme"
-            v-model="fields.theme"
-            dot-size="17"
-            hide-inputs
-            mode="rgba"
-            swatches-max-height="100"
-          />
-
-          <v-switch
-            v-model="switches.webhook"
-            class="mt-0"
-            :label="$t('fields.discord_webhook')"
-          />
-
-          <v-text-field
-            v-if="switches.webhook"
-            v-model="fields.webhook"
-            :label="$t('fields.webhook_url')"
-            autocomplete="new-password"
-            :rules="rules.webhook"
-            append-icon="mdi-lan-connect"
-            @click:append="testDiscordWebhook"
-          />
-
-          <v-switch
-            v-model="switches.dsc"
-            class="mt-0"
-            :label="$t('fields.discord_widget')"
-          />
-
-          <v-text-field
-            v-if="switches.dsc"
-            v-model="fields.dsc"
-            :label="$t('fields.discord_server_id')"
-            autocomplete="new-password"
-            :rules="rules.dsc_id"
-          />
-
-          {{ $t('fields.last_payments_amount') }} {{ fields.maxservices }}
-          <v-slider
-            v-model="fields.maxservices"
-            min="1"
-            max="60"
-          />
-          <v-select
-            v-model="fields.last_payments_type"
-            item-text="name"
-            item-value="value"
-            :items="last_payments_type_list"
-            label="Widżet ostatnich zakupów"
-          />
-          <v-switch
-            v-model="switches.gid"
-            class="mt-0"
-            :label="$t('fields.google_analytics')"
-          />
-
-          <v-text-field
-            v-if="switches.gid"
-            v-model="fields.gid"
-            :label="$t('fields.gid')"
-            autocomplete="new-password"
-            :rules="rules.gid"
-          />
-        </v-card-text>
-        <v-card-actions>
-          <v-btn color="primary" @click="save">
-            {{ $t('actions.save') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+      <v-row>
+        <v-col cols="12" md="4" sm="6">
+          <v-card>
+            <v-card-title>
+              {{ $t('fields.shop_name') }}
+            </v-card-title>
+            <v-card-text>
+              <v-text-field
+                v-model="fields.name"
+                :label="$t('fields.shop_name')"
+              />
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="4" sm="6">
+          <v-card>
+            <v-card-title>
+              {{ $t('fields.shop_icon') }}
+              <v-spacer />
+              <v-switch
+                v-model="switches.icon"
+              />
+            </v-card-title>
+            <v-card-text>
+              <v-text-field
+                v-if="switches.icon"
+                v-model="fields.icon"
+                :label="$t('fields.icon_url')"
+                autocomplete="new-password"
+                :rules="rules.icon_url"
+              />
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="4" sm="6">
+          <v-card>
+            <v-card-title>
+              {{ $t('fields.shop_background') }}
+              <v-spacer />
+              <v-switch
+                v-model="switches.background"
+              />
+            </v-card-title>
+            <v-card-text>
+              <v-text-field
+                v-if="switches.background"
+                v-model="fields.background"
+                :label="$t('fields.shop_background_url')"
+                autocomplete="new-password"
+                :rules="rules.icon_url"
+              />
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="4" sm="6">
+          <v-card>
+            <v-card-title>
+              {{ $t('titles.monthly_goal') }}
+              <v-spacer />
+              <v-switch
+                v-model="switches.goal"
+              />
+            </v-card-title>
+            <v-card-text>
+              <v-text-field
+                v-if="switches.goal"
+                v-model="fields.goal"
+                type="number"
+                :label="`${$t('titles.monthly_goal')} (zł)`"
+              />
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="4" sm="6">
+          <v-card>
+            <v-card-title>
+              {{ $t('fields.shop_theme') }}
+              <v-spacer />
+              <v-switch
+                v-model="switches.theme"
+              />
+            </v-card-title>
+            <v-card-text>
+              <v-color-picker
+                v-if="switches.theme"
+                v-model="fields.theme"
+                dot-size="17"
+                hide-inputs
+                mode="rgba"
+                swatches-max-height="100"
+              />
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="4" sm="6">
+          <v-card>
+            <v-card-title>
+              {{ $t('fields.discord_webhook') }}
+              <v-spacer />
+              <v-switch
+                v-model="switches.webhook"
+              />
+            </v-card-title>
+            <v-card-text>
+              <v-text-field
+                v-if="switches.webhook"
+                v-model="fields.webhook"
+                :label="$t('fields.webhook_url')"
+                autocomplete="new-password"
+                :rules="rules.webhook"
+                append-icon="mdi-lan-connect"
+                @click:append="testDiscordWebhook"
+              />
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="4" sm="6">
+          <v-card>
+            <v-card-title>
+              {{ $t('fields.discord_widget') }}
+              <v-spacer />
+              <v-switch
+                v-model="switches.dsc"
+              />
+            </v-card-title>
+            <v-card-text>
+              <v-text-field
+                v-if="switches.dsc"
+                v-model="fields.dsc"
+                :label="$t('fields.discord_server_id')"
+                autocomplete="new-password"
+                :rules="rules.dsc_id"
+              />
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="4" sm="6">
+          <v-card>
+            <v-card-title>
+              Ostatnie zakupy w sklepie
+            </v-card-title>
+            <v-card-text>
+              {{ $t('fields.last_payments_amount') }} {{ fields.maxservices }}
+              <v-slider
+                v-model="fields.maxservices"
+                min="1"
+                max="60"
+              />
+              <v-select
+                v-model="fields.last_payments_type"
+                item-text="name"
+                item-value="value"
+                :items="last_payments_type_list"
+                label="Widżet ostatnich zakupów"
+              />
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="4" sm="6">
+          <v-card>
+            <v-card-title>
+              {{ $t('fields.google_analytics') }}
+              <v-spacer />
+              <v-switch
+                v-model="switches.gid"
+              />
+            </v-card-title>
+            <v-card-text>
+              <v-text-field
+                v-if="switches.gid"
+                v-model="fields.gid"
+                :label="$t('fields.gid')"
+                autocomplete="new-password"
+                :rules="rules.gid"
+              />
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-form>
     <v-card class="pt-1 mt-4 pb-4" elevation="10">
       <v-card-title class="headline">
