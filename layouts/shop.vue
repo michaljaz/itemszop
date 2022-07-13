@@ -101,12 +101,12 @@
                 </h1>
               </v-card-text>
             </v-card>
-            <v-card>
+            <v-card v-if="shop.hist">
               <v-card-title class="headline justify-center">
                 {{ $t('titles.latest_payments') }}
               </v-card-title>
               <v-card-text>
-                <v-list v-if="shop.last_payments_type===1" flat>
+                <v-list v-if="shop.hist.type===1" flat>
                   <v-list-item v-for="k in history" :key="k.date" two-line>
                     <v-list-item-avatar
                       tile
@@ -120,7 +120,7 @@
                     </v-list-item-content>
                   </v-list-item>
                 </v-list>
-                <v-row v-if="shop.last_payments_type===2">
+                <v-row v-if="shop.hist.type===2">
                   <v-col
                     v-for="k in history"
                     :key="k.date"
@@ -242,7 +242,7 @@ export default {
           }
           return 0
         })
-        return history.slice(0, this.shop.maxservices)
+        return history.slice(0, this.shop.hist ? this.shop.hist.max : 1)
       } else {
         return []
       }
