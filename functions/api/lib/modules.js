@@ -191,13 +191,16 @@ class Firebase {
     })
   }
   async push (path, val) {
-    await fetch(`${this.publicConfig.databaseURL}/${path}.json`, {
+    const response = await fetch(`${this.publicConfig.databaseURL}/${path}.json`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${this.access_token}`
       },
       body: JSON.stringify(val)
     })
+    const data = await response.json()
+    return data.name
+
   }
   async set (path, val) {
     await fetch(`${this.publicConfig.databaseURL}/${path}.json`, {
@@ -324,9 +327,14 @@ exports.generateLvlup = async({config, nick, shopid, serviceid, service, amount,
   return url
 }
 
-exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service, amount, apiBaseUrl, baseUrl}) => {
+exports.generateMicrosmsTransfer = async ({config, nick, shopid, serviceid, service, amount, apiBaseUrl, baseUrl, firebase}) => {
+  const paymentId = await firebase.push('microsms_transfer_payment', {
+    nick,
+    shopid,
+    serviceid,
+    amount
+  })
   const cost = service.microsms_transfer_cost * amount
-  const paymentId = (Math.random() + 1).toString(36).substring(2)
   const params = new URLSearchParams({
     shopid: config.microsms_transfer_id,
     amount: cost,
@@ -335,12 +343,6 @@ exports.generateMicrosmsTransfer = ({config, nick, shopid, serviceid, service, a
     control: paymentId,
     returl_url: `${baseUrl}`,
     returl_urlc: `${apiBaseUrl}/payment_webhook?paymenttype=microsms_sms`
-  })
-  firebase.set(`microsms_transfer_payment/${paymentId}`, {
-    nick,
-    shopid,
-    serviceid,
-    amount
   })
   return `https://microsms.pl/api/bankTransfer/?${params}`
 }
@@ -437,13 +439,11 @@ exports.executeService = async ({type, firebase, serviceid, shopid, nick, valida
   const server = await firebase.get(`servers/${serverid}`)
   if (shop.owner === server.owner) {
     const commands = service.commands.split('\n')
-    const newCommands = {}
     for (let command of commands) {
       command = command.replace(/\[nick\]/g, nick)
       command = command.replace(/\[n\]/g, amount)
-      newCommands[(Math.random() + 1).toString(36).substring(2)] = command
+      await firebase.push(`servers/${serverid}/commands/${server.secret}`, command)
     }
-    await firebase.update(`servers/${serverid}/commands/${server.secret}`, newCommands)
   }
 
   // send discord webhook
