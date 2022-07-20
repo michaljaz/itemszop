@@ -310,9 +310,9 @@ export default {
   },
   methods: {
     async save () {
-      this.loadingButton = true
       this.$refs.form.validate()
       if (this.valid) {
+        this.loadingButton = true
         const { shopid } = this.$route.params
         await this.$fire.database.ref().child(`shops/${shopid}`).update({
           name: this.fields.name,
