@@ -438,12 +438,11 @@ exports.executeService = async ({type, firebase, serviceid, shopid, nick, valida
   const serverid = await validate.serverid(service.server)
   const server = await firebase.get(`servers/${serverid}`)
   if (shop.owner === server.owner) {
-    const commands = service.commands.split('\n')
-    for (let command of commands) {
-      command = command.replace(/\[nick\]/g, nick)
-      command = command.replace(/\[n\]/g, amount)
-      await firebase.push(`servers/${serverid}/commands/${server.secret}`, command)
-    }
+    await firebase.push(`servers/${serverid}/commands/${server.secret}`, {
+      nick,
+      service,
+      amount
+    })
   }
 
   // send discord webhook
