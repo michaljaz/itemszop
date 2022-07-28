@@ -9,6 +9,7 @@
           ref="form"
           v-model="valid"
         >
+          <v-switch v-model="paysafecard" :label="$t('paysafecard_manual')" />
           <v-switch v-model="microsms" :label="$t('fields.microsms')" />
           <div v-if="microsms">
             <v-text-field
@@ -121,6 +122,7 @@ export default {
       paypal: this.config.paypal,
       paypal_id: this.config.paypal_id,
       paypal_secret: this.config.paypal_secret,
+      paysafecard: false,
       rules: {
         microsms_user_id: [
           v => this.$regex.not_empty(v) || this.$t('formats.field_not_empty')
